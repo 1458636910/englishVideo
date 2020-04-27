@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body,html {
+            background: none;
+        }
+
+        #app {
+          background: none;
+            min-height: 100vh;
+            padding-top: 30vh;
+            box-sizing: border-box;
+            /*padding-bottom: 30vw;*/
+        }
+        #app.appactive{
+                background: rgba(0,0,0,.1);
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .lists{
+          padding-top: 3vw;
+          flex: 1;
+          overflow: scroll;
+          padding: 3vw;
+          padding-bottom: 20vw;
+        }
+
+
+        #footer{
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: 12vw;
+          text-align: center;
+          line-height: 12vw;
+            background: #FA607D;
+            color: white;
+        }
+        #footer div{
+          background: #FA607D;
+          color: white;
+          font-size: 20px;
+          font-weight: 700;
+        }
+        .box{
+          height: 70vh;
+          overflow: scroll;
+          background: white;
+          /*position: relative;*/
+          /*padding-top: 15vw;*/
+          box-sizing: border-box;
+          /*padding-bottom: 30vw;*/
+          border-top-right-radius: 10px;
+          border-top-left-radius: 10px;
+          display: flex;
+          flex-direction: column;
+        }
+        .head{
+          /*position: absolute;*/
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 12vw;
+          display: flex;
+          padding: 0 3vw;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        #footer{
+          /*position: absolute;*/
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 12vw;
+          line-height: 12vw;
+          color: white;
+          /*background: #FA607D;*/
+        }
+        /**/
+
+        .listsBox{
+        }
+        .shopName{
+          color: #999999;
+        }
+        .shopimg{
+          width: 20vw;
+          height: 20vw;
+          margin-right: 3vw;
+        }
+        .shopimg img{
+          width: 100%;
+          height: 100%;
+          border-radius: 5px;
+        }
+        .list{
+          display: flex;
+          align-items: center;
+          /*margin-bottom: 3vw;*/
+          border-bottom: 1px solid #f5f5f5;
+          padding: 3vw 0;
+        }
+        .nameBox{
+          width: 70vw;
+          height: 16vw;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+        .name{
+          color: #403e3e;
+          overflow: hidden;
+          text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .price{
+          display: flex;
+          justify-content: space-between;
+          color: #999999;
+          font-size: 14px;
+        }
+        .price span:nth-child(1){
+          color: #FA607D;
+          font-size: 16px;
+        }
+        /**/
+        .ship{
+          padding: 3vw;
+            color: #403e3e;
+            padding-left: 0;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        .shiplist{
+          padding: 3vw 0;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        .chose{
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          border: 1px solid #757575;
+        }
+        .shipl{
+          flex: 1;
+        }
+        .tit{
+          padding-bottom: 3vw;
+            color: #403e3e;
+        }
+        .shipl p:nth-child(2){
+          color: #999999;
+        }
+        .chose.active{
+          border: 1px solid #e86a7f;
+          background-image: url(../../image/chose.png);
+          background-size: 100%;
+        }
+        .shipl span{
+          color: #ff5d78;
+          /*font-weight: 700;*/
+        }
+        /**/
+        .notes{
+          padding: 3vw 0;
+          position: relative;
+        }
+        .notes p{
+          margin-bottom: 3vw;
+        }
+        .notes textarea{
+          width: 100%;
+          height: 30vw;
+          border: 1px solid #f5f5f5;
+          resize: none;
+          padding-bottom: 5vw;
+          outline: none;
+        }
+        .notes span{
+          position: absolute;
+          right: 3vw;
+          bottom: 5vw;
+          font-size: 12px;
+          color: #999999;
+        }
+        /**/
+        .dress{
+          color: #999999;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        .dress p:nth-child(1){
+          color: #403e3e;
+        }
+        .dress p{
+          margin-bottom: 3vw;
+        }
+        /**/
+        .payth{
+          border-bottom: 1px solid #f5f5f5;
+          padding-bottom: 3vw;
+        }
+        .payth p{
+          padding: 3vw 0;
+        }
+        .paypal{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .paypal img{
+          max-height: 20px;
+        }
+        /**/
+        .coupons{
+          padding: 3vw 0;
+          display: flex;
+          justify-content: space-between;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        .bomTotals div{
+          display: flex;
+          justify-content: space-between;
+          padding: 3vw 0;
+          color: #3a3939;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        .bomTotals div:last-child{
+          color: black;
+          border-bottom: 0;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak :class="active?'appactive':''">
+
+        <div class="box">
+          <div class="head">
+            <span></span>
+            <span>Chose Shipping</span>
+            <span tapmode onclick="closeShop()">
+              <i class="iconfont">&#xe603;</i>
+            </span>
+          </div>
+        <div class="lists">
+          <div class="ship">
+            Shipping
+          </div>
+          <div class="ships">
+
+              <div class="shiplist" @click="choseShip(item,index)" v-for="(item,index) in lists">
+                <div class="shipl">
+                  <p class="tit">{{item.title}}</p>
+                  <div class="desc" v-html="item.desc">
+
+                  </div>
+                </div>
+                <div class="chose" :class="shipactive==index?'active':''"></div>
+              </div>
+            <!-- <div class="shiplist" @click="shipactive = 0">
+              <div class="shipl">
+                <p class="tit">Free</p>
+                <p>Congratulations on Spending Over $200,You Can Enjoy Domestic Free Shipping Service Received Products Within 3-5 Days</p>
+              </div>
+              <div class="chose" :class="shipactive==0?'active':''"></div>
+            </div>
+              <div class="shiplist" @click="shipactive = 1">
+                <div class="shipl">
+                  <p class="tit">Domestic Ordinary Surface Mail</p>
+                  <p>Received Products Within 3-5 Days,Postage:<span>$4.00</span></p>
+                </div>
+                <div class="chose" :class="shipactive==1?'active':''"></div>
+              </div>
+                <div class="shiplist" @click="shipactive = 2">
+                  <div class="shipl">
+                    <p class="tit">Received Tomorrow</p>
+                    <p>Postage:<span>$4.00</span></p>
+                  </div>
+                  <div class="chose" :class="shipactive==2?'active':''"></div>
+                </div>
+                  <div class="shiplist" @click="shipactive = 3">
+                    <div class="shipl">
+                      <p class="tit">Fedex</p>
+                      <p>Postage:<span>$12.00</span></p>
+                    </div>
+                    <div class="chose" :class="shipactive==3?'active':''"></div>
+                  </div> -->
+          </div>
+        </div>
+        <footer id="footer" @click="fnsureShip()">
+          <div>
+            Confirm
+          </div>
+        </footer>
+      </div>
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+var app;
+    apiready = function() {
+      $api.fixTabBar($api.byId('footer'))
+      $api.fixTabBar($api.byId('footerl'))
+    $api.fixTabBar($api.byId('footerr'))
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  active:false,
+                    store_id:'',//商家id
+                    storeInd:0,//接收确认订单页的商家下标位置
+                    shipactive:0,
+                    buyer_consume_fee:0,//店铺消费金额
+                    receiver_country:'',//收货人国家
+                    lists:[],//邮寄方式
+                    type:'',//接收选择的邮寄类型，传给后台
+                    shipPrice:0,//邮寄方式价格
+                }
+            },
+            mounted:function () {
+                setTimeout(()=>{
+                  this.active = true
+                },500)
+            },
+            created() {
+              this.store_id = api.pageParam.store_id
+              this.receiver_country = api.pageParam.receiver_country
+              this.buyer_consume_fee = api.pageParam.buyer_consume_fee
+              this.storeInd = api.pageParam.storeInd
+              this.getLists()
+
+            },
+            methods: {
+              //选择邮寄方式
+              choseShip(ite,ind){
+                this.shipactive = ind
+                this.type = ite.type
+                this.shipPrice = ite.postage
+              },
+              //根据条件获取邮寄方式
+              getLists(){
+                var _this = this;
+                var data = {
+                  store_id:_this.store_id,
+                  receiver_country:_this.receiver_country,
+                  buyer_consume_fee:_this.buyer_consume_fee
+                };
+                requstPost('store/express',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.lists = ret.data
+                    _this.type = ret.data[0].type
+                    _this.shipPrice = ret.data[0].postage
+                  }
+                },function fail(err){
+
+                })
+              },
+              //确认邮寄方式
+              fnsureShip(){
+
+                var _this = this;
+                if (api.pageParam.type == 'buy') {
+                  api.sendEvent({
+                      name: 'liveshipBuy',
+                      extra: {
+                          type: _this.type,
+                          shipPrice: _this.shipPrice,
+                          storeInd:_this.storeInd
+                      }
+                  });
+                  api.closeFrame();
+                }else if (api.pageParam.type == 'cart') {
+                  api.sendEvent({
+                      name: 'liveshipCart',
+                      extra: {
+                          type: _this.type,
+                          shipPrice: _this.shipPrice,
+                          storeInd:_this.storeInd
+                      }
+                  });
+                  api.closeFrame();
+                }
+
+                return
+
+                api.execScript({
+                    name: 'liveplaceorder',
+                    frameName: 'liveplaceorder',
+                    script: 'app.chengeShip("'+_this.type+'","'+_this.shipPrice+'","'+_this.storeInd+'");'
+                });
+                api.closeFrame();
+              }
+
+
+            }
+        })
+
+    };
+    function closeShop(){
+      api.closeFrame();
+
+    }
+</script>
+
+</html>

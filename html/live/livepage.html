@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <title>live视频播放的frame页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body,
+        html {
+            background: none;
+        }
+
+        #app {
+            background: none;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+
+        #header {
+            /*position: fixed;*/
+            top: 0;
+            left: 0;
+            right: 0;
+            /*height: 12vw;*/
+            padding: 3vw 0;
+            background: none;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .top {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3vw;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .topl {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            margin-right: 3vw;
+        }
+
+        .head {
+            width: 12vw;
+            height: 12vw;
+            border-radius: 50%;
+            margin-right: 3vw;
+        }
+
+        .head img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .fol {
+            padding: 5px 10px;
+            background: #FB607D;
+            color: white;
+            margin-left: 3vw;
+            border-radius: 15px;
+            border: 1px solid white;
+        }
+
+        .topr .iconfont {
+            font-size: 25px;
+            color: white;
+        }
+
+        .sc {
+            margin-right: 3vw;
+        }
+
+        .tname {
+            max-width: 34vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        #app {
+            display: flex;
+            flex-direction: column;
+            /*background: black;*/
+        }
+
+        .main {
+            flex: 1;
+        }
+
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3vw;
+            /*background: black;*/
+        }
+
+        .footerl {
+            width: 40vw;
+            height: 10vw;
+            line-height: 10vw;
+            text-align: left;
+            border-radius: 5vw;
+            padding-left: 3vw;
+            color: #363639;
+            box-sizing: border-box;
+            background: #CCCCCC;
+        }
+
+        .footerr {
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .footerr .iconfont {
+            font-size: 25px;
+        }
+
+        .footerr span {
+            margin-right: 3vw;
+        }
+
+        .footerr span:last-child {
+            margin-right: 0;
+        }
+
+        .main {
+            padding: 3vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            /*background: black;*/
+            color: white;
+        }
+
+        .title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .chatlists {
+            padding: 3vw;
+            height: 25vw;
+            overflow: scroll;
+            background: rgba(0, 0, 0, 0.12);
+            border-radius: 5px;
+            opacity: 0;
+            margin-top: 3vw;
+        }
+
+        .chatlist {
+            display: flex;
+            /*align-items: center;*/
+            margin-bottom: 1vw;
+        }
+
+        .nameBox {
+            max-width: 70vw;
+        }
+
+        .nameBox p:nth-child(1) {
+            font-size: 14px;
+            color: #929292;
+        }
+
+        .shopBtnBox {
+            display: flex;
+            align-items: center;
+            /*margin-bottom: 30vw;*/
+        }
+
+        .shopBtnBox .iconfont {
+            font-size: 25px;
+        }
+
+        .shopBtn {
+            height: 35px;
+            background: #FB607D;
+            border-radius: 17.5px;
+            margin-right: 3vw;
+            padding: 0 3vw;
+        }
+
+        .cart {
+            width: 35px;
+            height: 35px;
+            background: #FB607D;
+            text-align: center;
+            line-height: 35px;
+            border-radius: 17.5px;
+        }
+
+        .cart .iconfont {
+            font-size: 22px;
+        }
+        .giftsimg img{
+          width: 27px;
+          transform: translateY(3px);
+        }
+        .sc .scactive{
+          color: #FB607D;
+        }
+        .iconfont.scactive{
+          color: #FB607D;
+        }
+        .heartAnimation{
+          animation: identifier .3s;
+        }
+        @keyframes identifier {
+          0%{
+            transform: scale(1);
+          }
+          100%{
+            opacity: 0;
+            transform: scale(2);
+          }
+        }
+        .likeBox{
+          position: relative;
+        }
+        .heart{
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          transform: scale(0);
+          background-image: url(../../image/web_heart_animation.png);
+          background-size: 2900%;
+        	background-position: left;
+        	background-repeat: no-repeat;
+        }
+        .heartAnimation{
+          transform: scale(5);
+          -webkit-animation-name: heartBlast;
+        	animation-name: heartBlast;
+        	-webkit-animation-duration: .8s;
+        	animation-duration: .8s;
+        	-webkit-animation-iteration-count: 1;
+        	animation-iteration-count: 1;
+        	-webkit-animation-timing-function: steps(28);
+        	animation-timing-function: steps(28);
+        	background-position: right;
+        }
+        @-webkit-keyframes heartBlast {
+        	0% {
+        		background-position: left;
+        	}
+        	100% {
+        		background-position: right;
+            opacity: 0;
+            transform: scale(0);
+        	}
+        }
+
+        @keyframes heartBlast {
+        	0% {
+        		background-position: left;
+        	}
+        	100% {
+        		background-position: right;
+            transform: scale(0);
+            opacity: 0;
+        	}
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <header id="header">
+            <div class="top">
+                <div class="topl">
+                    <div class="head" @click="goanchor()">
+                        <img :src="anchor_avatar" alt="">
+                    </div>
+                    <div class="tnameBox">
+                        <p class="tname">{{anchor_name}}</p>
+                        <p>
+                            <i class="iconfont">&#xe629;</i>
+                            <span>{{look_count}}</span>
+                        </p>
+                    </div>
+                    <span class="fol" v-if="focus_anchor_status == 0" @click="focusFn()">Follow</span>
+                </div>
+                <div class="topr">
+                    <span class="sc" @click="getCollect()">
+                      <i class="iconfont" :class="collect_status == 1?'scactive':''">&#xe642;</i>
+                    </span>
+                    <span class="close" @click="closeLive()">
+                      <i class="iconfont">&#xe69f;</i>
+                    </span>
+                </div>
+            </div>
+        </header>
+        <div class="main">
+            <div></div>
+            <div class="shopBtnBox">
+                <div class="shopBtn" @click="openShop()">
+                    <i class="iconfont">&#xe7ed;</i>
+                    <span>Products {{product_count}} </span>
+                    <i class="iconfont" v-if="!showShop">&#xe65a;</i>
+                    <i class="iconfont" v-if="showShop">&#xe60f;</i>
+                </div>
+                <span class="cart" @click="goliveCart()">
+                  <i class="iconfont">&#xe614;</i>
+                </span>
+            </div>
+            <div class="chatlists" id="chatlists">
+                <div class="chatlist">
+                    <div class="head">
+                        <img src="../../image/img7.jpg" alt="">
+                    </div>
+                    <div class="nameBox">
+                        <p>Jean Walton</p>
+                        <p>Awesome,Love It Awesome,Love It Awesome,Love It Awesome,Love It Awesome,Love It</p>
+                    </div>
+                </div>
+            </div>
+            <div class="title" id="title">
+                {{title}}
+            </div>
+        </div>
+        <footer id="footer">
+            <div class="footer">
+                <div class="footerl" @click="sendPl()">
+                    Comments...
+                </div>
+                <div class="footerr">
+                <span @click="goreport()">
+                  <i class="iconfont">&#xe764;</i>
+                </span>
+                <span>
+                  <i class="iconfont">&#xe627;</i>
+                </span>
+                <span class="giftsimg" @click="showGifts()">
+                  <img src="../../image/gifts.png" alt="">
+                </span>
+                  <span class="likeBox" @click="golike()">
+                    <!-- scactive -->
+                    <i class="iconfont" :class="fav_status == 1?'scactive':''">&#xe60c;</i>
+                    <span class="heart" :class="fav_statusani == 1?'heartAnimation':''">
+
+                    </span>
+                  </span>
+                </div>
+            </div>
+
+        </footer>
+
+    </div>
+
+
+
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    var app;
+    apiready = function() {
+
+        $api.fixTabBar($api.byId('footer'));
+        $api.fixStatusBar($api.dom('header'));
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  chatTop:0,//Y坐标
+                  showShop:false,//
+                  live_id:'',
+                  collect_status:0,//收藏状态
+                  fav_status:0,//喜欢状态
+                  title:'',//直播标题
+                  price:0,//直播价格
+                  look_count:0,//浏览人数
+                  anchor_name:'',//主播姓名
+                  anchor_avatar:'',//主播头像
+                  anchor_id:'',//主播id
+                  pay_order_status:0,//1为已支付
+                  websocket_url:'',//聊天地址
+                  live_play_url:'',//直播播放地址
+                  product_count:0,//商品数量
+                  focus_anchor_status:0,//主播关注状态,1已关注
+                  fav_statusani:0,
+
+
+                }
+            },
+            created() {
+              this.live_id = api.pageParam.live_id
+              // alert(this.live_id)
+              this.chatTop = $api.dom('#chatlists').offsetTop
+
+              // alert($api.dom('#chatlists').offsetTop)
+                console.log($api.dom('footer').offsetHeight);
+                this.getDetail()
+                var str = 'ws://ym.s.li4.cn.cn:1936';
+            },
+            methods: {
+              //点击到主播个人页面
+              goanchor(){
+                api.openWin({
+                    name: 'person_win',
+                    url: '../person/person_win.html',
+                    pageParam: {
+                        id: api.pageParam.anchor_id
+                    }
+                });
+              },
+              //点击关注
+              focusFn(){
+                if ($api.getStorage('islogin') != 'true') {
+                  api.execScript({
+                      name: 'live_win',
+                      // frameName: 'frmName',
+                      script: 'pauseLive();'
+                  });
+                  userIslogin()
+                  return
+                }
+                var _this = this;
+                var data = {
+                  anchor_id:_this.anchor_id
+                };
+                requstPost('user/followAnchor',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.focus_anchor_status = ret.data.focus_status
+                  }
+                },function fail(err){
+
+                })
+              },
+              getDetail(){
+                var _this = this;
+                var data = {
+                  live_id:api.pageParam.live_id
+                };
+                requstPost('live/detail',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.anchor_id = ret.data.anchor_id
+                    _this.title = ret.data.title
+                    _this.price = ret.data.price
+                    _this.pay_order_status = ret.data.pay_order_status
+                    _this.anchor_avatar = ret.data.anchor_avatar
+                    _this.anchor_name = ret.data.anchor_name
+                    _this.look_count = ret.data.look_count
+                    _this.focus_anchor_status = ret.data.focus_anchor_status
+                    _this.fav_status = ret.data.fav_live_status
+                    _this.collect_status = ret.data.collect_live_status
+                    _this.product_count = ret.data.product_count
+                    _this.login_status = ret.data.login_status
+                    _this.live_play_url = ret.data.live_play_url
+                    _this.websocket_url = ret.data.websocket_url
+                    api.openFrame({
+                        name: 'livechat',
+                        url: './livechat.html',
+                        rect: {
+                            x: 0,
+                            y: $api.dom('#chatlists').offsetTop-20,
+                            w: api.winWidth,
+                            h: api.winWidth*30/100
+                        },
+                        pageParam: {
+                            live_id: api.pageParam.live_id,
+                            websocket_url:ret.data.websocket_url
+                        },
+                        bounces: false,
+                        bgColor: 'rgba(0,0,0,0)',
+                        vScrollBarEnabled: true,
+                        hScrollBarEnabled: true
+                    });
+
+                    if (ret.data.price > 0) {
+                      if (ret.data.pay_order_status == 0) {
+                        //支付直播订单
+                        api.execScript({
+                            name: 'live_win',
+                            // frameName: 'frmName',
+                            script: 'setMoney("'+ret.data.price+'","'+ret.data.pay_order_status+'");'
+                        });
+
+                      }
+                    }
+                  }
+                },function fail(err){
+
+                })
+              },
+              //喜欢直播
+              golike(){
+                if ($api.getStorage('islogin') != 'true') {
+                  api.execScript({
+                      name: 'live_win',
+                      // frameName: 'frmName',
+                      script: 'pauseLive();'
+                  });
+                  userIslogin()
+                  return
+                }
+                // heartAnimation
+                  var _this = this;
+                  var data = {
+                    live_id:api.pageParam.live_id
+                  };
+                  requstPost('live/favorite',data,function success(ret){
+                    if (ret.code == 0) {
+                      _this.fav_status = ret.data.fav_status
+                      _this.fav_statusani = ret.data.fav_status
+                      setTimeout(()=>{
+                        _this.fav_statusani = -1
+                      },800)
+                    }
+                  },function fail(err){
+
+                  })
+              },
+              //收藏直播
+              getCollect(){
+                if ($api.getStorage('islogin') != 'true') {
+                  api.execScript({
+                      name: 'live_win',
+                      // frameName: 'frmName',
+                      script: 'pauseLive();'
+                  });
+                  userIslogin()
+                  return
+                }
+                var _this = this;
+                var data = {
+                  live_id:api.pageParam.live_id
+                };
+                requstPost('live/collect',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.collect_status = ret.data.collect_status
+                  }
+                },function fail(err){
+
+                })
+              },
+              //打开购物车
+              goliveCart(){
+                if ($api.getStorage('islogin') != 'true') {
+                  api.execScript({
+                      name: 'live_win',
+                      // frameName: 'frmName',
+                      script: 'pauseLive();'
+                  });
+                  userIslogin()
+                  return
+                }
+                api.openFrame({
+                    name: 'livecart',
+                    url: './livecart.html',
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: api.winWidth,
+                        h: api.winHeight
+                    },
+                    pageParam: {
+                      live_id:api.pageParam.live_id
+                    },
+                    bounces:false,
+                    bgColor: 'rgba(0,0,0,0)',
+                    vScrollBarEnabled: true,
+                    hScrollBarEnabled: true,
+                    animation:{
+                      type:"push",
+                      subType:"from_bottom",
+                      duration:300
+                    }
+                });
+              },
+              //打开礼物模块
+              showGifts(){
+                if ($api.getStorage('islogin') != 'true') {
+                  api.execScript({
+                      name: 'live_win',
+                      // frameName: 'frmName',
+                      script: 'pauseLive();'
+                  });
+                  userIslogin()
+                  return
+                }
+                api.openFrame({
+                    name: 'livegifts',
+                    url: './livegifts.html',
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: api.winWidth,
+                        h: api.winHeight
+                    },
+                    pageParam: {
+                      live_id:api.pageParam.live_id
+                    },
+                    bounces:false,
+                    bgColor: 'rgba(0,0,0,0)',
+                    vScrollBarEnabled: true,
+                    hScrollBarEnabled: true,
+                    animation:{
+                      type:"push",
+                      subType:"from_bottom",
+                      duration:300
+                    }
+                });
+              },
+              //打开直播商品
+              openShop(){
+                this.showShop = !this.showShop
+                if (this.showShop) {
+                  api.openFrame({
+                      name: 'liveshop',
+                      url: './liveshop.html',
+                      rect: {
+                          x: 0,
+                          y: $api.dom('#chatlists').offsetTop,
+                          w: api.winWidth,
+                          h: api.winHeight-$api.dom('#chatlists').offsetTop
+                      },
+                      pageParam: {
+                          live_id: api.pageParam.live_id
+                      },
+                      bounces: false,
+                      bgColor: 'rgba(0,0,0,0)',
+                      vScrollBarEnabled: true,
+                      hScrollBarEnabled: true
+                  });
+                }else {
+                  // api.setFrameAttr({
+                  //     name: 'liveshop',
+                  //     bounces: false,
+                  //     bgColor: 'rgba(0,0,0,0)',
+                  //     vScrollBarEnabled: true,
+                  //     hScrollBarEnabled: true,
+                  //     hidden:true
+                  // });
+                  api.closeFrame({
+                      name: 'liveshop'
+                  });
+
+                }
+
+              },
+              //退出直播
+                closeLive() {
+                  api.execScript({
+                      name: 'live_win',
+                      // frameName: 'frmName',
+                      script: 'closeLive();'
+                  });
+                  api.execScript({
+                      name: 'live_win',
+                      frameName: 'livechat',
+                      script: 'app.closeChat();'
+                  });
+
+                  // api.closeWin();
+                  return
+                  var alivcLivePlayer = api.require('alivcLivePlayer');
+                      alivcLivePlayer.destroy();
+                },
+                sendPl() {
+                  if ($api.getStorage('islogin') != 'true') {
+                    api.execScript({
+                        name: 'live_win',
+                        // frameName: 'frmName',
+                        script: 'pauseLive();'
+                    });
+                    userIslogin()
+                    return
+                  }
+                  var _this = this
+                  var inputField = api.require('inputField');
+                  inputField.setInputFieldListener(function(ret, err) {
+                      if (ret) {
+                          if (ret.chatViewH < 50) {
+
+                          }
+                          console.log(JSON.stringify(ret));
+                      } else {
+                          console.log(JSON.stringify(err));
+                      }
+                  });
+                  // inputField.becomeFirstResponder(function(ret, err) {
+                  //     if (ret.status) {
+                  //         console.log(JSON.stringify(ret));
+                  //     } else {
+                  //         console.log(JSON.stringify(err));
+                  //     }
+                  // });
+                  inputField.open({
+                      bgColor: '#ffffff',
+                      lineColor: '#999999',
+                      fileBgColor: '#f5f5f5',
+                      borderColor: '#999999',
+                      placeholder: '',
+                      autoFocus: true,
+                      maxLines: 5,
+                      limitedWordsNumber: 100,
+                      sendBtn: {
+                          bg: '#FB607D',
+                          title: 'Send',
+                          titleColor: '#fff',
+                          bgHighlight: '#e67187',
+                      },
+                      fixedOn: api.frameName
+                  }, function(ret, err) {
+                      if (ret) {
+                          if (ret.msg != '') {
+                              console.log(ret.msg + 'end');
+                              // _this.sendPl(ret.msg)
+                              inputField.resignFirstResponder();
+                              api.sendEvent({
+                                  name: 'livechatText',
+                                  extra: {
+                                      msg: ret.msg,
+                                  }
+                              });
+                          }
+                          // alert(JSON.stringify(ret));
+
+
+                      } else {
+                          // alert(JSON.stringify(err));
+                      }
+                  });
+                  inputField.setInputFieldListener(function(ret, err) {
+                      if (ret) {
+                          console.log(JSON.stringify(ret));
+                          if (ret.chatViewH <= 50) {
+                              inputField.close();
+                          }
+                          // alert(JSON.stringify(ret));
+                      } else {
+                          // alert(JSON.stringify(err));
+                      }
+                  });
+
+                },
+                //举报
+                goreport() {
+                  if ($api.getStorage('islogin') != 'true') {
+                    api.execScript({
+                        name: 'live_win',
+                        // frameName: 'frmName',
+                        script: 'pauseLive();'
+                    });
+                    userIslogin()
+                    return
+                  }
+                    api.openWin({
+                        name: 'report_win',
+                        url: './report_win.html',
+                        pageParam: {
+                            live_id:api.pageParam.live_id
+                        }
+                    });
+
+                }
+
+
+            }
+        })
+
+    };
+</script>
+
+</html>

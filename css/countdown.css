@@ -1,0 +1,19 @@
+#countdown{
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 20px;
+	font-size: 14px;
+	line-height: 20px;
+}
+.dd,.hh,.mm,.ss,.ms{
+	display: inline-block;
+	/*width: 20px;
+	height: 20px;*/
+	line-height: 20px;
+	color: white;
+	font-size: 12px;
+	text-align: center;
+	background: transparent!important;
+	padding: 0!important;
+}

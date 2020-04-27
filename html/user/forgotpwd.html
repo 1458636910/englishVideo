@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+      <link rel="stylesheet" type="text/css" href="../../css/iconfont.css"/>
+      <style>
+          body{
+
+          }
+          .appBox{
+            width: 90vw;
+            height: 100%;
+            margin: auto;
+            /*transform: translateY(-100px);*/
+          }
+          #app {
+            min-height: 100vh;
+            width: 100vw;
+            padding-top: 5vw;
+            box-sizing: border-box;
+              /*back*/
+              /*padding: 28vw 10vw 0;*/
+                /*display: flex;*/
+                /*justify-content: center;*/
+                /*align-items: center;*/
+          }
+          .title{
+            font-weight: normal;
+            font-size: 6vw;
+            margin-bottom: 5vw;
+          }
+          .wel{
+            font-size: 4vw;
+            color: #484848;
+          }
+          .wel span{
+            color:  #4581ea;
+          }
+          .form{
+            margin-top: 10vw;
+          }
+          .form li{
+            padding: 1vw 0 1vw 0;
+            border-bottom: 1px solid #f5f5f5;
+            margin-bottom: 3vw;
+            position: relative;
+          }
+          .form li .iconfont{
+            font-size: 6vw;
+          }
+          .form li input{
+            outline: none;
+            border: none;
+            /*margin-left: 5vw;*/
+            width: 100%;
+          }
+          .form li::after {
+              position: absolute;
+              bottom: -1px;
+              left: 0;
+              right: 0;
+              content: '';
+              width: 100%;
+              transform: scaleX(0);
+              transition: all .3s;
+              border-bottom: 2px solid #FA607D
+          }
+
+          .form .active::after {
+              transform: scaleX(1);
+          }
+          .form li:last-child{
+            margin-bottom: 1vw;
+          }
+          .forgetpwd{
+            text-align: right;
+            color: #b6b6b6;
+          }
+          .loginBtn{
+            width: 100%;
+            /*background:linear-gradient(to bottom,#F9D764, #FDC403);*/
+            background: #FA607D;
+            text-align: center;
+            color: white;
+            border-radius: 6vw;
+            padding: 3vw 0;
+            margin-top: 10vw;
+          }
+          .sanUp{
+            text-align: center;
+            color: #b6b6b6;
+            margin-top: 20vw;
+            font-size: 4vw
+          }
+          .sanBtn{
+            display: flex;
+            justify-content: center;
+            margin-top: 5vw;
+          }
+          .sanBtn span{
+            background: #89affb;
+            width: 11vw;
+            height: 11vw;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10vw;
+          }
+          .sanBtn span:nth-child(2){
+            margin-right: 0
+          }
+          .sanBtn .iconfont{
+            color: white;
+            font-size: 8vw;
+          }
+          .codeBtn {
+              position: absolute;
+              right: 0;
+              /*top: 50%;*/
+              bottom: 1px;
+              /*transform: translateY(-50%);*/
+              background: #f5f5f5;
+              padding: 5px 10px;
+              border-radius: 5px;
+              color: #666;
+          }
+
+          .codeBtnActive {
+              background: #FA607D;
+              color: white;
+          }
+          .gologin{
+            color: #999999;
+            font-size: 14px;
+            text-align: right;
+            margin-top: 3vw;
+          }
+          .gologin i{
+            font-style: normal;
+            color: #F2A115;
+          }
+          .codeimgbox{
+            display: flex;
+            align-items: center;
+            margin-bottom: 3vw;
+            border-bottom: 1px solid #f5f5f5;
+          }
+          input{
+            height: 8vw;
+            outline: none;
+          }
+          .codeimgbox input{
+            flex: 1;
+            height: 8vw;
+          }
+          .title .iconfont{
+            font-size: 25px;
+            color: #999999;
+          }
+      </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="appBox">
+        <!-- <p class="wel">欢迎登陆真题伴侣，立即<span tapmode="hover" onclick="login();">登陆</span></p> -->
+
+        <ul class="form">
+          <li :class="active == 0?'active':''" v-if="has_password == 1">
+            <!-- <span>
+              <i class="iconfont">&#xe686;</i>
+            </span> -->
+            <input @blur="getblur()" @focus="phoneFocus()" v-model="phone" type="password" placeholder="Old password">
+          </li>
+
+          <li :class="active == 2?'active':''">
+            <input @blur="getblur()" @focus="codeFocus()" v-model="code" type="password" placeholder="New password">
+          </li>
+          <li :class="active == 1?'active':''">
+            <!-- <span>
+              <i class="iconfont">&#xe61b;</i>
+            </span> -->
+            <input @blur="getblur()" @focus="pwdFocus()" v-model="pwd" type="password" placeholder="Confirm the new password">
+          </li>
+        </ul>
+        <!-- <p class="gologin">已有账号，<i tapmode="hover" onclick="login();">去登录</i></p> -->
+        <div class="loginBtn" @click="register()">Confirm the Changes</div>
+        <!--  -->
+        <!--  -->
+      </div>
+    </div>
+
+  </body>
+  <script type="text/javascript" src="../../script/api.js"></script>
+  <script type="text/javascript" src="../../script/fastclick.js"></script>
+  <script src="../../script/vue.min.js"></script>
+  <script src="../../script/commonurl.js"></script>
+  <script src="../../script/jquery.min.js"></script>
+  <script type="text/javascript">
+  var app;
+  var verifyCode;
+      apiready = function(){
+                // $api.fixStatusBar( $api.dom('header') );
+        app = new Vue({
+            el: '#app',
+            data(){
+              return{
+                active:-1,
+                phone:'',
+                pwd:'',
+                code:'',
+                codetext: 'Get Verification Code',
+                    canGet: 0,
+                    isSend:false,
+                    regcode:'',//图形验证码
+                    has_password:0,//1有旧密码，0没有旧密码
+
+              }
+            },
+            created(){
+              this.has_password = $api.getStorage('has_password');
+            },
+            methods:{
+              //更新验证码
+              changeCode(){
+                verifyCode = new GVerify("v_container");
+                console.log(JSON.stringify(verifyCode));
+              },
+              register(){
+                pubshowloading()
+                var _this = this;
+                var data = {
+                  old_password:_this.phone,
+                  password:_this.code,
+                  password_confirm:_this.pwd
+                };
+                requstPost('user/rePassword',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.phone = '';
+                    _this.code = '';
+                    _this.pwd = '';
+                    setTimeout(()=>{
+                      api.closeWin();
+                    },2000)
+                  }
+                  api.toast({
+                      msg: ret.message,
+                      duration: 2000,
+                      location: 'middle'
+                  });
+
+                },function fail(err){
+
+                })
+
+              },
+              getCode() {
+                  if (this.canGet == 0) {
+                      api.toast({
+                          msg: '请先输入正确的手机号',
+                          duration: 2000,
+                          location: 'middle'
+                      });
+
+                  } else if (this.canGet == 2) {
+                      api.toast({
+                          msg: '验证码已发送,请稍后...',
+                          duration: 2000,
+                          location: 'middle'
+                      });
+                  } else if (this.canGet == 1) {
+                    // api.showProgress({
+                    //     style: 'default',
+                    //     animationType: 'fade',
+                    //     title: '发送中...',
+                    //     text: '请稍等...',
+                    //     modal: true
+                    // });
+
+                      //发送验证码
+                      console.log('发送验证码');
+
+                        if (this.isSend) {
+                          api.toast({
+                              msg: '验证码已发送,请稍后..',
+                              duration: 2000,
+                              location: 'middle'
+                          });
+                          return;
+                        }
+                        //请求后台发送验证码
+                        this.getsendCode()
+                      // this.sendCode()
+                  }
+              },
+              //请求后台发送验证码
+              getsendCode(){
+                var res = verifyCode.validate(document.getElementById("yanzheng").value);  //获取验证码
+                // var res = app.code;  //获取验证码
+                console.log('输入到验证码'+res);
+                // 判断：输入框里验证码和获取到的验证码是否一致
+                if (res) {   //如果一样就验证成功
+        　　　　　　　　console.log("验证成功的操作；")
+                      // verifyCode = new GVerify("v_container");
+                    // app.login()
+                }else if (res.length <1){   //验证码输入的长度=等于0，就提示验证码错误
+        　　　　　　　　console.log("验证码错误的操作；")
+                      api.toast({
+                          msg: 'Please enter a graphic verification code',
+                          duration: 2000,
+                          location: 'middle'
+                      });
+
+        // 　　　　　　　　verifyCode();  //重新刷新验证码
+                      verifyCode = new GVerify("v_container");
+                    return false;
+
+                } else {   //如不一致，就验证错误
+                  api.toast({
+                      msg: 'Graphic verification code error',
+                      duration: 2000,
+                      location: 'middle'
+                  });
+        　　　　　　　　console.log("验证码错误的操作；")
+                      verifyCode = new GVerify("v_container");
+        // 　　　　　　　　verifyCode();  //重新刷新验证码
+                    return false;
+                }
+                var _this = this
+                api.showProgress({
+                    style: 'default',
+                    animationType: 'fade',
+                    title: '验证码获取中...',
+                    text: '',
+                    modal: true
+                });
+
+                api.ajax({
+                    url: url+'userApi/User/addYanzm',
+                    method: 'post',
+                    data: {
+                        values: {
+                          phone:_this.phone
+                        }
+                    }
+                },function(ret, err){
+                  api.hideProgress();
+                    if (ret) {
+                      api.toast({
+                          msg: ret.msg,
+                          duration: 2000,
+                          location: 'middle'
+                      });
+                      if (ret.code == 1000) {
+                        //发送成功
+                        _this.sendCode()
+
+                      }
+
+                        // alert( 'ret'+JSON.stringify( ret ) );
+                    } else {
+
+                      api.toast({
+                          msg: err.msg,
+                          duration: 2000,
+                          location: 'bottom'
+                      });
+
+                        // alert( 'err'+JSON.stringify( err ) );
+                    }
+                });
+
+              },
+              //发送验证码
+              sendCode() {
+                this.canGet = 2
+                this.isSend = true
+                  this.sendMsgCodeStatus = 60;
+                  var timer = setInterval(() => {
+                      this.sendMsgCodeStatus -= 1;
+                      this.codetext = this.sendMsgCodeStatus +'s后重新发送'
+                      if (this.sendMsgCodeStatus === 0) {
+                          clearInterval(timer);
+                          this.canGet = 1;
+                          this.isSend = false;
+                          this.codetext = "重新发送";
+                      }
+                  }, 1000);
+              },
+            phoneFocus() {
+                this.active = 0
+            },
+            pwdFocus() {
+                this.active = 1
+            },
+            codeFocus(){
+              this.active = 2
+            },
+            getblur() {
+                this.active = -1
+            },
+            getPic(){
+              $(function () {
+                  // 定义：存储验证码
+                   verifyCode = new GVerify("v_container");
+                   console.log('初始化'+JSON.stringify(verifyCode));
+                  // 登录的js验证
+                  $("#login").click(function () {
+                      var res = verifyCode.validate(document.getElementById("yanzheng").value);  //获取验证码
+                      // var res = app.code;  //获取验证码
+                      console.log('输入的验证码'+res);
+                      // 判断：输入框里验证码和获取到的验证码是否一致
+                      if (res) {   //如果一样就验证成功
+              　　　　　　　　console.log("验证成功的操作；")
+                            // verifyCode = new GVerify("v_container");
+                          app.login()
+                      }else if (res.length <1){   //验证码输入的长度=等于0，就提示验证码错误
+              　　　　　　　　console.log("验证码错误的操作；")
+                            api.toast({
+                                msg: 'Please enter the graphic verification code',
+                                duration: 2000,
+                                location: 'middle'
+                            });
+              // 　　　　　　　　verifyCode();  //重新刷新验证码
+                            verifyCode = new GVerify("v_container");
+                          return false;
+
+                      } else {   //如不一致，就验证错误
+                        api.toast({
+                            msg: 'Graphic verification code error',
+                            duration: 2000,
+                            location: 'middle'
+                        });
+              　　　　　　　　console.log("验证码错误的操作；")
+                            verifyCode = new GVerify("v_container");
+              // 　　　　　　　　verifyCode();  //重新刷新验证码
+                          return false;
+                      }
+                      console.log('验证码'+JSON.stringify(verifyCode));
+                  });
+
+              });
+
+              // 生成图形验证码的JS文件
+              !(function(window, document) {
+                  function GVerify(options) { //创建一个图形验证码对象，接收options对象为参数
+                      this.options = { //默认options参数值
+                          id: "", //容器Id
+                          canvasId: "verifyCanvas", //canvas的ID
+                          width: "100", //默认canvas宽度
+                          height: "30", //默认canvas高度
+                          type: "blend", //图形验证码默认类型blend:数字字母混合类型、number:纯数字、letter:纯字母
+                          code: ""
+                      };
+
+                      if(Object.prototype.toString.call(options) == "[object Object]"){//判断传入参数类型
+                          for(var i in options) { //根据传入的参数，修改默认参数值
+                              this.options[i] = options[i];
+                          }
+                      }else{
+                          this.options.id = options;
+                      }
+
+                      this.options.numArr = "0,1,2,3,4,5,6,7,8,9".split(",");
+                      this.options.letterArr = getAllLetter();
+
+                      this._init();
+                      this.refresh();
+                  }
+
+                  GVerify.prototype = {
+                      /**版本号**/
+                      version: '1.0.0',
+
+                      /**初始化方法**/
+                      _init: function() {
+                          var con = document.getElementById(this.options.id);
+                          var canvas = document.createElement("canvas");
+                          this.options.width = con.offsetWidth > 0 ? con.offsetWidth : "100";
+                          this.options.height = con.offsetHeight > 0 ? con.offsetHeight : "30";
+                          canvas.id = this.options.canvasId;
+                          canvas.width = this.options.width;
+                          canvas.height = this.options.height;
+                          canvas.style.cursor = "pointer";
+                          canvas.innerHTML = "您的手机版本不支持canvas";
+                          con.appendChild(canvas);
+                          var parent = this;
+                          canvas.onclick = function(){
+                              parent.refresh();
+                          }
+                      },
+
+                      /**生成验证码**/
+                      refresh: function() {
+                          this.options.code = "";
+                          var canvas = document.getElementById(this.options.canvasId);
+                          if(canvas.getContext) {
+                              var ctx = canvas.getContext('2d');
+                          }else{
+                              return;
+                          }
+
+                          ctx.textBaseline = "middle";
+
+                          ctx.fillStyle = randomColor(180, 240);
+                          ctx.fillRect(0, 0, this.options.width, this.options.height);
+
+                          if(this.options.type == "blend") { //判断验证码类型
+                              var txtArr = this.options.numArr.concat(this.options.letterArr);
+                          } else if(this.options.type == "number") {
+                              var txtArr = this.options.numArr;
+                          } else {
+                              var txtArr = this.options.letterArr;
+                          }
+
+                          for(var i = 1; i <= 4; i++) {
+                              var txt = txtArr[randomNum(0, txtArr.length)];
+                              this.options.code += txt;
+                              ctx.font = randomNum(this.options.height/2, this.options.height) + 'px SimHei'; //随机生成字体大小
+                              ctx.fillStyle = randomColor(50, 160); //随机生成字体颜色
+                              ctx.shadowOffsetX = randomNum(-3, 3);
+                              ctx.shadowOffsetY = randomNum(-3, 3);
+                              ctx.shadowBlur = randomNum(-3, 3);
+                              ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
+                              var x = this.options.width / 5 * i;
+                              var y = this.options.height / 2;
+                              var deg = randomNum(-30, 30);
+                              /**设置旋转角度和坐标原点**/
+                              ctx.translate(x, y);
+                              ctx.rotate(deg * Math.PI / 180);
+                              ctx.fillText(txt, 0, 0);
+                              /**恢复旋转角度和坐标原点**/
+                              ctx.rotate(-deg * Math.PI / 180);
+                              ctx.translate(-x, -y);
+                          }
+                          /**绘制干扰线**/
+                          for(var i = 0; i < 4; i++) {
+                              ctx.strokeStyle = randomColor(40, 180);
+                              ctx.beginPath();
+                              ctx.moveTo(randomNum(0, this.options.width), randomNum(0, this.options.height));
+                              ctx.lineTo(randomNum(0, this.options.width), randomNum(0, this.options.height));
+                              ctx.stroke();
+                          }
+                          /**绘制干扰点**/
+                          for(var i = 0; i < this.options.width/4; i++) {
+                              ctx.fillStyle = randomColor(0, 255);
+                              ctx.beginPath();
+                              ctx.arc(randomNum(0, this.options.width), randomNum(0, this.options.height), 1, 0, 2 * Math.PI);
+                              ctx.fill();
+                          }
+                      },
+
+                      /**验证验证码**/
+                      validate: function(code){
+                          var code = code.toLowerCase();
+                          var v_code = this.options.code.toLowerCase();
+                          if(code == v_code){
+                              return true;
+                          }else{
+                              this.refresh();
+                              return false;
+                          }
+                      }
+                  };
+                  /**生成字母数组**/
+                  function getAllLetter() {
+                      var letterStr = "a,b,c,d,e,f,g,h,i,j,k,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z";
+                      return letterStr.split(",");
+                  }
+                  /**生成一个随机数**/
+                  function randomNum(min, max) {
+                      return Math.floor(Math.random() * (max - min) + min);
+                  }
+                  /**生成一个随机色**/
+                  function randomColor(min, max) {
+                      var r = randomNum(min, max);
+                      var g = randomNum(min, max);
+                      var b = randomNum(min, max);
+                      return "rgb(" + r + "," + g + "," + b + ")";
+                  }
+                  window.GVerify = GVerify;
+              })(window, document);
+            }
+
+          },
+
+          watch: {
+              phone(e, b) {
+                var phoneTest = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/
+                  // console.log(e)
+                  if (e.length == 11) {
+                      // if (phoneTest.test(e)) {
+                        if (this.isSend) {
+                          this.canGet = 2;
+                        }else {
+                          this.canGet = 1;
+                        }
+
+                      // }else {
+                      //   this.canGet = 0
+                      // }
+                  }else {
+                    this.canGet = 0
+                  }
+              }
+          }
+          })
+
+      };
+      function login(){
+        api.closeWin();
+      }
+
+          function goBack() {
+              api.closeWin()
+          }
+  </script>
+  </html>

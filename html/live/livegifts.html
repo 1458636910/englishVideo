@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body,html {
+            background: none;
+        }
+
+        #app {
+          background: none;
+            min-height: 100vh;
+            /*padding-top: 30vh;*/
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            box-sizing: border-box;
+            /*padding-bottom: 30vw;*/
+        }
+        #app.appactive{
+                background: rgba(0,0,0,.1);
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+
+
+        #footer{
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: 12vw;
+          text-align: center;
+          line-height: 12vw;
+            background: #FA607D;
+            border-top: 1px solid #f5f5f5;
+        }
+        #footer div{
+          background: white;
+          color: black;
+          font-size: 20px;
+          font-weight: 700;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .box{
+          height: 70vh;
+          /*overflow: scroll;*/
+          background: white;
+          /*position: relative;*/
+          /*padding-top: 15vw;*/
+          box-sizing: border-box;
+          /*padding-bottom: 30vw;*/
+          border-top-right-radius: 10px;
+          border-top-left-radius: 10px;
+          display: flex;
+          flex-direction: column;
+        }
+        .head{
+          /*position: absolute;*/
+          top: 0;
+          left: 0;
+          right: 0;
+          /*height: 12vw;*/
+          display: flex;
+          padding: 5vw 3vw;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        #footer{
+          /*position: absolute;*/
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 12vw;
+          line-height: 12vw;
+          color: white;
+          background: white;
+
+        }
+        .bomBox{
+          padding: 0 3vw;
+        }
+        #footer .bomBox .footerl{
+          color: #FA607D;
+        }
+        .footerl img{
+          width: 20px;
+        }
+        .footerl span{
+          margin-right: 3vw;
+        }
+        .send{
+          font-size: 14px;
+          background: #FA607D;
+          color: white;
+          display: block;
+          height: 8vw;
+          line-height: 8vw;
+          border-radius: 4vw;
+          padding: 0 3vw;
+        }
+        /**/
+        .lists{
+          display: flex;
+          flex-wrap: wrap;
+          padding:3vw;
+          margin-bottom: 3vw;
+          /*flex: 1;*/
+          overflow: scroll;
+          padding-bottom: 20vw;
+          /*min-height: 50vh;*/
+        }
+        .listsBox{
+          min-height: 50vh;
+        }
+        .list{
+          padding: 1vw 0;
+          width: 18vw;
+          text-align: center;
+          margin-right: 1vw;
+          border: 2px solid white;
+          box-sizing: border-box;
+        }
+        .list:nth-child(5n+5){
+          margin-right: 0;
+        }
+        .giftimg{
+          text-align: center;
+        }
+        .giftimg img{
+          width: 15vw;
+          height: 15vw;
+          margin: auto;
+        }
+        .dimaimg img{
+          width: 20px;
+        }
+        .active{
+          border: 2px solid #FA607D;
+          box-sizing: border-box;
+          border-radius: 5px;
+        }
+        .empty{
+          width: 100%;
+          height: auto;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak :class="active?'appactive':''">
+
+        <div class="box">
+          <div class="head">
+            <!-- <span></span> -->
+            <span>My Diamond:{{mydiamond}}</span>
+            <span tapmode onclick="closeShop()">
+              <i class="iconfont">&#xe603;</i>
+            </span>
+          </div>
+          <div class="listsBox">
+            <div class="lists">
+              <!-- <div class="list active">
+                <div class="giftimg">
+                  <img src="../../image/gift/1.png" alt="">
+                </div>
+                <div class="dimaimg">
+                  <img src="../../image/gift/diamond.png" alt="">
+                  <span>5</span>
+                </div>
+              </div> -->
+                <div class="list" :class="activeGift == index?'active':''" v-for="(item,index) in lists" @click="choseGift(item,index)">
+                  <div class="giftimg">
+                    <img :src="item.thumb" alt="">
+                  </div>
+                  <div class="dimaimg">
+                    <img src="../../image/gift/diamond.png" alt="">
+                    <span>{{parseInt(item.jewel)}}</span>
+                  </div>
+                </div>
+                <div class="empty" v-if="lists.length == 0">
+                  <img src="../../image/empty.png" alt="">
+                </div>
+            </div>
+          </div>
+        <footer id="footer">
+          <div class="bomBox">
+            <div class="footerl">
+              <span>{{name}}</span>
+              <div>
+                <img src="../../image/gift/diamond.png" alt="">
+                <span>{{diamond}}</span>
+              </div>
+            </div>
+            <span class="send" @click="sure()">Send</span>
+          </div>
+        </footer>
+          <!-- <div class="list">
+            <div class="listl">
+              <img src="../../image/shop.png" alt="">
+            </div>
+            <div class="listr">
+              <div class="info">
+                <p class="name">Fariy GumdropFariy GumdropFariy GumdropGumdropGumdropGumdrop</p>
+                <p>Commission:$30</p>
+                <p>$399.00</p>
+              </div>
+              <div class="choseBox">
+                <span class="chose showimg">
+                  <img src="../../image/chose.png" alt="">
+                </span>
+              </div>
+            </div>
+          </div> -->
+      </div>
+      <!-- <footer id="footer" @click="sure()">
+        <div>
+          Comfirm Add
+        </div>
+      </footer> -->
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+var app;
+    apiready = function() {
+    $api.fixTabBar($api.byId('footer'))
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  lists:[],
+                  active:false,
+                  choseArry:[],
+                  activeGift:0,
+                  name:'',
+                  diamond:'',
+                  live_id:'',
+                  mydiamond:0,
+                  giftid:'',
+                }
+            },
+            mounted:function () {
+                setTimeout(()=>{
+                  this.active = true
+                },500)
+            },
+            created() {
+              //
+              this.getgifts()
+            },
+            methods: {
+              //获取礼物列表
+              getgifts(){
+                var _this = this;
+                requstPost('live/gift','',function success(ret){
+                  if (ret.code == 0) {
+                    _this.lists = ret.data.list
+                    _this.mydiamond = ret.data.jewel_count
+                      _this.name = _this.lists[0].name
+                      _this.diamond = _this.lists[0].jewel
+                      _this.giftid = _this.lists[0].id
+                  }
+                },function fail(err){
+
+                })
+              },
+              choseGift(ite,ind){
+                this.activeGift = ind
+                this.diamond = ite.jewel
+                this.name = ite.name
+                this.giftid = ite.id
+              },
+              sure(){
+                pubshowloading()
+                var _this = this;
+                var data = {
+                  gift_id:_this.giftid,
+                  live_id:api.pageParam.live_id
+                };
+                requstPost('user/gift',data,function success(ret){
+                  if (ret.code == 0) {
+                    
+                  }
+                },function fail(err){
+
+                })
+                // api.execScript({
+                //     name: 'choselive_win',
+                //     frameName: 'choselive',
+                //     script: 'app.addShopId("'+JSON.stringify(this.choseArry)+'");'
+                // });
+                // api.closeWin();
+                api.closeFrame();
+              }
+
+
+            }
+        })
+
+    };
+    function closeShop(){
+      api.closeFrame();
+
+    }
+</script>
+
+</html>

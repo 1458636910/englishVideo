@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>汇率</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {
+              background: #1C1C1E;
+        }
+
+        #header{
+            background: #1C1C1E;
+
+            align-items: center;
+            height: 12vw;
+            /*border-bottom: 1px solid #e9e9e9;*/
+            /*position: fixed;*/
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 500;
+            color: white
+        }
+        #header .iconfont{
+          color: white;
+          /*font-size: 25px;*/
+        }
+        #footer {
+            /*height: 20px;*/
+        }
+        .flex-con{
+          overflow: auto;
+          /*height: 90vh;*/
+          flex: 1;
+        }
+        #title{
+          max-width: 80vw;
+          overflow: hidden;
+          text-overflow: ellipsis;
+           display: -webkit-box;
+           -webkit-line-clamp: 1;
+           -webkit-box-orient: vertical;
+        }
+        .box{
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+        }
+        #footer{
+          /*position: fixed;*/
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: 12vw;
+          text-align: center;
+          line-height: 12vw;
+            background: #FA607D;
+        }
+        #footer div{
+          background: #FA607D;
+          color: white;
+          font-size: 20px;
+          font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+
+        <header id="header" style=" display: flex; padding: 0 12px;">
+            <label onclick="goBack()" style="flex:1;">
+                                <i class="icon iconfont back">&#xe608;</i>
+                              </label>
+            <div id="title" style="text-align:center; font-size:1.1rem;">
+              Add Products
+            </div>
+            <div style="flex:1; text-align:right; position:relative;">
+              <!-- <span onclick="changeInfo()">编辑</span> -->
+            </div>
+        </header>
+        <div id="main" class="flex-con">
+
+        </div>
+        <footer id="footer">
+          <div>
+            Comfirm Add
+          </div>
+        </footer>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        // var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar($api.dom('header'));
+        $api.fixTabBar($api.byId('footer'));
+
+        openpage()
+    };
+    function openpage() {
+
+        api.openFrame({
+            name: 'addshop',
+            url: 'addshop.html',
+            rect: {
+                x: 0,
+                y: $api.dom('header').offsetHeight - 1,
+                w: api.winWidth,
+                h: $api.dom('#main').offsetHeight,
+                // h: api.winHeight -  $api.dom('header').offsetHeight+1,
+
+            },
+            bounces: true,
+            bgColor: '#1C1C1E',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: true
+        });
+    }
+
+    function goBack() {
+        api.closeWin()
+    }
+</script>
+
+</html>

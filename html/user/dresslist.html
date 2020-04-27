@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mintstyle.css" />
+    <style>
+        body {}
+
+        #app {
+            background: #f5f5f5;
+            min-height: 100vh;
+            padding-top: 0;
+        }
+        [v-cloak]{
+          display: none;
+        }
+        .lists{
+          width: 94vw;
+          margin:0 auto 5vw;
+          background: white;
+          border-radius: 5px;
+          padding: 3vw 6vw 0 0;
+          font-size: 14px;
+          border-top: 1px solid #f5f5f5;
+        }
+        .box{
+          /*border-bottom: 1px solid #f5f5f5;*/
+        }
+        .lists .name{
+          display: flex;
+          justify-content: space-between;
+          font-size: 16px;
+          color: black;
+          margin-bottom: 1vw;
+        }
+        .lists .name span{
+          width: 50%;
+        }
+        .lists .dress{
+          margin-top: 3vw;
+          /*height: 40px;*/
+          line-height: 20px;
+          font-size: 16px;
+          overflow: hidden;
+          /*text-overflow: ellipsis;
+                     display: -webkit-box;
+                     -webkit-line-clamp: 2;
+                     -webkit-box-orient: vertical;*/
+
+        }
+        .lists .listbom{
+          padding: 3vw 0 0;
+          display: flex;
+          justify-content: space-between;
+          color: #999999;
+          align-items: center;
+        }
+        .listbom span:nth-child(1){
+          color: black;
+          display: flex;
+          align-items: center;
+        }
+        .cercil{
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          border: 1px solid #999999;
+          margin-right: 10px;
+        }
+        .active{
+          background-image: url(../../image/chose.png);
+          background-size: 100%;
+          border: 1px solid #FA607D;
+        }
+        .bomBtn{
+          position: fixed;
+          bottom: 0;
+          right: 0;
+          left: 0;
+          height: 12vw;
+          line-height: 12vw;
+          text-align: center;
+          background: #FA607D;
+          color:white;
+        }
+        .box{
+          width: 100vw;
+          background: #f3f3f3;
+        }
+        #app h5{
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .mint-cell-wrapper{
+          background-image: none;
+        }
+        .box h5 span{
+          width: 20vw;
+          font-size: 16px;
+          text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <!-- <div class="lists" @click="choseDress()">
+        <p class="name">
+          <span>李明</span>
+          <span>155****1234</span>
+        </p>
+        <p class="dress">河南省郑州市郑东新区商务外环路5号河南国际商会大厦河南省郑州市郑东新区商务外环路5号河南国际商会大厦河南省郑州市郑东新区商务外环路5号河南国际商会大厦河南省郑州市郑东新区商务外环路5号河南国际商会大厦</p>
+        <div class="listbom">
+          <span>
+            <span class="cercil active"></span>
+            默认地址
+          </span>
+          <span @click="dressedit(1)">编辑</span>
+        </div>
+      </div> -->
+
+
+
+        <div class="box" v-for="(item,index) in list" @click="choseDress(item)">
+          <mt-cell-swipe slot="" :right="[
+                {
+                content: '<h5><span>Delate</span></h5>',
+                style: { background: 'red', color: '#fff' },
+                handler: () => delateShop(item,index)
+                }
+                ]" >
+        <div class="lists">
+          <p class="name">
+            <span>{{item.receiver}}</span>
+            <span>{{item.cellphone_number}}</span>
+          </p>
+          <p class="dress">{{item.country}}{{item.province}}{{item.city}}{{item.address}}</p>
+          <div class="listbom">
+            <span @click="defaultDress(item)">
+              <span class="cercil" :class="item.is_default == 1?'active':''"></span>
+              {{item.is_default == 1?'Default Address':'Set as Default address'}}
+            </span>
+            <span @click.stop="goEdit(item)">Edit</span>
+          </div>
+        </div>
+
+        </mt-cell-swipe>
+      </div>
+        <!--  -->
+        <!-- <div id="dressadd" class="bomBtn" @click="dressadd()">
+          +Add Shipping Address
+        </div> -->
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/mintindex.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+    // $api.fixTabBar($api.byId('dressadd'))
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  type:'',
+                  list:[],
+                  defultId:'',
+                }
+            },
+            created() {
+              this.updateDress()
+              this.type = api.pageParam.type
+              // this.getDresslist()
+
+            },
+            methods: {
+              //设置默认地址
+              defaultDress(ite){
+                if (ite.is_default == 1) {
+                  return
+                }
+                var _this = this;
+                pubshowloading()
+                var data = {
+                  address_id:ite.id
+                };
+                requstPost('address/setDefault',data,function success(ret){
+                  api.toast({
+                      msg: ret.message,
+                      duration: 2000,
+                      location: 'middle'
+                  });
+                  for (var i = 0; i < _this.list.length; i++) {
+                    _this.list[i].is_default = 0
+                  }
+                  ite.is_default = 1
+                },function fail(err){
+
+                })
+
+              },
+              //编辑地址
+              goEdit(ite){
+                api.openWin({
+                    name: 'dressedit_win',
+                    url: './dressedit_win.html',
+                    pageParam: {
+                        obj:ite,
+                        name:'Edit Address'
+                    }
+                });
+              },
+              getDresslist(){
+                var _this = this;
+                var data = {};
+                requstGet('address',data,function success(ret){
+                  _this.list = ret.data
+                },function fail(err){
+
+                })
+                return
+                api.ajax({
+                    url: url+'userApi/my/address',
+                    method: 'post',
+                    data: {
+                        values: {
+                          token:$api.getStorage('token')
+                        }
+                    }
+                },function(ret, err){
+                    if (ret) {
+                      if (ret.code == 1000) {
+                        _this.list = ret.data.list
+                        _this.defultId = ret.data.default_id
+                      }else {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+
+                      }
+                        // alert( JSON.stringify( ret ) );
+                    } else {
+                      api.toast({
+                          msg: err.msg,
+                          duration: 2000,
+                          location: 'middle'
+                      });
+
+                        // alert( JSON.stringify( err ) );
+                    }
+                });
+
+              },
+
+                delateShop(ite,ind){
+                  var _this = this
+                  api.confirm({
+                      title: 'Delete',
+                      msg: 'Are you sure you want to delete this address?',
+                      buttons: ['Sure', 'Cancel']
+                  }, function(ret, err){
+                      if( ret ){
+                        if (ret.buttonIndex == 1) {
+                          pubshowloading()
+                          var data = {
+                            address_id:ite.id
+                          };
+                          requstPost('address/delete',data,function success(ret){
+                            api.toast({
+                                msg: ret.message,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                            _this.list.splice(ind,1)
+                          },function fail(err){
+
+                          })
+                        }
+                          //  alert( JSON.stringify( ret ) );
+                      }else{
+                          //  alert( JSON.stringify( err ) );
+                      }
+                  });
+
+
+
+                },
+
+              choseDress(ite){
+                // alert(this.type)
+                var id = ite.id;
+                var name = ite.receiver;
+                var phone = ite.cellphone_number;
+                var dress = ite.country+ite.province+ite.city+ite.address;
+                if (this.type == 'buy') {
+                  console.log(JSON.stringify(ite));
+                  // return
+                  api.execScript({
+                      name: 'placeorder_win',
+                      frameName: 'placeorder',
+                      script: 'app.dressChange("'+id+'","'+name+'","'+phone+'","'+dress+'","'+ite.country+'");'
+                  });
+                  api.closeWin();
+                }else if(this.type == 'livebuy'){
+                  api.execScript({
+                      name: 'live_win',
+                      frameName: 'liveplaceorder',
+                      script: 'app.dressChange("'+id+'","'+name+'","'+phone+'","'+dress+'","'+ite.country+'");'
+                  });
+                  api.closeWin();
+                }
+              },
+
+                //更新数据
+                updateDress(){
+                  var _this = this
+                  api.addEventListener({
+                      name: 'viewappear'
+                  }, function(ret, err){
+                        console.log('地址更新');
+                        _this.getDresslist()
+                          //  alert( JSON.stringify( ret ) );
+                          //  alert( JSON.stringify( err ) );
+                  });
+                },
+              dressadd(){
+                api.openWin({
+                    name: 'dressedit_win',
+                    url: './dressedit_win.html',
+                    pageParam: {
+                        id: '',
+                        name:'Add new address'
+                    }
+                });
+
+              },
+              dressedit(e){
+                api.openWin({
+                    name: 'dressedit_win',
+                    url: './dressedit_win.html',
+                    pageParam: {
+                        id:e ,
+                        name:'编辑地址'
+                    }
+                });
+
+              },
+
+
+            }
+        })
+
+    };
+</script>
+
+</html>

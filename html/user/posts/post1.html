@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .lists{
+          padding: 3vw;
+          display: flex;
+          flex-wrap: wrap;
+        }
+        .list{
+          width: 45vw;
+          height: 45vw;
+          border-radius: 5px;
+          position: relative;
+          overflow: hidden;
+          margin-right: 3vw;
+          margin-bottom: 3vw
+        }
+        .list:nth-child(2n+2){
+          margin-right: 0;
+        }
+        .list img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+        .top{
+          position: absolute;
+          top: 1vw;
+          left: 1vw;
+          right: 1vw;
+          color: white;
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .rep{
+          padding: 3px 5px;
+          background: #7C8698;
+          border-radius: 10px;
+          border: 1px solid white;
+        }
+        .bom{
+          position: absolute;
+          bottom: 2vw;
+          right: 1vw;
+          color: white;
+          font-size: 12px;
+        }
+        .top .del .iconfont{
+          font-size: 25px;
+        }
+        .empty{
+          height: 100vh;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="empty" v-if="list.length == 0">
+        <img src="../../../image/empty.png" alt="">
+      </div>
+      <div class="lists">
+          <div class="list" v-for="(item,index) in list" @click="golive(item)">
+            <img :src="item.thumb" alt="">
+            <div class="top">
+              <div>
+                <span class="rep">Replay</span>
+                <span>
+                  <i class="iconfont">&#xe629;</i>
+                  {{item.look_count}}
+                </span>
+              </div>
+              <span class="del" @click.stop="delLive(item)">
+                <i class="iconfont">&#xe611;</i>
+              </span>
+            </div>
+            <div class="bom">
+              <i class="iconfont">&#xe60c;</i>
+              <span>{{item.fav_count}}</span>
+            </div>
+          </div>
+      </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/fastclick.js"></script>
+<script src="../../../script/vue.min.js"></script>
+<script src="../../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  list:[],
+                  page:1,
+                  more:true
+                }
+            },
+            created() {
+              api.refreshHeaderLoading();
+              setTimeout(()=>{
+                api.refreshHeaderLoadDone();
+              },300)
+              this.refresh()
+              this.getMore()
+            },
+            methods: {
+              //监听滚动到底
+              getMore() {
+                var _this = this
+                api.addEventListener({
+                    name: 'scrolltobottom',
+                    extra: {
+                        threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                    }
+                }, function(ret, err) {
+                  console.log('加载更多');
+                  _this.getLists()
+
+                });
+
+              },
+              //删除直播
+              delLive(ite){
+                var _this = this;
+                api.confirm({
+                    title: 'Delete this live stream',
+                    msg: 'Are you sure you want to delete this live broadcast?',
+                    buttons: ['Exit', 'Cancel']
+                }, function(ret, err){
+                    if( ret ){
+                      if (ret.buttonIndex == 1) {
+                        //删除
+                        requstPost('anchor/delLive',{id:ite.id},function success(ret){
+                          if (ret.code == 0) {
+                            _this.page = 1
+                            _this.more = true
+                            _this.getLists()
+                             api.toast({
+                                 msg: ret.message,
+                                 duration: 2000,
+                                 location: 'middle'
+                             });
+                          }else{
+                            api.toast({
+                                msg: ret.message,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                          }
+                        },function fail(err){
+
+                        })
+                      }else if (ret.buttonIndex == 2) {
+
+                      }
+                        //  alert( JSON.stringify( ret ) );
+                    }else{
+                        //  alert( JSON.stringify( err ) );
+                    }
+                });
+
+              },
+              golive(ite){
+                api.openWin({
+                    name: 'live_win',
+                    url: '../../live/live_win.html',
+                    pageParam: {
+                        live_id: ite.id
+                    },
+                    slidBackEnabled:false
+                });
+              },
+              getLists(){
+                if (!this.more) {
+                  return
+                }
+                var _this = this;
+                var data = {
+                  page:_this.page,
+                  page_size:20
+                };
+                requstPost('anchor/live',data,function success(ret){
+                  if (ret.code == 0) {
+                    if (_this.page == 1) {
+                      _this.list = [];
+                    }
+                    if (ret.data.length < 20) {
+                      _this.more = false
+                    }
+                    _this.page += 1
+
+                    _this.list = _this.list.concat(ret.data)
+                  }
+                },function fail(err){
+
+                })
+              },
+              refresh(){
+                      var _this = this
+                      api.setRefreshHeaderInfo({
+                          visible: true,
+                          loadingImg: 'widget://image/loading_more1.png',
+                          bgColor: 'rgba(0,0,0,0)',
+                          textColor: '#000',
+                          textDown: 'Drop Down',
+                          textUp: 'Release',
+                          textLoading:'Loading...',
+                          showTime:false,
+                          textTime:'',
+                      }, function(ret, err) {
+                        _this.page = 1
+                        _this.more = true
+                        _this.getLists()
+                      });
+              },
+
+            }
+        })
+
+    };
+</script>
+
+</html>

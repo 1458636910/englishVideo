@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/vant.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+          width: 100%;
+          overflow: hidden;
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+            opacity: 0;
+        }
+
+        [v-cloak] {
+            /*display: none;*/
+        }
+
+        .lists {
+            padding-right: 0;
+        }
+
+        .list {
+            height: 12vw;
+            line-height: 12vw;
+            padding:0 3vw;
+            box-sizing: border-box;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        .lists h3{
+          padding: 3vw;
+          background: rgba(0, 0, 0, 0.5);
+        }
+
+        .slideBox {
+            position: fixed;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            top: 0;
+            bottom: 0;
+        }
+
+        .slider {
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+        }
+
+        .slider span {
+            width: 20px;
+            height: 20px;
+            padding-right: 3vw;
+            text-align: center;
+            line-height: 20px;
+            margin-bottom: 1vw;
+        }
+
+        .center {
+            width: 30vw;
+            height: 30vw;
+            font-size: 30px;
+            text-align: center;
+            line-height: 30vw;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-weight: 700;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+            <div v-if="!issearch">
+              <div class="lists" id="lists">
+                  <div v-for="(item,index) in list" :id="'box'+index">
+                    <h3 :id="'cla'+index">{{item.letter}}</h3>
+                      <div class="list" v-for="(ite,ind) in item.list">
+                        {{ite.city}}
+                      </div>
+                  </div>
+              </div>
+              <div class="slideBox">
+                  <div class="slider">
+                      <span @click="slideBtn(item,index)" v-for="(item,index) in slideNav">{{item}}</span>
+                      <!-- <span v-for="(item,index) in 26" @click="slideBtn(item,index)">{{String.fromCharCode(64 + parseInt(index+1))}}</span> -->
+                  </div>
+              </div>
+            </div>
+            <div v-if="issearch">
+              <div class="lists" id="lists">
+                  <div :id="'box'+index">
+                      <div class="list"  v-for="(item,index) in listsearch">
+                        {{item.city}}
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <van-popup v-model="show" duration="500" position='center' :overlay='false'>
+                <div class="center">
+                    {{choseText}}
+                </div>
+            </van-popup>
+        </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/vant.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    var app;
+    apiready = function() {
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    show: false,
+                    choseText: '',
+                    list: [],
+                    list1: [],
+                    slideNav: [],
+                    issearch:false,
+                    allCitys:[],
+                }
+            },
+            created() {
+                // this.list = this.list1
+                // setTimeout(() => {
+                //     console.log($api.dom('#cla0').offsetTop);
+                // }, 3000)
+                // for (var i = 0; i < this.list.length; i++) {
+                //     this.slideNav.push(this.list[i].name.substr(0, 1))
+                // }
+                // this.slideNav = Array.from(new Set(this.slideNav))
+                    // console.log($api.dom('.Acla:fist-child').offsetTop);
+                    // this.getCitys()
+                    //   setTimeout(()=>{
+                        pubshowloading()
+                    //   },200)
+                    // setTimeout(()=>{
+                    //   this.openCitys()
+                    // },100)
+                    this.openCitys()
+            },
+            methods: {
+              openCitys(){
+                var UICityList = api.require('UICityList');
+                UICityList.open({
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: api.winWidth,
+                        h: api.frameHeight
+                    },
+                    resource: 'widget://res/cityList.json',
+                    styles: {
+                        searchBar: {
+                            bgColor: '#ffffff',//696969
+                            cancelColor: '#000000',
+                            contentBgColor:'#E3E3E3',
+                            // cancelColor: '#E3E3E3',
+                            cancelText:'Cancel'
+                        },
+                        location: {
+                            color: '#696969',
+                            size: 12
+                        },
+                        sectionTitle: {
+                            bgColor: '#eee',
+                            color: '#000',
+                            size: 12
+                        },
+                        item: {
+                            bgColor: '#fff',
+                            activeBgColor: '#696969',
+                            color: '#000',
+                            size: 14,
+                            height: 40,
+                            boardColor: '#f5f5f5',
+                        },
+                        indicator: {
+                            bgColor: 'rgba(0,0,0,0)',
+                            color: '#696969'
+                        },
+                        searchEmptyView:{
+                          image: {              //JSON对象；图片配置
+                              path:'widget://image/empty.png',             //字符串类型；图片路径，要求本地路径（fs://、widget://）；不传则不显示
+                              w:200,                //数字类型；图片宽；默认：100
+                              h:200,                //数字类型；图片高；默认：80
+                              marginB:api.winHeight-300           //数字类型；图片下边距离模块下边距离；默认：自适应上下居中显示
+                           },
+                        }
+                    },
+                    backBtn:{
+                        rect: {
+                            x: 5,      //（可选项）数字类型；按钮左上角的 x 坐标（相对于模块）；默认：2
+                            y: 5,      //（可选项）数字类型；按钮左上角的 y 坐标（相对于模块）；默认：2
+                            w: 25,    //（可选项）数字类型；按钮的宽度；默认：36
+                            h: 25     //（可选项）数字类型；按钮的高度；默认：36
+                        },
+                        title: '',    //（可选项）字符串类型；按钮标题；默认：不显示
+                        titleColor:'',//（可选项）字符串类型；按钮标题颜色；默认：#ff0000
+                        bgColor:'#ffffff',   //（可选项）字符串类型；按钮背景颜色；默认：透明
+                        image:'widget://image/cityback.png'      //（可选项）字符串类型；按钮背景图片；默认：不显示
+                    },
+                    currentCity: '',
+                    locationWay: '',
+                    hotTitle: 'Citys',
+                    fixedOn: 'citys',
+                    placeholder: 'Enter city name'
+                }, function(ret, err) {
+                  setTimeout(()=>{
+                      pubhideloading()
+                  },100)
+                  // alert(JSON.stringify(ret))
+                  // alert(JSON.stringify(err))
+
+                    if (ret) {
+                      // alert(JSON.stringify(ret))
+                      if (ret.eventType == 'selected') {
+                        api.execScript({
+                            name: 'root',
+                            // frameName: 'frame0',
+                            script: 'setDress("'+ret.cityInfo.city+'");'
+                        });
+
+                        $api.setStorage('dresscity', ret.cityInfo.city);
+                        api.closeWin()
+                      }else if (ret.eventType == 'back') {
+                        api.closeWin();
+
+                      }
+
+                      // setTimeout(()=>{
+
+                      // },300)
+
+
+                        // alert(JSON.stringify(ret));
+                    } else {
+                        // alert(JSON.stringify(err));
+                    }
+                });
+              },
+              getCitys(){
+                var _this = this;
+                var data = {};
+                var citysdata = api.readFile({
+                                sync: true,
+                                path: 'fs://citys.json'
+                            });
+                if (citysdata) {
+                  var catchCitys = JSON.parse(citysdata)
+                  _this.slideNav = catchCitys.letters
+                  _this.list1 = catchCitys.cities
+                  _this.list = catchCitys.cities
+                }else {
+
+                }
+                requstGet('city',data,function success(ret){
+                  _this.slideNav = ret.data.letters
+                  _this.list = ret.data.cities
+                  _this.list1 = ret.data.cities
+                  var cityresource = [];
+                  for (var i = 0; i < ret.data.cities.length; i++) {
+                    cityresource = cityresource.concat(ret.data.cities[i].list)
+                  }
+                  setTimeout(()=>{
+                    api.writeFile({
+                        path: 'fs://cityresource.json',
+                        data: JSON.stringify(cityresource)
+                    }, function(ret, err){
+                        if(ret.status){
+
+                        }else{
+
+                        }
+                    });
+                  },3000)
+
+                  api.writeFile({
+                      path: 'fs://citys.json',
+                      data: JSON.stringify(ret.data)
+                  }, function(ret, err) {
+                    // alert(JSON.stringify(ret))
+                    // alert(JSON.stringify(err))
+                      if (ret.status) {
+                          //成功
+                      } else {
+
+                      }
+                  });
+                  // alert(JSON.stringify(ret.data.cities))
+                },function fail(err){
+
+                })
+
+              },
+                slideBtn(ite, ind) {
+                    for (var i = 0; i < this.list.length; i++) {
+                      if (this.list[i].letter == ite) {
+                        // if (this.list[i].city.substr(0, 1) == ite) {
+                            this.choseText = ite
+                            this.show = true
+                            setTimeout(() => {
+                                this.show = false
+                            }, 300)
+                            window.scrollTo({
+                                top: $api.dom('#cla' + i).offsetTop,
+                                behavior: "smooth"
+                            });
+                            return
+                        }
+                        // if (this.list[i].name.substr(0,1) == String.fromCharCode(64 + parseInt(ind+1))) {
+                        //   this.choseText = String.fromCharCode(64 + parseInt(ind+1))
+                        //   this.show = true
+                        //   setTimeout(()=>{
+                        //     this.show = false
+                        //   },300)
+                        //   window.scrollTo({
+                        //       top: $api.dom('#cla'+i).offsetTop,
+                        //       behavior: "smooth"
+                        //   });
+                        //   return
+                        // }
+                    }
+                    console.log(String.fromCharCode(64 + parseInt(ind + 1)));
+
+                },
+                searchTxt(a) {
+                    this.list = [];
+                    // console.log(a);
+                    if (a == '') {
+                        console.log('空');
+                        this.list = this.list1
+                        this.issearch = false
+                    } else {
+                        // this.list = this.searchStr(a, this.list1)
+                        // return
+                        this.issearch = true
+                        for (var i = 0; i < this.list1.length; i++) {
+                          for (var j = 0; j < this.list1[i].list.length; j++) {
+                            if (this.list1[i].list[j].city.indexOf(a) >= 0) {
+                                console.log(JSON.stringify(this.list1[i].list));
+                                this.listsearch.push(this.list1[i].list)
+                            }
+                          }
+
+                        }
+                    }
+                },
+                //模糊搜索，不区分大小写
+                searchStr(str, arr) {
+                    var newList = []
+                        // 要匹配字符串的首个字符
+                    var startChar = str.charAt(0)
+                        // 要匹配字符串的字符长度
+                    var strLength = str.length
+                    for (var i = 0; i < arr.length; i++) {
+                        // 默认数组arr中对象arr[i]不存在str
+                        var isExist = false
+                        var obj = arr[i]
+                        for (var key in obj) {
+                            if (typeof(obj[key]) === 'function') {
+                                obj[key]()
+                            } else {
+                                var keyValue = ''
+                                    // 获取arr[i][key]的值
+                                if (obj[key] !== null && typeof(obj[key]) === 'string') {
+                                    keyValue = obj[key]
+                                } else if (obj[key] !== null && typeof(obj[key]) !== 'string') {
+                                    keyValue = JSON.stringify(obj[key])
+                                }
+                                // arr[i][key]中的各个位置的字符与str的0位置字符startChar对比如果相等，
+                                // 在arr[i][key]中从j位置截取与str长度相同的字符，对比是否相等
+                                for (var j = 0; j < keyValue.length; j++) {
+                                    // 把原有数据转化为小写，输入数据也转化为纯小写，实现模糊匹配,如区分大小写，可删除toLowerCase()
+                                    if (keyValue.charAt(j).toLowerCase() === startChar.toLowerCase()) {
+                                        if (keyValue.substring(j).substring(0, strLength).toLowerCase() === str.toLowerCase()) {
+                                            // 模糊匹配到的字符存在表示arr[i]中存在str
+                                            isExist = true
+                                            break
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // 当arr[i]中存在str时，把arr[i]放入一个新数组
+                        if (isExist === true) {
+                            newList.push(obj)
+                        }
+                    }
+                    // 最后返回这个新数组
+                    return newList
+                },
+
+            }
+        });
+
+
+    };
+</script>
+
+</html>

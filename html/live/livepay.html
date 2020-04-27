@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body,html {
+            background: none;
+        }
+
+        #app {
+          background: none;
+            min-height: 100vh;
+            padding-top: 30vh;
+            box-sizing: border-box;
+            /*padding-bottom: 30vw;*/
+        }
+        #app.appactive{
+                background: rgba(0,0,0,.1);
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+
+
+        #footer{
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: 12vw;
+          text-align: center;
+          line-height: 12vw;
+            background: #FA607D;
+        }
+        #footer div{
+          background: #FA607D;
+          color: white;
+          font-size: 20px;
+          font-weight: 700;
+        }
+        .box{
+          height: 70vh;
+          overflow: scroll;
+          background: white;
+          position: relative;
+          padding-top: 15vw;
+          box-sizing: border-box;
+          padding-bottom: 30vw;
+          border-top-right-radius: 10px;
+          border-top-left-radius: 10px;
+        }
+        .head{
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 12vw;
+          display: flex;
+          padding: 0 3vw;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        #footer{
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 12vw;
+          line-height: 12vw;
+          color: white;
+          background: #FA607D;
+        }
+        .countTop{
+          text-align: center;
+          padding: 3vw 0;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        .payth{
+          padding: 3vw;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        .payth p{
+          color: #999999;
+        }
+        .paythbom{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 3vw;
+          padding-bottom: 3vw;
+        }
+        .paythbom img{
+          max-height: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak :class="active?'appactive':''">
+
+        <div class="box">
+          <div class="head">
+            <span></span>
+            <span>Pay</span>
+            <span tapmode onclick="closeShop()">
+              <i class="iconfont">&#xe603;</i>
+            </span>
+          </div>
+          <div class="count">
+            <div class="countTop">
+              <p>Order Amount</p>
+              <h3>￡{{money}}</h3>
+            </div>
+            <div class="payth">
+              <p>Pay with</p>
+              <div class="paythbom">
+                <img src="../../image/Paypal.png" alt="">
+                <img src="../../image/chose.png" alt="">
+              </div>
+            </div>
+          </div>
+        <footer id="footer" @click="sure()">
+          <div>
+            Confirm and Pay
+          </div>
+        </footer>
+          <!-- <div class="list">
+            <div class="listl">
+              <img src="../../image/shop.png" alt="">
+            </div>
+            <div class="listr">
+              <div class="info">
+                <p class="name">Fariy GumdropFariy GumdropFariy GumdropGumdropGumdropGumdrop</p>
+                <p>Commission:$30</p>
+                <p>$399.00</p>
+              </div>
+              <div class="choseBox">
+                <span class="chose showimg">
+                  <img src="../../image/chose.png" alt="">
+                </span>
+              </div>
+            </div>
+          </div> -->
+      </div>
+      <!-- <footer id="footer" @click="sure()">
+        <div>
+          Comfirm Add
+        </div>
+      </footer> -->
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+var app;
+    apiready = function() {
+    $api.fixTabBar($api.byId('footer'))
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  lists:[],
+                  active:false,
+                  choseArry:[],
+                  money:'',
+                  type:'',
+                }
+            },
+            mounted:function () {
+                setTimeout(()=>{
+                  this.active = true
+                },500)
+            },
+            created() {
+              this.money = api.pageParam.money
+              this.type = api.pageParam.type
+
+            },
+            methods: {
+              sure(){
+                if (this.type == 'live') {
+                  //付费直播
+                  var data = {
+                    live_id:api.pageParam.live_id
+                  };
+                  requstPost('order/live',data,function success(ret){
+                    if (ret.code == 0) {
+                      goPaypalUrl(ret.data.pay_url)
+
+                    }else if(ret.code == 1){
+                      api.execScript({
+                          name: 'live_win',
+                          // frameName: 'frmName',
+                          script: 'playLive();'
+                      });
+                    }
+                  },function fail(err){
+
+                  })
+
+                }else if (this.type == 'gifts') {
+                  //送礼物
+                }
+
+
+                api.closeFrame();
+              }
+
+
+            }
+        })
+
+    };
+    function closeShop(){
+      api.closeFrame();
+      api.execScript({
+          name: 'live_win',
+          // frameName: 'frmName',
+          script: 'isMoney();'
+      });
+
+
+    }
+</script>
+
+</html>

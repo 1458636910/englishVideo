@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: #FFFFFF;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+            padding: 10vw 0;
+            box-sizing: border-box;
+        }
+
+        [v-cloak] {
+            /*display: none;*/
+        }
+
+        .head {
+            width: 30vw;
+            height: 30vw;
+            position: relative;
+            border-radius: 50%;
+            margin: auto;
+        }
+
+        .head img {
+            width: 30vw;
+            height: 30vw;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .head .cam {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            background: #E86A7F;
+            color: white;
+            transform: translateY(50%);
+        }
+
+        .lists {
+            padding: 5vw 3vw;
+        }
+
+        .list {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f5f5f5;
+            padding: 3vw;
+            height: 12vw;
+            box-sizing: border-box;
+        }
+
+        .listr {
+            flex: 1;
+            text-align: right;
+        }
+
+        .listr input {
+            width: 100%;
+            height: 8vw;
+            text-align: right;
+        }
+
+        input {
+            outline: none;
+        }
+
+        .listr {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .cercle {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #999999;
+            border-radius: 50%;
+            margin-left: 5px;
+        }
+
+        .cercle img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .cercle.active {
+            border: 1px solid #E86A7F;
+        }
+
+        .listr .sex {
+            display: flex;
+            align-items: center;
+        }
+
+        .listl {
+            color: #999999;
+        }
+
+        .btn {
+            width: 94vw;
+            margin: 10vw auto 0;
+            height: 12vw;
+            line-height: 12vw;
+            border-radius: 6vw;
+            background: #E86A7F;
+            color: white;
+            text-align: center;
+            font-weight: 700;
+        }
+        #footer{
+          height: 12vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="head" @click="choseimg()">
+            <img :src="headimg" alt="">
+            <span class="cam">
+          <i class="iconfont">&#xe6aa;</i>
+        </span>
+        </div>
+        <div class="lists">
+            <div class="list">
+                <div class="listl">
+                    Nickname
+                </div>
+                <div class="listr">
+                    <input type="text" name="" v-model="nickname" value="">
+                </div>
+            </div>
+            <div class="list">
+                <div class="listl">
+                    Gender
+                </div>
+                <div class="listr">
+                    <div class="sex" style="margin-right:10px;" @click="active = 1">
+                        <span>Male</span>
+                        <span class="cercle" :class="active==1?'active':''">
+                          <img v-if="active == 1" src="../../image/chose.png" alt="">
+                        </span>
+                    </div>
+                    <div class="sex" style="margin-right:10px;" @click="active = 2">
+                        <span>Female</span>
+                              <span class="cercle" :class="active==2?'active':''">
+                          <img v-if="active == 2" src="../../image/chose.png" alt="">
+                        </span>
+                    </div>
+                    <div class="sex" @click="active = 0">
+                        <span>Other</span>
+                              <span class="cercle" :class="active==0?'active':''">
+                          <img v-if="active == 0" src="../../image/chose.png" alt="">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="list" @click="choseDress()">
+                <div class="listl">
+                    Area
+                </div>
+                <div class="listr">
+                    <input type="text" name="" value="" disabled v-model="city" disabled>
+                </div>
+            </div>
+            <div class="list">
+                <div class="listl">
+                    E-mail
+                </div>
+                <div class="listr">
+                    <input type="text" name="" value="" v-model="email">
+                </div>
+            </div>
+            <div class="list">
+                <div class="listl">
+                    Paypal
+                </div>
+                <div class="listr">
+                    <input type="text" name="" value="" v-model="paypal">
+                </div>
+            </div>
+            <div class="list">
+                <div class="listl">
+                    Cellphone Number
+                </div>
+                <div class="listr">
+                    <input disabled type="text" name="" value="" v-model="mobile">
+                </div>
+            </div>
+        </div>
+        <div class="btn" @click="setUserInfo()">
+            Confirm The Changes
+        </div>
+        <footer id="footer">
+
+        </footer>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    var app;
+    apiready = function() {
+        $api.fixTabBar($api.byId('footer'));
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    active: 0,
+                    headimg: '',
+                    headimgUrl:'',//半路经传后台
+                    nickname: '',
+                    city: '',
+                    email: '',
+                    mobile: '',
+                    country:'',
+                    province:'',
+                    citys:'',
+                    paypal:'',
+                }
+            },
+            created() {
+                this.headimg = $api.getStorage('headimg');
+                this.headimgUrl = $api.getStorage('avatar_save_path');
+                this.nickname = $api.getStorage('nickname');
+                this.citys = $api.getStorage('usercity');
+                this.province = $api.getStorage('userprovince');
+                this.country = $api.getStorage('usercountry');
+                this.city = $api.getStorage('usercountry') + ' ' + $api.getStorage('userprovince') + ' ' + $api.getStorage('usercity')
+                this.email = $api.getStorage('email');
+                this.mobile = $api.getStorage('mobile');
+                this.active = $api.getStorage('gender');
+                this.paypal = $api.getStorage('paypal');
+
+                this.getuserinfo()
+            },
+            methods: {
+              //修改保存用户信息
+              setUserInfo(){
+
+                pubshowloading()
+                var _this = this;
+                var data = {
+                  nickname:_this.nickname,
+                  gender:_this.active,
+                  country:_this.country,
+                  province:_this.province,
+                  city:_this.citys,
+                  email:_this.email,
+                  paypal:_this.paypal
+                };
+                requstPost('user/profile',data,function success(ret){
+                  if (ret.code == 0) {
+                    api.toast({
+                        msg: ret.message,
+                        duration: 2000,
+                        location: 'middle'
+                    });
+                  }
+                },function fail(err){
+
+                })
+              },
+                //设置地址
+                setDress(country, province, city) {
+                    if (city) {
+                        this.city = city
+                    } else if (province) {
+                        this.city = province
+                    } else if (country) {
+                        this.city = country
+                    }
+                    this.country = country
+                    this.province = province
+                    this.citys = city
+                    this.city = country + ' ' + province + ' ' + city
+                    // alert(this.city)
+                },
+                //选择地址
+                choseDress() {
+                    api.openWin({
+                        name: 'dress_win',
+                        url: './become/dress_win.html',
+                        pageParam: {
+                            type: 'userinfo'
+                        }
+                    });
+                },
+                getuserinfo() {
+                    var _this = this;
+                    var data = {};
+                    requstGet('user', data, function success(ret) {
+                        _this.headimg = ret.data.avatar_url
+                        _this.headimgUrl = ret.data.avatar_save_path
+                        _this.nickname = ret.data.nickname
+                        _this.active = ret.data.gender
+                        _this.city = ret.data.country + ' ' + ret.data.province + ' ' + ret.data.city
+                        _this.email = ret.data.email
+                        _this.mobile = ret.data.mobile
+                        _this.paypal = ret.data.paypal
+                        $api.setStorage('headimg', ret.data.avatar_url);
+                        $api.setStorage('nickname', ret.data.nickname);
+                        $api.setStorage('gender', ret.data.gender);
+                        $api.setStorage('usercity', ret.data.city);
+                        $api.setStorage('email', ret.data.email);
+                        $api.setStorage('mobile', ret.data.mobile);
+                        $api.setStorage('paypal', ret.data.paypal);
+                    }, function fail(err) {})
+                },
+                //选择图片
+                choseimg() {
+                    var _this = this
+                    api.actionSheet({
+                        title: '',
+                        cancelTitle: 'Cancel',
+                        buttons: ['Camera', 'Album']
+                    }, function(ret, err) {
+                        if (ret) {
+                            _this.getPicqj(ret.buttonIndex);
+                        }
+                    });
+                },
+                getPicqj(sourceType) {
+                    var _this = this;
+                    if (sourceType == 1) { // 拍照
+                        //获取一张图片
+                        api.getPicture({
+                            sourceType: 'camera',
+                            encodingType: 'jpg',
+                            mediaValue: 'pic',
+                            destinationType: 'url',
+                            allowEdit: false,
+                            quality: 100,
+                            // targetWidth: 800,
+                            // targetHeight: 800,
+                            saveToPhotoAlbum: true
+                        }, function(ret, err) {
+                            // 获取拍照数据并处理
+                            if(!ret){
+                              return
+                            }
+                            if (ret.data) {
+                                var imgurl = ret.data;
+                                // _this.headimg = imgurl
+                                pubshowloading()
+                                // _this.uploadImg(ret.data)
+                                _this.cutImg(ret.data)
+                                return
+                                // _this.uploadImg(ret.data)
+                            }
+                        });
+                    } else if (sourceType == 2) { // 从相册中选择
+                        var systemType = api.systemType
+
+                        // if (systemType =='ios') {
+                        api.getPicture({
+                            sourceType: 'library',
+                            encodingType: 'jpg',
+                            mediaValue: 'pic',
+                            destinationType: 'url',
+                            quality: 100,
+                            allowEdit: false,
+                            // targetWidth: 800,
+                            // targetHeight: 800
+                        }, function(ret, err) {
+                        if(!ret){
+                          return
+                        }
+                            if (ret.data) {
+
+                                var imgurl = ret.data;
+                                // _this.headimg = imgurl
+                                // pubshowloading()
+                                // _this.uploadImg(ret.data)
+                                _this.cutImg(ret.data)
+                                return
+                                // _this.uploadImg(ret.data)
+                                // alert(JSON.stringify(ret))
+                            } else {
+                                // alert(JSON.stringify(err));
+                            }
+                        });
+                        // }
+                    }
+                },
+                closeCutImg(){
+                  // alert(1)
+                  var FNImageClip = api.require('FNImageClip');
+                      FNImageClip.close();
+                },
+                saveCutImg(){
+                  pubshowloading()
+                  var _this = this;
+                  var FNImageClip = api.require('FNImageClip');
+                      FNImageClip.save({
+                          destPath: 'fs://imageClip/headimg.png',
+                          copyToAlbum: false,
+                          quality: 1
+                      }, function(ret, err) {
+                          if (ret) {
+                            if (ret.destPath) {
+                                  api.execScript({
+                                      name: 'userinfo_win',
+                                      // frameName: 'frmName',
+                                      script: 'cancelImg();'
+                                  });
+                              _this.headimg = ret.destPath
+                              _this.uploadImg(ret.destPath)
+                              // var FNImageClip = api.require('FNImageClip');
+                                  FNImageClip.close();
+                            }
+                              // alert(JSON.stringify(ret));
+                          } else {
+                              // alert(JSON.stringify(err));
+                          }
+                      });
+                },
+                //裁剪图片
+                cutImg(e) {
+                  api.execScript({
+                      name: 'userinfo_win',
+                      // frameName: 'frmName',
+                      script: 'app.showBom();'
+                  });
+                  api.execScript({
+                      name: 'userinfo_win',
+                      // frameName: 'frmName',
+                      script: 'resetUserFrame();'
+                  });
+                  // return
+                    var FNImageClip = api.require('FNImageClip');
+                    FNImageClip.open({
+                        rect: {
+                            x: 0,
+                            y: 0,
+                            w: api.winWidth,
+                            h: api.winHeight-$api.fixTabBar($api.byId('footer'))
+                        },
+                        srcPath: e,
+                        style: {
+                            mask: 'rgba(0,0,0,.3)',
+                            clip: {
+                                // w: 150,
+                                // h: 150,
+                                // x:(api.winWidth-300)/2,
+                                // y:(api.winHeight-$api.fixTabBar($api.byId('footer'))-300)/2,
+                                // borderColor: '#0f0',
+                                // borderWidth: 1,
+                                // appearance: 'circular'
+                                w: api.winWidth/100 * 90,
+                                h: api.winWidth/100 * 90,
+                                x:(api.winWidth/100)*5,
+                                y:(api.winHeight-$api.fixTabBar($api.byId('footer'))-api.winWidth*9/10)/2,
+                                borderColor: '#0f0',
+                                borderWidth: 1,
+                                appearance: 'rectangle'
+                            }
+                        },
+                        mode:'image',
+                        // fixedOn: api.frameName
+                    }, function(ret, err) {
+                        if (ret) {
+                            // alert(JSON.stringify(ret));
+                        } else {
+                            // alert(JSON.stringify(err));
+                        }
+                    });
+                },
+                uploadImg(e) {
+                  var _this = this;
+                  api.ajax({
+                      url: url+'user/avatar',
+                      method: 'post',
+                      headers:{
+                        token:$api.getStorage('token')
+                      },
+                      data: {
+                          values: {
+
+                          },
+                          files: {
+                              file: e
+                          }
+                      }
+                  },function(ret, err){
+                      pubhideloading()
+                      if (ret) {
+                        if (ret.code == -1) {
+                          api.toast({
+                              msg: 'Login is invalid',
+                              duration: 2000,
+                              location: 'middle'
+                          });
+                          $api.clearStorage();
+                          setTimeout(()=>{
+                            api.openWin({
+                                name: 'login_win',
+                                url: 'widget://html/login_win.html',
+                                pageParam: {
+                                    name: 'test'
+                                }
+                            });
+                          },2000)
+                          return
+                        }
+                        if (ret.code == 0) {
+                          _this.headimg = ret.data.avatar_url
+                        }
+                          // alert( JSON.stringify( ret ) );
+                      } else {
+                          // alert( JSON.stringify( err ) );
+                      }
+                  });
+
+                  return
+                    requstUpload(e, function success(ret) {
+                      pubhideloading()
+                          // _this.headimg = ret.data.url
+                          _this.headimgUrl = ret.data.src
+                      // alert(JSON.stringify(ret))
+                    }, function fail(err) {
+                      pubhideloading()
+                    })
+                }
+
+
+
+            }
+        })
+
+    };
+</script>
+
+</html>

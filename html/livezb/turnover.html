@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body,html {
+          background: none;
+        }
+
+        #app {
+            background: black;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+            color: white;
+            padding: 3vw;
+        }
+        .close{
+          position: fixed;
+          bottom: 3vw;
+          right: 3vw;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div style="margin-bottom:5vw;">
+        <p>Total Sales:</p>
+        <p>￡{{transaction}}</p>
+      </div>
+      <div>
+        <p>Commission:</p>
+        <p>￡{{commission}}</p>
+      </div>
+      <div class="close" tapmode onclick="closeTurn()">
+        <footer id="footer">
+          <i class="iconfont">&#xe603;</i>
+        </footer>
+      </div>
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+var app;
+    apiready = function() {
+    $api.fixTabBar($api.byId('footer'));
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  list:[],
+                  transaction:0,
+                  commission:0
+                }
+            },
+            mounted:function () {
+
+            },
+            created() {
+              this.commission = api.pageParam.commission
+              this.transaction = api.pageParam.transaction
+
+            },
+            methods: {
+              getLists(){
+                var _this = this;
+                api.ajax({
+                    url: url+'',
+                    method: 'post',
+                    data: {
+                        values: {
+                            name: 'haha'
+                        },
+                        files: {
+                            file: 'fs://a.gif'
+                        }
+                    }
+                },function(ret, err){
+                    if (ret) {
+                        console.log( JSON.stringify( ret ) );
+                    } else {
+                        console.log( JSON.stringify( err ) );
+                    }
+                });
+
+              }
+
+
+            }
+        })
+
+    };
+    function closeTurn(){
+      api.closeFrame();
+
+    }
+</script>
+
+</html>

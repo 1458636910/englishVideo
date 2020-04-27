@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body,html {
+            background: none;
+        }
+
+        #app {
+          background: none;
+            min-height: 100vh;
+            padding-top: 30vh;
+            box-sizing: border-box;
+            /*padding-bottom: 30vw;*/
+        }
+        #app.appactive{
+                background: rgba(0,0,0,.1);
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .lists{
+          padding-top: 3vw;
+          flex: 1;
+          overflow: scroll;
+          padding: 3vw;
+          padding-bottom: 20vw;
+        }
+
+
+        #footer{
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: 12vw;
+          text-align: center;
+          line-height: 12vw;
+            background: #FA607D;
+            color: white;
+        }
+        #footer div{
+          background: #FA607D;
+          color: white;
+          font-size: 20px;
+          font-weight: 700;
+        }
+        .box{
+          height: 70vh;
+          overflow: scroll;
+          background: white;
+          /*position: relative;*/
+          /*padding-top: 15vw;*/
+          box-sizing: border-box;
+          /*padding-bottom: 30vw;*/
+          border-top-right-radius: 10px;
+          border-top-left-radius: 10px;
+          display: flex;
+          flex-direction: column;
+        }
+        .head{
+          /*position: absolute;*/
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 12vw;
+          display: flex;
+          padding: 0 3vw;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        #footer{
+          /*position: absolute;*/
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 12vw;
+          line-height: 12vw;
+          color: white;
+          /*background: #FA607D;*/
+        }
+        /**/
+
+        .shopname{
+          display: flex;
+          align-items: center;
+          padding: 3vw;
+          font-size: 18px;
+          font-weight: 700;
+        }
+        .logo{
+          width: 25px;
+          height: 25px;
+          border-radius: 50%;
+          background: #F96480;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 10px;
+        }
+        .shopname p{
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+        }
+        .list{
+          width: 94vw;
+          height: 30vw;
+          margin:0 auto 3vw;
+          display: flex;
+          align-items: center;
+          /*box-shadow: 0 2px 1px 0px #f5f5f5;*/
+          background-image: url(../../image/coupon_bg.png);
+          background-size: 100% 100%;
+        }
+        .listl{
+          width: 30vw;
+          height: 30vw;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+        }
+        .listr{
+          max-width: 50vw;
+          flex: 1;
+          height: 30vw;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+        }
+        .listrBox{
+          flex: 1;
+          display: flex;
+          align-items: center;
+        }
+        .listr p{
+          color: #999999;
+        }
+        .listr p.color{
+          color: #F96480;
+          font-size: 20px;
+        }
+        .listr p:nth-child(2){
+          color: #999999;
+          font-size: 14px;
+        }
+        .listr p:nth-child(3){
+          color: #999999;
+          font-size: 12px;
+        }
+        .listl .cut{
+          font-size: 30px;
+        }
+
+        .chose{
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          border: 1px solid #dedbdb;
+        }
+        .chose.active{
+          border: 1px solid #e86a7f;
+          background-image: url(../../image/chose.png);
+          background-size: 100%;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak :class="appactive?'appactive':''">
+
+        <div class="box">
+          <div class="head">
+            <span></span>
+            <span>Add Coupon</span>
+            <span tapmode onclick="closeShop()">
+              <i class="iconfont">&#xe603;</i>
+            </span>
+          </div>
+        <div class="lists">
+
+            <div class="list" @click="choseCoupon(item,index)" v-for="(item,index) in lists">
+              <div class="listl">
+                <!-- <img src="" alt=""> -->
+                <span class="cut">￡{{item.discount_price}}</span>
+              </div>
+              <div class="listrBox">
+                <div class="listr">
+                  <p class="color">
+                    <!-- Spend over $ -->
+                    {{item.title}}</p>
+                  <div>
+                    <p>Valid from</p>
+                    <p>{{item.start_time}} to {{item.end_time}}</p>
+                  </div>
+                </div>
+                <div class="chose" :class="active == item.coupon_id?'active':''"></div>
+              </div>
+            </div>
+        </div>
+        <footer id="footer" @click="sure()">
+          <div>
+            Confirm
+          </div>
+        </footer>
+      </div>
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+var app;
+    apiready = function() {
+      $api.fixTabBar($api.byId('footer'))
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  appactive:false,
+                    id:'',
+                    active:-1,
+                    couponid:'',
+                    ind:'',
+                    lists:[],
+                    cutprice:'',
+                    buyer_consume_fee:0,
+                    product_ids:'',
+                    store_id:'',
+                    storeInd:0,
+                }
+            },
+            mounted:function () {
+                setTimeout(()=>{
+                  this.appactive = true
+                },500)
+            },
+            created() {
+                //接收商家id 根据商家id查询是否有可用优惠券
+
+                  //接收商家id 根据商家id查询是否有可用优惠券
+                  this.store_id = api.pageParam.store_id
+                  this.product_ids = api.pageParam.product_ids
+                  this.buyer_consume_fee = api.pageParam.buyer_consume_fee
+                  this.storeInd = api.pageParam.storeInd
+                  this.getLists()
+
+
+
+                // this.id = api.pageParam.id
+                // if (api.pageParam.couponid) {
+                //   this.couponid = api.pageParam.couponid
+                //   this.active = api.pageParam.couponid
+                //   for (var i = 0; i < this.lists.length; i++) {
+                //     if (this.lists[i].id == api.pageParam.couponid) {
+                //       this.cutprice = this.lists[i].cutdown
+                //     }
+                //   }
+                // }
+            },
+            methods: {
+
+                getLists(){
+                  var _this = this;
+                  var data = {
+                    store_id:_this.store_id,
+                    product_ids:_this.product_ids,
+                    buyer_consume_fee:_this.buyer_consume_fee
+                  };
+                  requstPost('buy/coupon',data,function success(ret){
+                    if (ret.code == 0) {
+                      _this.lists = ret.data
+                    }
+                  },function fail(err){
+
+                  })
+                },
+              choseCoupon(ite,ind){
+                this.active = ite.coupon_id
+                this.couponid = ite.coupon_id
+                this.cutprice = ite.discount_price
+              },
+              sure(){
+                var _this = this;
+                  if (_this.active != -1) {
+                    if (api.pageParam.type == 'buy') {
+                      api.sendEvent({
+                          name: 'liveCouponBuy',
+                          extra: {
+                              couponid: _this.couponid,
+                              cutprice: _this.cutprice
+                          }
+                      });
+                      api.closeFrame();
+                    }else if (api.pageParam.type == 'cart') {
+                      api.sendEvent({
+                          name: 'liveCouponCart',
+                          extra: {
+                              couponid: _this.couponid,
+                              cutprice: _this.cutprice,
+                              storeInd:api.pageParam.storeInd
+                          }
+                      });
+                      api.closeFrame();
+                    }
+
+
+
+                    return
+                    var id = 5,
+                        price = 99;
+                    api.execScript({
+                        name: 'live_win',
+                        frameName: 'liveplaceorder',
+                        script: 'app.chengeCoupon("'+this.couponid+'","'+this.cutprice+'");'
+                    });
+                    console.log('en');
+                  }else {
+                  }
+                // api.execScript({
+                //     name: 'choselive_win',
+                //     frameName: 'choselive',
+                //     script: 'app.addShopId("'+JSON.stringify(this.choseArry)+'");'
+                // });
+                // api.closeWin();
+                api.closeFrame();
+
+
+
+                console.log(JSON.stringify(this.choseArry));
+              }
+
+
+            }
+        })
+
+    };
+    function closeShop(){
+      api.closeFrame();
+
+    }
+</script>
+
+</html>

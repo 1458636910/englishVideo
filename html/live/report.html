@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .list{
+          padding: 3vw;
+          border-bottom: 1px solid #f5f5f5;
+          color: #7F7F7F;
+          display: flex;
+          align-items: center;
+        }
+        .chose{
+          width: 20px;
+          height: 20px;
+          border: 1px solid #7F7F7F;
+          box-sizing: border-box;
+          border-radius: 50%;
+          margin-right: 3vw;
+        }
+        .active{
+          background-image: url('../../image/chose.png');
+          background-size: 100%;
+          border: 1px solid #e86a7f;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="lists">
+        <div class="list" v-for="(item,index) in lists" @click="chose(item,index)">
+          <span class="chose" :class="active == index?'active':''"></span>
+          <span>{{item.content}}</span>
+        </div>
+      </div>
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+var app;
+    apiready = function() {
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  live_id:'',
+                  active:-1,
+                  lists:[],
+                  report_id:'',
+                }
+            },
+            mounted:function () {
+                this.addIschose()
+            },
+            created() {
+              this.live_id = api.pageParam.live_id
+              this.getData()
+            },
+            methods: {
+              getData(){
+                var _this = this;
+                var data = {
+
+                };
+                requstPost('live/reportSubjects',data,function success(ret){
+                  if (ret.code == 0) {
+                    for (var i = 0; i < ret.data.length; i++) {
+                      ret.data[i].chose = false
+                    }
+                    _this.lists = ret.data
+                  }
+                },function fail(err){
+
+                })
+              },
+
+                //追加是否选中属性
+                addIschose(){
+                  //为lists添加ischose（是否选中）字段，初始值为false
+                  var _this=this;
+                      //为lists添加ischose（是否选中）字段，初始值为false
+                  this.lists.map(function (item) {
+                      _this.$set(item, 'chose', false);
+                  })
+                  //要像上面这样写双向绑定才能起效，下面的写法是有问题的，双向绑定不起效的！
+                  //this.productList.map(function (item) {item.select=true})
+                },
+              chose(ite,ind){
+                this.report_id = ite.id
+                this.active = ind
+                ite.chose = !ite.chose
+              },
+              subMit(){
+                if (this.report_id == '') {
+                  return
+                }
+                var _this = this;
+                var data = {
+                  live_id:api.pageParam.live_id,
+                  report_subject_id:_this.report_id
+                };
+                requstPost('live/pushReport',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.active = -1;
+                    _this.report_id = '';
+                    // alert(ret.message)
+                    api.alert({
+                        title: 'Your report has been submitted successfully.',
+                        msg: '',
+                        buttons:['Sure']
+                    }, function(ret, err){
+                        if( ret ){
+                          api.closeWin();
+
+                            //  alert( JSON.stringify( ret ) );
+                        }else{
+                            //  alert( JSON.stringify( err ) );
+                        }
+                    });
+
+                    // alert('Your report has been submitted successfully.')
+                  }
+                },function fail(err){
+
+                })
+
+              }
+
+
+            }
+        })
+
+    };
+</script>
+
+</html>

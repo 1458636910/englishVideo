@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>商品收藏</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .lists{
+          padding: 3vw;
+        }
+        .list{
+          padding: 3vw;
+          width: 94vw;
+          box-sizing: border-box;
+          border-radius: 5px;
+          box-shadow: 0 1px 1px 3px #f5f5f5;
+          margin-bottom: 3vw;
+        }
+        .top{
+          display: flex;
+          align-items: center;
+        }
+        .top .name{
+          margin: 0 3vw;
+          max-width: 50vw;
+          overflow: hidden;
+          text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            font-size: 18px;
+            color: #696767;
+        }
+        .icoBox{
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          background: #FB607D;
+          color: white;
+          text-align: center;
+          line-height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0;
+        }
+        .icoBox .iconfont{
+          font-size: 20px;
+        }
+        .rightico{
+          font-size: 25px;
+          color: #696767;
+        }
+        .shop{
+          margin-top: 3vw;
+          display: flex;
+          align-items: center;
+        }
+        .left{
+          width: 25vw;
+          height: 25vw;
+          margin-right: 3vw;
+        }
+        .left img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        .right{
+          width: 60vw;
+          height: 23vw;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          color: #2f2e2e;
+        }
+        .shopname{
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          color: #696767;
+        }
+        .icoBox img{
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+        /**/
+        .gjp.top{
+          height: 20px;
+          background: #f5f5f5;
+        }
+        .left.gjp{
+          background: #f5f5f5;
+        }
+        .shopname.gjp{
+          height: 50px;
+          background: #f5f5f5;
+        }
+        .price.gjp{
+          background: #f5f5f5;
+          height: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="lists" v-if="list.length == 0 && more">
+        <div class="list">
+          <div class="top gjp"></div>
+          <div class="shop">
+            <div class="left gjp"></div>
+            <div class="right gjp">
+              <p class="shopname gjp"></p>
+              <p class="price gjp"></p>
+            </div>
+          </div>
+        </div>
+        <div class="list">
+          <div class="top gjp"></div>
+          <div class="shop">
+            <div class="left gjp"></div>
+            <div class="right gjp">
+              <p class="shopname gjp"></p>
+              <p class="price gjp"></p>
+            </div>
+          </div>
+        </div>
+        <div class="list">
+          <div class="top gjp"></div>
+          <div class="shop">
+            <div class="left gjp"></div>
+            <div class="right gjp">
+              <p class="shopname gjp"></p>
+              <p class="price gjp"></p>
+            </div>
+          </div>
+        </div>
+        <div class="list">
+          <div class="top gjp"></div>
+          <div class="shop">
+            <div class="left gjp"></div>
+            <div class="right gjp">
+              <p class="shopname gjp"></p>
+              <p class="price gjp"></p>
+            </div>
+          </div>
+        </div>
+        <div class="list">
+          <div class="top gjp"></div>
+          <div class="shop">
+            <div class="left gjp"></div>
+            <div class="right gjp">
+              <p class="shopname gjp"></p>
+              <p class="price gjp"></p>
+            </div>
+          </div>
+        </div>
+        <div class="list">
+          <div class="top gjp"></div>
+          <div class="shop">
+            <div class="left gjp"></div>
+            <div class="right gjp">
+              <p class="shopname gjp"></p>
+              <p class="price gjp"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--  -->
+      <div class="empty" v-if="list.length == 0 && !more">
+        <img src="../../../image/empty.png" alt="">
+      </div>
+
+      <div class="lists">
+        <div class="list" v-for="(item,index) in list" @click="godetail(item)">
+          <div class="top" @click.stop="goshophome(item)">
+            <span class="icoBox">
+              <img v-if="item.store_logo" :src="item.store_logo" alt="">
+                <i v-else class="iconfont">&#xe60d;</i>
+            </span>
+            <span class="name">{{item.store_name}}</span>
+            <i class="iconfont rightico">&#xe62d;</i>
+          </div>
+          <div class="shop">
+            <div class="left">
+              <img :src="item.thumb" alt="">
+            </div>
+            <div class="right">
+              <p class="shopname">{{item.product_name}}</p>
+              <p>￡{{item.sale_price}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/fastclick.js"></script>
+<script src="../../../script/vue.min.js"></script>
+<script src="../../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var app = new Vue({
+            el: '#app',
+            data:function() {
+                return {
+                  list:[],
+                  page:1,
+                  more:true
+                }
+            },
+            created:function() {
+              // api.refreshHeaderLoading();
+              // setTimeout(()=>{
+              //   api.refreshHeaderLoadDone();
+              // },300)
+              this.getList()
+              this.refresh()
+              this.getMore()
+
+            },
+            methods: {
+              //查看商品详情
+              godetail(ite){
+                api.openWin({
+                    name: 'shopdetail_win',
+                    url: '../../common/shopdetail_win.html',
+                    pageParam: {
+                        name: 'test',
+                        id:ite.product_id
+                        // id:5
+                    }
+                });
+              },
+              //查看店铺详情
+              goshophome(ite){
+                api.openWin({
+                    name: 'shophome_win',
+                    url: '../../common/shophome_win.html',
+                    pageParam: {
+                        name: 'test',
+                        id:ite.store_id
+                        // id:5
+                    }
+                });
+              },
+
+              //监听滚动到底
+              getMore:function() {
+              var _this = this
+              api.addEventListener({
+                  name: 'scrolltobottom',
+                  extra: {
+                      threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                  }
+              }, function(ret, err) {
+                console.log('加载更多');
+                _this.getList()
+
+              });
+
+              },
+              refresh:function(){
+                var _this = this
+                api.setRefreshHeaderInfo({
+                    visible: true,
+                    loadingImg: 'widget://image/loading_more1.png',
+                    bgColor: 'rgba(255,255,255,1)',
+                    textColor: '#000',
+                    textDown: 'Drop Down',
+                    textUp: 'Release',
+                    textLoading:'Loading...',
+                    showTime:false,
+                    textTime:'',
+                }, function(ret, err) {
+                  _this.list = [];
+                  _this.page = 1;
+                  _this.more = true
+                    _this.getList()
+                    // setTimeout(() => {
+                    //     api.refreshHeaderLoadDone();
+                    // }, 2000)
+                });
+              },
+              getList:function(){
+                if (!this.more) {
+                  return
+                }
+                var _this = this;
+                var data = {
+                  page:_this.page,
+                  page_size:20
+                };
+                requstPost('favor/product',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.list = _this.list.concat(ret.data)
+                    _this.page += 1
+                    if (ret.data.length < 20) {
+                      _this.more = false
+                    }
+                  }else {
+                    _this.more = false
+                  }
+                },function fail(err){
+                  _this.more = false
+                })
+              }
+
+            }
+        })
+
+    };
+</script>
+
+</html>

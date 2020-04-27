@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/vant.css" />
+    <link rel="stylesheet" type="text/css" href="../css/countdown.css" />
+    <style>
+        body {
+            min-height: 100vh;
+            background: #FAFAFA
+        }
+
+        .cate {
+            padding: 0;
+        }
+
+        .catesBox {
+            width: 100%;
+            overflow: scroll;
+            margin-top: 3vw;
+            box-sizing: border-box;
+            padding-left: 3vw;
+            padding-bottom: 3vw;
+        }
+
+        .cates {
+            width: max-content;
+            display: flex;
+        }
+
+        .swiper-container,
+        .swiper-slide {
+            width: max-content;
+        }
+
+        .catelist {
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 3vw;
+        }
+
+        .catelist img {
+            width: 15vw;
+            height: 15vw;
+            border-radius: 50%;
+            border: 2px solid #F96480;
+        }
+
+        .catelist span {
+            margin: auto;
+            max-width: 20vw;
+            text-align: center;
+            margin-right: 3vw;
+        }
+        /**/
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 3vw;
+        }
+
+        .nav span {
+            margin: 0 3vw;
+            font-size: 20px;
+            color: #696767;
+            transition: all .3s;
+        }
+
+        .nav .active {
+            color: #F96480;
+            position: relative;
+            transition: all .3s;
+        }
+
+        .active {
+            color: #F96480;
+        }
+
+        .nav .active::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -2px;
+            margin: auto;
+            width: 50%;
+            height: 2px;
+            background: #F96480;
+        }
+        /**/
+
+        #app {
+            padding-top: 5vw;
+        }
+
+        .search {
+            width: 94vw;
+            height: 12vw;
+            line-height: 12vw;
+            padding: 0 3vw;
+            box-sizing: border-box;
+            border-radius: 6vw;
+            margin: auto;
+            /*border: 1px solid #999999;*/
+            box-shadow: 0 0 1px 2px #e8e8e8;
+            background: white;
+            color: #999999;
+            display: flex;
+            align-items: center;
+        }
+
+        .search .iconfont {
+            color: #F96480;
+            font-size: 20px;
+            font-weight: 700;
+            margin-right: 3vw;
+        }
+
+        * {
+            -webkit-overflow-scrolling: touch;
+        }
+        /**/
+
+        .banner {
+            width: 100vw;
+            height: 40vw;
+            margin: 3vw auto;
+            /*border-radius: 5px;*/
+            overflow: hidden;
+            font-size: 0;
+        }
+
+        .swiper-container,
+        .swiper-slide {
+            border-radius: 5px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .banner img {
+            display: block;
+            width: 94vw;
+            height: 100%;
+            transform: translateX(3vw);
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .swiper-pagination {
+            /*text-align: right;*/
+        }
+
+        .van-swipe__indicators {
+            left: auto;
+            right: 0;
+        }
+
+        .van-swipe__indicator {
+            width: 0;
+            border-radius: 0;
+            height: 3px;
+            background: #252525;
+        }
+
+        .van-swipe__indicator--active {
+            background: white;
+        }
+        /**/
+
+        .livelists {
+            padding: 3vw;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .livelist {
+            width: 45vw;
+            height: 45vw;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 3vw;
+            margin-bottom: 3vw;
+            position: relative;
+        }
+
+        .livelist:nth-child(2n+2) {
+            margin-right: 0;
+        }
+
+        .liveimg {
+            width: 45vw;
+            height: 45vw;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        .livetop {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1vw;
+            color: white;
+            font-size: 12px;
+        }
+
+        .livetop span:nth-child(1) {
+            background: #FA607D;
+            padding: 1px 10px;
+            border-radius: 10px;
+            font-size: 13px;
+        }
+
+        .livetop span.replay:nth-child(1) {
+            background: #818B9C;
+        }
+
+        .livebom {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1vw;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .livehead {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 13px;
+        }
+
+        .livehead img {
+            width: 8vw;
+            height: 8vw;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .scnum {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: white;
+        }
+        /**/
+
+        .videoLists {
+            padding: 3vw;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .videoName {
+            width: 45vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            color: #696767;
+        }
+
+        .videolist .livelist {
+            margin-right: 0
+        }
+
+        .videolist {
+            margin-right: 3vw;
+            margin-bottom: 3vw;
+        }
+
+        .videolist:nth-child(2n+2) {
+            margin-right: 0;
+        }
+        /**/
+
+        .newslists {
+            padding: 5vw 0;
+        }
+
+        .newslist {
+            width: 94vw;
+            margin: auto;
+            margin-bottom: 3vw;
+            display: flex;
+        }
+
+        .newsimg {
+            width: 40vw;
+            height: 30vw;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .newsimg img {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+        }
+
+        .newsr {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-left: 2vw;
+        }
+
+        .newsr p {
+            color: #6B6B6B;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+        }
+
+        .newsbom {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #AAA9A9;
+        }
+
+        .newsbom .active {
+            font-size: 16px;
+        }
+
+        .newsbom .iconfont {
+            color: #AAA9A9;
+        }
+        /**/
+
+        .block2 {}
+
+        .block2 .livelist {
+            height: 30vw;
+        }
+
+        .block2 .liveimg {
+            height: 30vw;
+        }
+
+        .catelist.more img {
+            border: 2px solid #fafafa;
+        }
+        /*倒计时时间*/
+
+        .countdownTime {
+            margin-top: 2vw;
+            display: flex;
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 5px 0;
+        }
+
+        .countnumbox>span {
+            background: transparent!important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="banner">
+            <van-swipe class="swiper-container" :autoplay="3000">
+                <van-swipe-item class="swiper-slide" v-for="(item,index) in banner">
+                    <img :src="item.thumb?item.thumb:'../image/errorimg.png'" alt="" onerror="javascript:this.src='../image/errorimg.png'">
+                </van-swipe-item>
+            </van-swipe>
+        </div>
+        <div class="search" tapmode="hover" @click="gosearch()">
+            <i class="iconfont">&#xe612;</i>
+            <span>{{placeHoldText}}</span>
+        </div>
+        <!--  -->
+        <div class="nav">
+            <span @click="changenav(1)" :class="active==1?'active':''">Live</span>
+            <span @click="changenav(2)" :class="active==2?'active':''">Video</span>
+            <span @click="changenav(3)" :class="active==3?'active':''">News</span>
+        </div>
+        <!-- live -->
+        <div class="block1" v-if="active == 1">
+            <div class="cate">
+                <div class="catesBox">
+                    <div class="cates">
+                        <div class="catelist">
+                            <span @click="liveactiveChange(1)" :class="liveactive==1?'active':''">All</span>
+                        </div>
+                        <div class="catelist">
+                            <span @click="liveactiveChange(2)" :class="liveactive==2?'active':''">Following</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cate">
+                <div class="catesBox">
+                    <!-- 全部的 -->
+                    <div class="cates" v-show="liveactive == 1">
+                        <div class="catelist" v-for="(item,index) in anchors" @click="goperson(item)">
+                            <img class="headimg" :src="item.avatar_url" alt="">
+                        </div>
+
+                        <div class="catelist more" @click="getanchors()" v-if="anchorsMore">
+                            <img class="headimg" src="../image/more.png" alt="">
+                        </div>
+                    </div>
+                    <!-- 关注的 -->
+                    <!-- <div class="cates" v-show="liveactive == 2">
+                  <div class="catelist" v-for="(item,index) in anchors" @click="goperson(item)">
+                    <img class="headimg" :src="item.avatar_url" alt="">
+                  </div>
+
+                    <div class="catelist more" @click="getanchors()" v-if="anchorsMore">
+                      <img class="headimg" src="../image/more.png" alt="">
+                    </div>
+                </div> -->
+                </div>
+            </div>
+            <div class="livelists">
+                <!-- <div class="livelist" @click="golive(1)">
+              <img class="liveimg" src="../image/shop.png" alt="">
+              <div class="livetop">
+                <span>Live</span>
+                <span>
+                  <i class="iconfont">&#xe629;</i>
+                  23400
+                </span>
+              </div>
+              <div class="livebom">
+                <div class="livehead">
+                  <img src="../image/img7.jpg" alt="">
+                  <span>Emiliya</span>
+                </div>
+                <div class="scnum">
+                  <i class="iconfont">&#xe60c;</i>
+                  1263
+                </div>
+              </div>
+            </div> -->
+                <div class="livelist" v-for="(item,index) in livelist" @click="golive(item)">
+                    <img class="liveimg" :src="item.thumb" alt="">
+                    <div class="livetop">
+                        <span :class="item.live_status == 1?'':'replay'">{{item.live_status == 1?'Live':'Replay'}}</span>
+                        <span>
+                    <i class="iconfont">&#xe629;</i>
+                    {{item.look_count}}
+                  </span>
+                        <div v-if="(item.start_time - parseInt((new Date()).getTime()) / 1000)>0" class="countdownTime">countdown:
+                            <div :id="countId(item.id,item.start_time)" class="countnumbox"></div>
+                            {{fn_countDown(item.start_time,item.id)}}
+                        </div>
+                    </div>
+                    <div class="livebom">
+                        <div class="livehead">
+                            <img :src="item.anchor_avatar" alt="">
+                            <span>{{item.anchor_name}}</span>
+                        </div>
+                        <div class="scnum">
+                            <i class="iconfont">&#xe60c;</i> {{item.fav_count}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- video -->
+        <div class="block2" v-if="active == 2">
+            <van-tabs v-model="vioactive" animated swipeable="true" :ellipsis="ellipsis" sticky="true" background="#FAFAFA" border="false" @change='videotagchange'>
+                <van-tab v-for="(item,index) in catelist" :title="item.title">
+                    <div class="videoLists">
+                        <!-- <div class="videolist" @click="godouyin()">
+              <div class="livelist">
+                <img class="liveimg" src="../image/shop.png" alt="">
+                <div class="livetop">
+                  <span style="display:none">Live</span>
+                  <span>
+                    <i class="iconfont">&#xe629;</i>
+                    23400
+                  </span>
+                </div>
+                <div class="livebom">
+                  <div class="scnum">
+                    <i class="iconfont">&#xe696;</i>
+                  </div>
+                </div>
+              </div>
+              <p class="videoName">Nebula scattered</p>
+            </div> -->
+                        <div class="videolist" v-for="(ite,ind) in item.list" @click="godouyin(ite)">
+                            <div class="livelist">
+                                <img class="liveimg" :src="ite.imageUrl" alt="">
+                                <div class="livetop">
+                                    <span style="display:none">Live</span>
+                                    <span>
+                    <i class="iconfont">&#xe629;</i>
+                    {{ite.look_count}}
+                  </span>
+                                </div>
+                                <div class="livebom">
+                                    <div class="scnum">
+                                        <i class="iconfont">&#xe696;</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="videoName">{{ite.title}}</p>
+                        </div>
+                    </div>
+                </van-tab>
+            </van-tabs>
+            <!-- <div class="cate">
+            <div class="catesBox">
+              <div class="cates">
+                  <div class="catelist" v-for="(item,index) in catelist">
+                    <span @click="choseCate(item,index)" :class="vioactive==index?'active':''">{{item.title}}</span>
+                  </div>
+                  <div class="catelist">
+                    <span @click="vioactive = 2" :class="vioactive==2?'active':''">Path</span>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="videoLists">
+            <div>
+              <div class="livelist">
+                <img class="liveimg" src="../image/shop.png" alt="">
+                <div class="livetop">
+                  <span style="display:none">Live</span>
+                  <span>
+                    <i class="iconfont">&#xe629;</i>
+                    23400
+                  </span>
+                </div>
+                <div class="livebom">
+                  <div class="scnum">
+                    <i class="iconfont">&#xe696;</i>
+                  </div>
+                </div>
+              </div>
+              <p class="videoName">Nebula scattered</p>
+          </div>
+      </div> -->
+            <!-- news -->
+        </div>
+        <div class="block3" v-if="active == 3">
+            <van-tabs v-model="newactive" animated swipeable=“true” sticky="true" background="#FAFAFA" border="false" @change='newstagchange'>
+                <van-tab v-for="(item,index) in newscatelist" :title="item.title">
+                    <div class="newslists">
+                        <div class="newslist" @click="gonewsdetail(ite)" v-for="(ite,ind) in item.list">
+                            <div class="newsimg">
+                                <img :src="ite.thumbs[0]" alt="">
+                            </div>
+                            <div class="newsr">
+                                <p>{{ite.title}}</p>
+                                <div class="newsbom">
+                                    <span class="active">{{ite.author}}</span>
+                                    <span>
+                      <i class="iconfont">&#xe629;</i>
+                      {{ite.look_count}}
+                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </van-tab>
+            </van-tabs>
+            <!-- <div class="cate">
+          <div class="catesBox">
+            <div class="cates">
+                <div class="catelist" v-for="(item,index) in newscatelist">
+                  <span @click="newactive = 0" :class="newactive==index?'active':''">{{item.title}}</span>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="newslists">
+          <div class="newslist" @click="gonewsdetail()" v-for="(item,index) in newslist">
+            <div class="newsimg">
+              <img src="../image/shop.png" alt="">
+            </div>
+            <div class="newsr">
+              <p>White flowers,stacked under the light of summer sunWhite flowers,stacked under the light of summer sunWhite flowers,stacked under the light of summer sunWhite flowers,stacked under the light of summer sun</p>
+              <div class="newsbom">
+                <span class="active">NailVision</span>
+                <span>
+                  <i class="iconfont">&#xe629;</i>
+                  234000
+                </span>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        </div>
+
+
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/lazyload.js"></script>
+<script type="text/javascript" src="../script/commonurl.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/vant.js"></script>
+<script type="text/javascript" src="../script/countdown.js"></script>
+<script type="text/javascript">
+    var app;
+    apiready = function() {
+        Vue.use(VueLazyload, {
+            preLoad: 1.3,
+            error: '../image/errorimg.png',
+            loading: '../image/loading.svg',
+            attempt: 1
+        })
+        window.app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    that: this,
+                    active: 1,
+                    liveactive: 1,
+                    vioactive: 0,
+                    newactive: 0,
+                    banner: [],
+                    catelist: [], //分类列表
+                    newscatelist: [],
+                    newslist: [],
+                    videolist: [],
+                    ellipsis: false,
+                    page: 1, //主播页数
+                    anchors: [], //主播列表
+                    anchorsMore: true,
+                    placeHoldText: 'Search Live stream...', //Search product / store...
+                    livelist: [],
+                    alllivelist: [],
+                    alllivepage: 1,
+                    alllivemore: true,
+                    followlivelist: [],
+                    followlivepage: 1,
+                    followmore: true,
+                    time: '200000',
+                    refreshCount:0,  //从0开始累加，每次刷新+1，保证dom的最新
+                }
+            },
+            created() {
+                api.refreshHeaderLoading();
+                setTimeout(() => {
+                    api.refreshHeaderLoadDone();
+                }, 300)
+                this.refresh()
+                this.getBanner()
+                this.getanchors()
+                this.getMore()
+                    //获取直播列表
+                    // this.getallLiveLists()
+            },
+            methods: {
+                //生成id
+                countId(id,time) {
+                    return 'count' + "_" + this.refreshCount + "_" + id
+                },
+                //调用倒计时方法
+                fn_countDown(time, id) {
+                    var _el = 'count' + "_" + this.refreshCount + "_" + id;
+                    var ds = new countdown({el:_el,ed:time});
+                },
+                liveactiveChange(e) {
+                    if ($api.getStorage('islogin') == 'false') {
+                        userIslogin()
+                        return
+                    }
+                    this.liveactive = e
+                    this.livelist = []
+                    if (e == 1) {
+                        this.livelist = this.alllivelist
+                    } else {
+                        if (this.followlivelist.length == 0 && this.followmore) {
+                            this.getallLiveLists1()
+                        } else {
+                            this.livelist = this.followlivelist
+                        }
+
+                    }
+                },
+                //获取直播列表
+                getallLiveLists() {
+                    if (!this.alllivemore) {
+                        return
+                    }
+                    var _this = this;
+                    var data = {
+                        focus: 0,
+                        page: _this.alllivepage,
+                        page_size: 20,
+                    };
+                    requstPost('live', data, function success(ret) {
+                        if (ret.code == 0) {
+                            _this.alllivelist = _this.alllivelist.concat(ret.data.list)
+                            _this.alllivepage += 1
+                            _this.livelist = _this.alllivelist
+                            if (ret.data.list.length < 20) {
+                                _this.alllivemore = false
+                            }
+                        } else {
+                            _this.alllivemore = false
+                        }
+                    }, function fail(err) {
+
+                    })
+                },
+
+                //获取关注直播列表
+                getallLiveLists1() {
+                    if (!this.followmore) {
+                        return
+                    }
+                    var _this = this;
+                    var data = {
+                        focus: 1,
+                        page: _this.followlivepage,
+                        page_size: 20,
+                    };
+                    requstPost('live', data, function success(ret) {
+                        if (ret.code == 0) {
+                            _this.followlivelist = _this.followlivelist.concat(ret.data.list)
+                            _this.livelist = _this.followlivelist
+                            _this.followlivepage += 1
+                            if (ret.data.list.length < 20) {
+                                _this.followmore = false
+                            }
+                        } else {
+                            _this.followmore = false
+                        }
+                    }, function fail(err) {
+
+                    })
+                },
+                //点击搜索
+                gosearch() {
+                    if (this.active == 1) {
+                        //直播
+                        api.openWin({
+                            name: 'search_win',
+                            url: './common/search_win.html',
+                            pageParam: {
+                                type: 3, //直播类型
+                            }
+                        });
+                    } else if (this.active == 2) {
+                        //视频
+                        api.openWin({
+                            name: 'search_win',
+                            url: './common/search_win.html',
+                            pageParam: {
+                                type: 1, //视频类型
+                            }
+                        });
+                    } else if (this.active == 3) {
+                        //资讯
+                        api.openWin({
+                            name: 'search_win',
+                            url: './common/search_win.html',
+                            pageParam: {
+                                type: 4, //资讯类型
+                            }
+                        });
+                    }
+                },
+                changenav(e) {
+                    if (e == 1) {
+                        this.placeHoldText = 'Search Live stream...'
+                    } else if (e == 2) {
+                        this.placeHoldText = 'Search Video...'
+                    } else if (e == 3) {
+                        this.placeHoldText = 'Search product / store...'
+                    }
+                    this.active = e
+                    if (e == 2) {
+                        if (this.catelist.length == 0) {
+                            this.getCates()
+                        }
+                    } else if (e == 3) {
+                        if (this.newscatelist.length == 0) {
+                            this.getCatesnews()
+                        }
+                    }
+                },
+                //获取主播列表
+                getanchors() {
+                    var _this = this;
+                    var data = {
+                        page: _this.page,
+                        page_size: 20,
+                    };
+                    requstPost('anchor/all', data, function success(ret) {
+                        if (ret.code == 0) {
+                            // alert(JSON.stringify(ret.data.length))
+                            _this.page += 1
+                            _this.anchors = _this.anchors.concat(ret.data)
+                            if (ret.data.length < 20) {
+                                _this.anchorsMore = false
+                            } else {
+                                _this.anchorsMore = true
+                            }
+                        } else {
+                            _this.anchorsMore = false
+                        }
+
+
+                    }, function fail(err) {
+
+                    })
+                },
+
+                //监听滚动到底
+                getMore() {
+                    var _this = this
+                    api.addEventListener({
+                        name: 'scrolltobottom',
+                        extra: {
+                            threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                        }
+                    }, function(ret, err) {
+                        console.log('加载更多');
+                        if (_this.active == 1) {
+                            //直播
+                            if (_this.liveactive == 1) {
+                                // 所有直播
+                                _this.getallLiveLists()
+                            } else {
+                                //关注直播
+                                _this.getallLiveLists1()
+                            }
+
+                        } else if (_this.active == 2) {
+                            //小视频
+                            var ind = _this.vioactive;
+                            if (_this.catelist.length > 0) {
+                                var tabItem = _this.catelist[ind];
+                                if (tabItem.ismore) {
+                                    _this.getvideoList()
+                                }
+                            }
+
+                        } else if (_this.active == 3) {
+                            //新闻
+                            var ind = _this.newactive;
+                            if (_this.newscatelist.length > 0) {
+                                var tabItem = _this.newscatelist[ind];
+                                if (tabItem.ismore) {
+                                    _this.getnewsList()
+                                }
+                            }
+
+                        }
+
+                    });
+
+                },
+                videotagchange(e) {
+                    // alert(JSON.stringify(e))
+                    // return
+                    this.getvideoList()
+                },
+                newstagchange(e) {
+                    // alert(JSON.stringify(e))
+                    // return
+                    this.getnewsList()
+                },
+                //选择分类
+                choseCate(ite, ind) {
+                    this.vioactive = ind
+                },
+                //获取视频列表
+                getvideoList() {
+                    var _this = this;
+                    var ind = _this.vioactive;
+                    var tabItem = _this.catelist[ind];
+                    var category_id = tabItem.id;
+                    var page = tabItem.page;
+                    var data = {
+                        type: 0,
+                        page: _this.compage,
+                        category_id: category_id,
+                        page_size: 20,
+                    };
+                    // alert(category_id)
+                    if (tabItem.list.length != 0) {
+                        return
+                    }
+                    requstPost('video', data, function success(ret) {
+                        // alert(JSON.stringify(ret))
+                        // return
+                        var listData = ret.data.list;
+                        for (i in listData) {
+                            api.imageCache({
+                                url: listData[i].imageUrl,
+                                tag: i
+                            }, function(ret, err) {
+                                // console.log(JSON.stringify(ret));
+                                listData[ret.tag].imageUrl = ret.url;
+                            });
+                            api.imageCache({
+                                url: listData[i].avatar_url,
+                                tag: i
+                            }, function(ret, err) {
+                                // console.log(JSON.stringify(ret));
+                                listData[ret.tag].avatar_url = ret.url;
+                            });
+                        }
+                        tabItem.page += 1
+                        tabItem.list = tabItem.list.concat(ret.data.list)
+
+                        if (ret.data.list.length < 20) {
+                            tabItem.ismore = false
+                        }
+                    }, function fail(err) {
+
+                    })
+
+                },
+                //获取视频分类
+                getCates() {
+                    var _this = this;
+                    var data = {};
+                    requstPost('video/category', data, function success(ret) {
+                        // alert(JSON.stringify(ret))
+                        if (ret.code == 0) {
+                            for (var i = 0; i < ret.data.length; i++) {
+                                ret.data[i].list = []
+                                ret.data[i].page = 1
+                                ret.data[i].ismore = true
+                            }
+                            _this.catelist = ret.data
+                            var listData = ret.data;
+                            for (i in listData) {
+                                api.imageCache({
+                                    url: listData[i].thumb,
+                                    tag: i
+                                }, function(ret, err) {
+                                    // console.log(JSON.stringify(ret));
+                                    listData[ret.tag].thumb = ret.url;
+                                });
+                            }
+                            _this.getvideoList()
+                        }
+
+                    }, function fail(err) {
+                        // alert(JSON.stringify(err))
+                    })
+                },
+                //获取新闻分类
+                getCatesnews() {
+                    var _this = this;
+                    var data = {};
+                    requstPost('news/category', data, function success(ret) {
+                        // alert(JSON.stringify(ret))
+                        for (var i = 0; i < ret.data.length; i++) {
+                            ret.data[i].list = []
+                            ret.data[i].page = 1
+                            ret.data[i].ismore = true
+                        }
+                        _this.newscatelist = ret.data
+                        _this.getnewsList()
+                            // var listData = ret.data;
+                            // for (i in listData) {
+                            //     api.imageCache({
+                            //         url: listData[i].thumb,
+                            //         tag: i
+                            //     }, function(ret, err) {
+                            //       // console.log(JSON.stringify(ret));
+                            //         listData[ret.tag].thumb = ret.url;
+                            //     });
+                            // }
+
+                    }, function fail(err) {
+                        // alert(JSON.stringify(err))
+                    })
+                },
+
+                //获取新闻列表
+                getnewsList() {
+                    var _this = this;
+                    var ind = _this.newactive;
+                    var tabItem = _this.newscatelist[ind];
+                    var category_id = tabItem.id;
+                    var page = tabItem.page;
+                    if (!tabItem.ismore) {
+                        return
+                    }
+                    var data = {
+                        type: 0,
+                        page: _this.compage,
+                        category_id: category_id,
+                        page_size: 20,
+                    };
+                    // alert(category_id)
+                    if (tabItem.list.length != 0) {
+                        return
+                    }
+                    requstPost('news', data, function success(ret) {
+                        // alert(JSON.stringify(ret))
+                        // return
+                        if (ret.code == 0) {
+                            if (ret.data.list) {
+                                var listData = ret.data.list;
+                                for (i in listData) {
+                                    api.imageCache({
+                                        url: listData[i].thumbs[0],
+                                        tag: i
+                                    }, function(ret, err) {
+                                        // console.log(JSON.stringify(ret));
+                                        listData[ret.tag].thumbs[0] = ret.url;
+                                    });
+                                }
+                                tabItem.page += 1
+                                tabItem.list = tabItem.list.concat(ret.data.list)
+
+                                if (ret.data.list.length < 20) {
+                                    tabItem.ismore = false
+                                }
+                            } else {
+                                tabItem.ismore = false
+                            }
+                        } else {
+
+                        }
+
+
+                    }, function fail(err) {
+
+                    })
+
+                },
+                getBanner() {
+                    var _this = this;
+                    if ($api.getStorage('islogin')) {
+                        if ($api.getStorage('islogin') == 'true') {
+                            var data = {
+
+                            }
+                        } else {
+                            var data = {
+                                uuid: api.deviceId
+                            };
+                        }
+                    } else {
+                        var data = {
+                            uuid: api.deviceId
+                        };
+                    }
+                    requstPost('slide', data, function success(ret) {
+
+                        api.refreshHeaderLoadDone();
+                        if (ret.code == 0) {
+                            _this.banner = ret.data
+                            var listData = ret.data;
+                            for (i in listData) {
+                                api.imageCache({
+                                    url: listData[i].thumb,
+                                    tag: i
+                                }, function(ret, err) {
+                                    // console.log(JSON.stringify(ret));
+                                    listData[ret.tag].thumb = ret.url;
+                                });
+                            }
+                        } else {
+                        }
+                    }, function fail(err) {
+                        api.refreshHeaderLoadDone();
+
+                    })
+                },
+                goTop() { //回到本页执行
+                    this.active = 1;
+                    this.liveactive = 1;
+                },
+                refresh(boo) {
+                    var _this = this
+                    api.setRefreshHeaderInfo({
+                        visible: true,
+                        loadingImg: 'widget://image/loading_more1.png',
+                        bgColor: 'rgba(0,0,0,0)',
+                        textColor: '#000',
+                        textDown: 'Drop Down',
+                        textUp: 'Release',
+                        textLoading: 'Loading...',
+                        showTime: false,
+                        textTime: '',
+                    }, function(ret, err) {
+                        _this.refreshCount = _this.refreshCount+1;  //每次刷新都+1，可以保证每次的dom的Id都是最新的
+                        if (_this.active == 1) {
+                            //直播
+                            if (_this.liveactive == 1) {
+                                //所有的
+                                _this.alllivelist = []
+                                _this.alllivepage = 1
+                                _this.alllivemore = true
+                                _this.livelist = []
+                                _this.getallLiveLists()
+                            } else if (_this.liveactive == 2) {
+                                //关注的
+                                _this.livelist = []
+                                _this.followlivelist = []
+                                _this.followlivepage = 1
+                                _this.followmore = true
+                                _this.getallLiveLists1()
+                            }
+                        }
+                        // alert(_this.liveactive)
+                    });
+                },
+                //查看doyin
+                godouyin(ite) {
+                    api.openWin({
+                        name: 'douyin_win',
+                        url: './douyin/douyin_win.html',
+                        pageParam: {
+                            // id: ite.id,
+                            id: ite.id,
+                            url: ''
+                        },
+                        softInputMode: 'pan',
+                        // slidBackEnabled:false
+                    });
+                },
+                //查看直播
+                golive(ite) {
+                    api.openWin({
+                        name: 'live_win',
+                        url: './live/live_win.html',
+                        pageParam: {
+                            live_id: ite.id,
+                            anchor_id:ite.anchor_id,  //作者id
+                        },
+                        slidBackEnabled: false
+                    });
+
+                },
+                gonewsdetail(ite) {
+                    api.openWin({
+                        name: 'newsdetail_win',
+                        url: './common/newsdetail_win.html',
+                        pageParam: {
+                            id: ite.id
+                        }
+                    });
+
+                },
+                goperson(ite) {
+                    api.openWin({
+                        name: 'person_win',
+                        url: './person/person_win.html',
+                        pageParam: {
+                            id: ite.id
+                        }
+                    });
+                }
+            }
+        })
+    };
+    function gosearch() {
+        api.openWin({
+            name: 'search_win',
+            url: './common/search_win.html',
+            pageParam: {
+                type: 3, //直播类型
+            }
+        });
+    }
+
+    function goTop() {
+        var _this = this;
+        api.pageUp({
+            top: true
+        }, function(ret, err) {
+
+        });
+    }
+</script>
+
+</html>

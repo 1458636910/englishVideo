@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body,
+        html {
+            background: none;
+        }
+
+        #app {
+            background: none;
+            min-height: 100vh;
+            padding-top: 30vh;
+            box-sizing: border-box;
+            /*padding-bottom: 30vw;*/
+        }
+
+        #app.appactive {
+            background: rgba(0, 0, 0, .1);
+        }
+
+        [v-cloak] {
+            /*display: none;*/
+        }
+
+        .box {
+            height: 70vh;
+            overflow: scroll;
+            background: white;
+            position: relative;
+            padding-top: 15vw;
+            box-sizing: border-box;
+            padding-bottom: 30vw;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+        }
+
+        .head {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 12vw;
+            display: flex;
+            padding: 0 3vw;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .plt {
+            display: flex;
+            align-items: center;
+        }
+
+        .plhead {
+            width: 10vw;
+            height: 10vw;
+            margin-right: 3vw;
+            border-radius: 50%;
+        }
+
+        .plhead img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .pls {
+            padding-top: 3vw;
+            padding: 3vw;
+        }
+
+        .plt p {
+            width: 80vw;
+        }
+
+        .plcount {
+            font-size: 14px;
+            color: #AAAAAA;
+            padding: 3vw 0 0;
+            line-height: 20px;
+        }
+
+        .dpbox {
+            display: flex;
+            align-items: center;
+            margin-right: 3vw;
+        }
+
+        .dpico {
+            font-weight: 700;
+            margin-right: 3px;
+        }
+        .times{
+          display: flex;
+          justify-content: space-between;
+        }
+        .times span:nth-child(2){
+          font-size: 12px;
+          color: #999999;
+        }
+        .listbox{
+          display: flex;
+        }
+        .listRight{
+          width: 80vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak :class="active?'appactive':''">
+
+        <div class="box">
+            <div class="head">
+                <span></span>
+                <span>Comments</span>
+                <span tapmode onclick="closeShop()">
+              <i class="iconfont">&#xe603;</i>
+            </span>
+            </div>
+
+            <div class="pls">
+                <div class="pl" v-for="(item,index) in lists" @click="delatepl(item,index)">
+                    <div class="listbox">
+                      <div class="plhead">
+                          <img :src="item.avatar_url" alt="">
+                      </div>
+                      <div class="listRight">
+                        <div class="plt">
+                            <p class="times">
+                              <span style="color:#8D8D8E;">{{item.nickname}}</span>
+                            </p>
+                        </div>
+                        <div class="plcount" style="color:black;">{{item.content}}</div>
+                        <span style="font-size:12px;color:#bbbbbb;">{{item.create_time}}</span>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    var app;
+    apiready = function() {
+        // $api.fixTabBar($api.byId('footer'))
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    videoid: '',
+                    lists: [],
+                    page: 1,
+                    ismore: true,
+                    active: false,
+                    lists: [],
+                    pls: [
+                      {
+                        id: 1,
+                        head: '../../image/img7.jpg',
+                        name: 'Jaclynn Bradley',
+                        count: 'Great,my girlfriend likes it very much,the red super beauty super beauty super beauty super beauty'
+                    }
+                  ],
+                }
+            },
+            mounted: function() {
+                setTimeout(() => {
+                    this.active = true
+                }, 500)
+            },
+            created() {
+                this.videoid = api.pageParam.id
+                this.getPls()
+            },
+            methods: {
+
+                //监听滚动到底
+                getMore() {
+                    var _this = this
+                    api.addEventListener({
+                        name: 'scrolltobottom',
+                        extra: {
+                            threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                        }
+                    }, function(ret, err) {
+                        console.log('加载更多');
+                        if (_this.ismore) {
+                          _this.getPls()
+                        }
+
+                    });
+
+                },
+                //获取评论列表
+                getPls() {
+                    var _this = this;
+                    var data = {
+                        video_id: _this.videoid,
+                        page: _this.page
+                    };
+                    requstGet('video/talk', data, function success(ret) {
+                        _this.page += 1;
+                        if (ret.data.list.length > 0) {
+                          _this.lists = _this.lists.concat(ret.data.list)
+                        }
+                        if (ret.data.list.length < 25) {
+                            _this.ismore = false
+                        }
+                    }, function fail(err) {
+
+                    })
+                },
+                //追加是否选中属性
+                addIschose() {
+                    //为lists添加ischose（是否选中）字段，初始值为false
+                    var _this = this;
+                    //为lists添加ischose（是否选中）字段，初始值为false
+                    this.lists1.map(function(item) {
+                        _this.$set(item, 'ischose', false);
+                    })
+                    this.list = this.lists1
+                        //要像上面这样写双向绑定才能起效，下面的写法是有问题的，双向绑定不起效的！
+                        //this.productList.map(function (item) {item.select=true})
+                },
+                choseShop(ite, ind) {
+                    ite.ischose = !ite.ischose
+                    if (ite.ischose) {
+                        this.choseArry.push(ite.id)
+                    } else {
+                        var Idindex = this.choseArry.indexOf(ite.id)
+                        this.choseArry.splice(Idindex, 1)
+                        console.log(this.choseArry.indexOf(ite.id));
+                    }
+                    console.log(JSON.stringify(this.choseArry));
+                },
+                sure() {
+                    // api.execScript({
+                    //     name: 'choselive_win',
+                    //     frameName: 'choselive',
+                    //     script: 'app.addShopId("'+JSON.stringify(this.choseArry)+'");'
+                    // });
+                    // api.closeWin();
+                    api.closeFrame();
+
+
+
+                    console.log(JSON.stringify(this.choseArry));
+                }
+
+
+            }
+        })
+
+    };
+
+    function closeShop() {
+        api.closeFrame();
+
+    }
+</script>
+
+</html>

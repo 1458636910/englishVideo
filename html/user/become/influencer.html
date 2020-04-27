@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: #fff;
+            min-height: 100vh;
+            padding-top: 3vw;
+            box-sizing: border-box;
+        }
+
+        [v-cloak] {
+            /*display: none;*/
+        }
+
+        .lists {
+            padding: 3vw;
+        }
+
+        .list {
+            height: 12vw;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .list input {
+            flex: 1;
+            height: 8vw;
+            outline: none;
+            text-align: right;
+        }
+
+        .addimg {
+            margin: 3vw auto;
+            width: 90vw;
+            height: 90vw;
+            background: #EEEEEE;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+        }
+
+        .addimgCount {
+            text-align: center;
+            color: #999999;
+        }
+
+        .addimgCount .iconfont {
+            font-size: 30px;
+        }
+
+        .addimg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .tip {
+            width: 90vw;
+            margin: auto;
+            text-align: center;
+            color: #FA607D;
+        }
+        .tips{
+          box-sizing: border-box;
+          padding: 0 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="lists">
+            <div class="list">
+                <span>Full Name</span>
+                <input type="text" name="" v-model="full_name" value="" :disabled="disabled" placeholder="Full Name">
+            </div>
+            <div class="list">
+                <span>Facebook account</span>
+                <input type="text" name="" v-model="facebook_account" :disabled="disabled" value="" placeholder="Facebook account">
+            </div>
+            <div class="list">
+                <span>Instagram account</span>
+                <input type="text" name="" v-model="instagram_account" :disabled="disabled" value="" placeholder="Instagram account">
+            </div>
+            <div class="list">
+                <span>Email</span>
+                <input type="text" name="" v-model="anchor_email" :disabled="disabled" value="" placeholder="Email">
+            </div>
+
+            <div class="addimg" @click="choseImg()">
+                <img v-if="idimg" :src="idimg" alt="">
+                <div v-if="!idimg" class="addimgCount">
+                    <span>
+                    <i class="iconfont">&#xe613;</i>
+                  </span>
+                    <p>Upload ID</p>
+                </div>
+            </div>
+            <p class="tips">Picture pixel size 800:800</p>
+
+            <div class="tip" v-if="anchor_status == -1">
+                <i class="iconfont">&#xe686;</i> Review failed, please resubmit
+            </div>
+            <div class="tip" v-if="anchor_status == 0">
+                under review
+            </div>
+            <div class="tip" v-if="anchor_status == 1">
+                examination passed
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/fastclick.js"></script>
+<script src="../../../script/vue.min.js"></script>
+<script src="../../../script/commonurl.js"></script>
+<script type="text/javascript">
+    var app;
+    apiready = function() {
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    idimg: '',
+                    full_name: '',
+                    facebook_account: '',
+                    instagram_account: '',
+                    anchor_email: '',
+                    imgurl: '',
+                    idimgchange: false,
+                    anchor_status: -2,
+                    disabled: false
+                }
+            },
+            created() {
+                this.getdata()
+            },
+            methods: {
+                getdata() {
+                    var _this = this;
+                    var data = {};
+                    requstGet('anchor', data, function success(ret) {
+                        // alert(JSON.stringify(ret))
+                        _this.full_name = ret.data.full_name
+                        _this.facebook_account = ret.data.facebook_account
+                        _this.instagram_account = ret.data.instagram_account
+                        _this.anchor_email = ret.data.anchor_email
+                        _this.imgurl = ret.data.upload_photo
+                        _this.idimg = ret.data.upload_photo_url
+                        _this.anchor_status = ret.data.anchor_status
+                        if (ret.data.anchor_status == 1) {
+                            _this.disabled = true
+                        } else {
+                            _this.disabled = false
+                        }
+                    }, function fail(err) {
+
+                    })
+                },
+                choseImg() {
+                    var _this = this;
+                    if (_this.disabled) {
+                        return
+                    }
+                    api.actionSheet({
+                        title: '',
+                        cancelTitle: 'Cancel',
+                        buttons: ['Camera', 'Album']
+                    }, function(ret, err) {
+                        if (ret) {
+                            _this.getPicqj(ret.buttonIndex);
+                        }
+                    });
+                },
+
+                getPicqj(sourceType) {
+                    var _this = this;
+                    if (sourceType == 1) { // 拍照
+                        //获取一张图片
+                        api.getPicture({
+                            sourceType: 'camera',
+                            encodingType: 'jpg',
+                            mediaValue: 'pic',
+                            destinationType: 'url',
+                            allowEdit: false,
+                            quality: 100,
+                            // targetWidth: 800,
+                            // targetHeight: 800,
+                            saveToPhotoAlbum: true
+                        }, function(ret, err) {
+                            // 获取拍照数据并处理
+                            if (ret.data) {
+                                var imgurl = ret.data
+                                _this.idimgchange = true
+                                _this.idimg = imgurl
+                                return
+                                console.log(ret.data);
+                                api.showProgress({
+                                    style: 'default',
+                                    animationType: 'fade',
+                                    title: 'Loading...',
+                                    text: '',
+                                    modal: true
+                                });
+                                // _this.imgLists.push(ret.data)
+                                api.ajax({
+                                    url: url + 'api/Images/addImages/',
+                                    method: 'post',
+                                    data: {
+                                        values: {
+                                            token: $api.getStorage('token'),
+                                        },
+                                        files: {
+                                            name: ret.data
+                                        }
+                                    }
+                                }, function(ret, err) {
+                                    api.hideProgress();
+
+                                    if (ret) {
+
+                                        if (ret.code == 1000) {
+                                            _this.headimg = imgurl
+                                            _this.headimgurl = ret.data
+                                            _this.changeNameImg(0)
+                                        }
+                                        // alert( JSON.stringify( ret ) );
+                                    } else {
+                                        api.toast({
+                                            msg: err.msg,
+                                            duration: 2000,
+                                            location: 'bottom'
+                                        });
+
+                                        // alert( JSON.stringify( err ) );
+                                    }
+                                });
+                                // _this.uploadImg(ret.data)
+                            }
+                        });
+                    } else if (sourceType == 2) { // 从相机中选择
+                        var systemType = api.systemType
+                        // if (systemType =='ios') {
+                        api.getPicture({
+                            sourceType: 'library',
+                            encodingType: 'jpg',
+                            mediaValue: 'pic',
+                            destinationType: 'url',
+                            quality: 100,
+                            targetWidth: 800,
+                            targetHeight: 800
+                        }, function(ret, err) {
+                            if (ret.data) {
+                                var imgurl = ret.data
+                                _this.idimg = imgurl
+                                _this.idimgchange = true
+                                return
+                                // _this.uploadImg(ret.data)
+                                // _this.imgList.push(ret.data)
+                                api.showProgress({
+                                    style: 'default',
+                                    animationType: 'fade',
+                                    title: 'Loading...',
+                                    text: '',
+                                    modal: true
+                                });
+
+                                api.ajax({
+                                    url: url + 'api/Images/addImages/',
+                                    method: 'post',
+                                    data: {
+                                        values: {
+                                            token: $api.getStorage('token'),
+                                        },
+                                        files: {
+                                            name: ret.data
+                                        }
+                                    }
+                                }, function(ret, err) {
+                                    api.hideProgress();
+
+                                    if (ret) {
+                                        if (ret.code == 1000) {
+                                            _this.headimg = imgurl
+                                            _this.headimgurl = ret.data
+                                            _this.changeNameImg(0)
+                                        }
+                                        // alert( JSON.stringify( ret ) );
+                                    } else {
+                                        api.toast({
+                                            msg: err.msg,
+                                            duration: 2000,
+                                            location: 'bottom'
+                                        });
+
+                                        // alert( JSON.stringify( err ) );
+                                    }
+                                });
+                                // alert(JSON.stringify(ret))
+                            } else {
+                                // alert(JSON.stringify(err));
+                            }
+                        });
+                        // }
+                    }
+                },
+                submit() {
+                    var _this = this;
+                    var data = _this.idimg;
+                    pubshowloading()
+                    if (_this.imgurl != '') {
+                        if (_this.idimgchange) {
+                            requstUpload(data, function success(ret) {
+                                // alert(JSON.stringify(ret))
+                                _this.imgurl = ret.data.src
+                                _this.applyData()
+                            }, function fail(err) {
+
+                            })
+                        } else {
+                            _this.applyData()
+                        }
+
+                    } else {
+                        requstUpload(data, function success(ret) {
+                            // alert(JSON.stringify(ret))
+                            _this.imgurl = ret.data.src
+                            _this.applyData()
+                        }, function fail(err) {
+
+                        })
+                    }
+
+                },
+                applyData() {
+                    var _this = this;
+                    var postData = {
+                        full_name: _this.full_name,
+                        facebook_account: _this.facebook_account,
+                        instagram_account: _this.instagram_account,
+                        anchor_email: _this.anchor_email,
+                        upload_photo: _this.imgurl
+                    };
+                    requstPost('anchor/apply', postData, function success(rret) {
+                        // alert(JSON.stringify(rret))
+                        api.alert({
+                            title: rret.message,
+                            msg: '',
+                            buttons:['Sure']
+                        }, function(ret, err) {
+                            if (ret) {
+                                if (rret.code == 0) {
+                                    api.closeWin();
+                                }
+
+
+                                //  alert( JSON.stringify( ret ) );
+                            } else {
+                                //  alert( JSON.stringify( err ) );
+                            }
+                        });
+
+                    }, function fail(errr) {
+
+                    })
+                },
+
+
+
+            }
+        })
+
+    };
+</script>
+
+</html>

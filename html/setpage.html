@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/vant.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .lists{
+          background: white;
+          /*margin-bottom: 3vw;*/
+        }
+        .lists:last-child{
+          margin-bottom: 0
+        }
+        .list{
+          padding: 0 3vw;
+          height: 12vw;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        .list .iconfont{
+          color: #999999;
+        }
+        #footer{
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: 12vw;
+          text-align: center;
+          line-height: 12vw
+        }
+        #footer div{
+          background: #FAF9F8;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="lists">
+        <div class="list" tapmode="hover" onclick="godress()">
+          <span>Shipping Address</span>
+          <span>
+            <i class="iconfont">&#xe61f;</i>
+          </span>
+        </div>
+          <div class="list" tapmode="hover" onclick="goforgot()">
+            <span>Modify the Login Password</span>
+            <span>
+              <i class="iconfont">&#xe61f;</i>
+            </span>
+          </div>
+            <div class="list" tapmode="hover" onclick="gosetphone()">
+              <span>Modify Mobile Number</span>
+              <span>
+                <i class="iconfont">&#xe61f;</i>
+              </span>
+            </div>
+      </div>
+      <div class="lists">
+        <div class="list" tapmode="hover" onclick="gothird()">
+          <span>Remove the Third Party Log in</span>
+          <span>
+            <i class="iconfont">&#xe61f;</i>
+          </span>
+        </div>
+          <div class="list"  tapmode="hover" onclick="gorate()">
+            <span>Exchange Rate</span>
+            <span>
+              <i class="iconfont">&#xe61f;</i>
+            </span>
+          </div>
+            <div class="list" tapmode="hover" onclick="clearHc()">
+              <span>Clear Cache</span>
+              <span>
+                {{catchNum}}
+                <i class="iconfont">&#xe61f;</i>
+              </span>
+            </div>
+      </div>
+      <div class="lists" tapmode="hover" onclick="checkUpdate()">
+        <div class="list">
+          <span>Version Information</span>
+          <span style="color:#999999;">
+            {{version}}
+            <i class="iconfont">&#xe61f;</i>
+          </span>
+        </div>
+      </div>
+      <div class="lists" tapmode="hover" onclick="goprotocol()">
+        <div class="list">
+          <span>Terms of Use</span>
+          <span>
+            <i class="iconfont">&#xe61f;</i>
+          </span>
+        </div>
+      </div>
+      <div class="lists" tapmode="hover" onclick="goprivacy()">
+        <div class="list">
+          <span>Data Policy</span>
+          <span>
+            <i class="iconfont">&#xe61f;</i>
+          </span>
+        </div>
+      </div>
+      <div class="lists" tapmode="hover" onclick="gohelp()">
+        <div class="list">
+          <span>Help</span>
+          <span>
+            <i class="iconfont">&#xe61f;</i>
+          </span>
+        </div>
+      </div>
+      <!-- <footer id="footer" onclick="loginOut()">
+        <div>
+          Sign Out
+        </div>
+      </footer> -->
+
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script src="../script/vue.min.js"></script>
+<script src="../script/vant.js"></script>
+<script src="../script/commonurl.js"></script>
+<script type="text/javascript">
+var app;
+    apiready = function() {
+        $api.fixTabBar($api.byId('footer'))
+        app = new Vue({
+            el: '#app',
+            data:function() {
+                return {
+                  catchNum:'',
+                  version:'',
+                }
+            },
+            created:function() {
+              this.version = api.appVersion
+              this.catchNum = $api.getStorage('catchNum');
+              this.getCatch()
+            },
+            methods: {
+              //获取缓存
+              getCatch:function(){
+                //获取缓存
+                var size = api.getCacheSize({
+                    sync: true
+                });
+                var newLimit = this.catchChange(size);
+                console.log(newLimit);
+                this.catchNum = newLimit
+                console.log(size);
+                $api.setStorage('catchNum', newLimit);
+              },
+              catchChange(limit){
+                  var size = "";
+                  if(limit < 0.1 * 1024){                            //小于0.1KB，则转化成B
+                      size = limit.toFixed(2) + "B"
+                  }else if(limit < 0.1 * 1024 * 1024){            //小于0.1MB，则转化成KB
+                      size = (limit/1024).toFixed(2) + "KB"
+                  }else if(limit < 0.1 * 1024 * 1024 * 1024){        //小于0.1GB，则转化成MB
+                      size = (limit/(1024 * 1024)).toFixed(2) + "MB"
+                  }else{                                            //其他转化成GB
+                      size = (limit/(1024 * 1024 * 1024)).toFixed(2) + "GB"
+                  }
+
+                  var sizeStr = size + "";                        //转成字符串
+                  var index = sizeStr.indexOf(".");                    //获取小数点处的索引
+                  var dou = sizeStr.substr(index + 1 ,2)            //获取小数点后两位的值
+                  if(dou == "00"){                                //判断后两位是否为00，如果是则删除00
+                      return sizeStr.substring(0, index) + sizeStr.substr(index + 3, 2)
+                  }
+                  return size;
+              }
+            }
+        })
+
+    };
+    //收货地址
+    function godress(){
+      api.openWin({
+          name: 'dresslist_win',
+          url: './user/dresslist_win.html',
+          pageParam: {
+              name: 'test'
+          },
+          slidBackType:'edge'
+      });
+    }
+    //修改密码
+    function goforgot(){
+      api.openWin({
+          name: 'forgotpwd_win',
+          url: './user/forgotpwd_win.html',
+          pageParam: {
+              name: 'test'
+          }
+      });
+    }
+    //修改手机号
+    function gosetphone(){
+      api.openWin({
+          name: 'setphone_win',
+          url: './user/setphone_win.html',
+          pageParam: {
+              name: 'test'
+          }
+      });
+    }
+    //第三方
+    function gothird(){
+      api.openWin({
+          name: 'thirdlog_win',
+          url: './user/thirdlog_win.html',
+          pageParam: {
+              name: 'test'
+          }
+      });
+    }
+    //汇率
+    function gorate(){
+      api.openWin({
+          name: 'rate_win',
+          url: './user/rate_win.html',
+          pageParam: {
+              name: 'test'
+          }
+      });
+    }
+    //清除缓存
+    function clearHc(){
+      api.clearCache(function(ret,err){
+          api.toast({
+              msg:'Cleared'
+          });
+          app.getCatch()
+      });
+    }
+    //新版本检测
+    function checkUpdate() {
+      api.showProgress({
+          style: 'default',
+          animationType: 'fade',
+          title: '',
+          text: '',
+          modal: true
+      });
+
+        var mam = api.require('mam');
+        mam.checkUpdate(function(ret, err) {
+          api.hideProgress();
+          // alert(JSON.stringify(ret))
+
+        // api.toast({
+        //     msg: "Already the latest version, no update required",
+        //     duration: 5000
+        // });
+        //   return
+            if (ret) {
+                var result = ret.result;
+                if (result.update == true && result.closed == false) {
+                    var str = 'New version number:' + result.version + '\n Update time:' + result.time + '\n Update description：'+result.versionDes;
+                    api.confirm({
+                        title: 'New version available V' + result.version,
+                        msg: str,
+                        buttons: ['Update', 'Cancel']
+                    }, function(ret, err) {
+                        if (ret.buttonIndex == 1) {
+                            if (api.systemType == "android") {
+                                api.download({
+                                    url: result.source,
+                                    report: true
+                                }, function(ret, err) {
+                                    if (ret && 0 == ret.state) { /* 下载进度 */
+                                        api.toast({
+                                            msg: "Updating application" + ret.percent + "%",
+                                            duration: 2000
+                                        });
+                                    }
+                                    if (ret && 1 == ret.state) { /* 下载完成 */
+                                        var savePath = ret.savePath;
+                                        api.installApp({
+                                            appUri: savePath
+                                        });
+                                    }
+                                });
+                            }
+                            if (api.systemType == "ios") {
+                                api.installApp({
+                                    appUri: result.source
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    /*
+                      api.alert({
+                          msg : "已是最新版，无需更新！"
+                      });
+                      */
+                    api.toast({
+                        msg: "Already the latest version, no update required",
+                        duration: 5000
+                    });
+                }
+            } else {
+              api.toast({
+                  msg: err.msg,
+                  duration: 2000,
+                  location: 'middle'
+              });
+            }
+        });
+    }
+
+    //帮助
+    function gohelp(){
+      api.openWin({
+          name: 'help_win',
+          url: './user/help_win.html',
+          pageParam: {
+              name: 'test'
+          }
+      });
+
+    }
+    //协议
+    function goprotocol(){
+      api.openWin({
+          name: 'protocol_win',
+          url: './protocol_win.html',
+          pageParam: {
+              name: 'test'
+          }
+      });
+    }
+    function goprivacy(){
+      api.openWin({
+          name: 'privacy_win',
+          url: './privacy_win.html',
+          pageParam: {
+              name: 'test'
+          }
+      });
+    }
+
+
+    //退出登陆
+    function loginOut() {
+        api.confirm({
+            title: 'Sign Out',
+            msg: 'Are you sure you want to log out?',
+            buttons: ['Sure', 'Cancel']
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.buttonIndex == 1) {
+                  // api.showProgress({
+                  //     style: 'default',
+                  //     animationType: 'fade',
+                  //     title: '',
+                  //     text: '',
+                  //     modal: true
+                  // });
+                  var unBindUid = {
+                    client_id:$api.getStorage('client_id')
+                  };
+                  pubshowloading()
+                  requstPost('chat/unBindUid',unBindUid,function success(ret){
+                    if (ret.code == 0) {
+                      $api.clearStorage();
+                      api.openWin({
+                          name: 'login_win',
+                          url: './login_win.html',
+                          slidBackEnabled: false,
+                      });
+                    }
+                  },function fail(err){
+
+                  })
+                  var touchBtn = api.require('3DTouch');
+                  touchBtn.setShortcutItems({
+                      items: []
+                  });
+
+                  return
+
+                  api.ajax({
+                      url: url+'userApi/user/logOut',
+                      method: 'post',
+                      data: {
+                          values: {
+                            token:$api.getStorage('token')
+                          }
+                      }
+                  },function(ret, err){
+                    api.hideProgress();
+
+                      if (ret) {
+                        if (ret.code == 1000) {
+                          // var myWebSocket = api.require('myWebSocket');
+                          // myWebSocket.close()
+                          $api.setStorage('token', '')
+                          $api.setStorage('islogin', 'false');
+                          $api.setStorage('nickname', '');
+                          $api.setStorage('headimg', '');
+                          $api.setStorage('session_id', '');
+                            $api.clearStorage();
+                            var touchBtn = api.require('3DTouch');
+                            touchBtn.setShortcutItems({
+                                items: []
+                            });
+
+
+
+
+                          api.openWin({
+                              name: 'login_win',
+                              url: './login_win.html',
+                              slidBackEnabled: false,
+                          });
+                        }
+                          // alert( JSON.stringify( ret ) );
+                      } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+
+                          // alert( JSON.stringify( err ) );
+                      }
+                  });
+
+
+
+
+
+
+
+                }
+                //  alert( JSON.stringify( ret ) );
+            } else {
+                //  alert( JSON.stringify( err ) );
+            }
+        });
+
+        return
+    }
+</script>
+
+</html>

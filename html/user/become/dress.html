@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: #fff;
+            min-height: 100vh;
+            padding-top: 3vw;
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .lists{
+          padding-left: 3vw;
+        }
+        .list{
+          padding: 3vw 0;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        .choseBox{
+          padding: 3vw;
+          padding-left: 50px;
+          border-bottom: 2px solid #f5f5f5;
+        }
+        .choseBox p{
+          position: relative;
+          color: #FB627F;
+          padding: 10px 0;
+        }
+        .choseBox p::after{
+          position: absolute;
+          left: -6vw;
+          width: 10px;
+          height: 10px;
+          background: #FB627F;
+          border-radius: 50%;
+          content: '';
+          top: 12px;
+        }
+        .choseBox p::before{
+          position: absolute;
+          left: -5vw;
+          width: 2px;
+          height: 100%;
+          background: #FB627F;
+          content: '';
+          top: 12px;
+        }
+          .choseBox p:last-child::before{
+            content:none;
+          }
+
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <!-- <div class="topnav">
+        <span>中国</span>
+        <span>海外</span>
+      </div> -->
+      <div class="choseBox">
+        <!-- <p v-for="(item,index) in choses">{{item}}</p> -->
+        <p v-if="country">{{country}}</p>
+        <p v-if="province">{{province}}</p>
+        <p v-if="city">{{city}}</p>
+        <p v-if="area">{{area}}</p>
+      </div>
+      <div class="lists">
+        <div v-if="type == 1" class="list" v-for="(item,index) in countrys" @click="chosecountry(item)">
+          {{item}}
+        </div>
+        <div v-if="type == 2 && isMore" class="list" v-for="(item,index) in provinces" @click="chosePro(item,index)">
+          {{item}}
+        </div>
+        <div v-if="type == 3 && isMore" class="list" v-for="(item,index) in citys" @click="choseCity(item,index)">
+          {{item}}
+        </div>
+          <!-- <div class="list">
+            China
+          </div>
+            <div class="list">
+              China
+            </div>
+              <div class="list">
+                China
+              </div>
+                <div class="list">
+                  China
+                </div> -->
+      </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/fastclick.js"></script>
+<script src="../../../script/vue.min.js"></script>
+<script src="../../../script/commonurl.js"></script>
+<script type="text/javascript">
+var app;
+    apiready = function() {
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  type:1,
+                  isMore:true,
+                  lists:[],
+                  choses:[],//选择的对象
+                  country:'',//国家
+                  countrys:[],//国家
+                  province:'',//省/州
+                  provinces:[],//省/州
+                  city:'',//城市
+                  citys:[],
+                  area:'',
+                  areas:[],
+                }
+            },
+            created() {
+              //获取所有国家
+              this.getCountrys()
+            },
+            methods: {
+              //选择市
+              choseCity(ite,ind){
+                // if (ind == 0) {
+                //   return
+                // }
+                var _this = this;
+                _this.city = ite
+                _this.type == 4;
+                _this.isMore = false;
+                _this.choses.push(ite)
+                _this.sureDress(3)
+              },
+              //选择省
+              chosePro(ite,ind){
+                // if (ind == 0) {
+                //   return
+                // }
+                var _this = this;
+                _this.type = 3
+                _this.province = ite
+                _this.choses.push(ite)
+                _this.getCitys(_this.country,ite)
+              },
+              //选择国家
+              chosecountry(ite){
+                var _this = this;
+                _this.type = 2;
+                _this.choses = [];
+                _this.country = ite;
+                _this.choses.push(ite)
+                this.getProvinces(ite,'')
+              },
+              getCitys(country,state){
+                var _this = this;
+                var data = {
+                  country:country,
+                  state:state
+                }
+                requstGet('city/select',data,function success(ret){
+                    _this.citys = ret.data
+                    // _this.lists = ret.data
+                    if (ret.data.length > 1) {
+
+                    }else {
+                      _this.isMore = false
+                      _this.sureDress(2)
+                    }
+
+                },function fail(err){
+
+                })
+              },
+              getProvinces(country,state){
+                var _this = this;
+                var data = {
+                  country:country,
+                  state:state
+                }
+                requstGet('city/select',data,function success(ret){
+                    _this.provinces = ret.data
+                    if (ret.data.length > 1) {
+
+                    }else {
+                      _this.isMore = false
+                      _this.sureDress(1)
+                    }
+                    // _this.lists = ret.data
+
+                },function fail(err){
+
+                })
+              },
+              getCountrys(){
+                var _this = this;
+                var data = {
+                  country:'',
+                  state:''
+                }
+                requstGet('city/select',data,function success(ret){
+                    _this.countrys = ret.data
+                    // _this.lists = ret.data
+
+                },function fail(err){
+
+                })
+              },
+              sureDress(e){
+                if (api.pageParam.type == 'seller') {
+                  //申请卖家
+                  var country = '';
+                  var province = '';
+                  var city = '';
+                  if (e == 1) {
+                    country = this.choses[0]
+                  }else if (e == 2) {
+                    country = this.choses[0]
+                    province = this.choses[1]
+                  }else if (e == 3) {
+                    country = this.choses[0]
+                    province = this.choses[1]
+                    city = this.choses[2]
+                  }
+                  api.execScript({
+                      name: 'seller_win',
+                      frameName: 'seller',
+                      script: 'app.setDress("'+country+'","'+province+'","'+city+'");'
+                  });
+                  api.closeWin();
+                }else if (api.pageParam.type == 'userinfo') {
+                  //个人资料
+                  var country = '';
+                  var province = '';
+                  var city = '';
+                  if (e == 1) {
+                    country = this.choses[0]
+                  }else if (e == 2) {
+                    country = this.choses[0]
+                    province = this.choses[1]
+                  }else if (e == 3) {
+                    country = this.choses[0]
+                    province = this.choses[1]
+                    city = this.choses[2]
+                  }
+                  api.execScript({
+                      name: 'userinfo_win',
+                      frameName: 'userinfo',
+                      script: 'app.setDress("'+country+'","'+province+'","'+city+'");'
+                  });
+                  api.closeWin();
+                }else if (api.pageParam.type == 'dress') {
+                  //收货地址
+                  var country = '';
+                  var province = '';
+                  var city = '';
+                  if (e == 1) {
+                    country = this.choses[0]
+                  }else if (e == 2) {
+                    country = this.choses[0]
+                    province = this.choses[1]
+                  }else if (e == 3) {
+                    country = this.choses[0]
+                    province = this.choses[1]
+                    city = this.choses[2]
+                  }
+                  api.execScript({
+                      name: 'dressedit_win',
+                      frameName: 'dressedit',
+                      script: 'app.setDress("'+country+'","'+province+'","'+city+'");'
+                  });
+                  api.closeWin();
+                }
+              },
+
+
+            }
+        })
+
+    };
+</script>
+
+</html>

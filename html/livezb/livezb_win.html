@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+        .flex-con{
+          overflow: auto;
+          /*height: 90vh;*/
+          flex: 1;
+          height: 100vh;
+          background: black;
+        }
+        .box{
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+        }
+        #footer{
+          background: black;
+        }
+        header{
+          background: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+      <header></header>
+        <div id="main" class="flex-con">
+
+        </div>
+        <footer id="footer"></footer>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script type="text/javascript" src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+var alivcLivePusher;
+var live_id = '';
+    apiready = function() {
+      alivcLivePusher = api.require('alivcLivePusher');
+        // var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar($api.dom('header'));
+        $api.fixTabBar($api.byId('footer'));
+        console.log($api.dom('header').offsetHeight);
+        console.log($api.dom('#footer').offsetHeight);
+        // var title = api.pageParam.name
+        // var a = document.getElementById('title');
+          // $api.text(a, title);
+          //接收直播id1
+          live_id = api.pageParam.live_id
+          getDetail()
+
+    };
+    function getDetail(){
+      var data = {
+        live_id:api.pageParam.live_id
+      };
+      requstPost('anchor/liveDetail',data,function success(ret){
+        if (ret.code == 0) {
+          openPushLive(ret.data.live_play_url)
+        }
+      },function fail(err){
+
+      })
+    }
+    //切换摄像头
+    function changeCamer(){
+      console.log("点击了切换摄像头")
+      alivcLivePusher.switchCamera();
+    }
+    function openPushLive(e){
+      // return
+      // alert(1)ceshi
+      var alivcLivePusher = api.require('alivcLivePusher');
+          alivcLivePusher.initPusher({
+              resolution:'720P',
+              // ...
+          },function(ret){
+              console.log(JSON.stringify(ret));
+              alivcLivePusher.startPreview({
+                rect:{
+                  x:0,
+                  // y:0,
+                  y:$api.dom('header').offsetHeight,
+                  w:api.winWidth,
+                  // h:api.winHeight
+                  h:$api.dom('#main').offsetHeight
+                }
+              },function(ret){
+                  // alert(JSON.stringify(ret));
+                  // alivcLivePusher.getPushUrl(function(ret){
+                  //     alert(JSON.stringify(ret));
+                  // });
+                  //自动对焦
+                  alivcLivePusher.setAutoFocus({
+                      isAutoFocus:true
+                  });
+                  //禁止屏幕休眠
+                  api.setKeepScreenOn({
+                      keepOn: true
+                  });
+                  //开启美颜
+                  setTimeout(()=>{
+                    // isBeauty()
+                  },1000)
+
+
+                  //开始推流
+                  setTimeout(()=>{
+                    startPushFn(e)
+                  },3000)
+                  openpage()
+              })
+          })
+    }
+    //开始推流
+    function startPushFn(e){
+      console.log(e+'推流的视频')
+      alivcLivePusher.startPush({
+        url:e
+      },function(ret){
+          if (ret.status) {
+            console.log('推流成功')
+          }else{
+            console.log(JSON.stringify(ret))
+          }
+      })
+    }
+
+    //开启美颜，设置美颜参数
+    function isBeauty(){
+      var alivcLivePusher = api.require('alivcLivePusher');
+      alivcLivePusher.setBeautyOn({
+          isBeautyOn:true
+      });
+      console.log(11111);
+      //美颜参数设置
+      alivcLivePusher.setBeautyValues({
+          beautyRuddy:50,//红润
+          beautyBigEye:50,//大眼睛
+          beautyWhite:100,//美白
+          beautyBuffing:100,//磨皮
+          beautyCheekPink:0,//瘦脸程度
+          beautyShortenFace:50,//腮红
+
+      });
+    }
+    function openpage() {
+
+        api.openFrame({
+            name: 'livepagezb',
+            url: 'livepagezb.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: api.winWidth,
+                // h: $api.dom('#main').offsetHeight,
+                h: api.winHeight,
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: true,
+            softInputMode:'resize',
+            pageParam:{
+              live_id:api.pageParam.live_id
+            }
+        });
+    }
+
+    function goBack() {
+      //销毁推流
+      // var alivcLivePusher = api.require('alivcLivePusher');
+          alivcLivePusher.destroy();
+        api.closeWin()
+    }
+</script>
+
+</html>

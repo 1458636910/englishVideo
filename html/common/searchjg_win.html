@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>搜索</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #header {
+            background: white;
+            align-items: center;
+            /*height: 10vw;*/
+            /*position: fixed;*/
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 500;
+        }
+
+        #header .iconfont {}
+
+        #footer {
+            /*height: 20px;*/
+        }
+
+        .flex-con {
+            overflow: auto;
+            height: 90vh;
+        }
+
+        .nav{
+          height: 10vw;
+          padding: 0 5vw;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          color: #696767;
+          font-size: 20px;
+        }
+        .nav span{
+          transition: all .3s;
+          margin-right: 5vw;
+        }
+        .nav .active{
+          color: #FA5F7D;
+          font-weight: 700;
+        }
+        #app{
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+        }
+        #main{
+          flex: 1;
+        }
+        #title{
+          overflow: hidden;
+          text-overflow: ellipsis;
+           display: -webkit-box;
+           -webkit-line-clamp: 1;
+           -webkit-box-orient: vertical;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+        <header id="header" style="">
+            <div id="topheader" style="height:10vw; border-bottom: 1px solid #e9e9e9;width:100%; display: flex; justify-content:space-between; padding: 0 12px; box-sizing:border-box; align-items:center;">
+                <label tapmode onclick="goBack()" style="flex:1;padding: 5px 0">
+                                  <i class="icon iconfont back">&#xe608;</i>
+                                </label>
+                <div id="title" style="flex:3; text-align:center; font-size:1.1rem;">
+                    loading...
+                </div>
+                <div style="flex:1;">
+                    <!-- <span onclick="changeInfo()">编辑</span> -->
+                </div>
+            </div>
+            <!-- <div class="nav">
+              <span tapmode onclick="changeframe1(0)" :class="active==0?'active':''">Live</span>
+              <span tapmode onclick="changeframe1(1)" :class="active==1?'active':''">Videos</span>
+            </div> -->
+        </header>
+        <div class="nav" v-if="type == 2">
+          <span tapmode onclick="changeframe(0)" :class="active==0?'active':''">
+            {{type == 2?'Products':''}}
+            <!-- {{type == 3?'Live':''}} -->
+          </span>
+          <span tapmode onclick="changeframe(1)" :class="active==1?'active':''">
+            {{type == 2?'Store':''}}
+            <!-- {{type == 3?'Video':''}} -->
+          </span>
+        </div>
+        <div id="main" class="flex-con">
+
+        </div>
+        <footer id="footer"></footer>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/vue.min.js"></script>
+<script type="text/javascript">
+var app;
+    apiready = function() {
+        // var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar($api.dom('header'));
+        $api.fixTabBar($api.byId('footer'));
+        var item = api.pageParam.keywords
+        var a = document.getElementById('title');
+        $api.text(a, item);
+        if (api.pageParam.type == 1) {
+          openpage()
+        }else if (api.pageParam.type == 2) {
+          openFrameGroup()
+        }else if (api.pageParam.type == 3) {
+          // openFrameGroup1()
+          openpageLive()
+        }else if (api.pageParam.type == 4) {
+          // openFrameGroup1()
+          openpageNews()
+        }
+        app = new Vue({
+            el: '#app',
+            data(){
+              return{
+                type:1,
+                  active:0
+              }
+            },
+            created(){
+              this.type = api.pageParam.type
+
+            }
+          })
+    };
+
+    function changeframe1(e){
+      app.active = e
+      api.setFrameGroupIndex({
+          name: 'searchjg3Group',
+          index: e,
+          scroll: true
+      });
+    }
+    function openFrameGroup1(){
+      api.openFrameGroup ({
+          name: 'searchjg3Group',
+          background: '#FAFAFA',
+          bounces:true,
+          scrollEnabled: true,
+          rect: {
+               x: 0,
+               y: $api.dom('header').offsetHeight+api.winWidth/10,
+               w: api.winWidth,
+               h: 'auto'
+          },
+          preload: 0,
+          index: 0,
+          frames: [{
+              name: 'searchjg3',
+              url: 'searchjg3.html',
+              bgColor: '#ffffff',
+              pageParam: {
+                  type: api.pageParam.type,
+                  keywords: api.pageParam.keywords
+              }
+          },{
+              name: 'searchjg4',
+              url: 'searchjg4.html',
+              bgColor: '#ffffff',
+              pageParam: {
+                  type: api.pageParam.type,
+                  keywords: api.pageParam.keywords
+              }
+          }]
+      }, function(ret, err){
+          if( ret ){
+            app.active = ret.index
+              //  alert( JSON.stringify( ret ) );
+          }else{
+              //  alert( JSON.stringify( err ) );
+          }
+      });
+
+    }
+    function changeframe(e){
+      app.active = e
+      api.setFrameGroupIndex({
+          name: 'searchjg2Group',
+          index: e,
+          scroll: true
+      });
+    }
+    function openFrameGroup(){
+      api.openFrameGroup ({
+          name: 'searchjg2Group',
+          background: '#FAFAFA',
+          bounces:true,
+          scrollEnabled: true,
+          rect: {
+               x: 0,
+               y: $api.dom('header').offsetHeight+api.winWidth/10,
+               w: api.winWidth,
+               h: 'auto'
+          },
+          preload: 0,
+          index: 0,
+          frames: [{
+              name: 'searchjg1',
+              url: 'searchjg1.html',
+              bgColor: '#ffffff',
+              pageParam: {
+                  type: api.pageParam.type,
+                  keywords: api.pageParam.keywords
+              }
+          },{
+              name: 'searchjg2',
+              url: 'searchjg2.html',
+              bgColor: '#ffffff',
+              pageParam: {
+                  type: api.pageParam.type,
+                  keywords: api.pageParam.keywords
+              }
+          }]
+      }, function(ret, err){
+          if( ret ){
+            app.active = ret.index
+              //  alert( JSON.stringify( ret ) );
+          }else{
+              //  alert( JSON.stringify( err ) );
+          }
+      });
+
+    }
+    //直播
+    function openpageLive(){
+      api.openFrame({
+          name: 'searchjg3',
+          url: 'searchjg3.html',
+          rect: {
+              x: 0,
+              y: $api.dom('header').offsetHeight,
+              w: api.winWidth,
+              h: 'auto',
+          },
+          bounces: true,
+          bgColor: 'rgba(255,0,0,0)',
+          vScrollBarEnabled: false,
+          hScrollBarEnabled: true,
+          pageParam: {
+              type: api.pageParam.type,
+              keywords: api.pageParam.keywords
+          }
+      });
+    }
+    //资讯
+
+    function openpageNews(){
+      api.openFrame({
+          name: 'searchjg4',
+          url: 'searchjg4.html',
+          rect: {
+              x: 0,
+              y: $api.dom('header').offsetHeight,
+              w: api.winWidth,
+              h: 'auto',
+          },
+          bounces: true,
+          bgColor: 'rgba(255,0,0,0)',
+          vScrollBarEnabled: false,
+          hScrollBarEnabled: true,
+          pageParam: {
+              type: api.pageParam.type,
+              keywords: api.pageParam.keywords
+          }
+      });
+    }
+    function openpage(e) {
+
+        api.openFrame({
+            name: 'searchjg',
+            url: 'searchjg.html',
+            rect: {
+                x: 0,
+                y: $api.dom('header').offsetHeight,
+                w: api.winWidth,
+                h: 'auto',
+
+            },
+            bounces: true,
+            bgColor: 'rgba(255,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: true,
+            pageParam: {
+                type: api.pageParam.type,
+                keywords: api.pageParam.keywords
+            }
+        });
+    }
+
+    function goBack() {
+        api.closeWin()
+    }
+</script>
+
+</html>

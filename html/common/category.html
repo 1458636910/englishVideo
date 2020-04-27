@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .lists{
+          padding: 3vw;
+        }
+        .list{
+          margin-bottom: 5vw;
+        }
+        .img{
+          width: 94vw;
+          height: 50vw;
+          position: relative;
+        }
+        .img img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+        .top{
+          position: absolute;
+          top: 3vw;
+          left: 3vw;
+          color: white;
+        }
+        .info{
+          display: flex;
+          align-items: center;
+          margin-top: 3vw;
+        }
+        .head{
+          width: 15vw;
+          height: 15vw;
+          border-radius: 50%;
+          margin-right: 3vw;
+        }
+        .head img{
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+        .nameBox{
+          width: 76vw;
+          height: 10vw;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+        .name{
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          color: #203252;
+        }
+        .des{
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          font-size: 14px;
+          color: #7C8798;
+        }
+        .gjp{
+          background: #dcdcdc;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="lists">
+        <div class="list" v-if="list.length == 0 && ismore">
+          <div class="img gjp"></div>
+          <div class="info">
+            <div class="head gjp"></div>
+            <div class="nameBox gjp"></div>
+          </div>
+        </div>
+          <div class="list" v-if="list.length == 0 && ismore">
+            <div class="img gjp"></div>
+            <div class="info">
+              <div class="head gjp"></div>
+              <div class="nameBox gjp"></div>
+            </div>
+          </div>
+            <div class="list" v-if="list.length == 0 && ismore">
+              <div class="img gjp"></div>
+              <div class="info">
+                <div class="head gjp"></div>
+                <div class="nameBox gjp"></div>
+              </div>
+            </div>
+              <div class="list" v-if="list.length == 0 && ismore">
+                <div class="img gjp"></div>
+                <div class="info">
+                  <div class="head gjp"></div>
+                  <div class="nameBox gjp"></div>
+                </div>
+              </div>
+              <div class="empty" v-if="list.length == 0">
+                <img src="../../image/empty.png" alt="">
+              </div>
+        <div class="list" v-for="(item,index) in list" @click='godouyin(item)'>
+          <div class="img">
+            <img v-lazy="item.imageUrl" alt="">
+            <div class="top">
+              <i class="iconfont">&#xe629;</i>
+              <span>{{item.look_count}}</span>
+            </div>
+          </div>
+          <!-- <div>
+            {{item.imageUrl}}
+          </div> -->
+          <div class="info">
+            <div class="head">
+              <img :src="item.avatar_url" alt="">
+            </div>
+            <div class="nameBox">
+              <p class="name">{{item.full_name}}</p>
+              <p class="des">{{item.title}}</p>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="list">
+          <div class="img">
+            <img src="../../image/shop.png" alt="">
+            <div class="top">
+              <i class="iconfont">&#xe629;</i>
+              <span>23400</span>
+            </div>
+          </div>
+          <div class="info">
+            <div class="head">
+              <img src="../../image/shop.png" alt="">
+            </div>
+            <div class="nameBox">
+              <p class="name">Richardo</p>
+              <p class="des">New manicure and lipstick colors are very good</p>
+            </div>
+          </div>
+        </div> -->
+      </div>
+
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script type="text/javascript" src="../../script/lazyload.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+      Vue.use(VueLazyload, {
+            preLoad: 1.3,
+            error: '../../image/errorimg.png',
+            loading: '../../image/loading.svg',
+            attempt: 1
+          })
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  type:'',
+                  keywords:'',
+                  list:[],
+                  page:1,
+                  ismore:true,
+                  allpage:1,
+                  last_video_id:0,
+                }
+            },
+            created() {
+              // alert(api.pageParam.type)
+              this.getLists()
+              this.getMore()
+
+              //去除骨架屏
+              setTimeout(()=>{
+                this.ismore = false
+              },5000)
+            },
+            methods: {
+              godouyin(ite){
+                api.openWin({
+                    name: 'douyin_win',
+                    url: '../douyin/douyin_win.html',
+                    pageParam: {
+                      // id: ite.id,
+                        id: ite.id,
+                        url:''
+                    },
+                    softInputMode:'pan',
+                    // slidBackEnabled:false
+                });
+              },
+              getLists(){
+                // pubshowloading()
+                var _this = this;
+                var data = {
+                  type:0,
+                  page:_this.page,
+                  category_id:api.pageParam.type,
+                  page_size:20,
+                  last_video_id:_this.last_video_id,
+                };
+                requstPost('video',data,function success(ret){
+                  // alert(JSON.stringify(ret))
+                  if (ret.code == 0) {
+                    _this.page += 1
+                    _this.list = _this.list.concat(ret.data.list)
+                    if (ret.data.list.length < 20) {
+                      _this.ismore = false
+                    }
+                    if (ret.data.list.length > 0) {
+                      var dataIndex = ret.data.list.length - 1;
+                      _this.last_video_id = ret.data.list[dataIndex].id
+                      var listData = ret.data.list;
+                      for (i in listData) {
+                          api.imageCache({
+                              url: listData[i].imageUrl,
+                              tag: i
+                          }, function(ret, err) {
+                            // console.log(JSON.stringify(ret));
+                              listData[ret.tag].imageUrl = ret.url;
+                          });
+                          api.imageCache({
+                              url: listData[i].avatar_url,
+                              tag: i
+                          }, function(ret, err) {
+                            // console.log(JSON.stringify(ret));
+                              listData[ret.tag].avatar_url = ret.url;
+                          });
+                      }
+                    }
+                  }else {
+                    _this.ismore = false
+                  }
+
+                },function fail(err){
+
+                })
+              },
+              //监听滚动到底
+              getMore() {
+                var _this = this
+                api.addEventListener({
+                    name: 'scrolltobottom',
+                    extra: {
+                        threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                    }
+                }, function(ret, err) {
+                  console.log('加载更多');
+                  console.log(_this.page);
+                    console.log(_this.allpage);
+                    if (_this.ismore) {
+                      _this.getLists()
+                    }
+                });
+
+              },
+
+
+            }
+        })
+
+    };
+</script>
+
+</html>

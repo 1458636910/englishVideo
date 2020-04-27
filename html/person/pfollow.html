@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .lists{
+          padding: 3vw;
+        }
+        .list{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-bottom: 1px solid #f5f5f5;
+          padding-bottom: 3vw;
+          margin-bottom: 3vw;
+        }
+        .left{
+          width: 60vw;
+          display: flex;
+          align-items: center;
+        }
+        .img{
+          width: 15vw;
+          height: 15vw;
+          border-radius: 50%;
+          background: #FA607D;
+          margin-right: 3vw;
+        }
+        .shopname{
+          max-width: 42vw;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          height: 13vw;
+          color: #999999;
+          font-size: 13px;
+        }
+        .name{
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          color: #4F4F4F;
+          font-size: 16px;
+        }
+        .img img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+        .right span{
+          width: 15vw;
+          height: 8vw;
+          text-align: center;
+          line-height: 8vw;
+          border-radius: 4vw;
+          border: 1px solid #E2E1E8;
+          color: white;
+          background: #E2E1E8;
+        }
+        .right .active{
+          background: #E86A7F;
+          border: 1px solid #E86A7F;
+        }
+        .right span .iconfont{
+          font-weight: 700;
+          font-size: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+
+        <div class="empty" v-if="list.length == 0">
+          <img src="../../image/empty.png" alt="">
+        </div>
+      <div class="lists" v-if="type == 1">
+        <div class="list" @click="goperson(item.is_anchor,item.anchor_id)" v-for="(item,index) in list">
+          <div class="left">
+            <div class="img">
+              <img :src="item.avatar_url" alt="">
+            </div>
+            <div class="shopname">
+              <p class="name">{{item.nickname}}</p>
+            </div>
+          </div>
+          <div class="right" @click="facusAnchor(item)">
+            <span :class="item.focus_status == 0?'active':''" v-if="item.is_anchor == 1">
+              <i v-if="item.focus_status == 1" class="iconfont">&#xe633;</i>
+              <i v-else class="iconfont">&#xe613;</i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="lists" v-if="type == 2">
+        <div class="list" v-for="(item,index) in list">
+          <div class="left">
+            <div class="img">
+              <img :src="item.anchor_avatar" alt="">
+            </div>
+            <div class="shopname">
+              <p class="name">{{item.anchor_name}}</p>
+            </div>
+          </div>
+          <div class="right" @click="facusAnchor(item)">
+            <span :class="item.focus_status == 0?'active':''" v-if="item.is_anchor == 1">
+              <i v-if="item.focus_status == 1" class="iconfont">&#xe633;</i>
+              <i v-else class="iconfont">&#xe613;</i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  type:1,//1为粉丝列表，2为关注的主播列表
+                  list:[],
+                  page:1,
+                  more:true,
+                  last_foc_id:'',//最后一个粉丝关注记录id
+
+                }
+            },
+            created() {
+              this.type = api.pageParam.type
+              if (api.pageParam.type == 1) {
+                this.getListsFans()
+              }else if (api.pageParam.type == 2) {
+                this.getListsAnchor()
+              }
+              this.getMore()
+
+            },
+            methods: {
+              //查看主播页面
+              goperson(is_anchor,ite){
+                if(is_anchor==1){
+                  api.openWin({
+                      name: 'person_win',
+                      url: './person_win.html',
+                      pageParam: {
+                          id: ite.anchor_id
+                      }
+                  });
+                }else{
+                  return;
+                }
+              },
+              facusAnchor(ite){
+                var _this = this;
+                var data = {
+                  anchor_id:ite.anchor_id
+                };
+                requstPost('user/followAnchor',data,function success(ret){
+                  if (ret.code == 0) {
+                    ite.focus_status = ret.data.focus_status
+                  }
+                },function fail(err){
+
+                })
+              },
+              //监听滚动到底
+              getMore() {
+                var _this = this
+                api.addEventListener({
+                    name: 'scrolltobottom',
+                    extra: {
+                        threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                    }
+                }, function(ret, err) {
+                  console.log('加载更多');
+                  if (!_this.more) {
+                    return
+                  }
+                  if (api.pageParam.type == 1) {
+                    this.getListsFans()
+                  }else if (api.pageParam.type == 2) {
+                    this.getListsAnchor()
+                  }
+
+                });
+
+              },
+              getListsFans(){
+                var _this = this;
+                var data = {
+                  anchor_id:api.pageParam.id,
+                  last_foc_id:_this.last_foc_id,
+                  page:_this.page,
+                  page_size:20
+                };
+                requstPost('anchor/homeFollowers',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.page += 1;
+                    if (ret.data.list.length < 20) {
+                      _this.more = false
+                    }
+                    _this.last_foc_id = ret.data.last_foc_id
+                    _this.list = _this.list.concat(ret.data.list)
+                  }
+                },function fail(err){
+
+                })
+              },
+              getListsAnchor(){
+                var _this = this;
+                var data = {
+                  anchor_id:api.pageParam.id,
+                  page:_this.page,
+                  page_size:20
+                };
+                requstPost('anchor/homeFollowing',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.page += 1;
+                    if (ret.data.length < 20) {
+                      _this.more = false
+                    }
+                    _this.list = _this.list.concat(ret.data)
+                  }
+                },function fail(err){
+
+                })
+              },
+
+            }
+        })
+
+    };
+</script>
+
+</html>

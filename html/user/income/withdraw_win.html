@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #header{
+            background: white;
+
+            align-items: center;
+            height: 10vw;
+            border-bottom: 1px solid #e9e9e9;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 500;
+        }
+        #header .iconfont{
+          /*font-size: 25px;*/
+        }
+        #footer {
+            /*height: 20px;*/
+        }
+        .flex-con{
+          overflow: auto;
+          height: 90vh;
+        }
+        #title{
+          max-width: 80vw;
+          overflow: hidden;
+          text-overflow: ellipsis;
+           display: -webkit-box;
+           -webkit-line-clamp: 1;
+           -webkit-box-orient: vertical;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+
+        <header id="header" style=" display: flex; padding: 0 12px;">
+            <label onclick="goBack()" style="flex:1;">
+                                <i class="icon iconfont back">&#xe608;</i>
+                              </label>
+            <div id="title" style="text-align:center; font-size:1.1rem;">
+              Withdraw
+            </div>
+            <div style="flex:1; text-align:right; position:relative;">
+              <!-- <span onclick="changeInfo()">编辑</span> -->
+            </div>
+        </header>
+        <div id="main" class="flex-con">
+
+        </div>
+        <footer id="footer"></footer>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        // var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar($api.dom('header'));
+        $api.fixTabBar($api.byId('footer'));
+
+        openpage()
+    };
+    function openpage() {
+
+        api.openFrame({
+            name: 'withdraw',
+            url: 'withdraw.html',
+            rect: {
+                x: 0,
+                y: $api.dom('header').offsetHeight - 1,
+                w: api.winWidth,
+                h: $api.dom('#main').offsetHeight,
+                // h: api.winHeight -  $api.dom('header').offsetHeight+1,
+            },
+            pageParam:{
+              type:api.pageParam.type
+            },
+            bounces: true,
+            bgColor: '#fff',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: true
+        });
+    }
+
+    function goBack() {
+        api.closeWin()
+    }
+</script>
+
+</html>

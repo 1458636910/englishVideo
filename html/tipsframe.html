@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          body,html{
+            background:rgba(0,0,0,.5);
+          }
+          .wrap{
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+          }
+          .box{
+            width: 80vw;
+            /*max-height: 50vh;*/
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            /*display: flex;
+            flex-direction: column;*/
+          }
+          .tit{
+            background-image: url(../image/userbg.png);
+            background-size: 110% auto;
+            background-position: center;
+            text-align: center;
+            padding: 3vw;
+            color: white;
+            border-bottom: 1px solid #f5f5f5;
+            font-weight: 700;
+          }
+          .content{
+            padding: 5vw 3vw;
+            flex: 1;
+            max-height: 40vh;
+            overflow: scroll;
+          }
+          .btns{
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid #f5f5f5;
+          }
+          .btns div{
+            padding: 3vw;
+            flex: 1;
+            text-align: center;
+            color: #999999;
+            background: #f5f5f5;
+          }
+          .btns .btn{
+            border-left: 1px solid #f5f5f5;
+            color: white;
+            font-weight: 700;
+              background-image: url(../image/userbg.png);
+              background-size: 110% auto;
+              background-position: left;
+              text-align: center;
+          }
+          .content span{
+            color: green;
+          }
+
+      </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="box">
+        <div class="tit">
+          Tips
+        </div>
+        <div class="content">
+          According to the requirements of relevant departments, you need to read and agree to the <span tapmode onclick="goys()"> "Data Policy" </span> and <span  tapmode onclick="goxy()"> "Terms of Use" </span> to use the app.
+        </div>
+        <div class="btns">
+          <div tapmode onclick="outApp()">Disagree</div>
+          <div class="btn" tapmode onclick="igree()">Agree</div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+
+      };
+      function goys(){
+        api.openWin({
+            name: 'privacy_win',
+            url: './privacy_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+      }
+      function goxy(){
+        api.openWin({
+            name: 'protocol_win',
+            url: './protocol_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+      }
+      function igree(){
+        api.setPrefs({
+            key: 'protocolText',
+            value: 'value'
+        });
+        api.closeFrame();
+      }
+      function outApp(){
+        api.closeWidget({
+          id: 'A6029958925288',
+          retData: {
+              name: 'closeWidget'
+          },
+          animation: {
+              type: 'flip',
+              subType: 'from_bottom',
+              duration: 500
+          }
+        });
+      }
+  </script>
+  </html>

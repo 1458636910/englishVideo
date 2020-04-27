@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+              padding: 3vw;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        /**/
+        .ship{
+          padding: 3vw;
+            color: #403e3e;
+            padding-left: 0;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        .shiplist{
+          padding: 3vw 0;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        .chose{
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          border: 1px solid #757575;
+        }
+        .shipl{
+          flex: 1;
+        }
+        .tit{
+          padding-bottom: 3vw;
+            color: #403e3e;
+        }
+        .shipl p:nth-child(2){
+          color: #999999;
+        }
+        .chose.active{
+          border: 1px solid #e86a7f;
+          background-image: url(../../image/chose.png);
+          background-size: 100%;
+        }
+        .shipl span{
+          color: #ff5d78;
+          /*font-weight: 700;*/
+        }
+        /**/
+        /**/
+        /**/
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="ship">
+        Shipping
+      </div>
+      <div class="ships">
+        <div class="shiplist" @click="choseShip(item,index)" v-for="(item,index) in lists">
+          <div class="shipl">
+            <p class="tit">{{item.title}}</p>
+            <div class="desc" v-html="item.desc">
+
+            </div>
+          </div>
+          <div class="chose" :class="shipactive==index?'active':''"></div>
+        </div>
+        <!-- <div class="shiplist" @click="choseShip(item,index)" v-for="(item,index) in lists">
+          <div class="shipl">
+            <p class="tit">Free</p>
+            <p>Congratulations on Spending Over $200,You Can Enjoy Domestic Free Shipping Service Received Products Within 3-5 Days</p>
+          </div>
+          <div class="chose" :class="shipactive==0?'active':''"></div>
+        </div> -->
+          <!-- <div class="shiplist" @click="shipactive = 1">
+            <div class="shipl">
+              <p class="tit">Domestic Ordinary Surface Mail</p>
+              <p>Received Products Within 3-5 Days,Postage:<span>$4.00</span></p>
+            </div>
+            <div class="chose" :class="shipactive==1?'active':''"></div>
+          </div>
+            <div class="shiplist" @click="shipactive = 2">
+              <div class="shipl">
+                <p class="tit">Received Tomorrow</p>
+                <p>Postage:<span>$4.00</span></p>
+              </div>
+              <div class="chose" :class="shipactive==2?'active':''"></div>
+            </div>
+              <div class="shiplist" @click="shipactive = 3">
+                <div class="shipl">
+                  <p class="tit">Fedex</p>
+                  <p>Postage:<span>$12.00</span></p>
+                </div>
+                <div class="chose" :class="shipactive==3?'active':''"></div>
+              </div> -->
+      </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+var app;
+    apiready = function() {
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  store_id:'',//商家id
+                  storeInd:0,//接收确认订单页的商家下标位置
+                  shipactive:0,
+                  buyer_consume_fee:0,//店铺消费金额
+                  receiver_country:'',//收货人国家
+                  lists:[],//邮寄方式
+                  type:'',//接收选择的邮寄类型，传给后台
+                  shipPrice:0,//邮寄方式价格
+                }
+            },
+            created() {
+              this.store_id = api.pageParam.store_id
+              this.receiver_country = api.pageParam.receiver_country
+              this.buyer_consume_fee = api.pageParam.buyer_consume_fee
+              this.storeInd = api.pageParam.storeInd
+              this.getLists()
+
+            },
+            methods: {
+              //选择邮寄方式
+              choseShip(ite,ind){
+                this.shipactive = ind
+                this.type = ite.type
+                this.shipPrice = ite.postage
+              },
+              //根据条件获取邮寄方式
+              getLists(){
+                var _this = this;
+                var data = {
+                  store_id:_this.store_id,
+                  receiver_country:_this.receiver_country,
+                  buyer_consume_fee:_this.buyer_consume_fee
+                };
+                requstPost('store/express',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.lists = ret.data
+                    _this.type = ret.data[0].type
+                    _this.shipPrice = ret.data[0].postage
+                  }
+                },function fail(err){
+
+                })
+              },
+              //确认邮寄方式
+              fnsureShip(){
+                var _this = this;
+                api.execScript({
+                    name: 'placeorder_win',
+                    frameName: 'placeorder',
+                    script: 'app.chengeShip("'+_this.type+'","'+_this.shipPrice+'","'+_this.storeInd+'");'
+                });
+                api.closeWin();
+              }
+
+
+            }
+        })
+
+    };
+</script>
+
+</html>

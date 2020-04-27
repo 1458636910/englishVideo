@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body,
+        html {
+            background: black;
+        }
+
+        .flex-con {
+            overflow: auto;
+            /*height: 90vh;*/
+            flex: 1;
+            /*height: 100vh;*/
+            /*background: black;*/
+        }
+
+        .box {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 0 3vw;
+            height: 12vw;
+            line-height: 12vw;
+            /*position: fixed;*/
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        header span {
+            width: 30px;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            color: white;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            opacity: 0;
+            padding-bottom: 3vw;
+            background: black;
+        }
+
+        .footer {
+            padding: 0 3vw 5vw;
+        }
+
+        .count {
+            margin-top: 3vw;
+        }
+
+        .plBox {
+            /*width: 40vw;*/
+            margin-top: 3vw;
+            height: 10vw;
+            line-height: 10vw;
+            text-align: left;
+            border-radius: 5vw;
+            padding-left: 3vw;
+            color: #363639;
+            box-sizing: border-box;
+            background: rgba(204, 204, 206, 0.68);
+        }
+        /**/
+
+        #footerr {
+            position: fixed;
+            bottom: 5vw;
+            right: 0;
+            opacity: 0;
+        }
+
+        .headBox {
+            position: relative;
+        }
+
+        .head {
+            width: 10vw;
+            height: 10vw;
+            border-radius: 5vw;
+        }
+
+        .head img {
+            width: 10vw;
+            height: 10vw;
+            border-radius: 5vw;
+        }
+
+        .gz {
+            position: absolute;
+            bottom: 0;
+        }
+
+        .footerr {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+        }
+
+        .footerr {
+            /*padding-bottom: 3vw;*/
+        }
+
+        .footerr div {
+            text-align: center;
+            margin-bottom: 3vw;
+        }
+
+        .footerr div:last-child {
+            margin-bottom: 0;
+        }
+
+        .footerr .iconfont {
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <header>
+            <span tapmode onclick="goBack()">
+            <i class="iconfont">&#xe608;</i>
+          </span>
+        </header>
+        <div id="main" class="flex-con">
+
+        </div>
+        <footer id="footer">
+            <div class="footer">
+                <h3>Sara</h3>
+                <p class="count" id="footerCount">New manicure and lipstick colors are very good </p>
+                <div class="progressBox">
+
+                </div>
+                <div class="plBox">
+                    Comments...
+                </div>
+            </div>
+        </footer>
+
+        <footer id="footerr">
+            <div class="footerr">
+                <div class="headBox">
+                    <div class="head">
+                        <img src="../../image/img7.jpg" alt="">
+                    </div>
+                    <span class="gz">+</span>
+                </div>
+                <div>
+                    <i class="iconfont">&#xe60c;</i>
+                    <p>1.1w</p>
+                </div>
+                <div>
+                    <i class="iconfont">&#xe615;</i>
+                    <p>3.8w</p>
+                </div>
+                <div>
+                    <i class="iconfont">&#xe627;</i>
+                    <p>3.8w</p>
+                </div>
+                <!-- <div></div> -->
+            </div>
+        </footer>
+        <footer id="footerBom"></footer>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script type="text/javascript" src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    var demo;
+    var isPause = false;
+    var payed = false;
+    var videos = [{
+        imageUrl: 'widget://res/dy/my.png',
+        videoUrl: 'widget://res/dy/1.mp4',
+    }, {
+        imageUrl: 'widget://res/dy/my.png',
+        videoUrl: 'widget://res/dy/2.mp4',
+    }, {
+        imageUrl: 'widget://res/dy/my.png',
+        videoUrl: 'widget://res/dy/3.mp4',
+    }, {
+        imageUrl: 'widget://res/dy/my.png',
+        videoUrl: 'widget://res/dy/4.mp4',
+    }, {
+        imageUrl: 'widget://res/dy/my.png',
+        videoUrl: 'widget://res/dy/5.mp4',
+    }, {
+        imageUrl: 'widget://res/dy/my.png',
+        videoUrl: 'widget://res/dy/6.mp4',
+    }, {
+        imageUrl: 'widget://res/dy/my.png',
+        videoUrl: 'widget://res/dy/7.mp4',
+    }, {
+        imageUrl: 'widget://res/dy/my.png',
+        videoUrl: 'http://7z2dc9.com1.z0.glb.clouddn.com/apicloud/9d9906ba474152307d7edca6bd72fbe2.mp4',
+    }, {
+        imageUrl: 'http://7z2dc9.com1.z0.glb.clouddn.com/apicloud/1a73dd6a90a52b2aad1aafefbf977e4c.png',
+        videoUrl: 'http://7z2dc9.com1.z0.glb.clouddn.com/apicloud/00b2141bff87cfaa75498f66214aeb9e.mp4',
+    }, {
+        imageUrl: 'http://7z2dc9.com1.z0.glb.clouddn.com/apicloud/ec65083dbdc6bb18a6318591ac6c15a5.png',
+        videoUrl: 'http://7z2dc9.com1.z0.glb.clouddn.com/apicloud/9d9906ba474152307d7edca6bd72fbe2.mp4',
+    }, {
+        imageUrl: 'http://7z2dc9.com1.z0.glb.clouddn.com/apicloud/51fc1ddde9790c96a6986b74342a15e3.png',
+        videoUrl: 'http://7z2dc9.com1.z0.glb.clouddn.com/apicloud/dc811d2c4d88b409063c7ea2065fe6a0.mp4',
+    }, {
+        imageUrl: 'http://7z2dc9.com1.z0.glb.clouddn.com/apicloud/51fc1ddde9790c96a6986b74342a15e3.png',
+        videoUrl: 'http://7z2dc9.com1.z0.glb.clouddn.com/apicloud/dc811d2c4d88b409063c7ea2065fe6a0.mp4',
+    }, {
+        imageUrl: 'http://7z2dc9.com1.z0.glb.clouddn.com/apicloud/51fc1ddde9790c96a6986b74342a15e3.png',
+        videoUrl: 'http://7z2dc9.com1.z0.glb.clouddn.com/apicloud/dc811d2c4d88b409063c7ea2065fe6a0.mp4',
+    }];
+    var last_video_id = '';
+    var page = 1;
+    var videoIndex = 0;//当前视频下标
+    var anchor_id = '';//当前主播id
+    var videotitle = '';//当前视频标题
+    var fav_count = '';//喜欢人数
+    var talk_count = '';//评论人数
+    var share_count = '';//分享次数
+    var full_name = '';//主播名字
+    var avatar_url = '';//主播头像
+    var ismore = true;//是否还有更多
+    var money = '';//当前视频费用
+    var pay_order_status = true;//当前视频费用是否支付
+    var videoid = '';//当前视频id
+    var focus_anchor_status = 0;//是否关注
+    var fav_video_status = 0;//是否点赞
+    apiready = function() {
+        demo = api.require('UIScrollPlayer');
+        // var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar($api.dom('header'));
+        $api.fixTabBar($api.byId('footer'));
+        $api.fixTabBar($api.byId('footerr'));
+        $api.fixTabBar($api.byId('footerBom'));
+        api.setKeepScreenOn({
+            keepOn: true
+        });
+        var title = api.pageParam.name
+            // var a = document.getElementById('title');
+            // $api.text(a, title);
+            last_video_id = api.pageParam.id
+
+        // isMoney()
+        // openPullLive()
+        getLists()
+    };
+    //获取抖音列表
+    function getLists(){
+      var data = {
+        last_video_id:last_video_id,
+        page:page
+      };
+      requstPost('video/detail',data,function success(ret){
+        if (ret.code == 0) {
+          last_video_id = ret.data.last_video_id;
+
+          if (ret.data.list.length < 25) {
+            ismore = false
+          }
+          page += 1;
+          if (page == 2) {
+             videos = ret.data.list;
+             anchor_id = ret.data.list[0].anchor_id;
+             videotitle = ret.data.list[0].title;
+             var a = document.getElementById('footerCount');
+               $api.text(a, videotitle);
+
+
+             fav_count = ret.data.list[0].fav_count;//喜欢人数
+             talk_count = ret.data.list[0].talk_count;//评论人数
+             share_count = ret.data.list[0].share_count;//分享次数
+             full_name = ret.data.list[0].full_name;//主播名字
+             avatar_url = ret.data.list[0].avatar_url;//主播头像
+             money = ret.data.list[0].price;//视频费用
+             pay_order_status = ret.data.list[0].pay_order_status;//视频费用
+             videoid = ret.data.list[0].id;//视频id
+             focus_anchor_status = ret.data.list[0].focus_anchor_status;//是否关注
+             fav_video_status = ret.data.list[0].fav_video_status;//是否点赞
+             if(Number(ret.data.list[0].price) > 0){
+               if (Number(ret.data.list[0].pay_order_status) == 0) {
+                 //未支付
+                 setTimeout(()=>{
+                   demo.pause()
+                   isPause = true
+                   isMoney()
+                 },3000)
+               }else {
+                 payed = true
+               }
+             }else {
+               //免费
+               payed = true
+             }
+
+            //  alert(ismore)
+            openPullLive()
+          }else {
+            //追加视频
+            demo.add({
+              videos:ret.data.list
+            })
+          }
+        }else {
+          api.alert({
+              title: ret.message,
+              msg: '',
+          }, function(ret, err){
+              if( ret ){
+                api.closeWin();
+                  //  alert( JSON.stringify( ret ) );
+              }else{
+                  //  alert( JSON.stringify( err ) );
+              }
+          });
+
+        }
+      },function fail(err){
+
+      })
+    }
+    function openPullLive() {
+      var headerheight =$api.dom('header').offsetHeight - api.winWidth * 12 / 100;
+      // alert($api.dom('header').offsetHeight)
+
+      // alert(headerheight)
+        api.showProgress({
+            style: 'default',
+            animationType: 'fade',
+            title: '',
+            text: '',
+            modal: true
+        });
+        demo.open({
+            rect: {
+                x: 0,
+                y: 0,
+                w: api.winWidth,
+                h: api.winHeight
+                // y: headerheight,
+                // w: api.winWidth,
+                // h: api.winHeight-headerheight-$api.byId('footerBom').offsetHeight
+            },
+            autoPlay: true,
+            scalingMode: 2, //1/按视频比例放大缩小至一边充满，2/按视频比例放大缩小至视频充满控件，可能视频会被裁剪，3/宽高充满控件，视频可能会变形
+            // imageType:1,
+            imgScaleType:1,
+            videos: videos,
+        }, function(ret, err) {
+          // alert(JSON.stringify(ret))
+
+            api.hideProgress();
+            openpage()
+            demo.addEventListener(function(ret, err) {
+                console.log(JSON.stringify(ret));
+                if (ret.evenType == 'onSingleTapUp') {
+                    //单击事件
+                    console.log('单击了');
+                    // alert(money)
+                    // alert(pay_order_status)
+                    if (payed) {
+                        //已经支付
+                        if (isPause) {
+                            demo.play()
+                            isPause = false
+                        } else {
+                            demo.pause()
+                            isPause = true
+                        }
+                    }else {
+                      isMoney()
+                      demo.pause()
+                      isPause = true
+                    }
+                }
+                if (ret.evenType == 'onDoubleTap') {
+                    //双击事件
+                    // demo.play()
+                    // isPause = false
+                    api.execScript({
+                        name: 'douyin_win',
+                        frameName: 'douyinright',
+                        script: 'doAnimate();'
+                    });
+
+                }
+                if (ret.evenType == 'onScroll') {
+                    console.log('改变了'+JSON.stringify(ret));
+                    videoIndex = ret.index
+                    money = videos[ret.index].price
+                    videoid = videos[ret.index].id
+                    setInfo(ret.index)
+                    if (ismore) {
+                      if (ret.index == videos.length - 5) {
+                        //距离倒数五条左右开始加载
+                        getLists()
+                      }
+                    }
+                    if (videos[ret.index].price > 0) {
+                      if (videos[ret.index].pay_order_status == 0) {
+                        isMoney()
+                        payed = false;
+                        setTimeout(()=>{
+                          demo.pause()
+                          isPause = true
+                        },300)
+                      }else {
+                        payed = true
+                      }
+
+                    }else {
+                      payed = true;
+                    }
+                    var inputField = api.require('inputField');
+                    inputField.close();
+                    ///检测是否需要付费
+                    setTimeout(() => {
+                        // isMoney()
+                    }, 3000)
+                }
+            });
+            // console.log(JSON.stringify(ret)+"   "+JSON.stringify(err));
+        });
+
+
+    }
+    //支付成功开始播放
+    function startPlay() {
+        demo.play()
+        isPause = false
+        // payed = true
+    }
+    //暂停播放
+    function pausePlay(){
+      demo.pause()
+      isPause = true
+      // payed = false
+    }
+
+    function sendPl() {
+      if ($api.getStorage('islogin') != 'true') {
+        userIslogin()
+        pausePlay()
+        return
+      }
+        var _this = this
+        var inputField = api.require('inputField');
+        inputField.setInputFieldListener(function(ret, err) {
+            if (ret) {
+                if (ret.chatViewH < 50) {
+
+                }
+                console.log(JSON.stringify(ret));
+            } else {
+                console.log(JSON.stringify(err));
+            }
+        });
+        // inputField.becomeFirstResponder(function(ret, err) {
+        //     if (ret.status) {
+        //         console.log(JSON.stringify(ret));
+        //     } else {
+        //         console.log(JSON.stringify(err));
+        //     }
+        // });
+        inputField.open({
+            bgColor: '#ffffff',
+            lineColor: '#999999',
+            fileBgColor: '#f5f5f5',
+            borderColor: '#999999',
+            placeholder: '',
+            autoFocus: true,
+            maxLines: 5,
+            limitedWordsNumber: 100,
+            sendBtn: {
+                bg: '#FB607D',
+                title: 'Send',
+                titleColor: '#fff',
+                bgHighlight: '#e67187',
+            },
+            fixedOn: api.frameName
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.msg != '') {
+                    console.log(ret.msg + 'end');
+                    // _this.sendPl(ret.msg)
+                    requestPl(ret.msg)
+                    inputField.resignFirstResponder();
+                    // api.sendEvent({
+                    //     name: 'livechatText',
+                    //     extra: {
+                    //         msg: ret.msg,
+                    //     }
+                    // });
+                }
+                // alert(JSON.stringify(ret));
+
+
+            } else {
+                // alert(JSON.stringify(err));
+            }
+        });
+        inputField.setInputFieldListener(function(ret, err) {
+            if (ret) {
+                console.log(JSON.stringify(ret));
+                if (ret.chatViewH <= 50) {
+                    inputField.close();
+                }
+                // alert(JSON.stringify(ret));
+            } else {
+                // alert(JSON.stringify(err));
+            }
+        });
+    }
+    //请求后台发布评论
+    function requestPl(e){
+      var data = {
+        video_id:videoid,
+        content:e
+      };
+      requstPost('video/pushTalk',data,function success(ret){
+        if (ret.code == 0) {
+          videos[videoIndex].talk_count = ret.data.talk_count
+          setPlNums(ret.data.talk_count)
+        }
+      },function fail(err){
+
+      })
+    }
+    //修改喜欢数量
+    function setlike(status,nums){
+      videos[videoIndex].fav_video_status = status
+      videos[videoIndex].fav_count = nums
+    }
+    //修改二级页面评论数量
+    function setPlNums(nums){
+      api.execScript({
+          name: 'douyin_win',
+          frameName: 'douyinright',
+          script: 'app.setNums("'+nums+'");'
+      });
+
+    }
+    function setInfo(e){
+      full_name = videos[e].full_name
+      videotitle = videos[e].title
+      avatar_url = videos[e].avatar_url
+      fav_count = videos[e].fav_count
+      talk_count = videos[e].talk_count
+      share_count = videos[e].share_count
+      focus_anchor_status = videos[e].focus_anchor_status
+      fav_video_status = videos[e].fav_video_status
+      anchor_id = videos[e].anchor_id
+      videoid = videos[e].id
+      api.execScript({
+          // name: 'winName',
+          frameName: 'douyinbom',
+          script: 'app.setInfo("'+full_name+'","'+videotitle+'");'
+      });
+      api.execScript({
+          // name: 'winName',
+          frameName: 'douyinright',
+          script: 'app.setInfo("'+avatar_url+'","'+fav_count+'","'+talk_count+'","'+share_count+'","'+focus_anchor_status+'","'+fav_video_status+'","'+videoid+'","'+anchor_id+'");'
+      });
+
+    }
+    //显示评论
+    function showPl() {
+        api.openFrame({
+            name: 'douyinpl',
+            url: './douyinpl.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: api.winWidth,
+                h: api.winHeight
+            },
+            pageParam: {
+                id: videoid
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true,
+            animation: {
+                type: "push",
+                subType: "from_bottom",
+                duration: 300
+            }
+        });
+    }
+
+
+    function openpage() {
+        api.openFrame({
+            name: 'douyintop',
+            url: './douyintop.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: api.winWidth,
+                h: $api.dom('header').offsetHeight + api.winWidth / 100 * 12
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        api.openFrame({
+            name: 'douyinbom',
+            url: './douyinbom.html',
+            rect: {
+                x: 0,
+                y: $api.dom('#footer').offsetTop,
+                w: api.winWidth * 87 / 100,
+                h: api.winHeight - $api.dom('#footer').offsetTop
+            },
+            pageParam: {
+              name:full_name,
+              videotitle:videotitle
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+
+        api.openFrame({
+            name: 'douyinright',
+            url: './douyinright.html',
+            rect: {
+                x: api.winWidth * 85 / 100,
+                y: $api.dom('#footerr').offsetTop - 70,
+                w: api.winWidth * 13 / 100,
+                h: api.winHeight - $api.dom('#footerr').offsetTop + 70
+            },
+            pageParam: {
+              videoid:api.pageParam.id,
+              avatar_url:avatar_url,
+              fav_count:fav_count,
+              talk_count:talk_count,
+              share_count:share_count,
+              focus_anchor_status:focus_anchor_status,
+              fav_video_status:fav_video_status,
+              anchor_id:anchor_id
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        return
+
+
+        api.openFrame({
+            name: 'douyinpage',
+            url: 'douyinpage.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: api.winWidth,
+                h: api.winHeight,
+
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: true,
+            softInputMode: 'pan',
+            pageParam: {
+                id: 5
+            }
+        });
+    }
+    //判断付费结果
+    function checkPay(){
+      api.setPrefs({
+          key: 'payStatus',
+          value: 'payed'
+      });
+      setTimeout(()=>{
+        pausePlay()
+        payed = true
+        videos[videoIndex].pay_order_status = 1
+      },300)
+
+
+      // alert('判断支付结果')
+    }
+    //判断是否需要付费
+    function isMoney() {
+        //检测视频是否需要付费
+        //付费先暂停
+        demo.pause()
+        isPause = true
+        api.confirm({
+            title: 'This video requires a fee of ￡'+ money +' to view',
+            msg: '',
+            buttons: ['Pay', 'Cancel']
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.buttonIndex == 1) {
+                    //付费
+                    api.openFrame({
+                        name: 'douyinpay',
+                        url: './douyinpay.html',
+                        rect: {
+                            x: 0,
+                            y: 0,
+                            w: api.winWidth,
+                            h: api.winHeight
+                        },
+                        pageParam: {
+                            id: videoid,
+                            money:money
+                        },
+                        bounces: false,
+                        bgColor: 'rgba(0,0,0,0)',
+                        vScrollBarEnabled: true,
+                        hScrollBarEnabled: true,
+                        animation: {
+                            type: "push",
+                            subType: "from_bottom",
+                            duration: 300
+                        }
+                    });
+                } else if (ret.buttonIndex == 2) {
+                    //取消
+
+
+                    ////关闭
+                    // demo.close()
+                    //   api.closeWin()
+                    ////暂停
+                    demo.pause()
+                    isPause = true
+                } else {
+                    // demo.closeScrollVideo()
+                    // api.closeWin()
+                    isMoney()
+                }
+                //  alert( JSON.stringify( ret ) );
+            } else {
+                //  alert( JSON.stringify( err ) );
+            }
+        });
+
+    }
+
+    function goBack() {
+        api.closeWin()
+    }
+</script>
+
+</html>

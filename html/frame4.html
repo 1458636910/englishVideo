@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+    <style>
+        body {
+            min-height: 100vh;
+            background: white;
+        }
+
+        #app {
+            padding-bottom: 10vw;
+        }
+        /*[v-cloak]{
+          display: none;
+        }*/
+
+        .topimg {
+            width: 100vw;
+            height: 50vw;
+        }
+
+        .topimg img {
+            width: 100%;
+            height: 50vw;
+            /*object-fit: cover;*/
+        }
+
+        .head {
+            width: 30vw;
+            height: 30vw;
+            border-radius: 50%;
+            margin: -15vw auto 0;
+            font-size: 0;
+            box-shadow: 2px 4px 2px 2px #c3bebe;
+        }
+
+        .head img {
+            width: 30vw;
+            height: 30vw;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .name {
+            text-align: center;
+            padding: 3vw;
+            font-size: 22px;
+        }
+
+        .nav {
+            width: 94vw;
+            margin: auto;
+            display: flex;
+            justify-content: space-around;
+            border: 1px solid #f5f5f5;
+            padding: 3vw 0;
+            border-radius: 5px;
+            box-shadow: 0 1px 1px 1px #f5f5f5;
+        }
+
+        .nav div {
+            flex: 1;
+            text-align: center;
+            padding: 0 3vw;
+        }
+
+        .nav div p {
+            margin-bottom: 1vw;
+        }
+
+        .nav div span {
+            color: #999999;
+        }
+
+        .lists {
+            width: 94vw;
+            margin: auto;
+            box-sizing: border-box;
+            border: 1px solid #f5f5f5;
+            border-radius: 5px;
+            margin-top: 3vw;
+            color: #8c8c8c;
+            box-shadow: 0 1px 1px 1px #f5f5f5;
+        }
+
+        .list {
+            width: 94vw;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            padding: 3vw;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .listl {
+            display: flex;
+            align-items: center;
+        }
+
+        .listl span {
+            color: #585656;
+        }
+
+        .listl img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            background: #f5f5f5;
+        }
+
+        .liveBox {
+            position: fixed;
+            right: 3vw;
+            bottom: 10vw;
+            width: 50px;
+            height: auto;
+        }
+
+        .live {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+            position: absolute;
+            bottom: 0;
+            background: linear-gradient(to right, #FF6A97, #FF8861);
+            z-index: 100;
+        }
+
+        .closeLiveBtn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #343434;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+            position: absolute;
+            bottom: 0;
+            z-index: 3;
+        }
+
+        .live .iconfont {
+            font-size: 30px;
+        }
+
+        .live1 {
+            /*margin-bottom: 3vw;*/
+            position: absolute;
+            bottom: 0;
+            z-index: 5;
+            opacity: 0;
+            transition: all .3s;
+            animation: liveclose1 .3s forwards;
+        }
+
+        .liveactive1,
+        .liveactive2 {
+            transition: all .3s;
+            position: absolute;
+            bottom: 0;
+            z-index: 6;
+            opacity: 1;
+        }
+
+        .liveactive1 {
+            animation: liveactive1 .3s forwards;
+        }
+
+        .liveactive2 {
+            animation: liveactive2 .3s forwards;
+        }
+
+        @keyframes liveclose1 {
+            0% {
+                bottom: 120px;
+            }
+            100% {
+                bottom: 0;
+            }
+        }
+
+        @keyframes liveactive1 {
+            0% {
+                bottom: 0;
+            }
+            100% {
+                bottom: 60px;
+            }
+        }
+
+        @keyframes liveactive2 {
+            0% {
+                bottom: 0;
+            }
+            100% {
+                bottom: 120px;
+            }
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .header {
+            height: 12vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 3vw;
+            z-index: 500;
+        }
+
+        .dress {
+            display: flex;
+            align-items: center;
+        }
+
+        .dress .iconfont {
+            font-size: 22px;
+            color: white;
+        }
+
+        .qdimg {
+            width: 94vw;
+            text-align: center;
+            height: 12vw;
+            line-height: 12vw;
+            margin: 3vw auto;
+            background: #FA607D;
+            color: white;
+            border-radius: 5px;
+            font-weight: 700;
+            animation: qdanimate 3s infinite;
+        }
+
+        @keyframes qdanimate {
+            0% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(.9);
+            }
+            50% {
+                transform: scale(1);
+            }
+            75% {
+                transform: scale(.9);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <header id="header" style="opacity:0;">
+            <div class="header">
+                <div class="appName">
+                </div>
+                <div class="dress">
+                    <div class="dressName" style="margin-right:3vw;">
+                        <i class="iconfont">&#xe60e;</i>
+                    </div>
+                    <i class="iconfont">&#xe769;</i>
+                </div>
+            </div>
+        </header>
+        <div class="topimg" :style="'margin-top:-'+heaGht+'px;'">
+            <img src="../image/userbg.png" alt="">
+        </div>
+        <div class="info">
+            <div class="head" tapmode='hover' onclick="gouserinfo()">
+                <img :src="headimg" alt="">
+            </div>
+            <p class="name">{{nickname}}</p>
+            <div class="nav" v-show="userType == 0">
+                <div tapmode onclick="gofavour()">
+                    <p>{{fav_count}}</p>
+                    <span>Favourites</span>
+                </div>
+                <div tapmode onclick="gofollow()">
+                    <p>{{foc_count}}</p>
+                    <span>Following</span>
+                </div>
+            </div>
+            <div class="nav" v-show="userType == 1">
+                <div tapmode onclick="goPosts()">
+                    <p>{{post_count}}</p>
+                    <span>Posts</span>
+                </div>
+                <div tapmode onclick="gofavour()">
+                    <p>{{fav_count}}</p>
+                    <span>Favourites</span>
+                </div>
+                <div tapmode onclick="gofollowers()">
+                    <p>{{fans_count}}</p>
+                    <span>Followers</span>
+                </div>
+                <div tapmode onclick="gofollow()">
+                    <p>{{foc_count}}</p>
+                    <span>Following</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="qdimg" v-if="islogin && is_sign" @click="qdFn()">
+            Claim today's bonus Diamond
+        </div>
+        <div class="lists">
+            <div class="list" @click="goorder()">
+                <div class="listl">
+                    <img src="../image/user/1.png" alt="">
+                    <span>My Order</span>
+                </div>
+                <i class="iconfont">&#xe61f;</i>
+            </div>
+            <div class="list" tapmode @click="godiamond()">
+                <div class="listl">
+                    <img src="../image/user/2.png" alt="">
+                    <span>My Diamond</span>
+                </div>
+                <i class="iconfont">&#xe61f;</i>
+            </div>
+            <div class="list" v-if="userType == 1" tapmode @click="goincome()">
+                <div class="listl">
+                    <img src="../image/user/9.png" alt="">
+                    <span>My Income</span>
+                </div>
+                <i class="iconfont">&#xe61f;</i>
+            </div>
+            <div class="list" tapmode @click="gocoupon()">
+                <div class="listl">
+                    <img src="../image/user/3.png" alt="">
+                    <span>My Discount Coupon</span>
+                </div>
+                <i class="iconfont">&#xe61f;</i>
+            </div>
+        </div>
+        <div class="lists">
+            <div class="list" tapmode @click="goviewed()">
+                <div class="listl">
+                    <img src="../image/user/4.png" alt="">
+                    <span>Recently Viewed</span>
+                </div>
+                <i class="iconfont">&#xe61f;</i>
+            </div>
+            <div class="list" tapmode @click="goinfluencer()">
+                <div class="listl">
+                    <img src="../image/user/5.png" alt="">
+                    <span>Become a NailVision influencer</span>
+                </div>
+                <i class="iconfont">&#xe61f;</i>
+            </div>
+            <div class="list" tapmode @click="goSeller()">
+                <div class="listl">
+                    <img src="../image/user/6.png" alt="">
+                    <span>Become a NailVision Seller</span>
+                </div>
+                <i class="iconfont">&#xe61f;</i>
+            </div>
+            <div class="list" tapmode @click="goabout()">
+                <div class="listl">
+                    <img src="../image/user/7.png" alt="">
+                    <span>About Us</span>
+                </div>
+                <i class="iconfont">&#xe61f;</i>
+            </div>
+            <div class="list" tapmode @click="contactus()">
+                <div class="listl">
+                    <img src="../image/user/8.png" alt="">
+                    <span>Contact Us</span>
+                </div>
+                <i class="iconfont">&#xe61f;</i>
+            </div>
+        </div>
+        <div class="liveBox" v-if="isandroid">
+            <div class="live" v-if="userType == 1 && !showliveChose" tapmode @click.stop="showBtns()">
+                <i class="iconfont">&#xe685;</i>
+            </div>
+            <div class="live live1" :class="showliveChose?'liveactive1':''" tapmode @click.stop="govideo()">
+                Video
+            </div>
+            <div class="live live1" :class="showliveChose?'liveactive2':''" tapmode @click.stop="golive()">
+                Live
+            </div>
+            <div v-if="showliveChose" class="closeLiveBtn" @click="showliveChose = false">
+                <i class="iconfont">&#xe603;</i>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/commonurl.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript">
+    var app;
+    apiready = function() {
+        $api.fixStatusBar($api.dom('header'));
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    userType: 0, //0用户身份，1主播身份
+                    showliveChose: false,
+                    isandroid: false,
+                    headimg: '../image/userlogo200.png',
+                    nickname: 'NailVision',
+                    islogin: false,
+                    fav_count: 0, //喜欢的数量
+                    foc_count: 0, //关注的数量
+                    post_count: 0, //作品数量
+                    fans_count: 0, //粉丝数量
+                    btnShow: false,
+                    heaGht: 100,
+                    qdShow: true,
+                    is_sign:'',  //是否可以继续领钻石
+                }
+            },
+            created() {
+                var headHeight = api.winWidth / 100 * 12;
+                this.heaGht = $api.dom('header').offsetHeight
+                    // alert(this.heaGht)
+                this.upDataInfo()
+                if ($api.getStorage('islogin') == 'true') {
+                    this.getuserinfo()
+                    this.islogin = true
+                } else {
+                    this.islogin = false
+                }
+            },
+            methods: {
+                contactus() {
+                    api.openWin({
+                        name: 'contact_win',
+                        url: './user/contact_win.html',
+                        pageParam: {
+                            name: 'test'
+                        }
+                    });
+                },
+                //判断是否显示签到按钮
+                qdBtnShow() {
+                    // api.removePrefs({
+                    //     key: 'qdTime'
+                    // });
+                    var _this = this;
+                    var nowTime = new Date().getTime();
+                    var qdTime = '';
+                    api.getPrefs({
+                        key: 'qdTime'
+                    }, function(ret, err) {
+                        // alert(JSON.stringify(ret))
+                        // alert('现在'+nowTime)
+                        qdTime = ret.value;
+                        var chazhi = nowTime - Number(qdTime);
+                        var qdDate = new Date(Number(qdTime)).getDate();
+                        var qdyue = new Date(Number(qdTime)).getMonth();
+                        var qdyear = new Date(Number(qdTime)).getFullYear();
+
+                        var nowDate = new Date().getDate();
+                        var nowyue = new Date().getMonth();
+                        var nowyear = new Date().getFullYear();
+                        // alert(qdDate)
+                        if (ret.value) {
+                            if (chazhi > 86400000) {
+                                _this.qdShow = true
+                            } else {
+                                if (nowyear > qdyear) {
+                                    _this.qdShow = true
+                                } else {
+                                    if (nowyue > qdyue) {
+                                        _this.qdShow = true
+                                    } else {
+                                        if (nowDate > qdDate) {
+                                            _this.qdShow = true
+                                        } else {
+                                            _this.qdShow = false
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            _this.qdShow = true
+                        }
+
+                    });
+                    // alert(typeof(qdTime))
+                    // alert(qdTime)
+                },
+                //签到
+                qdFn() {
+                    pubshowloading()
+                    var _this = this;
+                    requstPost('sign/push', '', function success(ret) {
+                        if (ret.code == 0) {
+                           _this.getuserinfo();  //重新获取用户信息
+                            api.alert({
+                                title: '',
+                                msg:ret.message,
+                                buttons:["Sure"]
+                            });
+                            // alert()
+                            var qdtime = new Date().getTime();
+                            api.setPrefs({
+                                key: 'qdTime',
+                                value: qdtime
+                            });
+                            _this.qdShow = false
+                        } else {
+                            _this.qdShow = false
+                        }
+                    }, function fail(err) {
+
+                    })
+                },
+                getuserinfo() {
+                    console.log("个人中心的获取用户信息;;;;;;;;")
+                    var _this = this;
+                    var data = {};
+                    requstGet('user', data, function success(ret) {
+                        // alert(JSON.stringify(ret.data))
+                        _this.qdBtnShow()
+                        _this.headimg = ret.data.avatar_url
+                        _this.nickname = ret.data.nickname
+                        _this.fav_count = ret.data.fav_count
+                        _this.foc_count = ret.data.foc_count
+                        _this.post_count = ret.data.post_count
+                        _this.fans_count = ret.data.fans_count
+                        _this.is_sign = ret.data.is_sign==1?false:true;  //1已经领过了，0可以领取
+                        $api.setStorage('headimg', ret.data.avatar_url);
+                        $api.setStorage('avatar_save_path', ret.data.avatar_save_path);
+                        $api.setStorage('nickname', ret.data.nickname);
+                        $api.setStorage('gender', ret.data.gender);
+                        $api.setStorage('usercity', ret.data.city);
+                        $api.setStorage('userprovince', ret.data.province);
+                        $api.setStorage('usercountry', ret.data.country);
+                        $api.setStorage('email', ret.data.email);
+                        $api.setStorage('mobile', ret.data.mobile);
+                        $api.setStorage('userType', ret.data.is_anchor);
+                        $api.setStorage('has_password', ret.data.has_password);
+                        $api.setStorage('user_mobile', ret.data.mobile);
+                        $api.setStorage('paypal', ret.data.paypal);
+                        // $api.setStorage('user_id', ret.data.paypal);
+
+                        _this.userType = ret.data.is_anchor
+                            // _this.userType = 1
+                        if (api.systemType == 'android') {
+                            _this.isandroid = true
+                        } else {
+                            _this.isandroid = false
+                            if (_this.userType == 1) {
+                                if (_this.btnShow) {
+
+                                } else {
+                                    _this.openLiveBtn()
+                                }
+                            }
+                        }
+                    }, function fail(err) {})
+                },
+                openLiveBtn() {
+                    var _this = this;
+                    var arcMenu = api.require('arcMenu');
+                    arcMenu.open({
+                        type: 'arc', //straight
+                        mainMenu: {
+                            x: api.frameWidth - 50,
+                            y: api.frameHeight - 50,
+                            w: 70,
+                            h: 70,
+                            img: 'widget://res/livebtn/open.png',
+                            imgLight: 'widget://res/livebtn/open.png'
+                        },
+                        items: [{
+                            w: 70,
+                            h: 70,
+                            img: 'widget://res/livebtn/video.png',
+                            imgLight: 'widget://res/livebtn/video.png'
+                        }, {
+                            w: 70,
+                            h: 70,
+                            img: 'widget://res/livebtn/live.png',
+                            imgLight: 'widget://res/livebtn/live.png'
+                        }],
+                        startAngle: 270,
+                        wholeAngle: 90,
+                        mmRotation: false,
+                        isTouchMove: true,
+                        radius: 70,
+                        fixedOn: api.frameName
+                    }, function(ret, err) {
+                        _this.btnShow = true
+                        if (ret) {
+                            if (ret.index == 1) {
+                                //直播
+                                if (_this.islogin) {
+
+                                } else {
+                                    userIslogin()
+                                    return
+                                }
+                                api.openWin({
+                                    name: 'choselive_win',
+                                    url: './livevideo/choselive_win.html',
+                                    pageParam: {
+                                        name: 'test'
+                                    }
+                                });
+
+                            } else if (ret.index == 0) {
+                                //video
+                                if (_this.islogin) {
+
+                                } else {
+                                    userIslogin()
+                                    return
+                                }
+                                api.openWin({
+                                    name: 'chosevideo_win',
+                                    url: './livevideo/chosevideo_win.html',
+                                    pageParam: {
+                                        name: 'test'
+                                    }
+                                });
+                            }
+                            // alert(JSON.stringify(ret));
+                        } else {
+                            // alert(JSON.stringify(err));
+                        }
+                    });
+                },
+
+                upDataInfo() {
+                  console.log("============upDataInfo")
+                    var _this = this
+                    api.addEventListener({
+                        name: 'viewappear'
+                    }, function(ret, err) {
+                        // api.setKeepScreenOn({
+                        //     keepOn: false
+                        // });
+                        api.setStatusBarStyle({
+                            style: 'dark',
+                            color: 'rgba(0,0,0,0)'
+                        });
+                        if ($api.getStorage('islogin') == 'true') {
+                            _this.islogin = true
+                            _this.getuserinfo()
+                        } else {
+                            _this.islogin = false
+                        }
+                    });
+                },
+                showBtns() {
+                    this.showliveChose = true
+                    api.startPlay({
+                        path: 'widget://res/load.mp3'
+                    }, function(ret, err) {
+                        if (ret) {
+                            // alert('播放完成');
+                        } else {
+                            // alert(JSON.stringify(err));
+                        }
+                    });
+                    console.log(111);
+                },
+                golive() {
+                    if (this.islogin) {
+
+                    } else {
+                        userIslogin()
+                        return
+                    }
+                    api.openWin({
+                        name: 'choselive_win',
+                        url: './livevideo/choselive_win.html',
+                        pageParam: {
+                            name: 'test'
+                        }
+                    });
+                },
+                govideo() {
+                    if (this.islogin) {
+
+                    } else {
+                        userIslogin()
+                        return
+                    }
+                    api.openWin({
+                        name: 'chosevideo_win',
+                        url: './livevideo/chosevideo_win.html',
+                        pageParam: {
+                            name: 'test'
+                        }
+                    });
+                },
+                //
+                goorder() {
+                    if (this.islogin) {
+
+                    } else {
+                        userIslogin()
+                        return
+                    }
+                    api.openWin({
+                        name: 'order_win',
+                        url: './user/order_win.html',
+                        pageParam: {}
+                    });
+
+                },
+                godiamond() {
+                    if (this.islogin) {
+
+                    } else {
+                        userIslogin()
+                        return
+                    }
+                    api.openWin({
+                        name: 'diamond_win',
+                        url: './user/diamond/diamond_win.html',
+                        pageParam: {
+                            name: 'test'
+                        }
+                    });
+
+                },
+                goincome() {
+                    if (this.islogin) {
+
+                    } else {
+                        userIslogin()
+                        return
+                    }
+                    api.openWin({
+                        name: 'income_win',
+                        url: './user/income/income_win.html',
+                        pageParam: {
+                            name: 'test'
+                        }
+                    });
+                },
+                gocoupon() {
+                    if (this.islogin) {
+
+                    } else {
+                        userIslogin()
+                        return
+                    }
+                    api.openWin({
+                        name: 'coupon_win',
+                        url: './user/coupon/coupon_win.html',
+                        pageParam: {
+                            name: 'test'
+                        }
+                    });
+                },
+                goviewed() {
+                    if (this.islogin) {
+
+                    } else {
+                        userIslogin()
+                        return
+                    }
+                    api.openWin({
+                        name: 'viewed_win',
+                        url: './user/viewed/viewed_win.html',
+                        pageParam: {
+                            name: 'test'
+                        }
+                    });
+                },
+                goinfluencer() {
+                    if (this.islogin) {
+
+                    } else {
+                        userIslogin()
+                        return
+                    }
+                    api.openWin({
+                        name: 'influencer_win',
+                        url: './user/become/influencer_win.html',
+                        pageParam: {
+                            name: 'test'
+                        }
+                    });
+                },
+                goSeller() {
+                    if (this.islogin) {
+
+                    } else {
+                        userIslogin()
+                        return
+                    }
+                    api.openWin({
+                        name: 'seller_win',
+                        url: './user/become/seller_win.html',
+                        pageParam: {
+                            name: 'test'
+                        }
+                    });
+                },
+                goabout() {
+                    api.openWin({
+                        name: 'about_win',
+                        url: './user/about_win.html',
+                        pageParam: {
+                            name: 'test'
+                        }
+                    });
+                }
+
+
+
+            }
+        })
+    };
+    //查看订单
+    function goorder() {
+        if (app.islogin) {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'order_win',
+            url: './user/order_win.html',
+            pageParam: {}
+        });
+
+    }
+    //个人信息
+    function gouserinfo() {
+        if (app.islogin) {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'userinfo_win',
+            url: './user/userinfo_win.html',
+            pageParam: {}
+        });
+    }
+    //查看favourites
+    function gofavour() {
+        if (app.islogin) {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'favour_win',
+            url: './user/favour/favour_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+
+    }
+    //查看粉丝
+    function gofollowers() {
+        if (app.islogin) {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'follower_win',
+            url: './user/follower/follower_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+    }
+    //查看关注follow
+    function gofollow() {
+        if (app.islogin) {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'follow_win',
+            url: './user/follow/follow_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+
+    }
+    //查看发布的直播和视频
+    function goPosts() {
+        if (app.islogin) {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'post_win',
+            url: './user/posts/post_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+    }
+    //godiamond
+    function godiamond() {
+        if (app.islogin) {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'diamond_win',
+            url: './user/diamond/diamond_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+
+    }
+    //income
+    function goincome() {
+        if (app.islogin) {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'income_win',
+            url: './user/income/income_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+    }
+
+    function gocoupon() {
+        if (app.islogin) {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'coupon_win',
+            url: './user/coupon/coupon_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+    }
+    //浏览历史
+    function goviewed() {
+        if (app.islogin) {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'viewed_win',
+            url: './user/viewed/viewed_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+    }
+
+    //申请直播博主
+    function goinfluencer() {
+        if (app.islogin) {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'influencer_win',
+            url: './user/become/influencer_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+    }
+    //申请商家
+    function goSeller() {
+        if (app.islogin) {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'seller_win',
+            url: './user/become/seller_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+    }
+
+
+
+    //关于我们
+    function goabout() {
+        api.openWin({
+            name: 'about_win',
+            url: './user/about_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+    }
+
+    function contactus() {
+        api.openWin({
+            name: 'contact_win',
+            url: './user/contact_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+    }
+
+
+    //设置页面
+    function goset() {
+        if ($api.getStorage('islogin') == 'true') {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'setpage_win',
+            url: './setpage_win.html',
+        });
+    }
+    //打开消息页面
+    function gomes() {
+        if ($api.getStorage('islogin') == 'true') {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'message_win',
+            url: './message_win.html'
+        });
+    }
+
+    function goTop() {
+        api.pageUp({
+            top: true
+        }, function(ret, err) {
+
+        });
+    }
+</script>
+
+</html>

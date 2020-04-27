@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+    <style>
+        body {
+            /*display: flex;
+          justify-content: center;
+          align-items: center;*/
+        }
+
+        .appBox {
+            width: 90vw;
+            margin: auto;
+            /*transform: translateY(-100px);*/
+        }
+
+        #app {
+            min-height: 100vh;
+            width: 100vw;
+            padding-top: 5vw;
+            box-sizing: border-box;
+            /*back*/
+            /*padding: 28vw 10vw 0;*/
+            /*display: flex;*/
+            /*justify-content: center;*/
+            /*align-items: center;*/
+        }
+
+        .title {
+            font-weight: normal;
+            font-size: 6vw;
+            margin-bottom: 5vw;
+        }
+
+        .wel {
+            font-size: 4vw;
+            color: #484848;
+        }
+
+        .wel span {
+            color: #4581ea;
+        }
+
+        .form {
+            margin-top: 10vw;
+        }
+
+        .form li {
+            padding: 1vw 0 1vw 0;
+            border-bottom: 1px solid #f5f5f5;
+            margin-bottom: 3vw;
+            position: relative;
+        }
+
+        .form li .iconfont {
+            font-size: 6vw;
+        }
+
+        .form li input {
+            outline: none;
+            border: none;
+            width: 100%;
+            /*margin-left: 5vw;*/
+        }
+
+        .form li::after {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            content: '';
+            width: 100%;
+            transform: scaleX(0);
+            transition: all .3s;
+            border-bottom: 2px solid #FA607D;
+        }
+
+        input {
+            height: 8vw;
+            color: black;
+            caret-color: #FA607D;
+        }
+
+        .form .active::after {
+            transform: scaleX(1);
+        }
+
+        .form li:last-child {
+            margin-bottom: 1vw;
+        }
+
+        .forgetpwd {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5vw;
+            text-align: right;
+            color: #b6b6b6;
+        }
+
+        .forgetpwd i {
+            color: #F2A115;
+        }
+
+        i {
+            font-style: normal;
+        }
+
+        .loginBtn {
+            width: 100%;
+            /*background:linear-gradient(to bottom,#F9D764, #FDC403);*/
+            background: #FA607D;
+            text-align: center;
+            color: white;
+            border-radius: 6vw;
+            padding: 3vw 0;
+            margin-top: 10vw;
+        }
+
+        .sanUp {
+            text-align: center;
+            color: #b6b6b6;
+            margin-top: 20vw;
+            font-size: 4vw;
+            height: 6vw;
+            position: relative;
+        }
+
+        .sanBtn {
+            width: 80%;
+            margin: auto;
+            display: flex;
+            justify-content: space-around;
+            margin-top: 5vw;
+        }
+
+        .sanUp::before {
+            position: absolute;
+            content: '';
+            display: block;
+            width: 30vw;
+            height: 2px;
+            background: linear-gradient(to left, #cecdca 0%, #ffffff 100%);
+            left: -5px;
+            top: 3vw;
+            transform: translateY(-50%);
+        }
+
+        .sanUp::after {
+            position: absolute;
+            content: '';
+            display: block;
+            width: 30vw;
+            height: 2px;
+            background: linear-gradient(to right, #cecdca 0%, #ffffff 100%);
+            right: -5px;
+            top: 3vw;
+            transform: translateY(-50%);
+        }
+
+        .sanBtn span {
+            /*background: #fbcd31;*/
+            width: 11vw;
+            height: 11vw;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /*margin-right: 10vw;*/
+        }
+
+        .sanBtn span:nth-child(2) {
+            margin-right: 0;
+            background: green;
+        }
+
+        .sanBtn .iconfont {
+            color: #3C5A9A;
+            font-size: 55px;
+        }
+
+        .sanBtn span:nth-child(2) .iconfont {
+            font-size: 7vw;
+        }
+
+        .ykdl {
+            text-align: center;
+            padding: 3vw 0;
+            color: #999999;
+        }
+
+        [v-cloak] {
+            /*display: none;*/
+        }
+        .phoneBox{
+          overflow: hidden;
+          height: 10vw;
+          position: relative;
+          display: flex;
+          align-items: center;
+        }
+        .exbtn{
+          right: 0;
+          top: 1vw;
+          position: absolute;
+          line-height: 8vw;
+          background: #FA607D;
+          color: white;
+          padding: 0 3vw;
+          border-radius: 5px;
+        }
+        .phoneCode{
+          /*position: absolute;*/
+          left: 0;
+          top: 1vw;
+          line-height: 8vw;
+        }
+        .ipt{
+          padding-left: 3vw;
+        }
+        .iptBox{
+          transition: all .3s;
+          position: absolute;
+          width: 100%;
+          display: flex;
+          align-items: center;
+        }
+        .emailBox{
+          transition: all .3s;
+          position: absolute;
+          transform: translateX(200%);
+        }
+        .hide{
+          transition: all .3s;
+          transform: translateX(-200%);
+        }
+        .show{
+          transform: translateX(0);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <header>
+
+        </header>
+        <div class="appBox">
+            <h1 class="title">Log in</h1>
+            <ul class="form">
+                <li class="phoneBox" :class="active == 0?'active':''">
+                    <input style="padding-left:0;" class="ipt" @blur="getblur()" @focus="phoneFocus()" v-model="phone" type="" placeholder="Please enter account">
+                    <!-- <div class="iptBox" :class="showMail?'hide':''">
+                      <span class="phoneCode" @click="choseCode()">+{{phoneCode}}</span>
+                      <input class="ipt" @blur="getblur()" @focus="phoneFocus()" oninput="value=value.replace(/[^\d]/g,'')" v-model="phone" type="tel" placeholder="Cellphone number">
+                    </div>
+                    <div class="iptBox emailBox" :class="showMail?'show':''">
+                      <input style="padding-left:0;" class="ipt" @blur="getblur()" @focus="phoneFocus()" v-model="phone" type="tel" placeholder="Email address">
+                    </div>
+                    <span class="exbtn" @click="phoneMailFn()">{{showMail?'Phone':'Mailbox'}}</span> -->
+                </li>
+                <li :class="active == 1?'active':''">
+                    <input @blur="getblur()" @focus="pwdFocus()" v-model="pwd" type="password" placeholder="Login password">
+                </li>
+            </ul>
+            <p class="forgetpwd">
+                <span tapmode="hover" onclick="forgotpwd();">Forget password</span>
+                <span tapmode="hover" onclick="register();" style="color:black;">
+                Register
+              </span>
+            </p>
+            <div class="loginBtn" @click="phonelogin()">Log in</div>
+
+
+            <!-- <div class="sanfang" v-if="wxHas">
+                <p class="sanUp"><i></i><span>or</span><i></i></p>
+                <div class="sanBtn">
+                    <span @click="facelogin()">
+                  <i class="iconfont">&#xe64e;</i>
+                </span>
+                </div>
+            </div> -->
+
+        </div>
+
+        <!--  -->
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script src="../script/vue.min.js"></script>
+<script src="../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+
+        $api.fixStatusBar($api.dom('header'));
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  showMail:false,
+                    active: -1,
+                    phone: '',
+                    pwd: '',
+                    wxCode: '',
+                    wxassessToken: '',
+                    wxopenid: '',
+                    qqHas: false,
+                    wxHas: false,
+                    confirmShow: false,
+                    phoneCode:'86'
+                }
+            },
+            mounted() {
+                api.addEventListener({
+                    name: 'keyback'
+                }, function(ret, err) {
+                    console.log(1111);
+                });
+            },
+            created() {
+
+                this.isShowface()
+                if ($api.getStorage('islogin') == 'true') {
+                    setTimeout(() => {
+                        api.closeToWin({
+                            name: 'root'
+                        });
+                    }, 300)
+
+                    console.log('aaaaaaaa');
+                    // this.getNotice('http://ylt.fuwancheng.top/wel.png')
+                } else {
+
+                }
+
+            },
+            methods: {
+              // changePhoneCode(ite){
+              //   // alert(ite)
+              //   this.phoneCode = ite
+              // },
+              phoneMailFn(){
+                this.showMail = !this.showMail
+                this.phone = ''
+              },
+              //
+              choseCode(){
+                api.openWin({
+                    name: 'phonecode_win',
+                    url: './phonecode_win.html',
+                    pageParam: {
+                        type: 'login'
+                    }
+                });
+              },
+                //判断微信
+                isShowface() {
+                    var _this = this;
+                    var facebook = api.require('facebook');
+                    facebook.isInstalled(function(ret, err) {
+                      // alert(JSON.stringify(ret))
+                        // alert(JSON.stringify(err))
+                        if (ret.installed) {
+                            _this.wxHas = true
+                            // alert("当前设备已安装facebook客户端");
+                        } else {
+                            _this.wxHas = false
+                            // alert('当前设备未安装facebook客户端');
+                        }
+                    });
+                },
+                phonelogin() {
+                    if (api.connectionType == 'none') {
+                        api.toast({
+                            msg: 'Network Error',
+                            duration: 2000,
+                            location: 'middle'
+                        });
+
+                        return
+                    }
+                    if (this.pwd == '') {
+                        api.toast({
+                            msg: 'Please enter the password',
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                        return
+
+                    }
+                    var _this = this;
+                    var phoneSer = '';
+                    if (!_this.showMail) {
+                      phoneSer = _this.phoneCode.toString() + _this.phone
+                    }else {
+                      phoneSer = _this.phone
+                    }
+                    pubshowloading()
+                    var data = {
+                          mobile: _this.phone,
+                          password: _this.pwd,
+                    };
+                    requstPost('auth/login',data,function success(ret){
+                      // datadebug(ret)
+                      if (ret.code == 0) {
+                        $api.setStorage('islogin', 'true');
+                        $api.setStorage('token', ret.data.token);
+                        api.execScript({
+                            name: 'root',
+                            // frameName: 'frmName',
+                            script: 'socketInitFn();'
+                        });
+                        api.execScript({
+                            name: 'root',
+                            // frameName: 'frmName',
+                            script: 'homeFrame();'
+                        });
+                        api.closeToWin({
+                            name: 'root'
+                        });
+
+
+                      }
+                    },function fail(err){
+                      datadebug(err)
+                    })
+
+                },
+                facelogin() {
+
+                    pubshowloading()
+                    var _this = this
+                    var facebook = api.require('facebook');
+                    facebook.login({
+                        appId: '473277930026882',
+                        // permissions:['email']
+                        permissions:['public_profile','email','user_birthday','user_gender']
+                    }, function(ret, err) {
+                      pubhideloading()
+                        if (ret.status) {
+                          if (ret.isCancelled) {
+                            //用户取消授权
+                            api.toast({
+                                msg: 'Cancel login',
+                                duration: 2000,
+                                location: 'middle'
+                            });
+
+                          }else {
+                            pubshowloading()
+                            //获取用户信息
+                            facebook.getUserInfo({
+                              parameters:{
+                                fields:'email,id,first_name,last_name,name,gender,birthday,picture.type(large)'
+                              }
+                            },function(ret, err) {
+                              pubhideloading()
+                                if (ret.status) {
+                                    // api.alert({
+                                    //     msg: JSON.stringify(ret)
+                                    // });
+                                    var facebook_data = ret.result;
+                                    console.log(JSON.stringify(ret.result));
+                                    var facedata = JSON.stringify(ret.result);
+                                    //发送后台
+                                    _this.sendServerData(facedata)
+                                } else {
+                                  console.log(JSON.stringify(err))
+                                }
+                            });
+                          }
+                            //保存facebook Token
+                            $api.setStorage('facebookToken', ret.token);
+                        } else {
+                          console.log(JSON.stringify(err))
+                            // api.alert({
+                            //     msg: JSON.stringify(err)
+                            // });
+                        }
+                    });
+                },
+                //请求后台，保存facebook用户信息
+                sendServerData(e){
+                  pubshowloading()
+                  var data = {
+                    facebook_data:e
+                  };
+                  requstPost('auth/facebook',data,function success(ret){
+                    if (ret.code == -2) {
+                      //需要绑定手机号
+                      api.openWin({
+                          name: 'bindphone_win',
+                          url: './bindphone_win.html',
+                          pageParam: {
+                              facebook_id: ret.data.facebook_id
+                          }
+                      });
+
+                    }else if (ret.code == 0) {
+                      //已绑定,直接登录
+                        $api.setStorage('islogin', 'true');
+                        $api.setStorage('token', ret.data.token);
+                        api.closeToWin({
+                            name: 'root'
+                        });
+                    }
+                  },function fail(err){
+
+                  })
+                },
+
+                phoneFocus() {
+                    this.active = 0
+                },
+                pwdFocus() {
+                    this.active = 1
+                },
+                getblur() {
+                    this.active = -1
+                }
+
+            }
+        })
+
+    };
+
+    function register() {
+        api.openWin({
+            name: 'register_win',
+            url: './register_win.html'
+        });
+
+    }
+
+    function forgotpwd() {
+
+        api.openWin({
+            name: 'forgot_win',
+            url: './forgot_win.html'
+        });
+    }
+</script>
+
+</html>

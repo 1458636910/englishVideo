@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .lists{
+          padding: 3vw;
+        }
+        .list{
+          border-bottom: 1px solid #f5f5f5;
+          margin-bottom: 3vw;
+        }
+        .list:last-child{
+          border-bottom: 0;
+        }
+        .pls{
+          background: white;
+        }
+        .pltit{
+          display: flex;
+          padding: 3vw;
+          justify-content: space-between;
+          border-bottom: 1px solid #f5f5f5;
+          background: white;
+          margin-top: 5vw;
+          border-top-left-radius: 10px;
+          border-top-right-radius: 10px;
+        }
+        .person{
+          display: flex;
+          align-items: center;
+        }
+        .person .name{
+          margin-top: 0;
+          color: black;
+        }
+        .head{
+          width: 12vw;
+          height: 12vw;
+          border-radius: 50%;
+          margin-right: 3vw;
+        }
+        .head img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+        .count{
+          margin: 3vw 0;
+          line-height: 20px;
+        }
+        .imgs{
+          display: flex;
+          flex-wrap: wrap;
+        }
+        .img{
+          width: 30vw;
+          height: 30vw;
+          margin-right: 2vw;
+          margin-bottom: 2vw;
+        }
+        .img:nth-child(3n+3){
+          margin-right: 0;
+        }
+        .img img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="pls">
+        <div class="empty" v-if="list.length == 0">
+          <img src="../../image/empty.png" alt="">
+        </div>
+        <div class="lists">
+          <div class="list" v-for="(item,index) in list">
+            <div class="person">
+              <div class="head">
+                <img v-lazy="item.avatar_url" alt="">
+              </div>
+              <p class="name">{{item.nickname}}</p>
+            </div>
+            <p class="count">{{item.content}}</p>
+            <div class="imgs">
+              <div class="img" @click="seeBigImg(item,ind)" v-for="(ite,ind) in item.thumbs">
+                <img v-lazy="ite" alt="">
+              </div>
+            </div>
+          </div>
+            <!-- <div class="list">
+              <div class="person">
+                <div class="head">
+                  <img src="../../image/shop.png" alt="">
+                </div>
+                <p class="name">Jacly Bradley</p>
+              </div>
+              <p class="count"> Great,my girlfriend likes it very much Great,my girlfriend likes it very much</p>
+              <div class="imgs">
+                <div class="img">
+                  <img src="../../image/shop.png" alt="">
+                </div>
+                  <div class="img">
+                    <img src="../../image/shop.png" alt="">
+                  </div>
+                    <div class="img">
+                      <img src="../../image/shop.png" alt="">
+                    </div>
+                      <div class="img">
+                        <img src="../../image/shop.png" alt="">
+                      </div>
+              </div>
+            </div> -->
+        </div>
+      </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/lazyload.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        Vue.use(VueLazyload, {
+              preLoad: 1.3,
+              error: '../../image/errorimg.png',
+              loading: '../../image/loading.svg',
+              attempt: 1
+            })
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  list:[],
+                  page:1,
+                  more:true
+                }
+            },
+            created() {
+              this.getplLists()
+              this.getMore()
+            },
+            methods: {
+
+            //监听滚动到底
+            getMore() {
+              var _this = this
+              api.addEventListener({
+                  name: 'scrolltobottom',
+                  extra: {
+                      threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                  }
+              }, function(ret, err) {
+                console.log('加载更多');
+                if (_this.more) {
+                  _this.getplLists()
+                }
+
+              });
+
+            },
+              getplLists(){
+                var _this = this;
+                var data = {
+                  product_id:api.pageParam.id,
+                  page:_this.page,
+                };
+                requstPost('product/talk',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.page += 1
+                    _this.list = _this.list.concat(ret.data.list)
+                    if (ret.data.list.length < 25) {
+                      _this.more = false
+                    }
+                  }
+
+                },function fail(err){
+
+                })
+              },
+
+              seeBigImg(ite,ind){
+
+                    // alert(e)
+                    // alert(JSON.stringify(this.imgs))
+                    // for (var i = 0; i < this.imgs.length; i++) {
+                    //     if (this.imgs[i] == e) {
+                    //         index = i
+                    //     }
+                    // }
+                    var _this = this
+                    var imgarrSee = []
+                    // imgarrSee.push('widget://image/shop.png')
+                    var photoBrowser = api.require('photoBrowser');
+                    photoBrowser.open({
+                        images: ite.thumbs,
+                        activeIndex: ind,
+                        placeholderImg: 'widget://res/img/apicloud.png',
+                        bgColor: '#000',
+                        atime:.3
+                    }, function(ret, err) {
+                      var imgInd = ind;
+                      if (ret.eventType == 'change') {
+                        imgInd = ret.index
+                      }
+                        if (ret) {
+                            if (ret.eventType == 'click') {
+                                photoBrowser.close()
+                            } else if (ret.eventType == 'longPress') {
+                              return
+                                api.actionSheet({
+                                    title: '',
+                                    cancelTitle: 'Cancel',
+                                    buttons: ['Save']
+                                }, function(ret, err) {
+                                    if (ret) {
+                                        if (ret.buttonIndex == 1) {
+                                            api.saveMediaToAlbum({
+                                                path: ite.thumbs[imgInd]
+                                            }, function(ret, err) {
+                                                if (ret) {
+                                                    if (ret.status) {
+                                                        api.toast({
+                                                            msg: 'success',
+                                                            duration: 2000,
+                                                            location: 'bottom'
+                                                        });
+                                                    } else {
+                                                        api.toast({
+                                                            msg: 'fail',
+                                                            duration: 2000,
+                                                            location: 'bottom'
+                                                        });
+                                                    }
+                                                    //  alert( JSON.stringify( ret ) );
+                                                } else {
+                                                    api.toast({
+                                                        msg: 'fail',
+                                                        duration: 2000,
+                                                        location: 'bottom'
+                                                    });
+
+                                                    //  alert( JSON.stringify( err ) );
+                                                }
+                                            });
+
+                                        }
+
+                                    }
+                                });
+                            }
+
+
+                        } else {
+                            // alert(JSON.stringify(err));
+                        }
+                    });
+              },
+
+
+            }
+        })
+
+    };
+</script>
+
+</html>

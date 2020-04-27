@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body,
+        html {
+            background: none;
+        }
+
+        #app {
+            background: none;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+
+        [v-cloak] {
+            /*display: none;*/
+        }
+
+        #header {
+            /*position: fixed;*/
+            top: 0;
+            left: 0;
+            right: 0;
+            /*height: 12vw;*/
+            padding: 3vw 0;
+            background: none;
+            background: rgba(0, 0, 0, 0);
+        }
+
+        .top {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3vw;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .topl {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            margin-right: 3vw;
+        }
+
+        .head {
+            width: 12vw;
+            height: 12vw;
+            border-radius: 50%;
+            margin-right: 3vw;
+        }
+
+        .head img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .fol {
+            padding: 5px 10px;
+            background: #FB607D;
+            color: white;
+            margin-left: 3vw;
+            border-radius: 15px;
+            border: 1px solid white;
+        }
+
+        .topr .iconfont {
+            font-size: 25px;
+            color: white;
+        }
+
+        .sc {
+            margin-right: 3vw;
+        }
+
+        .tname {
+            max-width: 34vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        #app {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main {
+            flex: 1;
+        }
+
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3vw;
+            /*background: black;*/
+        }
+
+        .footerl {
+            width: 40vw;
+            height: 10vw;
+            line-height: 10vw;
+            text-align: left;
+            border-radius: 5vw;
+            padding-left: 3vw;
+            color: #363639;
+            box-sizing: border-box;
+            background: #CCCCCC;
+        }
+
+        .footerr {
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .footerr .iconfont {
+            font-size: 25px;
+        }
+
+        .footerr span {
+            margin-right: 2vw;
+        }
+
+        .footerr span:last-child {
+            margin-right: 0;
+        }
+
+        .main {
+            padding: 3vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            /*background: black;*/
+            color: white;
+        }
+
+        .title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .chatlists {
+            padding: 3vw;
+            height: 25vw;
+            overflow: scroll;
+            background: rgba(0, 0, 0, 0.12);
+            border-radius: 5px;
+            opacity: 0;
+            margin-top: 3vw;
+        }
+
+        .chatlist {
+            display: flex;
+            /*align-items: center;*/
+            margin-bottom: 1vw;
+        }
+
+        .nameBox {
+            max-width: 70vw;
+        }
+
+        .nameBox p:nth-child(1) {
+            font-size: 14px;
+            color: #929292;
+        }
+
+        .shopBtnBox {
+            display: flex;
+            align-items: center;
+            /*margin-bottom: 30vw;*/
+        }
+
+        .shopBtnBox .iconfont {
+            font-size: 25px;
+        }
+
+        .shopBtn {
+            height: 35px;
+            background: #FB607D;
+            border-radius: 17.5px;
+            margin-right: 3vw;
+            padding: 0 3vw;
+        }
+
+        .cart {
+            width: 35px;
+            height: 35px;
+            background: #FB607D;
+            text-align: center;
+            line-height: 35px;
+            border-radius: 17.5px;
+        }
+
+        .cart .iconfont {
+            font-size: 22px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <header id="header">
+            <div class="top">
+                <!-- <div class="topl">
+                    <div class="head">
+                        <img src="../../image/img7.jpg" alt="">
+                    </div>
+                    <div class="tnameBox">
+                        <p class="tname">Sara</p>
+                        <p>
+                            <i class="iconfont">&#xe629;</i>
+                            <span>234000</span>
+                        </p>
+                    </div>
+                    <span class="fol">Follow</span>
+                </div> -->
+                <div class="topr">
+                    <!-- <span class="sc">
+                      <i class="iconfont">&#xe642;</i>
+                    </span> -->
+                    <span class="close" @click="closeLive()">
+                      <i class="iconfont">&#xe608;</i>
+                    </span>
+                </div>
+            </div>
+        </header>
+        <div class="main">
+            <div></div>
+            <!-- <div class="shopBtnBox">
+                <div class="shopBtn" @click="openShop()">
+                    <i class="iconfont">&#xe7ed;</i>
+                    <span>Products 8 </span>
+                    <i class="iconfont" v-if="!showShop">&#xe65a;</i>
+                    <i class="iconfont" v-if="showShop">&#xe60f;</i>
+                </div>
+                <span class="cart">
+              <i class="iconfont">&#xe614;</i>
+            </span>
+            </div>
+            <div class="chatlists" id="chatlists">
+                <div class="chatlist">
+                    <div class="head">
+                        <img src="../../image/img7.jpg" alt="">
+                    </div>
+                    <div class="nameBox">
+                        <p>Jean Walton</p>
+                        <p>Awesome,Love It Awesome,Love It Awesome,Love It Awesome,Love It Awesome,Love It</p>
+                    </div>
+                </div>
+            </div> -->
+            <div class="title" id="title">
+                Recently,the pattern of super fire,come and learn.
+            </div>
+        </div>
+        <footer id="footer">
+            <div class="footer">
+                <div class="footerl" @click="sendPl()">
+                    Comments...
+                </div>
+                <div class="footerr">
+                    <span @click="goreport()">
+              <i class="iconfont">&#xe764;</i>
+            </span>
+                    <span>
+              <i class="iconfont"></i>
+            </span>
+                    <span>
+              <!-- <p>1263</p> -->
+              <i class="iconfont">&#xe60c;</i>
+            </span>
+                </div>
+            </div>
+
+        </footer>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    var app;
+    apiready = function() {
+        $api.fixTabBar($api.byId('footer'));
+        $api.fixStatusBar($api.dom('header'));
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  chatTop:0,//Y坐标
+                  showShop:false,//
+                }
+            },
+            created() {
+
+              // alert($api.dom('#chatlists').offsetTop)
+                console.log($api.dom('footer').offsetHeight);
+            },
+            methods: {
+              openShop(){
+                this.showShop = !this.showShop
+                if (this.showShop) {
+                  api.openFrame({
+                      name: 'liveshop',
+                      url: './liveshop.html',
+                      rect: {
+                          x: 0,
+                          y: $api.dom('#chatlists').offsetTop,
+                          w: api.winWidth,
+                          h: api.winHeight-$api.dom('#chatlists').offsetTop
+                      },
+                      pageParam: {
+                          name: 'test'
+                      },
+                      bounces: false,
+                      bgColor: 'rgba(0,0,0,0)',
+                      vScrollBarEnabled: true,
+                      hScrollBarEnabled: true
+                  });
+                }else {
+                  api.setFrameAttr({
+                      name: 'liveshop',
+                      bounces: false,
+                      bgColor: 'rgba(0,0,0,0)',
+                      vScrollBarEnabled: true,
+                      hScrollBarEnabled: true,
+                      hidden:true
+                  });
+
+                  // api.closeFrame({
+                  //     name: 'liveshop'
+                  // });
+
+                }
+
+              },
+                closeLive() {
+                  var demo = api.require('scrollVideo');
+                      demo.closeScrollVideo(function(ret, err){
+                        console.log(JSON.stringify(ret) + "  " +JSON.stringify(err));
+                      });
+                    api.closeWin();
+                },
+                sendPl() {
+                  var _this = this
+                  var inputField = api.require('inputField');
+                  inputField.setInputFieldListener(function(ret, err) {
+                      if (ret) {
+                          if (ret.chatViewH < 50) {
+
+                          }
+                          console.log(JSON.stringify(ret));
+                      } else {
+                          console.log(JSON.stringify(err));
+                      }
+                  });
+                  // inputField.becomeFirstResponder(function(ret, err) {
+                  //     if (ret.status) {
+                  //         console.log(JSON.stringify(ret));
+                  //     } else {
+                  //         console.log(JSON.stringify(err));
+                  //     }
+                  // });
+                  inputField.open({
+                      bgColor: '#ffffff',
+                      lineColor: '#999999',
+                      fileBgColor: '#f5f5f5',
+                      borderColor: '#999999',
+                      placeholder: '',
+                      autoFocus: true,
+                      maxLines: 5,
+                      limitedWordsNumber: 100,
+                      sendBtn: {
+                          bg: '#FB607D',
+                          title: 'Send',
+                          titleColor: '#fff',
+                          bgHighlight: '#e67187',
+                      },
+                      fixedOn: api.frameName
+                  }, function(ret, err) {
+                      if (ret) {
+                          if (ret.msg != '') {
+                              console.log(ret.msg + 'end');
+                              // _this.sendPl(ret.msg)
+                              inputField.resignFirstResponder();
+                              api.sendEvent({
+                                  name: 'livechatText',
+                                  extra: {
+                                      msg: ret.msg,
+                                  }
+                              });
+                          }
+                          // alert(JSON.stringify(ret));
+
+
+                      } else {
+                          // alert(JSON.stringify(err));
+                      }
+                  });
+                  inputField.setInputFieldListener(function(ret, err) {
+                      if (ret) {
+                          console.log(JSON.stringify(ret));
+                          if (ret.chatViewH <= 50) {
+                              inputField.close();
+                          }
+                          // alert(JSON.stringify(ret));
+                      } else {
+                          // alert(JSON.stringify(err));
+                      }
+                  });
+
+                },
+                //举报
+                goreport() {
+                    api.openWin({
+                        name: 'report_win',
+                        url: './report_win.html',
+                        pageParam: {
+                            id: 5
+                        }
+                    });
+
+                }
+
+
+            }
+        })
+
+    };
+</script>
+
+</html>

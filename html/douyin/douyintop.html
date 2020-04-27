@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body,html {
+          background: none;
+        }
+
+        #app {
+            background: none;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        header{
+          padding:0 3vw;
+          line-height: 12vw;
+          height: 12vw;
+        }
+        header span{
+          width: 30px;
+          height: 30px;
+          background: rgba(0, 0, 0, 0.3);
+          border-radius: 50%;
+          color: white;
+          text-align: center;
+          line-height: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <header>
+        <span tapmode onclick="closeDyWin()">
+          <i class="iconfont">&#xe608;</i>
+        </span>
+      </header>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+      $api.fixStatusBar($api.dom('header'));
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+
+                }
+            },
+            created() {
+
+            },
+            methods: {
+
+
+            }
+        })
+
+    };
+    function closeDyWin(){
+      console.log(1);
+      api.closeWin({
+          name: 'douyin_win'
+      });
+    }
+</script>
+
+</html>

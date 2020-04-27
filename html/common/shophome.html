@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/vant.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/mintstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+          *{
+            -webkit-overflow-scrolling:touch
+          }
+
+        #app {
+            background: #FAFAFA;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+            /*padding-bottom: 30vw;*/
+        }
+
+        [v-cloak] {
+            /*display: none;*/
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 900;
+        }
+
+        #back,
+        #back1,#back2,#back3 {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            background: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            left: 3vw;
+        }
+
+        #back1,#back3 {
+            opacity: 0;
+            background: white;
+            color: black;
+            border: none;
+        }
+
+        .headBox {
+            padding: 0 3vw;
+            height: 12vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topBg {
+            width: 100%;
+            height: 50vw;
+            object-fit: cover;
+        }
+        /**/
+
+        .info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3vw;
+        }
+
+        .logo {
+            width: 15vw;
+            height: 15vw;
+            background: #FA607D;
+            border-radius: 50%;
+            margin-right: 3vw;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .infol {
+            display: flex;
+            align-items: center;
+        }
+        .infoname {
+            max-width: 40vw;
+            /*height: 13vw;*/
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .infor {
+            display: flex;
+            align-content: center;
+        }
+
+        .chat .iconfont {
+            font-size: 30px;
+            color: #FA607D;
+        }
+
+        .follow {
+            height: 30px;
+            border: 1px solid #FA607D;
+            color: #FA607D;
+            border-radius: 15px;
+            line-height: 30px;
+            padding: 0 3vw;
+            margin-right: 3vw;
+        }
+
+        .infoname p {
+            /*overflow: hidden;*/
+            /*text-overflow: ellipsis;*/
+            /*display: -webkit-box;*/
+            /*-webkit-line-clamp: 1;*/
+            /*-webkit-box-orient: vertical;*/
+        }
+        /**/
+
+        .navs {
+            padding: 0 3vw;
+            height: 10vw;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            color: #2F3E5E;
+            font-size: 18px;
+        }
+
+        .navs .active {
+            color: #FA607D;
+        }
+
+        .navs1 {
+            position: fixed;
+            top: 12vw;
+            left: 0;
+            right: 0;
+            z-index: 500;
+            background: white;
+        }
+        /**/
+
+        .livelists {
+            padding: 3vw;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .livelist {
+            width: 45vw;
+            height: 45vw;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 3vw;
+            margin-bottom: 3vw;
+            position: relative;
+        }
+
+        .livelist:nth-child(2n+2) {
+            margin-right: 0;
+        }
+
+        .liveimg {
+            width: 45vw;
+            height: 45vw;
+            border-radius: 5px;
+        }
+
+        .livetop {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1vw;
+            color: white;
+            font-size: 12px;
+        }
+
+        .livetop span:nth-child(1) {
+            background: #FA607D;
+            padding: 1px 10px;
+            border-radius: 10px;
+            font-size: 13px;
+        }
+
+        .livebom {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1vw;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .livehead {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 13px;
+        }
+
+        .livehead img {
+            width: 8vw;
+            height: 8vw;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .scnum {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: white;
+        }
+        /**/
+        /**/
+
+        .lists {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 3vw;
+        }
+
+        .list {
+            width: 45vw;
+            margin-right: 3vw;
+            margin-bottom: 3vw;
+        }
+
+        .list:nth-child(2n+2) {
+            margin-right: 0;
+        }
+
+        .img {
+            width: 45vw;
+            height: 45vw;
+            border-radius: 5px;
+            margin-bottom: 3vw;
+        }
+
+        .img img {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+        }
+
+        .products .info {
+            color: #374663;
+            display: block;
+        }
+
+        .price {
+            color: #F96480;
+            margin-top: 3vw;
+        }
+        /**/
+
+        .pronav {
+            display: flex;
+            padding: 3vw;
+            justify-content: space-around;
+        }
+
+        .pronav .active {
+            color: #F9617F;
+        }
+
+        .sj {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .priceBox {
+            display: flex;
+            align-items: center;
+        }
+
+        .sjUp {
+            width: 0;
+            height: 0;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent black transparent;
+            /*width:0;
+
+          height:0;
+
+          border-left:5px solid transparent;
+
+          border-right:5px solid transparent;
+
+          border-bottom:10px solid black;*/
+            margin-bottom: 2px;
+        }
+        .sjUp.activesj{
+          border-color: transparent transparent #FA607D transparent;
+        }
+
+        .sjDown {
+            width: 0;
+            height: 0;
+            border-width: 5px;
+            border-style: solid;
+            border-color: black transparent transparent transparent;
+            /*border-color的四个值代表上右下左，分别实现下左上右箭头 */
+        }
+        .sjDown.activesj{
+          border-color:#FA607D transparent transparent  transparent;
+        }
+        /**/
+        .catesL{
+          width: 25vw;
+          height: 100%;
+          overflow-y: scroll;
+        }
+        .catesR{
+          width: 75vw;
+          height: 100%;
+          overflow-y: scroll;
+        }
+        .slidenav,.catesCount{
+          height: max-content;
+        }
+        .slide{
+          padding: 1vw;
+          height: 10vw;
+          text-align: center;
+          border-bottom: 1px solid #d6d4d4;
+          border-left: 2px solid none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .slideActive{
+          background: white;
+          border-left: 2px solid #F9617F;
+        }
+        .cates{
+          display: flex;
+        }
+        .cateTit{
+          text-align: center;
+          padding: 3vw;
+        }
+        .cateslists{
+          display: flex;
+          flex-wrap: wrap;
+          padding: 3vw;
+        }
+        .cateslist{
+          width: 20vw;
+          margin-right: 3vw;
+          margin-bottom: 3vw;
+        }
+        .cateslist:nth-child(3n+3){
+          margin-right: 0;
+        }
+        .cateslist img{
+          width: 20vw;
+          height: 20vw;
+          border-radius: 5px;
+          object-fit: cover;
+        }
+        .catesName{
+          overflow: hidden;
+          color: #999999;
+          text-align: center;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+        }
+        .catesR{
+          background: white;
+        }
+        /*优惠券*/
+
+        .coupons .list{
+          width: 94vw;
+          height: 30vw;
+          margin:0 auto 3vw;
+          display: flex;
+          align-items: center;
+          /*box-shadow: 0 2px 1px 0px #f5f5f5;*/
+          background-image: url(../../image/coupon_bg.png);
+          background-size: 100% 100%;
+        }
+        .coupons .listl{
+          width: 30vw;
+          height: 30vw;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+        }
+        .coupons .listr{
+          width: 60vw;
+          height: 30vw;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+        }
+        .coupons .listr p{
+          color: #999999;
+        }
+        .coupons .listr p.color{
+          color: #F96480;
+          font-size: 20px;
+        }
+        .coupons .listr p:nth-child(2){
+          color: #999999;
+          font-size: 14px;
+        }
+        .coupons .listr p:nth-child(3){
+          color: #999999;
+          font-size: 12px;
+        }
+        .coupons .listl .cut{
+          font-size: 30px;
+        }
+        .topBgBox{
+          width: 100%;
+          height: 50vw;
+          overflow: hidden;
+          background: #FA607D;
+        }
+        [v-cloak]{
+          /*display: none; */
+          /*opacity: 0;*/
+          display: block;
+        }
+        .infoname .name{
+          max-width:30vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+
+        <header id="header">
+            <div class="headBox">
+                <span id="back" tapmode onclick="goback()">
+                <i class="iconfont">&#xe608;</i>
+              </span>
+                <span id="back1" tapmode onclick="goback()">
+                <i class="iconfont">&#xe608;</i>
+              </span>
+                <span id="titname" style="opacity:0"></span>
+                <span id="back2" style="right:3vw;left:unset" @click="gosq()">
+                  <i class="iconfont">&#xe640;</i>
+                </span>
+                <span id="back3" style="right:3vw;left:unset" @click="gosq()">
+                  <i class="iconfont">&#xe640;</i>
+                </span>
+            </div>
+        </header>
+
+            <div id="idStr" class="topBgBox" :style="{height:allTransLate+'px'}">
+              <img class="topBg"   :style="{height:allTransLate+'px'}" :src="logo" alt="">
+            </div>
+        <!-- start -->
+        <mt-loadmore @translate-change="translateChange"  ref="loadmore" :bottom-all-loaded="allLoaded" :bottom-method="loadBottom" :top-method="loadTop" @top-status-change="handleTopChange">
+          <div slot="top" class="mint-loadmore-top">
+            <!-- {{moveTranslateNum}} -->
+		      <!-- <span v-show="topStatus !== 'loading'" :class="{ 'rotate': topStatus === 'drop' }">↓</span> -->
+		      <!-- <span v-show="topStatus === 'loading'">Loading...</span> -->
+		    </div>
+        <div class="wrap">
+            <!-- <img class="topBg"  src="../../image/1.png" alt=""> -->
+            <div class="info">
+                <div class="infol">
+                    <div class="logo">
+                        <img :src="logo" alt="">
+                    </div>
+                    <div class="infoname">
+                        <p class="name">{{business_name}}</p>
+                        <p style="color:#999999">Followers:{{fans_count}}</p>
+                    </div>
+                </div>
+                <div class="infor">
+                    <span class="follow" @click="gofocus()">
+                      {{focus_status==0?'FOLLOW':'Unsubscribe'}}
+                    </span>
+                    <span class="chat" @click="gochat()">
+                      <i class="iconfont">&#xe62e;</i>
+                    </span>
+                </div>
+            </div>
+            <!-- nav -->
+            <div class="navs" id="navsBtn">
+                <span @click="changeNav(1)" :class="navactive==1?'active':''">Home</span>
+                <span @click="changeNav(2)" :class="navactive==2?'active':''">Products</span>
+                <span @click="changeNav(3)" :class="navactive==3?'active':''">Categories</span>
+            </div>
+            <div class="navs navs1" id="navs" v-if="isTop">
+                <span @click="changeNav(1)" :class="navactive==1?'active':''">Home</span>
+                <span @click="changeNav(2)" :class="navactive==2?'active':''">Products</span>
+                <span @click="changeNav(3)" :class="navactive==3?'active':''">Categories</span>
+            </div>
+            <!-- home -->
+            <div class="" v-if="navactive == 1">
+              <!-- 优惠券 -->
+              <div class="coupons" tapmode @click="goshopcoupons()" v-if="has_coupon == 1">
+                  <div class="list">
+                    <div class="listl">
+                      <!-- <img src="" alt=""> -->
+                      <span class="cut">￡{{coupon.discount_price}}</span>
+                    </div>
+                    <div class="listr">
+                      <p>Spend over ￡{{coupon.min_consume_price}}</p>
+                      <div>
+                        <p>Valid from</p>
+                        <p>{{coupon.start_time}} to {{coupon.end_time}}</p>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <!--  -->
+                <div class="livelists">
+                    <div class="livelist" v-for="(item,index) in liveslist" @click="golive(item)">
+                        <img class="liveimg" :src="item.thumb" alt="">
+                        <div class="livetop">
+                            <span>{{item.live_status == 1?'Live':'Replay'}}</span>
+                            <span>
+                    <i class="iconfont">&#xe629;</i>
+                    {{item.look_count}}
+                  </span>
+                        </div>
+                        <div class="livebom">
+                            <div class="livehead">
+                                <!-- <img src="../../image/img7.jpg" alt="">
+                                <span>Emiliya</span> -->
+                            </div>
+                            <div class="scnum">
+                                <i class="iconfont">&#xe60c;</i> {{item.fav_count}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- products -->
+            <div class="products" v-if="navactive == 2">
+                <div class="pronav">
+                    <div @click="changeProNav(1)" :class="pronav==1?'active':''">Newly Listed</div>
+                    <div @click="changeProNav(2)" :class="pronav==2?'active':''">Most Popular</div>
+                    <div class="priceBox" @click="changeProNav(3)" :class="pronav==3?'active':''">
+                        <span>Price</span>
+                        <span class="sj">
+                  <i class="sjUp" :class="pronav==3 && activesj==1?'activesj':''"></i>
+                  <i class="sjDown" :class="pronav==3 && activesj==2?'activesj':''"></i>
+                  <!-- <i class="iconfont">&#xe60f;</i>
+                  <i class="iconfont">&#xe65a;</i> -->
+                </span>
+                    </div>
+                </div>
+                <div class="listsBox">
+                    <div class="lists">
+                        <div class="list" @click="goshopDetail(item)" v-for="(item,index) in prolists">
+                            <div class="img">
+                                <img :src="item.thumb" alt="">
+                            </div>
+                            <div class="info">
+                                <p>{{item.title}}</p>
+                                <p class="price">￡{{item.sale_price}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- cate -->
+            <div class="cates" id="cates" v-if="navactive == 3">
+              <div class="catesL">
+                <div class="slidenav">
+                  <div @click="changeSlide(item,index)" class="slide" v-for="(item,index) in slideNavs" :class="slideActive==index?'slideActive':''">
+                    <span>
+                      {{item}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="catesR">
+                <div class="catesCount"  v-for="(item,index) in slideNavsRight" v-if="slideActive == index">
+                  <div class="empty" v-if="item.subs_status == 0">
+                    <img src="../../image/empty.png" alt="">
+                  </div>
+                  <div class="cateslistBox" v-for="(ite,ind) in item.subs">
+                    <p class="cateTit">{{ite.title}}</p>
+                    <div class="cateslists">
+                      <div class="cateslist" @click="goshopcate(it)" v-for="(it,id) in ite.subs">
+                        <img v-lazy="it.thumb" alt="">
+                        <p class="catesName">{{it.title}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--  -->
+        </div>
+        <!-- end -->
+		  </mt-loadmore>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/vant.js"></script>
+<script src="../../script/mintindex.js"></script>
+<script src="../../script/aui-scroll.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        $api.fixStatusBar($api.dom('header'));
+        $api.fixStatusBar($api.byId('navs'));
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+										allLoaded:true,
+                    slideActive:0,
+                    navactive: 1,
+                    pronav: 1,
+                    activesj:2,
+                    isTop: false,
+                    shopheader: 0,
+                    cateBoxHeight: '',
+                    moveTranslateNum:1,
+                    allTransLate:0,
+                    tOp:0,
+
+                    logo:'',//logo
+                    business_name:'',//店铺名字
+                    focus_status:0,//1为已关注
+                    fans_count:0,//粉丝数量
+                    has_coupon:0,//1为有优惠券
+                    coupon:null,//优惠券信息
+                    slideNavs:[],//分类左侧
+                    slideNavsRight:[],//分类右侧
+                    liveslist:[],
+                    livespage:1,
+                    livesmore:true,
+                    last_live_id:'',
+                    order_by:1,//1最新、2销量、3最受欢迎、4售价由高到低、5售价由低到高
+                    prolists:[],
+                    promore:true,
+                    propage:1,
+                }
+            },
+            created() {
+                this.allTransLate = api.winWidth/2
+                this.shopheader = $api.dom('header').offsetHeight
+                this.tOp = $api.dom('#navsBtn').offsetTop - this.shopheader;
+                console.log(this.shopheader);
+                console.log(api.winHeight);
+                this.cateBoxHeight = Math.floor(api.winHeight - this.shopheader - api.winWidth*0.1)
+                console.log(this.cateBoxHeight);
+                $api.css($api.byId('cates'), 'height:' + this.cateBoxHeight + 'px');
+                this.getscroll()
+                this.getcaryLists()
+                this.getstoreData()
+                this.getMore()
+            },
+            methods: {
+              //前往聊天
+              gochat(){
+                var _this = this;
+                var data = {
+                  store_id:api.pageParam.id
+                };
+                requstPost('chat/createFromStore',data,function success(ret){
+                  if (ret.code == 0) {
+                    api.openWin({
+                        name: 'chat_win',
+                        url: '../chat_win.html',
+                        pageParam: {
+                            name: _this.business_name,
+                            chat_group_id:ret.data.chat_group_id
+                        }
+                    });
+                  }
+                },function fail(err){
+
+                })
+              },
+              //申请
+              gosq(){
+                var _this = this;
+                api.confirm({
+                    title: 'Certification',
+                    msg: 'Are you sure you want to submit an application to the merchant?',
+                    buttons: ['Sure', 'Cancel']
+                }, function(ret, err){
+                    if( ret ){
+                      if (ret.buttonIndex == 1) {
+                        api.actionSheet({
+                                        title: '',
+                                        cancelTitle: 'Cancel',
+                                        buttons: ['Camera', 'Album']
+                                    }, function(ret, err) {
+                                        if (ret) {
+                                            _this.getPicqj(ret.buttonIndex);
+                                        }
+                                    });
+                      }
+                        //  alert( JSON.stringify( ret ) );
+                    }else{
+                        //  alert( JSON.stringify( err ) );
+                    }
+                });
+
+              },
+              getPicqj(sourceType) {
+                  var _this = this;
+                  if (sourceType == 1) { // 拍照
+                      //获取一张图片
+                      api.getPicture({
+                          sourceType: 'camera',
+                          encodingType: 'jpg',
+                          mediaValue: 'pic',
+                          destinationType: 'url',
+                          allowEdit: false,
+                          quality: 100,
+                          // targetWidth: 800,
+                          // targetHeight: 800,
+                          saveToPhotoAlbum: true
+                      }, function(ret, err) {
+                          // 获取拍照数据并处理
+                          if (ret.data) {
+                            var imgurl = ret.data;
+                            requstUpload(ret.data,function success(rett){
+                              if (rett.code == 0) {
+                                pubshowloading()
+                                var data = {
+                                  store_id:api.pageParam.id,
+                                  thumb:rett.data.src
+                                };
+                                requstPost('user/applyStoreMember',data,function success(ret){
+                                  if (ret.code == 0) {
+                                    api.alert({
+                                        title: ret.message,
+                                        msg: '',
+                                        buttons:['Sure']
+                                    }, function(ret, err){
+                                        if( ret ){
+                                            //  alert( JSON.stringify( ret ) );
+                                        }else{
+                                            //  alert( JSON.stringify( err ) );
+                                        }
+                                    });
+                                  }
+                                },function fail(err){
+
+                                })
+                              }
+                            },function fail(err){
+
+                            })
+                              // _this.uploadImg(ret.data)
+                          }
+                      });
+                  } else if (sourceType == 2) { // 从相机中选择
+                      var systemType = api.systemType
+
+                      // if (systemType =='ios') {
+                      api.getPicture({
+                          sourceType: 'library',
+                          encodingType: 'jpg',
+                          mediaValue: 'pic',
+                          destinationType: 'url',
+                          quality: 100,
+                          // targetWidth: 800,
+                          // targetHeight: 800
+                      }, function(ret, err) {
+                          if (ret.data) {
+
+                              var imgurl = ret.data;
+                              requstUpload(ret.data,function success(rett){
+                                if (rett.code == 0) {
+                                  pubshowloading()
+                                  var data = {
+                                    store_id:api.pageParam.id,
+                                    thumb:rett.data.src
+                                  };
+                                  requstPost('user/applyStoreMember',data,function success(res){
+                                    if (res.code == 0) {
+                                      api.alert({
+                                          title: res.message,
+                                          msg: '',
+                                          buttons:['Sure']
+                                      }, function(ret, err){
+                                          if( ret ){
+                                              //  alert( JSON.stringify( ret ) );
+                                          }else{
+                                              //  alert( JSON.stringify( err ) );
+                                          }
+                                      });
+                                    }
+                                  },function fail(err){
+
+                                  })
+                                }
+                              },function fail(err){
+
+                              })
+                              // _this.uploadImg(ret.data)
+                              // _this.imgList.push(ret.data)
+                              // alert(JSON.stringify(ret))
+                          } else {
+                              // alert(JSON.stringify(err));
+                          }
+                      });
+                  // }
+              }
+          },
+              golive(ite){
+                api.openWin({
+                    name: 'live_win',
+                    url: '../live/live_win.html',
+                    pageParam: {
+                        live_id: ite.live_id
+                    },
+                    slidBackEnabled:false
+                });
+              },
+              goshopDetail(ite){
+                api.openWin({
+                    name: 'shopdetail_win',
+                    url: './shopdetail_win.html',
+                    pageParam: {
+                        name: 'test',
+                        id:ite.id
+                        // id:5
+                    }
+                });
+              },
+            //监听滚动到底
+            getMore() {
+              var _this = this
+              api.addEventListener({
+                  name: 'scrolltobottom',
+                  extra: {
+                      threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                  }
+              }, function(ret, err) {
+                if (_this.navactive == 1) {
+                  if (_this.livesmore) {
+                    _this.getLiveList()
+                  }
+                }else if (_this.navactive == 2) {
+                  if (_this.productmore) {
+                    _this.getprolists()
+                  }
+                }
+
+              });
+            },
+            getprolists(){
+              pubshowloading()
+              var _this = this;
+              var data = {
+                  keyword:'',
+                  category_id:'',
+                  order_by:_this.order_by,
+                  page:_this.propage,
+                  page_size:20,
+                  store_id:api.pageParam.id
+              };
+              requstPost('store/product',data,function success(ret){
+                if (ret.code == 0) {
+                  if (_this.propage == 1) {
+                    _this.prolists = []
+                    _this.prolists = _this.prolists.concat(ret.data)
+                    if (ret.data.length < 20) {
+                      _this.promore = false
+                    }
+                  }
+                  _this.propage +=1
+                }else {
+                  _this.promore = false
+                }
+              },function fail(err){
+
+              })
+            },
+            //获取直播列表
+            getLiveList(){
+              pubshowloading()
+              var _this = this;
+              var data = {
+                last_live_id:_this.last_live_id,
+                page:_this.livespage,
+                page_size:20,
+                store_id:api.pageParam.id
+              };
+              requstPost('store/homeLive',data,function success(ret){
+                if (ret.code == 0) {
+                  _this.liveslist = _this.liveslist.concat(ret.data.list)
+                  _this.livespage += 1
+                  _this.last_live_id = ret.data.last_live_id
+                  if (ret.data.list.length < 20) {
+                    _this.livesmore = false
+                  }
+                }
+              },function fail(err){
+
+              })
+            },
+
+              getstoreData(){
+                var _this = this;
+                var data = {
+                  store_id:api.pageParam.id
+                };
+                requstPost('store/home',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.logo = ret.data.logo
+                    _this.business_name = ret.data.business_name
+                    _this.fans_count = ret.data.fans_count
+                    _this.focus_status = ret.data.focus_status
+                    _this.has_coupon = ret.data.has_coupon
+                    if (ret.data.has_coupon == 1) {
+                      _this.coupon = ret.data.coupon
+                    }
+                    if (ret.data.has_lives == 1) {
+                      _this.liveslist = ret.data.lives
+                      _this.last_live_id = ret.data.last_live_id
+                      if (ret.data.lives.length < 20) {
+                        _this.livesmore = false
+                      }
+                    }else {
+                      _this.livesmore = false
+                    }
+                  }
+                },function fail(err){
+
+                })
+              },
+              //关注商家
+              gofocus(){
+                var _this = this;
+                var data = {
+                  store_id:api.pageParam.id
+                };
+                requstPost('user/followStore',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.focus_status = ret.data.focus_status // 1为已关注
+                    _this.fans_count = ret.data.fans_count
+                  }
+                },function fail(err){
+
+                })
+              },
+              //获取分类
+              getcaryLists(){
+                var _this = this;
+                var data = {
+                  store_id:api.pageParam.id
+                };
+                requstPost('store/selfCategory',data,function success(ret){
+                  if (ret.code == 0) {
+                    // alert(JSON.stringify(ret.data))
+                    _this.slideNavsRight = ret.data
+                    var arrSlide = [];
+                    for (var i = 0; i < ret.data.length; i++) {
+                      arrSlide.push(ret.data[i].title)
+                    }
+                    _this.slideNavs = arrSlide;
+                  }
+                },function fail(err){
+
+                })
+              },
+              //前往优惠券页面
+              goshopcoupons(){
+                api.openWin({
+                    name: 'shopcoupons_win',
+                    url: './shopcoupons_win.html',
+                    pageParam: {
+                      id:api.pageParam.id
+                    }
+                });
+              },
+              // start
+              loadTop(){
+										this.$refs.loadmore.onTopLoaded();
+									},
+									handleTopChange(status) {
+						        this.topStatus = status;
+						      },
+									loadBottom() {
+									  // 加载更多数据
+                    // console.log('more');
+									  this.allLoaded = true;// 若数据已全部获取完毕
+									  this.$refs.loadmore.onBottomLoaded();
+									},
+
+                  translateChange(translate) {
+
+                  	// return
+                    var translateNum = +translate;
+
+                    var hEight = api.winWidth/2;
+
+                    if (translate > 0) {
+                      this.allTransLate = hEight+translate*2;
+                      if (this.allTransLate > 350) {
+                        this.allTransLate = 350
+                      }
+                    }else {
+                      this.allTransLate = api.winWidth/2
+                    }
+                    // console.log('移动距离'+this.allTransLate);
+
+
+
+                    var translate = translateNum.toFixed(2);
+                    // console.log('移动num'+translateNum);
+                    var moveTranslate = (1 + translateNum / 70).toFixed(2);
+                    this.moveTranslateNum = moveTranslate
+                  	// console.log(moveTranslate)
+                  },
+              //end
+
+              goshopcate(ite){
+                api.openWin({
+                    name: 'shopcate_win',
+                    url: './shopcate_win.html',
+                    pageParam: {
+                        name: ite.title,
+                        id:ite.id,
+                        store_id:api.pageParam.id
+                    }
+                });
+
+              },
+              changeSlide(ite,ind){
+                // alert(JSON.stringify(this.slideNavsRight[ind]))
+                this.slideActive = ind
+              },
+                changeProNav(e) {
+                    this.pronav = e
+                    if (e==3) {
+                      if (this.activesj == 1) {
+                        this.activesj = 2
+                        this.order_by = 4
+                      }else {
+                        this.activesj = 1
+                        this.order_by = 5
+                      }
+                      // alert(this.activesj)
+                    }else {
+                        this.activesj = 2
+                        this.order_by = e
+                    }
+                    this.propage = 1
+                    this.promore = true
+                    this.getprolists()
+                },
+                changeNav(e) {
+                  if (e == 2 && this.promore) {
+                    this.getprolists()
+                  }
+                    this.navactive = e
+                },
+                getscroll() {
+                    var _this = this;
+                    var scroll = new auiScroll({
+                        listen: true,
+                        distance: 200 //判断到达底部的距离，isToBottom为true
+                    }, function(ret) {
+                        // console.log('滚动距离：' + ret.scrollTop);
+
+                        if (ret.scrollTop >= _this.tOp) {
+                            _this.isTop = true
+                        } else {
+                            _this.isTop = false
+                        }
+                        // console.log(_this.tOp);
+                        if (ret.isToBottom) {
+                            // document.getElementById("demo").textContent = "已到达底部";
+                            // console.log("已到达底部");
+                            // $api.css($api.dom('header'), 'background:rgba(255,255,255,'+1+')');
+                            // $api.css($api.byId('titname'), 'opacity:'+1);
+                        }
+                        // else{
+                        var opa = ret.scrollTop / 100;
+                        var opa1 = 1 - opa;
+                        // console.log(opa1);
+                        if (opa >= 1) {
+                            opa1 = 1
+                        }
+                        $api.css($api.dom('header'), 'background:rgba(255,255,255,' + opa + ')');
+                        $api.css($api.byId('titname'), 'opacity:' + opa);
+                        $api.css($api.byId('back'), 'opacity:' + opa1);
+                        $api.css($api.byId('back1'), 'opacity:' + opa);
+                        $api.css($api.byId('back2'), 'opacity:' + opa1);
+                        $api.css($api.byId('back3'), 'opacity:' + opa);
+                        if (ret.scrollTop >= 50) {
+                            $api.css($api.dom('header'), 'background:rgba(255,255,255,' + 1 + ')');
+                            $api.css($api.byId('back1'), 'opacity:' + 1);
+                            $api.css($api.byId('back'), 'opacity:' + 0);
+                            $api.css($api.byId('back3'), 'opacity:' + 1);
+                            $api.css($api.byId('back2'), 'opacity:' + 0);
+                        }
+                        // document.getElementById("demo").textContent = "滚动高度："+ret.scrollTop;
+                        // }
+
+                    });
+                },
+
+
+            }
+        })
+
+    };
+    function goback(){
+      api.closeWin();
+    }
+    //查看商家优惠券
+    function goshopcoupons(){
+      api.openWin({
+          name: 'shopcoupons_win',
+          url: './shopcoupons_win.html',
+          pageParam: {
+            id:api.pageParam.id
+          }
+      });
+
+    }
+</script>
+
+</html>

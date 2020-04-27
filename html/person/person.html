@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/vant.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/countdown.css"/>
+    <style>
+        body {}
+
+        * {
+            -webkit-overflow-scrolling: touch
+        }
+
+        #app {
+            background: #FAFAFA;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+            /*padding-bottom: 30vw;*/
+        }
+
+        [v-cloak] {
+            /*display: none;*/
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 900;
+        }
+
+        #back,
+        #back1 {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            background: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            left: 3vw;
+        }
+
+        #back1 {
+            opacity: 0;
+            background: white;
+            color: black;
+            border: none;
+        }
+
+        .headBox {
+            padding: 0 3vw;
+            height: 12vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topBg {
+            width: 100%;
+            height: 50vw;
+            object-fit: cover;
+        }
+        /**/
+
+        .info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3vw;
+        }
+
+        .logo {
+            width: 15vw;
+            height: 15vw;
+            background: #FA607D;
+            border-radius: 50%;
+            margin-right: 3vw;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .infol {
+            display: flex;
+            align-items: center;
+        }
+
+        .infoname {
+            max-width: 40vw;
+            height: 13vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .infor {
+            display: flex;
+            align-content: center;
+        }
+
+        .chat .iconfont {
+            font-size: 30px;
+            color: #FA607D;
+        }
+
+        .follow {
+            height: 30px;
+            border: 1px solid #FA607D;
+            color: #FA607D;
+            border-radius: 15px;
+            line-height: 30px;
+            padding: 0 3vw;
+            margin-right: 3vw;
+        }
+
+        .infoname p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+        /**/
+
+        .navs {
+            padding: 0 3vw;
+            height: 10vw;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            color: #2F3E5E;
+            font-size: 18px;
+              transition: all .3s;
+        }
+
+        .navs span {
+            margin-right: 5vw;
+        }
+
+        .navs1 span {
+            margin-right: 0;
+        }
+
+        .navs1 {
+          transition: all .3s;
+            justify-content: space-around;
+        }
+
+        .navs .active {
+            color: #FA607D;
+        }
+
+        .navs1 {
+            position: fixed;
+            top: 12vw;
+            left: 0;
+            right: 0;
+            z-index: 500;
+            background: white;
+        }
+        /**/
+
+        .livelists {
+            padding: 3vw;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .livelist {
+            width: 45vw;
+            height: 45vw;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 3vw;
+            margin-bottom: 3vw;
+            position: relative;
+        }
+
+        .livelist:nth-child(2n+2) {
+            margin-right: 0;
+        }
+
+        .liveimg {
+            width: 45vw;
+            height: 45vw;
+            border-radius: 5px;
+        }
+
+        .livetop {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1vw;
+            color: white;
+            font-size: 12px;
+        }
+
+        .livetop span:nth-child(1) {
+            background: #FA607D;
+            padding: 1px 10px;
+            border-radius: 10px;
+            font-size: 13px;
+        }
+        .livetop span.replay:nth-child(1) {
+            background: #818B9C;
+        }
+        .livetop .before:nth-child(1){
+              background: #7C8598;
+        }
+
+        .livebom {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1vw;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .livehead {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 13px;
+        }
+
+        .livehead img {
+            width: 8vw;
+            height: 8vw;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .scnum {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: white;
+        }
+        /**/
+        /**/
+
+        .lists {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 3vw;
+        }
+
+        .list {
+            width: 45vw;
+            margin-right: 3vw;
+            margin-bottom: 3vw;
+        }
+
+        .list:nth-child(2n+2) {
+            margin-right: 0;
+        }
+
+        .img {
+            width: 45vw;
+            height: 45vw;
+            border-radius: 5px;
+            margin-bottom: 3vw;
+        }
+
+        .img img {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+        }
+
+        .products .info {
+            color: #374663;
+            display: block;
+        }
+
+        .price {
+            color: #F96480;
+            margin-top: 3vw;
+        }
+        /**/
+
+        .pronav {
+            display: flex;
+            padding: 3vw;
+            justify-content: space-around;
+        }
+
+        .pronav .active {
+            color: #F9617F;
+        }
+
+        .sj {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .priceBox {
+            display: flex;
+            align-items: center;
+        }
+
+        .sjUp {
+            width: 0;
+            height: 0;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent black transparent;
+            /*width:0;
+
+          height:0;
+
+          border-left:5px solid transparent;
+
+          border-right:5px solid transparent;
+
+          border-bottom:10px solid black;*/
+            margin-bottom: 2px;
+        }
+
+        .sjUp.activesj {
+            border-color: transparent transparent #FA607D transparent;
+        }
+
+        .sjDown {
+            width: 0;
+            height: 0;
+            border-width: 5px;
+            border-style: solid;
+            border-color: black transparent transparent transparent;
+            /*border-color的四个值代表上右下左，分别实现下左上右箭头 */
+        }
+
+        .sjDown.activesj {
+            border-color: #FA607D transparent transparent transparent;
+        }
+        /**/
+
+        .catesL {
+            width: 20vw;
+            height: 100%;
+            overflow-y: scroll;
+        }
+
+        .catesR {
+            width: 80vw;
+            height: 100%;
+            overflow-y: scroll;
+        }
+
+        .slidenav,
+        .catesCount {
+            height: max-content;
+        }
+
+        .slide {
+            padding: 1vw;
+            height: 10vw;
+            text-align: center;
+            border-bottom: 1px solid #d6d4d4;
+            border-left: 2px solid none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slideActive {
+            background: white;
+            border-left: 2px solid #F9617F;
+        }
+
+        .cates {
+            display: flex;
+        }
+
+        .cateTit {
+            text-align: center;
+            padding: 3vw;
+        }
+
+        .cateslists {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 3vw;
+        }
+
+        .cateslist {
+            width: 22vw;
+            margin-right: 3vw;
+            margin-bottom: 3vw;
+        }
+
+        .cateslist:nth-child(3n+3) {
+            margin-right: 0;
+        }
+
+        .cateslist img {
+            width: 22vw;
+            height: 22vw;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        .catesName {
+            overflow: hidden;
+            color: #999999;
+            text-align: center;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        .catesR {
+            background: white;
+        }
+        .pinfo{
+          text-align: center;
+        }
+        .pinfo img{
+          width: 30vw;
+          height: 30vw;
+          border: 2px solid white;
+          border-radius: 50%;
+        }
+        .phead{
+          width: 30vw;
+          margin: -15vw auto 0;
+            position: relative;
+        }
+        .pname{
+          font-size: 20px;
+
+        }
+        .flow{
+          width: 30vw;
+          height: 10vw;
+          background: linear-gradient(to right,#FF689B, #FF8961);
+          position: absolute;
+          top: 50%;
+          transform: translateX(-20%) translateY(-50%);
+          right: -100%;
+          color: white;
+          line-height: 10vw;
+          border-radius: 5vw;
+        }
+        .unflow{
+          width: 30vw;
+          height: 10vw;
+          position: absolute;
+          /*top: 70%;
+          transform: translateX(-20%) translateY(-50%);
+          right: -100%;*/
+          right: -80%;
+          bottom: 0;
+          color: black;
+          line-height: 10vw;
+          border-radius: 5vw;
+        }
+        /**/
+        .nav{
+          width: 94vw;
+          margin: auto;
+          display: flex;
+          justify-content: space-around;
+          border: 1px solid #f5f5f5;
+          padding: 5vw 0;
+          border-radius: 5px;
+          box-shadow: 0 1px 1px 1px #f5f5f5;
+          background: white;
+        }
+        .nav div{
+          flex: 1;
+          text-align: center;
+          padding: 0 3vw;
+        }
+        .nav div p{
+          margin-bottom: 1vw;
+        }
+        .nav div span{
+          color: #999999;
+        }
+        /**/
+        /**/
+        .videoLists{
+          padding: 3vw;
+          display: flex;
+          flex-wrap: wrap;
+        }
+        .videoName{
+          overflow: hidden;
+          text-overflow: ellipsis;
+       display: -webkit-box;
+       -webkit-line-clamp: 1;
+       -webkit-box-orient: vertical;
+       color: #696767;
+        }
+        .videolist .livelist{
+          margin-right: 0
+        }
+        .videolist{
+          margin-right: 3vw;
+          margin-bottom: 3vw;
+        }
+        .videolist:nth-child(2n+2){
+          margin-right: 0;
+        }
+        /**/
+        .products .livelist{
+          height: 30vw;
+        }
+        .products .liveimg{
+          height: 30vw;
+          object-fit: cover;
+        }
+        .tname{
+          text-align: center;
+          position: absolute;
+          left: 0;
+          right: 0;
+          margin: auto;
+          opacity: 0;
+          max-width: 50vw;
+          overflow: hidden;
+          text-overflow: ellipsis;
+           display: -webkit-box;
+           -webkit-line-clamp: 1;
+           -webkit-box-orient: vertical;
+        }
+        .empty{
+          height: 50vw;
+        }
+        /*倒计时时间*/
+        .countdownTime{
+          width:100%;
+          margin-top:2vw;
+          background: rgba(0,0,0,0.4);
+          color: white;
+          display: flex;
+          align-items: center;
+          box-sizing: border-box;
+          padding: 5px 0;
+        }
+        .countnumbox>span{
+          background: transparent!important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+
+        <header id="header">
+            <div class="headBox">
+                <span id="back" tapmode onclick="goback()">
+                  <i class="iconfont">&#xe608;</i>
+                </span>
+                <span id="back1" tapmode onclick="goback()">
+                  <i class="iconfont">&#xe608;</i>
+                </span>
+                <span class="tname" id="tname">{{anchor_name}}</span>
+                <span id="titname" style="opacity:0"></span>
+                <span> </span>
+            </div>
+        </header>
+        <div class="wrap">
+            <img class="topBg" :src="anchor_avatar" alt="">
+            <div class="pinfo">
+              <div class="phead">
+                <img :src="anchor_avatar" alt="">
+                <span class="flow" @click="followanchor()">{{focus_status == 0?'FOLLOW':'Following'}}</span>
+                <p class="unflow" v-if="focus_status != 0" @click="followanchor()">Unfollow</p>
+              </div>
+              <div>
+                <p class="pname">{{anchor_name}}</p>
+                <span class="chat" @click="gochat()">
+                  <i class="iconfont">&#xe62e;</i>
+                </span>
+              </div>
+            </div>
+            <div class="nav">
+              <div tapmode @click="gofavour()">
+                <p>{{fans_count}}</p>
+                <span>Followers</span>
+              </div>
+              <div tapmode @click="gofollow()">
+                <p>{{follow_count}}</p>
+                <span>Following</span>
+              </div>
+            </div>
+            <!-- nav -->
+            <div class="navs" id="navsBtn">
+                <span @click="changeNav(1)" :class="navactive==1?'active':''">Live</span>
+                <span @click="changeNav(2)" :class="navactive==2?'active':''">Video</span>
+            </div>
+            <div class="navs navs1" id="navs" v-if="isTop">
+                <span @click="changeNav(1)" :class="navactive==1?'active':''">Live</span>
+                <span @click="changeNav(2)" :class="navactive==2?'active':''">Video</span>
+            </div>
+            <!-- home -->
+            <div class="" v-if="navactive == 1">
+              <div class="empty" v-if="livelist.length == 0">
+                <img src="../../image/empty.png" alt="">
+              </div>
+                <div class="livelists">
+                    <div class="livelist" v-for="(item,index) in livelist" @click="golive(item)">
+                        <img class="liveimg" :src="item.thumb" alt="">
+                        <div class="livetop">
+                            <span :class="item.live_status == 1?'':'replay'">{{item.live_status == 1?'Live':'Replay'}}</span>
+                            <span>
+                              <i class="iconfont">&#xe629;</i>
+                              {{item.look_count}}
+                            </span>
+                            <div v-if="(item.start_time - parseInt((new Date()).getTime()) / 1000)>0"  class="countdownTime">countdown:
+                              <div :id="countId(item.id)" class="countnumbox"></div>
+                              {{fn_countDown(item.start_time,item.id)}}
+                            </div>
+
+                        </div>
+                        <div class="livebom">
+                            <div class="livehead">
+                                <!-- <img src="../../image/img7.jpg" alt="">
+                                <span>Emiliya</span> -->
+                            </div>
+                            <div class="scnum">
+                                <i class="iconfont">&#xe60c;</i> {{item.fav_count}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- video -->
+            <div class="products" v-if="navactive == 2">
+
+                <div class="empty" v-if="videolist.length == 0">
+                  <img src="../../image/empty.png" alt="">
+                </div>
+              <div class="videoLists">
+                <div class="videolist" v-for="(item,index) in videolist" @click="govideo(item)">
+                  <div class="livelist">
+                    <img class="liveimg" :src="item.thumb" alt="">
+                    <div class="livetop">
+                      <span style="display:none">Live</span>
+                      <span>
+                        <i class="iconfont">&#xe629;</i>
+                        {{item.look_count}}
+                      </span>
+                    </div>
+                    <div class="livebom">
+                      <!-- <div class="livehead">
+                        <img src="../image/img7.jpg" alt="">
+                        <span>Emiliya</span>
+                      </div> -->
+                      <div class="scnum">
+                        <i class="iconfont">&#xe696;</i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="videoName">{{item.title}}</p>
+                </div>
+              </div>
+            </div>
+            <!-- cate -->
+            <!--  -->
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/vant.js"></script>
+<script src="../../script/aui-scroll.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript" src="../../script/countdown.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        $api.fixStatusBar($api.dom('header'));
+        $api.fixStatusBar($api.byId('navs'));
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    slideActive: 0,
+                    navactive: 1,
+                    pronav: 1,
+                    activesj: 2,
+                    isTop: false,
+                    shopheader: 0,
+                    cateBoxHeight: '',
+                    focus_status:0,//1为已关注
+                    anchor_avatar:'',//主播头像
+                    anchor_name:'',//主播名字
+                    fans_count:'',//粉丝数量
+                    follow_count:'',//关注的数量
+                    livelist:[],
+                    livepage:1,
+                    livemore:true,
+                    videolist:[],
+                    videopage:1,
+                    videomore:true
+                }
+            },
+            created() {
+                this.shopheader = $api.dom('header').offsetHeight
+                // console.log(this.shopheader);
+                // console.log(api.winHeight);
+                this.cateBoxHeight = Math.floor(api.winHeight - this.shopheader - api.winWidth * 0.1)
+                // console.log(this.cateBoxHeight);
+                $api.css($api.byId('cates'), 'height:' + this.cateBoxHeight + 'px');
+
+                this.getscroll()
+                this.getpersonData()
+                this.getMore()
+                this.getLives()
+                this.getVideos()
+            },
+            methods: {
+              //生成id
+              countId(id,time) {
+                  return  "_" + 2 + "_" + id
+              },
+              //调用倒计时方法
+              fn_countDown(time, id) {
+                  var _el =  "_" + 2 + "_" + id;
+                  var ds = new countdown({el:_el,ed:time});
+              },
+              //前往聊天
+              gochat(){
+                var _this = this;
+                var data = {
+                  anchor_id:api.pageParam.id
+                };
+                pubshowloading()
+                requstPost('chat/createFromAnchor',data,function success(ret){
+                  if (ret.code == 0) {
+                    api.openWin({
+                        name: 'chat_win',
+                        url: '../chat_win.html',
+                        pageParam: {
+                            name: _this.anchor_name,
+                            chat_group_id:ret.data.chat_group_id
+                        }
+                    });
+
+                  }
+                },function fail(err){
+
+                })
+              },
+              golive(ite){
+                api.openWin({
+                    name: 'live_win',
+                    url: '../live/live_win.html',
+                    pageParam: {
+                        live_id: ite.id
+                    },
+                    slidBackEnabled:false
+                });
+              },
+              govideo(ite){
+                api.openWin({
+                    name: 'douyin_win',
+                    url: '../douyin/douyin_win.html',
+                    pageParam: {
+                      // id: ite.id,
+                        id: ite.id,
+                        url:''
+                    },
+                    reload:true,
+                    softInputMode:'pan',
+                    // slidBackEnabled:false
+                });
+              },
+              //监听滚动到底
+              getMore() {
+                var _this = this
+                api.addEventListener({
+                    name: 'scrolltobottom',
+                    extra: {
+                        threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                    }
+                }, function(ret, err) {
+                  console.log('加载更多');
+                  if (_this.navactive == 1) {
+                    //直播
+                    _this.getLives()
+                  }else if (_this.navactive == 2) {
+                    //视频
+                    _this.getVideos()
+                  }
+
+                });
+
+              },
+              getLives(){
+                if (!this.livemore) {
+                  return
+                }
+                var _this = this;
+                var data = {
+                  anchor_id:api.pageParam.id,
+                  page:_this.livepage,
+                  page_size:20
+                };
+                requstPost('anchor/homeLive',data,function success(ret){
+                  if (ret.code == 0) {
+                    if (ret.data.length < 20) {
+                      _this.livemore = false
+                    }
+                    _this.livepage += 1
+                    _this.livelist = _this.livelist.concat(ret.data)
+                  }
+                },function fail(err){
+
+                })
+              },
+                getVideos(){
+                  if (!this.videomore) {
+                    return
+                  }
+                  var _this = this;
+                  var data = {
+                    anchor_id:api.pageParam.id,
+                    page:_this.videopage,
+                    page_size:20
+                  };
+                  requstPost('anchor/homeVideo',data,function success(ret){
+                    if (ret.code == 0) {
+                      if (ret.data.length < 20) {
+                        _this.videomore = false
+                      }
+                      _this.videopage += 1
+                      _this.videolist = _this.videolist.concat(ret.data)
+                    }
+                  },function fail(err){
+
+                  })
+                },
+              getpersonData(){
+                var _this = this;
+                var data = {
+                  anchor_id:api.pageParam.id
+                };
+                requstPost('anchor/home',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.anchor_avatar = ret.data.anchor_avatar
+                    _this.anchor_name = ret.data.anchor_name
+                    _this.fans_count = ret.data.fans_count
+                    _this.follow_count = ret.data.follow_count
+                    _this.focus_status = ret.data.focus_status
+                  }
+                },function fail(err){
+
+                })
+              },
+              //关注主播
+              followanchor(){
+                var _this = this;
+                var data = {
+                  anchor_id:api.pageParam.id
+                };
+                requstPost('user/followAnchor',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.focus_status = ret.data.focus_status
+                    _this.fans_count = ret.data.fans_count
+                  }
+                },function fail(err){
+
+                })
+              },
+              gofavour(){
+                api.openWin({
+                    name: 'pfollow_win',
+                    url: './pfollow_win.html',
+                    pageParam: {
+                        name: 'Followers',
+                        type:1,
+                        id:api.pageParam.id
+                    }
+                });
+
+              },
+              gofollow(){
+                api.openWin({
+                    name: 'pfollow_win',
+                    url: './pfollow_win.html',
+                    pageParam: {
+                        name: 'Following',
+                        type:2,
+                        id:api.pageParam.id
+                    }
+                });
+              },
+                changeSlide(ite, ind) {
+                    this.slideActive = ind
+                },
+                changeProNav(e) {
+                    this.pronav = e
+                    if (e == 3) {
+                        if (this.activesj == 1) {
+                            this.activesj = 2
+                        } else {
+                            this.activesj = 1
+                        }
+                    } else {
+                        this.activesj = 2
+                    }
+                },
+                changeNav(e) {
+                    this.navactive = e
+                },
+                getscroll() {
+                    var _this = this;
+                    var scroll = new auiScroll({
+                        listen: true,
+                        distance: 200 //判断到达底部的距离，isToBottom为true
+                    }, function(ret) {
+                        console.log('滚动距离：' + ret.scrollTop);
+                        var tOp = $api.dom('#navsBtn').offsetTop - _this.shopheader;
+                        if (ret.scrollTop >= tOp) {
+                            _this.isTop = true
+                        } else {
+                            _this.isTop = false
+                        }
+                        console.log(tOp);
+                        if (ret.isToBottom) {
+                            // document.getElementById("demo").textContent = "已到达底部";
+                            console.log("已到达底部");
+                            // $api.css($api.dom('header'), 'background:rgba(255,255,255,'+1+')');
+                            // $api.css($api.byId('titname'), 'opacity:'+1);
+                        }
+                        // else{
+                        var opa = ret.scrollTop / 100;
+                        var opa1 = 1 - opa;
+                        console.log(opa1);
+                        if (opa >= 1) {
+                            opa1 = 1
+                        }
+                        $api.css($api.dom('header'), 'background:rgba(255,255,255,' + opa + ')');
+                        $api.css($api.byId('titname'), 'opacity:' + opa);
+                        $api.css($api.byId('back'), 'opacity:' + opa1);
+                        $api.css($api.byId('back1'), 'opacity:' + opa);
+                        $api.css($api.byId('tname'), 'opacity:' + opa);
+                        if (ret.scrollTop >= 50) {
+                            $api.css($api.dom('header'), 'background:rgba(255,255,255,' + 1 + ')');
+                            $api.css($api.byId('back1'), 'opacity:' + 1);
+                            $api.css($api.byId('tname'), 'opacity:' + 1);
+                            $api.css($api.byId('back'), 'opacity:' + 0);
+                        }
+                        // document.getElementById("demo").textContent = "滚动高度："+ret.scrollTop;
+                        // }
+
+                    });
+                },
+
+
+            }
+        })
+
+    };
+
+    function goback() {
+        api.closeWin();
+    }
+</script>
+
+</html>

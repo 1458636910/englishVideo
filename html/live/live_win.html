@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>live视频的界面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+        .flex-con{
+          overflow: auto;
+          /*height: 90vh;*/
+          flex: 1;
+          height: 100vh;
+          /*background: black;*/
+        }
+        .box{
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div id="main" class="flex-con">
+
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script type="text/javascript" src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+  var alivcLivePlayer = null;
+  var money = 0;
+  var pay_order_status = 0;
+    apiready = function() {
+        alivcLivePlayer = api.require('alivcLivePlayer');
+        // var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        // $api.fixStatusBar($api.dom('header'));
+        // $api.fixTabBar($api.byId('footer'));
+        var title = api.pageParam.name
+        // var a = document.getElementById('title');
+          // $api.text(a, title);
+          // isMoney()
+          //
+          getDetail()
+          api.addEventListener({
+              name: 'keyback'
+          }, function(ret, err) {
+            console.log();
+            closeLive()
+          });
+    };
+    function getDetail(){
+      var data = {
+        live_id:api.pageParam.live_id
+      };
+      setTimeout(function(){
+        api.showProgress({
+    			style: 'default',
+    			animationType: 'fade',
+    			title: '',
+    			text: '',
+    			modal: true
+    		});
+      },350)
+      requstPost('live/detail',data,function success(ret){
+        api.hideProgress();
+        if (ret.code == 0) {
+          openPullLive(ret.data.live_play_url)
+        }else {
+          api.hideProgress();
+          api.alert({
+              title: ret.message,
+              msg: '',
+              buttons:['Sure']
+          }, function(ret, err){
+              if( ret ){
+                closeLive()
+                  //  alert( JSON.stringify( ret ) );
+              }else{
+                  //  alert( JSON.stringify( err ) );
+              }
+          });
+
+        }
+      },function fail(err){
+
+      })
+    }
+    function setMoney(e,status){
+      money = Number(e);
+      pay_order_status = Number(status)
+    }
+    //判断是否需要付费
+    function isMoney(){
+      //需要付费，先暂停播放
+      pauseLive()
+      api.confirm({
+          title: 'This video requires a fee of ￡'+money+' to view',
+          msg: '',
+          buttons: ['Pay', 'Cancel']
+      }, function(ret, err){
+          if( ret ){
+            if (ret.buttonIndex == 1) {
+              //付费
+                api.openFrame({
+                    name: 'livepay',
+                    url: './livepay.html',
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: api.winWidth,
+                        h: api.winHeight
+                    },
+                    pageParam: {
+                      live_id:api.pageParam.live_id,
+                      money:money,
+                      type:'live'
+                    },
+                    bounces:false,
+                    bgColor: 'rgba(0,0,0,0)',
+                    vScrollBarEnabled: true,
+                    hScrollBarEnabled: true,
+                    animation:{
+                      type:"push",
+                      subType:"from_bottom",
+                      duration:300
+                    }
+                });
+            }else if (ret.buttonIndex == 2) {
+              //取消
+                alivcLivePlayer.destroy();
+                  api.closeWin()
+            }
+              //  alert( JSON.stringify( ret ) );
+          }else{
+              //  alert( JSON.stringify( err ) );
+          }
+      });
+
+    }
+    function openPullLive(live_play_url){
+      // api.showProgress({
+      //     style: 'default',
+      //     animationType: 'fade',
+      //     title: '',
+      //     text: '',
+      //     modal: true
+      // });
+
+      // var alivcLivePlayer = api.require('alivcLivePlayer');
+          alivcLivePlayer.initPlayer({
+            rect:{
+              x:0,
+              y:0,
+              w:api.winWidth,
+              h:api.winHeight
+            },
+          },function(ret){
+
+              // alert(JSON.stringify(ret));
+          })
+            alivcLivePlayer.prepareToPlay({
+              // url:'http://push2.fuwancheng.top/nvlive/mrfu.m3u8?auth_key=1575717320-0-0-228c39c012fa2ad894a91fd3e910764f'
+              url:live_play_url
+              // url:'http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8'
+            },function(ret){
+                // alert(JSON.stringify(ret));
+                // alivcLivePlayer.prepareAndPlay();
+
+                //禁止屏幕休眠
+                api.setKeepScreenOn({
+                    keepOn: true
+                });
+                openpage()
+            })
+            alivcLivePlayer.addEventListener(function(ret){
+              if (ret.eventType == 'prepared') {
+                alivcLivePlayer.play()
+                setTimeout(()=>{
+                  if (money > 0) {
+                    if (pay_order_status == 0) {
+                      isMoney()
+                    }
+                  }
+                },3000)
+                api.hideProgress();
+              }
+            });
+          //播放器监听事件
+
+    }
+    //开始直播
+    function playLive(){
+      alivcLivePlayer.play()
+    }
+    //暂停直播
+    function pauseLive(){
+      alivcLivePlayer.pause()
+    }
+    //销毁直播
+    function closeLive(){
+      alivcLivePlayer.destroy();
+        api.closeWin()
+    }
+    function openpage() {
+
+        api.openFrame({
+            name: 'livepage',
+            url: 'livepage.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: api.winWidth,
+                h: api.winHeight,
+
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: true,
+            softInputMode:'resize',
+            pageParam:{
+              live_id:api.pageParam.live_id,
+              anchor_id:api.pageParam.anchor_id,  //作者id
+            }
+        });
+    }
+
+    function goBack() {
+      alivcLivePlayer.destroy();
+    }
+</script>
+
+</html>

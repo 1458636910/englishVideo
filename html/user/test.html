@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>测试</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/vant.css" />
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            background: green;
+            color: black;
+        }
+
+        .item {
+            display: inline-block;
+            width: 22px;
+            margin-right: 5px;
+            color: #fff;
+            font-size: 12px;
+            text-align: center;
+            background-color: #1989fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="box">
+            <van-count-down ref="countDown" millisecond :time="3000" :auto-start="false" format="HH:mm:ss" @finish="finish">
+                <template v-slot="timeData">
+          <span class="item">{{ timeData.hours }}</span>
+          <span class="item">{{ timeData.minutes }}</span>
+          <span class="item">{{ timeData.seconds }}</span>
+        </template>
+            </van-count-down>
+
+     <div @click="start">开始</div><div @click="pause">暂停</div><div @click="reset">重置</div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="../../script/api.js"></script>
+    <script type="text/javascript" src="../../script/fastclick.js"></script>
+    <script type="text/javascript" src="../../script/commonurl.js"></script>
+    <script type="text/javascript" src="../../script/vue.min.js"></script>
+    <script type="text/javascript" src="../../script/vant.js"></script>
+    <script>
+        var app;
+        apiready = function() {
+            app = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        time: 30,
+                        timeData: {
+                            hours: 2,
+                            minutes: 30,
+                            seconds: 50,
+
+                        }
+                    }
+                },
+                methods: {
+                    start() {
+                      console.log(this)
+                        // this.$refs.countDown.start();
+                    },
+                    pause() {
+                        this.$refs.countDown.pause();
+                    },
+                    reset() {
+                        this.$refs.countDown.reset();
+                    },
+                    finish() {
+                        Toast('倒计时结束');
+                    },
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

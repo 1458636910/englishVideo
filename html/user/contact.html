@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .count{
+          padding: 3vw;
+        }
+        .count p{
+          margin-bottom: 3vw;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="count">
+        <p v-for="(item,index) in contact_us">{{item}}</p>
+      </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/fastclick.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  contact_us:[]
+                }
+            },
+            created() {
+              this.contact_us = $api.getStorage('contact_us');
+              this.getAboutUs()
+            },
+            methods: {
+
+                getAboutUs(){
+                  var _this = this;
+                  var data = {};
+                  requstPost('app',data,function success(ret){
+                    // alert(JSON.stringify(ret))
+                    $api.setStorage('appname', ret.data.name);
+                    $api.setStorage('gbp_to_usd', ret.data.exchange_rate.gbp_to_usd);//英镑
+                    $api.setStorage('gbp_to_eur', ret.data.exchange_rate.gbp_to_eur);//欧元
+                    $api.setStorage('contact_us', ret.data.contact_us);
+                    _this.contact_us = ret.data.contact_us
+                  },function fail(err){
+
+                  })
+                }
+
+            }
+        })
+
+    };
+</script>
+
+</html>

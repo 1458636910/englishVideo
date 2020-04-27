@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <!-- <script src="https://www.paypal.com/sdk/js?client-id=hPFRaEKCZmjFxIgUIRBu4Oz7uks1Qwuskx5cmH6l1CS8_hswGxBOQHUnZHu"></script> -->
+    <!-- <script src="https://www.paypal.com/sdk/js?client-id=LIVE_CLIENT_ID"> </script>   正式 -->
+    <style>
+        body {}
+
+        .box {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #header {
+            background: white;
+            align-items: center;
+            height: 10vw;
+            border-bottom: 1px solid #e9e9e9;
+            /*position: fixed;*/
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 500;
+        }
+
+        #header .iconfont {
+            /*font-size: 25px;*/
+        }
+
+        #footer {
+            /*height: 20px;*/
+            height: 12vw;
+            line-height: 12vw;
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            background: #FA607D;
+        }
+
+        .flex-con {
+            overflow: auto;
+            flex: 1;
+        }
+
+        #title {
+            max-width: 80vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+
+        <header id="header" style=" display: flex; padding: 0 12px;">
+            <label onclick="goBack()" style="flex:1;">
+                                <i class="icon iconfont back">&#xe608;</i>
+                              </label>
+            <div id="title" style="text-align:center; font-size:1.1rem;">
+                Place Orders
+            </div>
+            <div style="flex:1; text-align:right; position:relative;">
+                <!-- <span tapmode onclick="changeInfo()">Detail</span> -->
+            </div>
+        </header>
+        <div id="main" class="flex-con">
+
+        </div>
+        <footer id="footer" onclick="orderPay()">
+            Confirm and Pay
+        </footer>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        // var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar($api.dom('header'));
+        $api.fixTabBar($api.byId('footer'));
+
+        openpage()
+    };
+
+    function openpage() {
+
+        api.openFrame({
+            name: 'placeorder',
+            url: 'placeorder.html',
+            rect: {
+                x: 0,
+                y: $api.dom('header').offsetHeight - 1,
+                w: api.winWidth,
+                h: $api.dom('#main').offsetHeight,
+                // h: api.winHeight -  $api.dom('header').offsetHeight+1,
+            },
+            pageParam: {
+                type: api.pageParam.type,
+                product_id: api.pageParam.product_id,
+                buy_num: api.pageParam.buy_num,
+                cart_ids: api.pageParam.cart_ids
+            },
+            bounces: true,
+            bgColor: '#fff',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: true
+        });
+    }
+
+    function goBack() {
+        api.closeWin()
+    }
+
+    function changeInfo() {
+        api.openWin({
+            name: 'diamonddetail_win',
+            url: './diamonddetail_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+
+    }
+
+    function orderPay() {
+        // paypal.Buttons({
+        //     createOrder: function(data, actions) {
+        //         // This function sets up the details of the transaction, including the amount and line item details.
+        //         return actions.order.create({
+        //             purchase_units: [{
+        //                 amount: {
+        //                     value: '0.01'
+        //                 }
+        //             }]
+        //         });
+        //     },
+        //     onApprove: function(data, actions) {
+        //         // This function captures the funds from the transaction.
+        //         return actions.order.capture().then(function(details) {
+        //             // This function shows a transaction success message to your buyer.
+        //             alert('Transaction completed by ' + details.payer.name.given_name);
+        //         });
+        //     }
+        // }).render('#footer');
+        //该方法是调起第三方应用的，但是发现paypal没有app，所以换成了上边的调用内部浏览器，webview
+        api.execScript({
+            name: 'placeorder_win',
+            frameName: 'placeorder',
+            script: 'app.orderPay();'
+        });
+    }
+</script>
+
+</html>

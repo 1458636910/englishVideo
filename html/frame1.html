@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/vant.css" />
+    <style>
+        body {
+            min-height: 100vh;
+            background: #FAFAFA
+        }
+
+        #app {
+            padding-top: 5vw;
+        }
+
+        .search {
+            width: 94vw;
+            height: 12vw;
+            line-height: 12vw;
+            padding: 0 3vw;
+            box-sizing: border-box;
+            border-radius: 6vw;
+            margin: auto;
+            /*border: 1px solid #999999;*/
+            box-shadow: 0 0 1px 2px #e8e8e8;
+            background: white;
+            color: #999999;
+            display: flex;
+            align-items: center;
+        }
+
+        .search .iconfont {
+            color: #F96480;
+            font-size: 20px;
+            font-weight: 700;
+            margin-right: 3vw;
+        }
+
+        * {
+            -webkit-overflow-scrolling: touch;
+        }
+        /**/
+
+        .banner {
+            width: 100vw;
+            height: 40vw;
+            margin: 3vw auto;
+            /*border-radius: 5px;*/
+            overflow: hidden;
+            font-size: 0;
+        }
+
+        .swiper-container,
+        .swiper-slide {
+            border-radius: 5px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .banner img {
+            display: block;
+            width: 94vw;
+            height: 100%;
+            transform: translateX(3vw);
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .swiper-pagination {
+            /*text-align: right;*/
+        }
+
+        .van-swipe__indicators {
+            left: auto;
+            right: 0;
+        }
+
+        .van-swipe__indicator {
+            width: 0;
+            border-radius: 0;
+            height: 3px;
+            background: #252525;
+        }
+
+        .van-swipe__indicator--active {
+            background: white;
+        }
+        /**/
+
+        .navs {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 5vw 0;
+        }
+
+        .nav {
+            width: 20vw;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            margin-bottom: 2vw;
+        }
+
+        .navimg {
+            width: 15vw;
+            height: 15vw;
+            margin: auto;
+            margin-bottom: 1vw;
+            border-radius: 10px;
+        }
+
+        .navimg img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        .nav p {
+            flex: 1;
+            color: #999999;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /**/
+
+        .lists {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 3vw;
+        }
+
+        .list {
+            width: 45vw;
+            margin-right: 3vw;
+            margin-bottom: 3vw;
+        }
+
+        .list:nth-child(2n+2) {
+            margin-right: 0;
+        }
+
+        .list:nth-child(2n+2) .img img {
+            background: #ffa1a7;
+        }
+
+        .img {
+            width: 45vw;
+            height: 45vw;
+            border-radius: 5px;
+            margin-bottom: 3vw;
+        }
+
+        .img img {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+            background: #f3b9bd;
+        }
+
+        .info {
+            color: #374663;
+        }
+
+        .price {
+            color: #F96480;
+            margin-top: 3vw;
+        }
+        /**/
+
+        .infoTit {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        .gjp {
+            background: #dadada;
+        }
+
+        .demo p.gjp {
+            height: 15px;
+            width: 60%;
+            margin: auto;
+        }
+
+        .info .gjp {
+            height: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="banner">
+            <van-swipe class="swiper-container" :autoplay="3000">
+                <van-swipe-item class="swiper-slide" v-for="(item,index) in banner">
+                    <img :src="item.thumb?item.thumb:'../image/errorimg.png'" alt="" onerror="javascript:this.src='../image/errorimg.png'">
+                </van-swipe-item>
+            </van-swipe>
+        </div>
+        <div class="search" tapmode="hover" onclick="gosearch()">
+            <i class="iconfont">&#xe612;</i>
+            <span>Search product / store...</span>
+        </div>
+        <!--  -->
+        <div class="navs" v-if="cates.length == 0 && catesok">
+            <div class="nav demo" v-for="(item,index) in 10">
+                <div class="navimg gjp"></div>
+                <p class="gjp"></p>
+            </div>
+        </div>
+        <div class="navs" v-if="cates.length > 0">
+            <div class="nav" @click="goshopCate(item)" v-for="(item,index) in cates" v-if="index < 9">
+                <div class="navimg">
+                    <img :src="item.thumb" alt="">
+                </div>
+                <p>{{item.title}}</p>
+            </div>
+            <div class="nav" tapmode onclick="moreCates()">
+                <div class="navimg">
+                    <img :src="moreImg" alt="">
+                </div>
+                <p>{{moretit}}</p>
+            </div>
+        </div>
+        <!--  -->
+        <div class="listsBox">
+            <p style="padding-left:3vw;font-size:18px;color:#374663;">Recommended</p>
+
+            <div class="lists" v-if="list.length == 0 && more">
+                <div class="list">
+                    <div class="img gjp"></div>
+                    <div class="info">
+                        <p class="gjp"></p>
+                        <p class="price gjp"></p>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="img gjp"></div>
+                    <div class="info">
+                        <p class="gjp"></p>
+                        <p class="price gjp"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="empty" v-if="list.length == 0">
+                <img src="../image/empty.png" alt="">
+            </div>
+            <div class="lists">
+                <div class="list" v-for="(item,index) in list" @click="goshopDetail(item)">
+                    <div class="img">
+                        <img v-lazy="item.thumb" alt="">
+                    </div>
+                    <div class="info">
+                        <p class="infoTit">{{item.title}}</p>
+                        <p class="price">￡{{item.sale_price}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/lazyload.js"></script>
+<script type="text/javascript" src="../script/commonurl.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/vant.js"></script>
+<script type="text/javascript">
+    var app;
+    apiready = function() {
+        Vue.use(VueLazyload, {
+            preLoad: 1.3,
+            error: '../image/errorimg.png',
+            loading: '../image/loading.svg',
+            attempt: 1
+        })
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    active: 1,
+                    cates: [],
+                    moreImg: '../image/icon10.png',
+                    moretit: '',
+                    catesok: true,
+                    banner: [{
+                        banner: '../image/1.png'
+                    }, {
+                        banner: '../image/1.png'
+                    }, {
+                        banner: '../image/1.png'
+                    }],
+                    list: [],
+                    more: true,
+                    page: 1,
+                    last_product_id: 0
+                }
+            },
+            created() {
+                api.refreshHeaderLoading();
+                setTimeout(() => {
+                    api.refreshHeaderLoadDone();
+                }, 300)
+                this.refresh()
+                this.getBanner()
+                this.getCates()
+
+                // this.getrecomoend()
+                this.getMore()
+            },
+            methods: {
+                //监听滚动到底
+                getMore() {
+                    var _this = this
+                    api.addEventListener({
+                        name: 'scrolltobottom',
+                        extra: {
+                            threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                        }
+                    }, function(ret, err) {
+                        console.log('加载更多');
+                        if (_this.more) {
+                            if (_this.list.length > 0) {
+                                _this.getrecomoend()
+                            }
+
+                        }
+
+                    });
+
+                },
+                getrecomoend() {
+                    var _this = this;
+                    var data = {
+                        page: _this.page,
+                        page_size: 20,
+                        last_product_id: _this.last_product_id
+                    };
+                    requstPost('product/recommend', data, function success(ret) {
+                        if (ret.code == 0) {
+                            if (_this.page == 1) {
+                                _this.list = []
+                            }
+                            if (ret.data.list.length < 20) {
+                                _this.more = false
+                            }
+                            if (ret.data.list.length > 0) {
+                                _this.last_product_id = ret.data.last_product_id
+                                var listData = ret.data.list;
+                                for (i in listData) {
+                                    api.imageCache({
+                                        url: listData[i].thumb,
+                                        tag: i
+                                    }, function(ret, err) {
+                                        // console.log(JSON.stringify(ret));
+                                        listData[ret.tag].thumb = ret.url;
+                                    });
+                                }
+                            }
+
+                            _this.list = _this.list.concat(ret.data.list)
+                            _this.page += 1
+                        } else {
+                            _this.more = false
+                        }
+
+                    }, function fail(err) {
+
+                    })
+                },
+                getCates() {
+                    var _this = this;
+                    requstPost('store/homeCategory', '', function success(ret) {
+                        api.refreshHeaderLoadDone();
+                        if (ret.code == 0) {
+                            _this.cates = ret.data.list
+                            _this.moreImg = ret.data.more.thumb
+                            _this.moretit = ret.data.more.title
+                            _this.catesok = false
+                            var listData = ret.data.list;
+                            for (i in listData) {
+                                if (listData[i].thumb) {
+                                    api.imageCache({
+                                        url: listData[i].thumb,
+                                        tag: i
+                                    }, function(ret, err) {
+                                        // console.log(JSON.stringify(ret));
+                                        listData[ret.tag].thumb = ret.url;
+                                    });
+                                }
+
+                            }
+                        } else {
+                            _this.catesok = false
+                        }
+
+                    }, function fail(err) {
+                        api.refreshHeaderLoadDone();
+                    })
+                },
+                getBanner() {
+                    var _this = this;
+                    if ($api.getStorage('islogin')) {
+                        if ($api.getStorage('islogin') == 'true') {
+                            var data = {
+
+                            }
+                        } else {
+                            var data = {
+                                uuid: api.deviceId
+                            };
+                        }
+                    } else {
+                        var data = {
+                            uuid: api.deviceId
+                        };
+                    }
+                    requstPost('slide', data, function success(ret) {
+                        if (ret.code == 0) {
+                            _this.banner = ret.data
+                            var listData = ret.data;
+                            for (i in listData) {
+                                api.imageCache({
+                                    url: listData[i].thumb,
+                                    tag: i
+                                }, function(ret, err) {
+                                    // console.log(JSON.stringify(ret));
+                                    listData[ret.tag].thumb = ret.url;
+                                });
+                            }
+                        }
+
+                    }, function fail(err) {
+
+                    })
+                },
+                refresh() {
+                    var _this = this
+                    api.setRefreshHeaderInfo({
+                        visible: true,
+                        loadingImg: 'widget://image/loading_more1.png',
+                        bgColor: 'rgba(0,0,0,0)',
+                        textColor: '#000',
+                        textDown: 'Drop Down',
+                        textUp: 'Release',
+                        textLoading: 'Loading...',
+                        showTime: false,
+                        textTime: '',
+                    }, function(ret, err) {
+                        //
+                        _this.getCates()
+                        _this.last_product_id = 0
+                        _this.page = 1
+                        _this.more = true
+                        _this.getrecomoend()
+                            // setTimeout(() => {
+                            //     api.refreshHeaderLoadDone();
+                            // }, 2000)
+                    });
+                },
+                goshopCate(ite) {
+                    api.openWin({
+                        name: 'shopcate_win',
+                        url: './common/shopcate_win.html',
+                        pageParam: {
+                            name: ite.title,
+                            id: ite.id
+                        }
+                    });
+
+                },
+                //查看详情
+                goshopDetail(ite) {
+                    api.openWin({
+                        name: 'shopdetail_win',
+                        url: './common/shopdetail_win.html',
+                        pageParam: {
+                            name: 'test',
+                            id: ite.id
+                                // id:5
+                        }
+                    });
+
+                }
+
+            }
+        })
+    };
+
+    function gosearch() {
+        api.openWin({
+            name: 'search_win',
+            url: './common/search_win.html',
+            pageParam: {
+                type: 2, //首页商品类型
+            }
+        });
+    }
+
+    function moreCates() {
+        api.openWin({
+            name: 'allcates_win',
+            url: './common/allcates_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+    }
+
+    function goTop(){
+      api.pageUp({
+        top:true
+      },function( ret, err ){
+
+      });
+    }
+</script>
+
+</html>

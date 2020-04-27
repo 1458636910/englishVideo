@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .nodetext{
+          width: 100%;
+          padding: 3vw;
+          box-sizing: border-box;
+        }
+        *{
+          max-width: 100%!important;
+          word-break: break-all;
+          box-sizing: border-box;
+          /*text-indent: 0!important;*/
+        }
+        .nodetext img{
+          max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="empty" v-if="dataText == ''">
+        <img src="../image/empty.png" alt="">
+      </div>
+      <div class="nodetext" v-html="dataText">
+
+      </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script src="../script/vue.min.js"></script>
+<script src="../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  dataText:'',
+                }
+            },
+            created() {
+              if ($api.getStorage('protocol')) {
+                this.dataText = JSON.parse($api.getStorage('protocol'))
+              }
+              this.getLists()
+            },
+            methods: {
+              getLists(){
+                var _this = this;
+                var data = {};
+                requstGet('app/userAgreement',data,function success(ret){
+                  _this.dataText = ret.data;
+                  $api.setStorage('protocol', JSON.stringify(ret.data));
+                },function fail(err){
+
+                })
+              },
+
+
+            }
+        })
+
+    };
+</script>
+
+</html>

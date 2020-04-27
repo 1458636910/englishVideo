@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .lists{
+          padding: 3vw;
+        }
+        .list{
+          margin-bottom: 3vw;
+        }
+        .list .tit{
+          color: black;
+          margin-bottom: 3vw;
+        }
+        .list p{
+          color: #999999;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="empty" v-if="list.length == 0">
+        <img src="../../image/empty.png" alt="">
+      </div>
+      <div class="lists">
+        <div class="list" v-for="(item,index) in list">
+          <p class="tit">{{item.question}}</p>
+          <p>
+            {{item.answer}}
+          </p>
+        </div>
+          <!-- <div class="list">
+            <p class="tit">1.This is a question about the operation?</p>
+            <p>
+              This is the answer to the operation This is the answer to the operation
+            </p>
+          </div> -->
+      </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  list:[],
+                }
+            },
+            created() {
+              if ($api.getStorage('helps')) {
+                this.list = JSON.parse($api.getStorage('helps'))
+              }
+              this.getLists()
+            },
+            methods: {
+              getLists(){
+                var _this = this;
+                var data = {};
+                requstGet('help',data,function success(ret){
+                  _this.list = ret.data;
+                  $api.setStorage('helps', JSON.stringify(ret.data));
+                },function fail(err){
+
+                })
+              },
+
+
+            }
+        })
+
+    };
+</script>
+
+</html>

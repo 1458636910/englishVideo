@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: #fff;
+            min-height: 100vh;
+            padding-top: 3vw;
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .lists{
+          padding: 3vw;
+        }
+        .list{
+          height: 12vw;
+          display: flex;
+          align-items: center;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        .list input{
+          flex: 1;
+          height: 8vw;
+          outline: none;
+          text-align: right;
+        }
+        .addimg{
+          margin: 3vw auto;
+          width: 90vw;
+          height: 40vw;
+          background: #EEEEEE;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 5px;
+        }
+        .addimgCount{
+          text-align: center;
+          color: #999999;
+        }
+        .addimgCount .iconfont{
+          font-size: 30px;
+        }
+        .addimg img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+        .tip{
+          width: 90vw;
+          margin: auto;
+          text-align: center;
+          color: #FA607D;
+        }
+        textarea{
+          padding: 3vw 0;
+          outline: none;
+          width: 100%;
+          height: 30vw;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="lists">
+        <div class="list">
+          <span>Name</span>
+          <input v-model="name" type="text" name="" value="" placeholder="Name">
+        </div>
+          <div class="list">
+            <span>Business Name</span>
+            <input v-model="business_name" type="text" name="" value="" placeholder="Business Name">
+          </div>
+            <div class="list" @click="choseDress()">
+              <span>Business Address</span>
+              <input v-model="busdress" type="text" name="" value="" v-model="busdress" placeholder="Business Address" disabled="" >
+            </div>
+              <textarea name="name" placeholder="Address" v-model="business_address"></textarea>
+
+                <div class="list">
+                  <input v-model="business_registration_number" type="tel" name="" value="" placeholder="Business Registration Number">
+                </div>
+              <div class="list">
+                <span>Website</span>
+                <input v-model="website" type="text" name="" value="" placeholder="Website">
+              </div>
+              <div class="list">
+                <span>Email</span>
+                <input v-model="email" type="text" name="" value="" placeholder="Email">
+              </div>
+              <div class="list">
+                <span>Contact Number</span>
+                <input v-model="contact_number" type="tel" name="" value="" placeholder="Contact Number">
+              </div>
+
+              <div class="addimg" @click="choseImg()">
+                <img v-if="idimg" :src="idimg" alt="">
+                <div v-if="!idimg" class="addimgCount">
+                  <span>
+                    <i class="iconfont">&#xe613;</i>
+                  </span>
+                  <p>Upload ID</p>
+                </div>
+              </div>
+
+              <div class="tip" v-if="store_status == -1">
+                <i class="iconfont">&#xe686;</i> Review failed, please resubmit
+              </div>
+              <div style="color:green;" class="tip" v-if="store_status == 1">
+                <i class="iconfont">&#xe686;</i> Examination passed
+              </div>
+      </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/fastclick.js"></script>
+<script src="../../../script/vue.min.js"></script>
+<script src="../../../script/commonurl.js"></script>
+<script type="text/javascript">
+var app;
+    apiready = function() {
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  idimg:'',
+                  busdress:'',
+                  name:'',
+                  business_name:'',
+                  business_country:'',
+                  business_province:'',
+                  business_city:'',
+                  business_address:'',
+                  business_registration_number:'',
+                  website:'',
+                  email:'',
+                  contact_number:'',
+                  verify_photo:'',
+                  store_status:0,//1已审核，0未审核，-1审核未通过
+                }
+            },
+            created() {
+              this.getData()
+            },
+            methods: {
+              getData(){
+                var _this = this;
+                requstPost('store','',function success(ret){
+                  if (ret.code == 0) {
+                    _this.name = ret.data.name
+                    _this.business_name = ret.data.business_name
+                      _this.busdress = ret.data.business_country+ret.data.business_province+ret.data.business_city
+                      _this.business_country = ret.data.business_country
+                      _this.business_province = ret.data.business_province
+                      _this.business_city = ret.data.business_city
+                      _this.business_registration_number = ret.data.business_registration_number
+                      _this.website = ret.data.website
+                      _this.email = ret.data.email
+                      _this.contact_number = ret.data.contact_number
+                      _this.verify_photo = ret.data.verify_photo
+                      _this.idimg = ret.data.verify_photo_url
+                      _this.store_status = ret.data.store_status
+                  }
+                },function fail(err){
+
+                })
+              },
+              submit(){
+                pubshowloading()
+                var _this = this;
+                if (_this.verify_photo != '') {
+                  //跳过图片上传
+                  _this.sendDatatoserve()
+                }else {
+                  requstUpload(_this.idimg,function success(ret){
+                    _this.verify_photo = ret.data.src
+                    _this.sendDatatoserve()
+                  },function fail(err){
+
+                  })
+                }
+                // alert('提交seller')
+              },
+              //提交后台
+              sendDatatoserve(){
+                var _this = this;
+                var data = {
+                  name:_this.name,
+                  business_name:_this.business_name,
+                  business_country:_this.business_country,
+                  business_province:_this.business_province,
+                  business_city:_this.business_city,
+                  business_address:_this.business_address,
+                  business_registration_number:_this.business_registration_number,
+                  website:_this.website,
+                  email:_this.email,
+                  contact_number:_this.contact_number,
+                  verify_photo:_this.verify_photo,
+                };
+                requstPost('store/apply',data,function success(ret){
+                  if (ret.code == 0) {
+                    api.alert({
+                        title: ret.message,
+                        msg: '',
+                        buttons:['Sure']
+                    }, function(ret, err){
+                        if( ret ){
+                          api.closeWin();
+                            //  alert( JSON.stringify( ret ) );
+                        }else{
+                            //  alert( JSON.stringify( err ) );
+                        }
+                    });
+
+                  }
+                },function fail(err){
+
+                })
+              },
+              setDress(country,province,city){
+                this.busdress = country+province+city
+                this.business_country = country
+                this.business_province = province
+                this.business_city = city
+              },
+              choseDress(){
+                api.openWin({
+                    name: 'dress_win',
+                    url: './dress_win.html',
+                    pageParam: {
+                      type:'seller'
+                    }
+                });
+
+              },
+              choseImg(){
+
+                  var _this = this
+                  api.actionSheet({
+                                  title: '',
+                                  cancelTitle: 'Cancel',
+                                  buttons: ['Camera', 'Album']
+                              }, function(ret, err) {
+                                  if (ret) {
+                                      _this.getPicqj(ret.buttonIndex);
+                                  }
+                              });
+              },
+
+              getPicqj(sourceType) {
+                  var _this = this;
+                  if (sourceType == 1) { // 拍照
+                      //获取一张图片
+                      api.getPicture({
+                          sourceType: 'camera',
+                          encodingType: 'jpg',
+                          mediaValue: 'pic',
+                          destinationType: 'url',
+                          allowEdit: false,
+                          quality: 100,
+                          // targetWidth: 800,
+                          // targetHeight: 800,
+                          saveToPhotoAlbum: true
+                      }, function(ret, err) {
+                          // 获取拍照数据并处理
+                          if (ret.data) {
+                            var imgurl = ret.data
+                                _this.idimg = imgurl
+                                _this.verify_photo = ''
+                                return
+                              console.log(ret.data);
+                              // _this.uploadImg(ret.data)
+                          }
+                      });
+                  } else if (sourceType == 2) { // 从相机中选择
+                      var systemType = api.systemType
+
+                      // if (systemType =='ios') {
+                      api.getPicture({
+                          sourceType: 'library',
+                          encodingType: 'jpg',
+                          mediaValue: 'pic',
+                          destinationType: 'url',
+                          quality: 100,
+                          // targetWidth: 800,
+                          // targetHeight: 800
+                      }, function(ret, err) {
+                          if (ret.data) {
+
+                              var imgurl = ret.data
+                                  _this.idimg = imgurl
+                                  _this.verify_photo = ''
+                                  return
+                              // _this.uploadImg(ret.data)
+                              // _this.imgList.push(ret.data)
+                              // alert(JSON.stringify(ret))
+                          } else {
+                              // alert(JSON.stringify(err));
+                          }
+                      });
+                  // }
+              }
+          },
+
+
+
+            }
+        })
+
+    };
+</script>
+
+</html>

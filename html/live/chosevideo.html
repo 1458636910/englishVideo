@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: #1C1C1E;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+            padding-bottom: 30vw;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .upBox{
+          display: flex;
+          justify-content: space-between;
+          padding: 3vw;
+        }
+        .tit{
+          flex: 1;
+        }
+        .img{
+          width: 30vw;
+          height: 30vw;
+          text-align: center;
+          background: #3a3a3e;
+        }
+        .img span{
+          font-size: 50px;
+          /*line-height: 30vw;*/
+          text-align: center;
+        }
+        .add{
+          height: 100%;
+          color: white;
+        }
+        .tit textarea{
+          padding-right: 3vw;
+          box-sizing: border-box;
+          resize: none;
+          height: 30vw;
+          outline: none;
+        }
+        .img img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        .lists{
+          padding: 0 3vw;
+          color: white;
+        }
+        .list{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 3vw 0;
+          border-bottom: 1px solid #2d2d2d;
+        }
+        .list:nth-child(1){
+          border-top: 1px solid #2d2d2d;
+        }
+        .ipt{
+          text-align: right;
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+        }
+        .ipt input{
+          height: 8vw;
+          width: max-content;
+          border: none;
+          text-align: right;
+          color: white;
+          outline: none;
+        }
+        #footer{
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          padding-bottom: 10vw;
+          text-align: center;
+          line-height: 12vw;
+        }
+        #footer div{
+          width: 94vw;
+          height: 12vw;
+          border-radius: 6vw;
+          color: white;
+          margin: auto;
+          background: #FA607D;
+        }
+        .typebox{
+          padding: 3vw;
+          padding-top: 5vw;
+          color: white;
+        }
+        .types{
+          width: 100%;
+          display: flex;
+          flex-wrap: wrap;
+          padding-top: 3vw;
+        }
+        .type{
+          width: 30vw;
+          height: 10vw;
+          line-height: 10vw;
+          background: #383A46;
+          border-radius: 2px;
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          font-size: 14px;
+          margin-right: 2vw;
+          margin-bottom: 2vw;
+        }
+        .type:nth-child(3n+3){
+          margin-right: 0;
+        }
+        .active{
+          background: #FA607D;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="upBox">
+        <div class="tit">
+          <textarea name="name" placeholder="Add Title"></textarea>
+        </div>
+        <div class="img" @click="choseimg()">
+          <div  v-if="!headimg" class="add">
+            <span>+</span>
+            <p>Add Image</p>
+          </div>
+          <img v-if="headimg" :src="headimg" alt="">
+        </div>
+      </div>
+      <div class="lists">
+        <div class="list">
+          <span>Price</span>
+          <div class="ipt">
+            <span></span>
+            <input type="text" name="" value="" placeholder="$5.00">
+          </div>
+        </div>
+          <div class="list" tapmode @click="choseVideos()">
+            <span>Upload Video</span>
+            <div class="ipt">
+              <span style="height:8vw;"></span>
+              <i class="iconfont">&#xe61f;</i>
+            </div>
+          </div>
+      </div>
+
+      <div class="typebox">
+        <p>Select Type</p>
+        <div class="types">
+          <div class="type" v-for="(item,index) in types1" :class="item.ischose?'active':''" @click="choseType(item,index)">{{item.name}}</div>
+          <!-- <div class="type">Phototherapy</div> -->
+        </div>
+      </div>
+
+
+
+
+
+      <footer id="footer" @click="startLive()">
+        <div>
+          Publish
+        </div>
+      </footer>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+  var app;
+    apiready = function() {
+    $api.fixTabBar($api.byId('footer'))
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  headimg:'',
+                  shopId:[],
+                  types:[],
+                  types1:[
+                    {
+                      name:'Phototherapy',
+                      id:1
+                    },
+                    {
+                      name:'Painted',
+                      id:2
+                    },
+                    {
+                      name:'Patch',
+                      id:3
+                    },
+                    {
+                      name:'Emboss',
+                      id:4
+                    },
+                    {
+                      name:'Nail glue',
+                      id:5
+                    },
+                    {
+                      name:'Phototherapy',
+                      id:6
+                    },
+                  ],
+
+                  choseArry:[],
+                }
+            },
+            created() {
+              this.addIschose()
+            },
+            methods: {
+              choseType(ite,ind){
+                ite.ischose = !ite.ischose
+                if(ite.ischose){
+                  this.choseArry.push(ite.id)
+                }else {
+                  var Idindex = this.choseArry.indexOf(ite.id)
+                  this.choseArry.splice(Idindex,1)
+                  console.log(this.choseArry.indexOf(ite.id));
+                }
+                console.log(JSON.stringify(this.choseArry));
+              },
+              //追加是否选中属性
+              addIschose(){
+                //为lists添加ischose（是否选中）字段，初始值为false
+                var _this=this;
+                    //为lists添加ischose（是否选中）字段，初始值为false
+                this.types1.map(function (item) {
+                    _this.$set(item, 'ischose', false);
+                })
+                //要像上面这样写双向绑定才能起效，下面的写法是有问题的，双向绑定不起效的！
+                //this.productList.map(function (item) {item.select=true})
+              },
+              choseVideos(){
+                var _this = this
+                api.actionSheet({
+                                title: '',
+                                cancelTitle: 'Cancel',
+                                buttons: ['Camera', 'Album']
+                            }, function(ret, err) {
+                                if (ret) {
+                                    _this.getVideo(ret.buttonIndex);
+                                }
+                            });
+              },
+              getVideo(sourceType){
+                let _this = this;
+                if (sourceType == 1) {
+                  //相机
+                  api.getPicture({
+                      sourceType: 'camera',
+                      // encodingType: 'png',
+                      mediaValue: 'video',
+                      destinationType: 'url',
+                      allowEdit: false,
+                      quality: 80,
+                      targetWidth: 800,
+                      targetHeight: 800,
+                      saveToPhotoAlbum: true
+                  }, function(ret, err) {
+                      // 获取拍照数据并处理
+                      if (ret.data) {
+                        console.log(JSON.stringify(ret));
+                        var imgurl = ret.data
+                            _this.headimg = imgurl
+                            return
+                          console.log(ret.data);
+                          api.showProgress({
+                              style: 'default',
+                              animationType: 'fade',
+                              title: 'Loading...',
+                              text: '',
+                              modal: true
+                          });
+                          // _this.imgLists.push(ret.data)
+                          api.ajax({
+                              url: url + 'api/Images/addImages/',
+                              method: 'post',
+                              data: {
+                                  values: {
+                                      token: $api.getStorage('token'),
+                                  },
+                                  files: {
+                                      name: ret.data
+                                  }
+                              }
+                          }, function(ret, err) {
+                            api.hideProgress();
+
+                              if (ret) {
+
+                                  if (ret.code == 1000) {
+                                    _this.headimg = imgurl
+                                    _this.headimgurl = ret.data
+                                    _this.changeNameImg(0)
+                                  }
+                                  // alert( JSON.stringify( ret ) );
+                              } else {
+                                  api.toast({
+                                      msg: err.msg,
+                                      duration: 2000,
+                                      location: 'bottom'
+                                  });
+
+                                  // alert( JSON.stringify( err ) );
+                              }
+                          });
+                          // _this.uploadImg(ret.data)
+                      }
+                  });
+                }else if (sourceType == 2) {
+                  //相册
+                  api.getPicture({
+                      sourceType: 'album',
+                      // encodingType: 'png',
+                      mediaValue: 'video',
+                      destinationType: 'url',
+                      allowEdit: false,
+                      quality: 80,
+                      // targetWidth: 800,
+                      // targetHeight: 800,
+                      saveToPhotoAlbum: true
+                  }, function(ret, err) {
+                      // 获取拍照数据并处理
+                      if (ret.data) {
+
+                        return
+                        var imgurl = ret.data
+                            _this.headimg = imgurl
+                            return
+                          console.log(ret.data);
+                          api.showProgress({
+                              style: 'default',
+                              animationType: 'fade',
+                              title: 'Loading...',
+                              text: '',
+                              modal: true
+                          });
+                          // _this.imgLists.push(ret.data)
+                          api.ajax({
+                              url: url + 'api/Images/addImages/',
+                              method: 'post',
+                              data: {
+                                  values: {
+                                      token: $api.getStorage('token'),
+                                  },
+                                  files: {
+                                      name: ret.data
+                                  }
+                              }
+                          }, function(ret, err) {
+                            api.hideProgress();
+
+                              if (ret) {
+
+                                  if (ret.code == 1000) {
+                                    _this.headimg = imgurl
+                                    _this.headimgurl = ret.data
+                                    _this.changeNameImg(0)
+                                  }
+                                  // alert( JSON.stringify( ret ) );
+                              } else {
+                                  api.toast({
+                                      msg: err.msg,
+                                      duration: 2000,
+                                      location: 'bottom'
+                                  });
+
+                                  // alert( JSON.stringify( err ) );
+                              }
+                          });
+                          // _this.uploadImg(ret.data)
+                      }
+                  });
+
+                }
+              },
+              startLive(){
+
+              },
+
+                //选择图片
+                choseimg(){
+                  var _this = this
+                  api.actionSheet({
+                                  title: '',
+                                  cancelTitle: 'Cancel',
+                                  buttons: ['Camera', 'Album']
+                              }, function(ret, err) {
+                                  if (ret) {
+                                      _this.getPicqj(ret.buttonIndex);
+                                  }
+                              });
+                },
+                getPicqj(sourceType) {
+                    let _this = this;
+                    if (sourceType == 1) { // 拍照
+                        //获取一张图片
+                        api.getPicture({
+                            sourceType: 'camera',
+                            encodingType: 'png',
+                            mediaValue: 'pic',
+                            destinationType: 'url',
+                            allowEdit: false,
+                            quality: 80,
+                            targetWidth: 800,
+                            targetHeight: 800,
+                            saveToPhotoAlbum: true
+                        }, function(ret, err) {
+                            // 获取拍照数据并处理
+                            if (ret.data) {
+                              var imgurl = ret.data
+                                  _this.headimg = imgurl
+                                  return
+                                console.log(ret.data);
+                                api.showProgress({
+                                    style: 'default',
+                                    animationType: 'fade',
+                                    title: 'Loading...',
+                                    text: '',
+                                    modal: true
+                                });
+                                // _this.imgLists.push(ret.data)
+                                api.ajax({
+                                    url: url + 'api/Images/addImages/',
+                                    method: 'post',
+                                    data: {
+                                        values: {
+                                            token: $api.getStorage('token'),
+                                        },
+                                        files: {
+                                            name: ret.data
+                                        }
+                                    }
+                                }, function(ret, err) {
+                                  api.hideProgress();
+
+                                    if (ret) {
+
+                                        if (ret.code == 1000) {
+                                          _this.headimg = imgurl
+                                          _this.headimgurl = ret.data
+                                          _this.changeNameImg(0)
+                                        }
+                                        // alert( JSON.stringify( ret ) );
+                                    } else {
+                                        api.toast({
+                                            msg: err.msg,
+                                            duration: 2000,
+                                            location: 'bottom'
+                                        });
+
+                                        // alert( JSON.stringify( err ) );
+                                    }
+                                });
+                                // _this.uploadImg(ret.data)
+                            }
+                        });
+                    } else if (sourceType == 2) { // 从相机中选择
+                        var systemType = api.systemType
+
+                        // if (systemType =='ios') {
+                        api.getPicture({
+                            sourceType: 'library',
+                            encodingType: 'jpg',
+                            mediaValue: 'pic',
+                            destinationType: 'url',
+                            quality: 80,
+                            targetWidth: 800,
+                            targetHeight: 800
+                        }, function(ret, err) {
+                            if (ret.data) {
+
+                                var imgurl = ret.data
+                                    _this.headimg = imgurl
+                                    return
+                                // _this.uploadImg(ret.data)
+                                // _this.imgList.push(ret.data)
+                                api.showProgress({
+                                    style: 'default',
+                                    animationType: 'fade',
+                                    title: 'Loading...',
+                                    text: '',
+                                    modal: true
+                                });
+
+                                api.ajax({
+                                    url: url + 'api/Images/addImages/',
+                                    method: 'post',
+                                    data: {
+                                        values: {
+                                            token: $api.getStorage('token'),
+                                        },
+                                        files: {
+                                            name: ret.data
+                                        }
+                                    }
+                                }, function(ret, err) {
+                                  api.hideProgress();
+
+                                    if (ret) {
+                                        if (ret.code == 1000) {
+                                            _this.headimg = imgurl
+                                            _this.headimgurl = ret.data
+                                            _this.changeNameImg(0)
+                                        }
+                                        // alert( JSON.stringify( ret ) );
+                                    } else {
+                                        api.toast({
+                                            msg: err.msg,
+                                            duration: 2000,
+                                            location: 'bottom'
+                                        });
+
+                                        // alert( JSON.stringify( err ) );
+                                    }
+                                });
+                                // alert(JSON.stringify(ret))
+                            } else {
+                                // alert(JSON.stringify(err));
+                            }
+                        });
+                    // }
+                }
+            },
+
+            }
+        })
+
+    };
+    //选择直播商品
+    function goaddshop(){
+      api.openWin({
+          name: 'addshop_win',
+          url: './addshop_win.html',
+          pageParam: {
+              name: 'test'
+          }
+      });
+
+    }
+</script>
+
+</html>

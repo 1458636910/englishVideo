@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/vant.css" />
+    <style>
+        body {}
+
+        #app {
+            background: #1C1C1E;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          display: none;
+        }
+        .upBox{
+          display: flex;
+          justify-content: space-between;
+          padding: 3vw;
+        }
+        .tit{
+          flex: 1;
+        }
+        .img{
+          width: 30vw;
+          height: 30vw;
+          text-align: center;
+          background: #3a3a3e;
+        }
+        .img span{
+          font-size: 50px;
+          line-height: 30vw;
+          text-align: center;
+          color: white;
+        }
+        .tit textarea{
+          padding-right: 3vw;
+          box-sizing: border-box;
+          /*resize: none;*/
+          height: 30vw;
+          outline: none;
+          color: white;
+        }
+        .img img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        .lists{
+          padding: 0 3vw;
+          color: white;
+        }
+        .list{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 3vw 0;
+          border-bottom: 1px solid #2d2d2d;
+        }
+        .list:nth-child(1){
+          border-top: 1px solid #2d2d2d;
+        }
+        .ipt{
+          text-align: right;
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+        }
+        .ipt input{
+          height: 8vw;
+          width: 100%;
+          border: none;
+          text-align: right;
+          color: white;
+          outline: none;
+        }
+        #footer{
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          padding-bottom: 10vw;
+          text-align: center;
+          line-height: 12vw;
+        }
+        #footer div{
+          width: 94vw;
+          height: 12vw;
+          border-radius: 6vw;
+          color: white;
+          margin: auto;
+          background: #FA607D;
+          font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="upBox">
+        <div class="tit">
+          <textarea v-model="title" name="name" placeholder="Add Title"></textarea>
+        </div>
+        <div class="img" @click="choseimg()">
+          <span v-if="!headimg">+</span>
+          <img v-if="headimg" :src="headimg" alt="">
+        </div>
+      </div>
+      <div class="lists">
+        <div class="list">
+          <span>Price</span>
+          <div class="ipt">
+            <span></span>
+            <input v-model="price" type="text" name="" value="" placeholder="Ex：5.00">
+          </div>
+        </div>
+          <div class="list" tapmode onclick="goaddshop()">
+            <span>Add Products</span>
+            <div class="ipt">
+              <span style="height:8vw;line-height:8vw;">{{hasShop}}</span>
+              <i class="iconfont">&#xe61f;</i>
+            </div>
+          </div>
+          <div class="list" tapmode @click="chooseTime()">
+            <span>Live time</span>
+            <div class="ipt">
+              <span style="height:8vw;">{{showtime}}</span>
+              <i class="iconfont">&#xe61f;</i>
+            </div>
+          </div>
+      </div>
+      <footer id="footer" @click="startLive()">
+        <div>
+          Start Live
+        </div>
+      </footer>
+
+      <van-popup v-model="showTimepicker" position="bottom">
+        <van-datetime-picker
+        v-model="currentDate"
+        type="datetime"
+        :min-date="minDate"
+        :max-date="maxDate"
+        @confirm="sureTime"
+        @cancel ='cancelTime()'
+        ></van-datetime-picker>
+    </van-popup>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script src="../../script/vant.js"></script>
+<script type="text/javascript">
+  var app;
+    apiready = function() {
+    $api.fixTabBar($api.byId('footer'))
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  headimg:'',
+                  shopId:[],
+                  shopIdstr:'',
+                  price:'',
+                  title:'',
+                  headimgsrc:'',//传给后台
+                  hasShop:'',
+                  showTimepicker:false,  //是否展示时间的选择 框
+                  minDate: new Date(),
+                  maxDate: new Date(),
+                  currentDate: new Date(),
+                  showtime:'',  //显示的时间
+                  Timestamp:'',  //时间戳格式
+                }
+            },
+            created() {
+                //设置最小可选时间，和最大时间
+                 var time = new Date();
+                 this.minDate = new Date(time.getFullYear(),time.getMonth(),time.getDate(),time.getHours(),time.getMinutes())
+                 this.maxDate = new Date(time.getFullYear(),11,31,23,59)
+            },
+            methods: {
+               //选择时间
+               chooseTime(){
+                  this.showTimepicker = true;
+               },
+               //确认时间
+               sureTime(value){  //存储当前选中的时间
+                    this.showtime = value.toLocaleString();
+                    var now = new Date();
+                    // console.log(value.toLocaleString())
+                    // console.log("选中的时间戳"+value.getTime())
+                    console.log("跟当前的时间差"+(value.getTime()-now.getTime()))
+
+                    this.Timestamp = value.getTime()/1000;  //传递给后台的直接就是时间差，单位是毫秒
+                    this.showTimepicker = false;
+               },
+               cancelTime(){
+                 this.showTimepicker = false;
+               },
+              addShopId(e){
+                this.shopId = JSON.parse(e);
+                if (this.shopId.length > 0) {
+                  this.hasShop = 'chosen'
+                }else {
+                  this.hasShop = ''
+                }
+              },
+              startLive(){
+                var _this = this;
+                if (!_this.headimg) {
+                  api.alert({
+                      title: 'Please select a cover image',
+                      msg: '',
+                      buttons:['Sure']
+                  });
+                  return
+                }
+                pubshowloading()
+                requstUpload(_this.headimg,function success(ret){
+                  if (ret.code == 0) {
+                    _this.headimgsrc = ret.data.src
+                    _this.livepushnow()
+                  }
+                },function fail(err){
+                    console.log("==========="+JSON.stringify(err))
+                })
+                return
+              },
+              livepushnow(){
+                var productsid = this.shopId.join(',');
+                var _this = this;
+                var data = {
+                  title:_this.title,
+                  thumb:_this.headimgsrc,
+                  price:_this.price,
+                  products:productsid,
+                  start_time:_this.Timestamp,  //直播的时间戳
+                };
+                requstPost('live/push',data,function success(ret){
+                  if (ret.code == 0) {
+                    console.log(JSON.stringify(ret))
+                    //开启直播
+                    api.openWin({
+                        name: 'livezb_win',
+                        url: '../livezb/livezb_win.html',
+                        pageParam: {
+                            live_id: ret.data.live_id
+                        },
+                        slidBackEnabled:false
+                    });
+                  }
+                },function fail(err){
+
+                })
+              },
+
+                //选择图片
+                choseimg(){
+                  var _this = this
+                  api.actionSheet({
+                                  title: '',
+                                  cancelTitle: 'Cancel',
+                                  buttons: ['Camera', 'Album']
+                              }, function(ret, err) {
+                                  if (ret) {
+                                      _this.getPicqj(ret.buttonIndex);
+                                  }
+                              });
+                },
+                getPicqj(sourceType) {
+                    var _this = this;
+                    if (sourceType == 1) { // 拍照
+                        //获取一张图片
+                        api.getPicture({
+                            sourceType: 'camera',
+                            encodingType: 'jpg',
+                            mediaValue: 'pic',
+                            destinationType: 'url',
+                            allowEdit: false,
+                            quality: 100,
+                            // targetWidth: 800,
+                            // targetHeight: 800,
+                            saveToPhotoAlbum: true
+                        }, function(ret, err) {
+                            // 获取拍照数据并处理
+                            if (ret) {
+                              if (ret.data) {
+                                var imgurl = ret.data
+                                    _this.headimg = imgurl
+                                  // _this.uploadImg(ret.data)
+                              }
+                            }
+
+                        });
+                    } else if (sourceType == 2) { // 从相机中选择
+                        var systemType = api.systemType
+
+                        // if (systemType =='ios') {
+                        api.getPicture({
+                            sourceType: 'library',
+                            encodingType: 'jpg',
+                            mediaValue: 'pic',
+                            destinationType: 'url',
+                            quality: 100,
+                            // targetWidth: 800,
+                            // targetHeight: 800
+                        }, function(ret, err) {
+                          if (ret) {
+                            if (ret.data) {
+                                var imgurl = ret.data
+                                    _this.headimg = imgurl
+                                // alert(JSON.stringify(ret))
+                            } else {
+                                // alert(JSON.stringify(err));
+                            }
+                          }
+
+                        });
+                    // }
+                }
+            },
+
+            }
+        })
+
+    };
+    //选择直播商品
+    function goaddshop(){
+      api.openWin({
+          name: 'addshop_win',
+          url: './addshop_win.html',
+          pageParam: {
+              ids: app.shopId
+          }
+      });
+
+    }
+</script>
+
+</html>

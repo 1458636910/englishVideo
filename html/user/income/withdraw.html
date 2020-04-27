@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            padding: 3vw;
+            box-sizing: border-box;
+        }
+
+        [v-cloak] {
+            /*display: none;*/
+        }
+
+        .img {
+            max-width: 100px;
+            margin-bottom: 5vw;
+        }
+
+        .to,
+        .list {
+            padding: 3vw 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .list {
+            display: flex;
+            align-items: center;
+        }
+
+        .list input {
+            height: 8vw;
+            outline: none;
+        }
+
+        .btn {
+            width: 94vw;
+            margin: 20vw auto;
+            text-align: center;
+            height: 12vw;
+            line-height: 12vw;
+            border-radius: 6vw;
+            background: #FA607D;
+            color: white;
+        }
+
+        .canwithdraw {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 8vw;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <img class="img" src="../../../image/Paypal.png" alt="">
+        <p class="to">Withdraw to PayPal</p>
+        <div class="list">
+            <div style="margin-right:2vw;">Amount</div>
+            <div style="flex:1;display:flex;align-items:center;position:relative;">
+                <span>￡</span>
+                <input v-model="money" style="flex:1" oninput="value=value.replace(/[^\d]/g,'')" type="tel" name="" value="">
+                <span class="canwithdraw">Withdrawable:{{jewel}}</span>
+            </div>
+        </div>
+        <div class="list">
+            <div style="margin-right:2vw;">Paypal Account</div>
+            <div style="flex:1;display:flex;align-items:center">
+                <!-- <span>￡</span> -->
+                <input v-model="paypal" :placeholder="paypal" style="flex:1" type="number" name="">
+            </div>
+        </div>
+
+        <div class="btn" @click="drawNow()">
+            Request Withdraw
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/fastclick.js"></script>
+<script src="../../../script/vue.min.js"></script>
+<script src="../../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    type: 1, //1收入，2钻石
+                    paypal: '',
+                    money: '',
+                    jewel: '', //可提现钻石
+                }
+            },
+            created() {
+                this.getDiamond();
+            },
+            methods: {
+                getDiamond() {
+                    var _this = this;
+                    requstPost('user/jewel', '', function success(ret) {
+                        if (ret.code == 0) {
+                            _this.jewel = ret.data.jewel
+                            _this.paypal = ret.data.paypal
+                            _this.money = ret.data.money
+                        }
+                    }, function fail(err) {
+
+                    })
+                },
+                drawNow() {
+                    if (this.type == 1) {
+                        this.withdrawFn()
+                    } else if (this.type == 2) {
+                        this.withdrawdiaFn()
+                    }
+                },
+                withdrawFn() {
+                    var _this = this;
+                    var data = {
+                        paypal: _this.paypal,
+                        money: _this.money
+                    };
+                    console.log(JSON.stringify(data))
+                        // requstPost('commission/anchorWithdraw',data,function success(ret){
+                    requstPost('jewel/withdraw', data, function success(ret) {
+                        if (ret.code == 0) {
+                            api.sendEvent({
+                                name: 'fn_backdiamond',
+                            })
+                            api.alert({
+                                title: ret.message,
+                                msg: '',
+                                buttons:['Sure']
+                            }, function(ret, err) {
+                                if (ret) {
+                                    api.closeWin();
+                                    //  alert( JSON.stringify( ret ) );
+                                } else {
+                                    //  alert( JSON.stringify( err ) );
+                                }
+                            });
+                        }
+                    }, function fail(err) {
+
+                    })
+                },
+
+                withdrawdiaFn() {
+                    var _this = this;
+                    var data = {
+                        paypal: _this.paypal,
+                        money: _this.money
+                    };
+                    requstPost('jewel/withdraw', data, function success(ret) {
+                        if (ret.code == 0) {
+                            api.alert({
+                                title: ret.message,
+                                msg: '',
+                                buttons:['Sure']
+                            }, function(ret, err) {
+                                if (ret) {
+                                    api.closeWin();
+                                    //  alert( JSON.stringify( ret ) );
+                                } else {
+                                    //  alert( JSON.stringify( err ) );
+                                }
+                            });
+
+                        }
+                    }, function fail(err) {
+
+                    })
+                }
+
+            }
+        })
+
+    };
+</script>
+
+</html>

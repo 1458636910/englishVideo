@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .list{
+          padding:0 3vw;
+          display: flex;
+          align-items: center;
+        }
+        .left{
+          width: 20vw;
+          height: 20vw;
+          border-radius: 50%;
+          background: #FA607D;
+          color: white;
+          text-align: center;
+          line-height: 20vw;
+          margin-right: 3vw;
+        }
+        .left .iconfont{
+          font-size: 30px;
+        }
+        .right{
+          /*width: 70vw;*/
+          flex: 1;
+          /*height: 20vw;*/
+          padding: 3vw 0;
+          border-bottom: 1px solid #f5f5f5;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+        }
+        .name{
+          /*overflow: hidden;
+          text-overflow: ellipsis;
+           display: -webkit-box;
+           -webkit-line-clamp: 1;
+           -webkit-box-orient: vertical;*/
+        }
+        .bom{
+          display: flex;
+          color: #999999;
+        }
+        .count{
+          flex: 1;
+          color: black;
+          /*overflow: hidden;
+          text-overflow: ellipsis;
+           display: -webkit-box;
+           -webkit-line-clamp: 1;
+           -webkit-box-orient: vertical;*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="empty" v-if="list.length == 0">
+        <img src="../../../image/empty.png" alt="">
+      </div>
+      <div class="lists">
+        <div class="list" tapmode @click="godetail(item)" v-for="(item,index) in list">
+          <div class="right">
+            <p class="name">{{item.title}}</p>
+            <p style="color:#999999;padding:1vw 0;font-size:14px;">{{item.create_time}}</p>
+            <div class="bom">
+              <p class="count">{{item.desc}}</p>
+              <!-- <span>10:00</span> -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/fastclick.js"></script>
+<script src="../../../script/vue.min.js"></script>
+<script src="../../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  list:[]
+                }
+            },
+            created() {
+              this.getList()
+            },
+            methods: {
+              getList(){
+                var _this = this;
+                requstPost('notice','',function success(ret){
+                  if (ret.code == 0) {
+                    _this.list = ret.data
+                  }
+                },function fail(err){
+
+                })
+              },
+              godetail(ite){
+                if (ite.path) {
+
+                }
+                api.openWin({
+                    name: 'mesdetail_win',
+                    url: 'widget://html/'+ite.path+'.html',
+                    pageParam: ite.pageparam
+                });
+
+              }
+
+            }
+        })
+
+    };
+</script>
+
+</html>

@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+    <style>
+        body,html {
+            background: white;
+        }
+
+        #app {
+          background: none;
+            min-height: 100vh;
+            /*padding-top: 30vh;*/
+            box-sizing: border-box;
+            /*padding-bottom: 30vw;*/
+        }
+        #app.appactive{
+                background: rgba(0,0,0,.1);
+                background: #fafafa;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .lists{
+          padding-top: 3vw;
+          /*flex: 1;*/
+          /*overflow: scroll;*/
+          padding-bottom: 20vw;
+        }
+        .list{
+          width: 94vw;
+          padding: 3vw;
+          margin:0 auto 3vw;
+          box-sizing: border-box;
+          background: white;
+          box-shadow: 0 1px 1px 2px #f5f5f5;
+          color: black;
+          border-radius: 5px;
+        }
+        .listshop{
+          display: flex;
+          justify-content: space-between;
+        }
+        .listl{
+          width: 25vw;
+          height: 25vw;
+          margin-right: 3vw;
+        }
+        .listr{
+          width: 60vw;
+          flex: 1;
+          display: flex;
+          align-items: center;
+        }
+        .listl img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+        .info{
+          height: 25vw;
+          width: 50vw;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+        .chose{
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: #f5f5f5;
+        }
+        .chose img{
+          width: 100%;
+          /*display: none;*/
+        }
+        .showimg{
+            background-image: url('../image/chose.png');
+            background-size: 100%;
+            border: 0;
+        }
+        .name{
+          width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+           display: -webkit-box;
+           -webkit-line-clamp: 2;
+           -webkit-box-orient: vertical;
+        }
+
+
+        #footer{
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: 12vw;
+          text-align: center;
+          line-height: 12vw;
+            /*background: #FA607D;*/
+            color: black;
+        }
+        #footer div{
+          /*background: #FA607D;*/
+          color: black;
+          font-size: 20px;
+          font-weight: 700;
+        }
+        .box{
+          background: white;
+          box-sizing: border-box;
+        }
+        .head{
+          /*position: absolute;*/
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 12vw;
+          display: flex;
+          padding: 0 3vw;
+          justify-content: space-between;
+          align-items: center;
+            display: none;
+          border-bottom: 1px solid #f5f5f5;
+        }
+        #footer{
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 12vw;
+          line-height: 12vw;
+          color: white;
+          /*background: #FA607D;*/
+        }
+        /**/
+        .listlBox{
+          display: flex;
+          align-items: center;
+        }
+        .choseBox{
+          margin-right: 3vw;
+        }
+        .listBom{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .addnum{
+          display: flex;
+          align-items: center;
+        }
+        .addnum span{
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+          text-align: center;
+          border: 1px solid #f5f5f5;
+          color: #999999;
+        }
+        .addnum span:nth-child(2){
+          min-width: 20px;
+          width: max-content;
+        }
+        /**/
+        .footerBox{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        #footer .footerl{
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 3vw;
+          font-size: 14px;
+          background: white;
+        }
+        #footer .footerl div{
+          font-size: 14px;
+          color: #999999;
+        }
+        #footer .footerl div i{
+          color: #FA607D;
+          font-style: normal;
+          font-size: 16px;
+        }
+        #footer .footerr{
+          background: #FA607D;
+          color: white;
+          padding: 0 3vw;
+        }
+        .chosed{
+          background-image: url('../image/chose.png');
+          background-size: 100%;
+        }
+        /**/
+        .shopNameBox{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 3vw;
+        }
+        .shopNameBoxl{
+          display: flex;
+          align-items: center;
+        }
+        .shopNameBoxl img{
+          width: 20px;
+          margin-right: 5px;
+        }
+        .shopNameBoxl h3{
+          max-width: 30vw;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          word-break: break-all;
+        }
+        .shopNameBoxr{
+          flex: 1;
+          text-align: right;
+          color: #FBC36E;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        /*商品下架，库存不足，不可购买*/
+        .listshop{
+          position: relative;
+        }
+        .mask{
+          position: absolute;
+          left: -1vw;
+          right: -1vw;
+          top: -1vw;
+          bottom: -1vw;
+          background: rgba(156, 156, 156, 0.72);
+          color: white;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          justify-content: center;
+        }
+        .mask .iconfont{
+          font-size:25px;
+          color:#f30000;
+        }
+        /*选中部分的固定*/
+        .chooseFixed{
+          width: 100%;
+          height: 12vw;
+          position: fixed;
+          bottom: 12vw;
+          box-sizing: border-box;
+          padding: 10px 12px;
+          background: white;
+        }
+         .iagree{
+           color: #999999;
+         }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak :class="active?'appactive':''">
+      <div class="empty" v-if="lists.length == 0">
+        <img src="../image/empty.png" alt="">
+      </div>
+        <div class="box" v-if="lists.length > 0">
+          <div class="head">
+            <span></span>
+            <span>Shopping Cart</span>
+            <span tapmode onclick="closeShop()">
+              <i class="iconfont">&#xe603;</i>
+            </span>
+          </div>
+        <div class="lists">
+          <div class="list" v-for="(item,index) in lists" :key='index'>
+            <div class="shopNameBox">
+              <div class="shopNameBoxl" @click="goHome(item.store_id)">
+                <img :src="item.logo" alt="">
+                <h3>{{item.business_name}}</h3>
+                <i class="iconfont">&#xe62d;</i>
+              </div>
+              <div v-if="item.terms_status == 1" class="shopNameBoxr">
+                <span></span>
+                <span @click.stop="showterms(item,index)">Term & Conditions</span>
+              </div>
+            </div>
+            <div class="listshop" v-for="(ite,ind) in item.carts"  @click="choseShop(item,index,ite,ind)">
+              <div class="listlBox">
+                <div class="choseBox" >
+                  <span class="chose" >
+                    <img v-if="ite.ischose" src="../image/chose.png" alt="">
+                  </span>
+                </div>
+                <div class="listl">
+                  <img :src="ite.thumb" alt="">
+                </div>
+              </div>
+              <div class="listr">
+                <div class="info">
+                  <p class="name">{{ite.title}}</p>
+                  <p style="text-align:right;">
+                    <span @click.stop="delateCart(item,index,ite,ind)">
+                      <i class="iconfont" style="font-size:20px; color:#999999;">&#xe611;</i>
+                    </span>
+                  </p>
+                  <div class="listBom">
+                    <span>￡{{ite.sale_price}}</span>
+                    <div class="addnum">
+                      <span @click.stop="downCartNum(ite)">-</span>
+                      <span>{{ite.buy_num}}</span>
+                      <span @click.stop="addCartNum(ite)">+</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chooseFixed">
+          <div  class="shopNameBoxr">
+            <span @click.stop="agreeTerm()" class="chose" style="margin-right:5px;">
+              <img v-if="termChoose"  src="../image/chose.png" alt="">
+            </span>
+            <span class="iagree">I agree all terms & conditions</span>
+          </div>
+        </div>
+        <footer id="footer">
+          <div class="footerBox">
+            <div class="footerl" id="footerl">
+              <div style="display:flex;align-items:center;" @click.stop="choseAllShop()">
+                <div class="chose" style="margin-right:10px;" :class="allChose?'chosed':''">
+                <!-- <span class="chose" :class="item.ischose?'showimg':''"> -->
+                  <!-- <img v-if="allChose" src="../image/chose.png" alt=""> -->
+                </div>
+                <span>Select All</span>
+              </div>
+              <div>
+                Total: <i>￡{{allPrice}}</i>
+              </div>
+            </div>
+            <div class="footerr" id="footerr" @click.stop="buyNow()">
+              Pay Now
+            </div>
+          </div>
+        </footer>
+          <!-- <div class="list">
+            <div class="listl">
+              <img src="../image/shop.png" alt="">
+            </div>
+            <div class="listr">
+              <div class="info">
+                <p class="name">Fariy GumdropFariy GumdropFariy GumdropGumdropGumdropGumdrop</p>
+                <p>Commission:$30</p>
+                <p>$399.00</p>
+              </div>
+              <div class="choseBox">
+                <span class="chose showimg">
+                  <img src="../image/chose.png" alt="">
+                </span>
+              </div>
+            </div>
+          </div> -->
+      </div>
+      <!-- <footer id="footer" @click="sure()">
+        <div>
+          Comfirm Add
+        </div>
+      </footer> -->
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script src="../script/vue.min.js"></script>
+<script src="../script/commonurl.js"></script>
+<script type="text/javascript">
+var app;
+    apiready = function() {
+      // $api.fixTabBar($api.byId('footer'))
+      // $api.fixTabBar($api.byId('footerl'))
+      // $api.fixTabBar($api.byId('footerr'))
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  lists:[],
+                  active:false,
+                  allChose:false,
+                  termChoose:false,
+                  lists1:[],
+                  choseArry:[],
+                  allPrice:0.00
+                }
+            },
+            mounted:function () {
+              // this.addIschose()
+                setTimeout(()=>{
+                  this.active = true
+                },500)
+            },
+            created() {
+              api.refreshHeaderLoading();
+              setTimeout(()=>{
+                api.refreshHeaderLoadDone();
+              },300)
+              this.refresh()
+              this.upDataInfo()
+            },
+            methods: {
+              agreeTerm(ite){
+                this.termChoose = !this.termChoose;
+                // if (ite.agree_status == 0) {
+                //   ite.agree_status = 1
+                // }else {
+                //   ite.agree_status = 0
+                // }
+              },
+              upDataInfo() {
+                  var _this = this
+                  api.addEventListener({
+                      name: 'viewappear'
+                  }, function(ret, err) {
+                      if ($api.getStorage('islogin') == 'true') {
+                        _this.allChose = false
+                        _this.allPrice = 0
+                        _this.choseArry = []
+                        _this.getCartList()
+                      }else {
+
+                      }
+                  });
+              },
+              //点击去查看店铺
+              goHome(id){
+                api.openWin({
+                    name: 'shophome_win',
+                    url: './common/shophome_win.html',
+                    pageParam: {
+                        id: id
+                    }
+                });
+              },
+              downCartNum(ite){
+                if (ite.buy_num == 1) {
+                  return
+                }
+                ite.buy_num -= 1
+                var data = {
+                  cart_id:ite.cart_id,
+                  buy_num:ite.buy_num
+                };
+                requstPost('cart/update',data,function success(ret){
+                  if (ret.code == 0) {
+
+                  }else {
+                    ite.buy_num += 1
+                  }
+                },function fail(err){
+
+                })
+              },
+              addCartNum(ite){
+                ite.buy_num += 1
+                var data = {
+                  cart_id:ite.cart_id,
+                  buy_num:ite.buy_num
+                };
+                requstPost('cart/update',data,function success(ret){
+                  if (ret.code == 0) {
+
+                  }else {
+                    ite.buy_num -= 1
+                  }
+                },function fail(err){
+
+                })
+              },
+              refresh(){
+                      var _this = this
+                      api.setRefreshHeaderInfo({
+                          visible: true,
+                          loadingImg: 'widget://image/loading_more1.png',
+                          bgColor: 'rgba(0,0,0,0)',
+                          textColor: '#000',
+                          textDown: 'Drop Down',
+                          textUp: 'Release',
+                          textLoading:'Loading...',
+                          showTime:false,
+                          textTime:'',
+                      }, function(ret, err) {
+                        if ($api.getStorage('islogin') == 'true') {
+                          _this.choseArry = []
+                          _this.getCartList()
+                          _this.termChoose = false
+                        }
+
+                      });
+              },
+              //删除购物车商品
+              delateCart(item,index,ite,ind){
+                var _this = this;
+                api.confirm({
+                    title: 'Delete',
+                    msg: 'Are you sure you want to delete this product?',
+                    buttons: ['Sure', 'Cancel']
+                }, function(ret, err){
+                    if( ret ){
+                      if (ret.buttonIndex == 1) {
+                        var data = {
+                          cart_id:ite.cart_id
+                        };
+                        requstPost('cart/delete',data,function success(ret){
+                          if (ret.code == 0) {
+                            api.toast({
+                                msg: ret.message,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                            item.carts.splice(ind,1);
+                            if (ite.ischose) {
+                              _this.choseShop(item,index,ite,ind)
+                            }
+                            // alert(JSON.stringify(_this.choseArry))
+                            if (item.carts.length == 0) {
+                              _this.lists.splice(index,1)
+                            }
+                          }
+                        },function fail(err){
+
+                        })
+                      }
+                        //  alert( JSON.stringify( ret ) );
+                    }else{
+                        //  alert( JSON.stringify( err ) );
+                    }
+                });
+              },
+              //获取购物车列表
+              getCartList(){
+                var _this = this;
+                requstPost('cart','',function success(ret){
+                  // alert(JSON.stringify(ret.data))
+                  if (ret.code == 0) {
+                    for (var i = 0; i < ret.data.length; i++) {
+                      var obj = ret.data[i].carts;
+                      for (var j = 0; j < obj.length; j++) {
+                        obj[j].ischose = false
+                      }
+                    }
+                    _this.lists = ret.data
+
+                  }
+                },function fail(err){
+
+                })
+              },
+              //同意商家协议条款
+              agreedTerms(e){
+                console.log('购物车');
+                for (var i = 0; i < this.lists.length; i++) {
+                  if (this.lists[i] == e) {
+                    this.lists[i].isagree = true
+                  }
+                }
+              },
+              //立即购买
+              buyNow(){
+                var cart_ids = this.choseArry.join(',');
+                if(cart_ids.length==0){
+                  api.toast({
+                      msg: 'Please select a product',
+                      duration: 2000,
+                      location: 'middle'
+                  });
+                  return;
+                }
+                if(!this.termChoose){
+                  api.toast({
+                      msg: 'Please agree to the terms',
+                      duration: 2000,
+                      location: 'middle'
+                  });
+                  return;
+                }
+                // return
+                api.openWin({
+                    name: 'placeorder_win',
+                    url: './common/placeorder_win.html',
+                    pageParam: {
+                        type: 'cart',
+                        cart_ids:cart_ids,
+
+                    }
+                });
+
+              },
+              //同意后修改条款状态
+              setTermsStatus(e){
+                var ind = Number(e);
+                this.lists[ind].agree_status = 1
+              },
+              //显示条款
+              showterms(ite,ind){
+                api.openFrame({
+                    name: 'terms',
+                    url: './common/terms.html',
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: api.winWidth,
+                        h: api.winHeight
+                    },
+                    pageParam: {
+                      id:5,
+                      name:ite.business_name,
+                      termInd:ind,
+                      content:ite.terms_content,
+                      type:'frame3'
+                    },
+                    bounces:false,
+                    bgColor: 'rgba(0,0,0,0)',
+                    vScrollBarEnabled: true,
+                    hScrollBarEnabled: true,
+                    animation:{
+                      type:"push",
+                      subType:"from_bottom",
+                      duration:300
+                    }
+                });
+              },
+              //选中所有商品
+              choseAllShop(){
+                var _this = this;
+                _this.allChose = !_this.allChose
+                if (_this.allChose) {
+                _this.allPrice = 0
+                  _this.lists.some(function(item,index,array){
+                    item.carts.some(function(ite,ind,array1){
+                      ite.ischose = true
+                      _this.allPrice += Number(ite.sale_price)*Number(ite.buy_num)
+                      _this.choseArry.push(ite.cart_id)
+                    })
+                  })
+
+                  /**js兼容低版本手机，暂不使用**/
+                  // for (var i = 0; i < _this.lists.length; i++) {
+                  //   var obj = _this.lists[i].carts;
+                  //   for (var j = 0; j < obj.length; j++) {
+                  //     obj[j].ischose = true
+                  //     this.allPrice += Number(obj[j].sale_price)*Number(obj[j].buy_num)
+                  //     this.choseArry.push(obj[j].cart_id)
+                  //   }
+                  // }
+                  _this.choseArry = Array.from(new Set(_this.choseArry))
+                }else {
+                  _this.choseArry = [];
+                  _this.lists.some(function(item,index,array){
+                    item.carts.some(function(ite,ind,array1){
+                      ite.ischose = false
+                    })
+                  })
+                  _this.allPrice = 0.00
+                  // for (var i = 0; i < this.lists.length; i++) {
+                  //   var obj = this.lists[i].carts;
+                  //   for (var j = 0; j < obj.length; j++) {
+                  //     obj[j].ischose = false
+                  //   }
+                  // }
+                }
+
+                // alert(JSON.stringify(_this.choseArry))
+              },
+              //计算选择的商品总价
+              getPrice(){
+                this.allPrice = 0
+                for (var i = 0; i < this.lists.length; i++) {
+                  var obj = this.lists[i].carts;
+                  for (var j = 0; j < obj.length; j++) {
+                    if (obj[j].ischose) {
+                      this.allPrice += Number(obj[j].sale_price)*Number(obj[j].buy_num)
+                    }
+                  }
+                }
+              },
+              //数组去重
+              unique(arr) {
+                  if (!Array.isArray(arr)) {
+                      console.log('type error!')
+                      return
+                  }
+                  var res = [],
+                      obj = {}
+                  for (var i = 0; i < arr.length; i++) {
+                      if (!obj[arr[i]]) {
+                          res.push(arr[i])
+                          obj[arr[i]] = 1
+                      } else {
+                          obj[arr[i]]++
+                      }
+                  }
+                  return res
+              },
+              //追加是否选中属性
+              addIschose(){
+                //为lists添加ischose（是否选中）字段，初始值为false
+                var _this=this;
+                    //为lists添加ischose（是否选中）字段，初始值为false
+                this.lists1.map(function (item) {
+                    _this.$set(item, 'ischose', false);
+                })
+                this.lists = this.lists1
+                //要像上面这样写双向绑定才能起效，下面的写法是有问题的，双向绑定不起效的！
+                //this.productList.map(function (item) {item.select=true})
+              },
+              choseShop(item,index,ite,ind){
+                var _this = this;
+                // if (item.terms_status == 1 && item.agree_status == 0) {
+                //   api.alert({
+                //       title: 'Term & Conditions',
+                //       msg: 'Please agree first',
+                //   }, function(ret, err){
+                //       if( ret ){
+                //         _this.showterms(item,index)
+                //           //  alert( JSON.stringify( ret ) );
+                //       }else{
+                //           //  alert( JSON.stringify( err ) );
+                //       }
+                //   });
+                //
+                //   return
+                // }
+                ite.ischose = !ite.ischose
+                if(ite.ischose){
+                  _this.choseArry.push(ite.cart_id)
+                  for (var i = 0; i < _this.lists.length; i++) {
+                    var obj = _this.lists[i].carts;
+                    _this.allChose = obj.every(function(itemd){
+                      return itemd.ischose == true;
+                    })
+                  }
+                }else {
+                  // var Idindex = _this.choseArry.indexOf(ite.cart_id)
+                  // _this.choseArry.splice(Idindex,1)
+                  // console.log(_this.choseArry.indexOf(ite.cart_id));
+                  _this.choseArry.splice(_this.choseArry.findIndex(item => item === ite.cart_id), 1)
+                  _this.allChose = false
+                }
+                _this.getPrice()
+                console.log(JSON.stringify(_this.choseArry));
+              },
+              sure(){
+                // api.execScript({
+                //     name: 'choselive_win',
+                //     frameName: 'choselive',
+                //     script: 'app.addShopId("'+JSON.stringify(this.choseArry)+'");'
+                // });
+                // api.closeWin();
+                api.closeFrame();
+
+
+
+                console.log(JSON.stringify(this.choseArry));
+              }
+
+
+            }
+        })
+
+    };
+    function closeShop(){
+      api.closeFrame();
+    }
+
+    function goTop(){
+      api.pageUp({
+        top:true
+      },function( ret, err ){
+
+      });
+    }
+</script>
+
+</html>

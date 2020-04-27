@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {
+          background: #1C1C1E;
+        }
+          *{
+            padding: 0;
+            margin: 0;
+          }
+
+        #header{
+            background: #1C1C1E;
+
+            align-items: center;
+            height: 12vw;
+            /*border-bottom: 1px solid #e9e9e9;*/
+            /*position: fixed;*/
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 500;
+            color: white;
+        }
+        #header .iconfont{
+          color: white;
+        }
+        #footer {
+            /*height: 20px;*/
+            background: #1C1C1E;
+            border: 0;
+        }
+        #main{
+          overflow: auto;
+          /*height: 90vh;*/
+          flex: 1;
+        }
+        .box{
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+
+        <header id="header" style=" display: flex; padding: 0 12px;">
+            <label onclick="goBack()" style="flex:1;">
+                                <i class="icon iconfont back">&#xe608;</i>
+                              </label>
+            <div id="title" style="flex:3; text-align:center; font-size:1.1rem;">
+              Live
+            </div>
+            <div style="flex:1; text-align:right; position:relative;">
+              <!-- <span onclick="changeInfo()">编辑</span> -->
+            </div>
+        </header>
+        <div id="main" >
+
+        </div>
+        <footer id="footer"></footer>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+
+      api.setStatusBarStyle({
+          style: 'light',
+          color: '#1C1C1E'
+      });
+        // var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar($api.dom('header'));
+        $api.fixTabBar($api.byId('footer'));
+
+        openpage()
+    };
+    function openpage() {
+
+        api.openFrame({
+            name: 'choselive',
+            url: 'choselive.html',
+            rect: {
+                x: 0,
+                y: $api.dom('header').offsetHeight - 1,
+                w: api.winWidth,
+                h: $api.dom('#main').offsetHeight,
+                // h: api.winHeight -  $api.dom('header').offsetHeight+1,
+
+            },
+            bounces: false,
+            bgColor: '#1C1C1E',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: true
+        });
+    }
+
+    function goBack() {
+
+      api.setStatusBarStyle({
+          style: 'dark',
+          color: '#FAFAFA'
+      });
+        api.closeWin()
+    }
+</script>
+
+</html>

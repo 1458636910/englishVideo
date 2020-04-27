@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+      <link rel="stylesheet" type="text/css" href="../../css/iconfont.css"/>
+      <style>
+          body{
+
+          }
+          #app{
+
+          }
+          .search{
+
+          }
+          .tuijian{
+            display: flex;
+            justify-content: space-between;
+            padding: 3vw;
+            color: #999999;
+          }
+          .tuijian h4{
+            color: #333333;
+          }
+          .tlists{
+            padding: 0 3vw;
+            display: flex;
+            flex-wrap: wrap;
+
+          }
+          .tlists span{
+            color: #999999;
+            background: rgb(238,238,238);
+            font-size: 13px;
+            padding: 2vw 3vw;
+            width: 29vw;
+            box-sizing: border-box;
+            text-align: center;
+            margin-right: 3vw;
+            margin-bottom: 3vw;
+            border-radius: 5vw;
+          }
+          .tlists span:nth-child(3n+3){
+            margin-right: 0;
+          }
+          i{
+            font-style: normal;
+          }
+          [v-cloak]{
+            /*display: none*/
+        }
+        .listBox h4{
+          padding: 0 3vw;
+        }
+        .lists li{
+          width: 94vw;
+          margin: auto;
+          padding: 3vw 0;
+          display: flex;
+
+        }
+        .lists li img{
+          margin-right: 3vw;
+          width: 20vw;
+          height: 20vw;
+          border-radius: 5px;
+        }
+        .lr{
+          width: 70vw;
+        }
+        .lr p{
+          overflow: hidden;
+          text-overflow: ellipsis;
+           display: -webkit-box;
+           -webkit-line-clamp: 2;
+           -webkit-box-orient: vertical;
+        }
+        .list{
+          border-bottom: 1px solid #f5f5f5;
+        }
+      </style>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <div class="search" v-if="lists.length == 0">
+        <!-- <div class="tuijian">
+          <h4>{{tj}}</h4>
+          <span>隐藏</span>
+        </div> -->
+        <!-- <div class="tlists">
+          <span>酒店用品展</span>
+          <span>车展</span>
+          <span>斯麦弗</span>
+          <span>高端饮品</span>
+          <span>教育展</span>
+        </div> -->
+          <div class="tuijian">
+            <h4>Search Record</h4>
+            <!-- <span @click="qkhis()">{{qk}}</span> -->
+          </div>
+          <div class="tlists">
+            <span @click="searchHist(item)" v-for="(item,index) in historys">{{item}}</span>
+            <!-- <span>车展</span>
+            <span>斯麦弗</span>
+            <span>高端饮品</span>
+            <span>教育展</span> -->
+          </div>
+
+            <div class="tuijian">
+              <h4>Popular Searches</h4>
+              <!-- <span @click="qkhis()">{{qk}}</span> -->
+            </div>
+            <div class="tlists">
+              <span @click="searchHist(item)" v-for="(item,index) in hotSearch">{{item}}</span>
+              <!-- <span>车展</span>
+              <span>斯麦弗</span>
+              <span>高端饮品</span>
+              <span>教育展</span> -->
+            </div>
+
+      </div>
+
+    </div>
+
+  </body>
+  <script type="text/javascript" src="../../script/api.js"></script>
+  <script type="text/javascript" src="../../script/fastclick.js"></script>
+  <script src="../../script/vue.min.js"></script>
+  <script src="../../script/commonurl.js"></script>
+  <script type="text/javascript">
+  var app;
+      apiready = function(){
+              app = new Vue({
+                  el: '#app',
+                  filters: {　　　　　　
+               // formatDate: function(time, format = 'MM-DD hh:mm:ss') {
+                 formatDate: function(time, format = 'MM-DD hh:mm') {
+                     var date = new Date(time * 1000);
+
+                     var year = date.getFullYear(),
+                     // var year = '',
+                         month = date.getMonth() + 1, //月份是从0开始的
+                         day = date.getDate(),
+                         hour = date.getHours(),
+                         min = date.getMinutes(),
+                         sec = date.getSeconds();
+                     var preArr = Array.apply(null, Array(10)).map(function(elem, index) {
+                         return '0' + index;
+                     }); ////开个长度为10的数组 格式为 00 01 02 03
+
+                     var newTime = format.replace(/YY/g, year)
+                         .replace(/MM/g, preArr[month] || month)
+                         .replace(/DD/g, preArr[day] || day)
+                         .replace(/hh/g, preArr[hour] || hour)
+                         .replace(/mm/g, preArr[min] || min)
+                         .replace(/ss/g, preArr[sec] || sec);
+
+                     return newTime;
+                 },
+                 　　　　
+             },
+                  data(){
+                    return{
+                      iscn:1,
+                      tj:'推荐',
+                      ls:'历史',
+                      qk:'清空',
+                      lists:[],
+                      historys:[],
+                      lists1:[
+                        {}
+                      ],
+                      hotSearch:[],
+                      listsqy:[]
+                    }
+                  },
+                  created(){
+                    if ($api.getStorage('historys') != undefined) {
+                      this.historys = JSON.parse($api.getStorage('historys'));
+                    }
+
+
+                    //判断语言
+                    if ($api.getStorage('langUage') != undefined) {
+                      this.iscn = $api.getStorage('langUage')
+                      if (this.iscn == 1) {
+                        this.tj = '推荐'
+                        this.ls = '历史'
+                        this.qk = '清空'
+                      }else{
+                        this.tj = 'Recommend'
+                        this.ls = 'History'
+                        this.qk = 'Empty'
+                      }
+                    }else {
+                      if (navigator.language == 'zh-CN') {
+                        this.iscn = 1
+                      }else {
+                        this.iscn = 2
+                      }
+                    }
+                  },
+                  methods:{
+
+                    brand(ite){
+                      console.log($api.getStorage('islogin'));
+                      if ($api.getStorage('islogin') != 'true') {
+                        if (this.iscn == 1) {
+                          api.toast({
+                              msg: '登陆失效',
+                              duration: 2000,
+                              location: 'middle'
+                          });
+
+                        }else {
+                          api.toast({
+                              msg: 'Login failure',
+                              duration: 2000,
+                              location: 'middle'
+                          });
+                        }
+                        setTimeout(()=>{
+                          api.openWin({
+                              name: 'login_win',
+                              url: './login_win.html',
+                              // slidBackEnabled: false,
+                          })
+                        },1000)
+                        return
+                      }
+                      api.openWin({
+                          name: 'brand_win',
+                          url: 'brand_win.html',
+                          slidBackType:'edge',//左侧边缘滑动推出
+                          allowEdit:true,
+                          bounces:false,
+                          animation:{
+                            // type:'ripple',
+                          },
+                          pageParam:{
+                            id:ite.id
+                          }
+                      });
+                    },
+                    qkhis(){
+                      this.historys = []
+                      $api.setStorage('historys', JSON.stringify(this.historys));
+
+                    },
+                    searchHist(ite){
+                      api.execScript({
+                          // name: 'search_win',
+                          // frameName: 'frmName',
+                          script: 'setIpt("'+ite+'");'
+                      });
+
+                      // this.gosear(ite)
+                    },
+                    gosear(e){
+                      console.log(e);
+                      var _this = this
+                      api.ajax({
+                          url: url+'/index.php/Index/search',
+                          method: 'post',
+                          data: {
+                              values: {
+                                session_key:$api.getStorage('session_key'),
+                                title:e
+                              }
+                          }
+                      },function(ret, err){
+                        console.log(JSON.stringify(ret));
+                        // alert(JSON.stringify(ret.data));
+                          if (ret) {
+                            if (ret.code == 1) {
+                              if (ret.data.hdlist.types == 1) {
+                                _this.lists = ret.data.hdlist.list
+                              }
+                              if(ret.data.qiye.types == 2){
+                                _this.listsqy = ret.data.qiye.list
+                              }
+
+
+                              if (ret.data.length == 0) {
+                                if (_this.iscn == 1) {
+                                  api.toast({
+                                      msg: '未查到相关数据',
+                                      duration: 2000,
+                                      location: 'middle'
+                                  });
+                                }else {
+                                  api.toast({
+                                      msg: 'No relevant data found',
+                                      duration: 2000,
+                                      location: 'middle'
+                                  });
+                                }
+                              }
+                            }
+                              // alert( JSON.stringify( ret ) );
+                          } else {
+                              // alert( JSON.stringify( err ) );
+                          }
+                      });
+
+                    },
+                    gosetail(ite){
+                      if (ite.types == 1) {
+                        api.openWin({
+                            name: 'detail_win',
+                            url: 'detail_win.html',
+                            slidBackType:'edge',//左侧边缘滑动推出
+                            allowEdit:true,
+                            bounces:false,
+                            animation:{
+                              // type:'ripple',
+                            },
+                            pageParam:{
+                              id:ite.id
+                            }
+                        });
+                      }else if(ite.types == 2){
+                        api.openWin({
+                            name: 'videodetail_win',
+                            url: 'videodetail_win.html',
+                            slidBackType:'edge',//左侧边缘滑动推出
+                            allowEdit:true,
+                            bounces:false,
+                            animation:{
+                              // type:'ripple',
+                            },
+                            pageParam:{
+                              id:ite.id,
+                            }
+                        });
+                      }
+
+                    },
+                    searchBtn(e,b){
+                      console.log('类型'+b);
+                      console.log('内容'+e);
+                      if(e == ''){
+                        return;
+                      }
+                      if (e != '') {
+                        if (this.historys.indexOf(e) < 0) {
+                          this.historys.push(e)
+                        }
+                        // for (var i = 0; i < this.historys.length; i++) {
+                        //   if (e != this.historys[i]) {
+                        //
+                        //   }
+                        // }
+
+                        $api.setStorage('historys', JSON.stringify(this.historys));
+                      }
+                      console.log(e);
+                      // this.gosear(e)
+                      // this.lists = this.lists1
+                    }
+
+                  }
+                })
+
+      };
+  </script>
+  </html>

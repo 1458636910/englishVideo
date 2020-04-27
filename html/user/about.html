@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .about_us{
+          padding: 3vw;
+        }
+        .about_us img{
+          max-width: 100%;
+          margin: auto;
+        }
+        .list{
+          padding: 3vw;
+          border-bottom: 1px solid #f5f5f5;
+          color: #FF6B6D;
+          text-decoration: underline;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <p class="list" onclick="goprotocol()">Terms of Use</p>
+      <p class="list" onclick="goprivacy()">Data Policy</p>
+      <div class="about_us" v-html="about_us">
+
+      </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/fastclick.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  about_us:''
+                }
+            },
+            created() {
+              this.getAboutUs()
+            },
+            methods: {
+              getAboutUs(){
+                var _this = this;
+                var data = {};
+                requstPost('app',data,function success(ret){
+                  // alert(JSON.stringify(ret))
+                  if (ret.code == 0) {
+                    $api.setStorage('appname', ret.data.name);
+                    $api.setStorage('gbp_to_usd', ret.data.exchange_rate.gbp_to_usd);//英镑
+                    $api.setStorage('gbp_to_eur', ret.data.exchange_rate.gbp_to_eur);//欧元
+                    $api.setStorage('contact_us', ret.data.contact_us);
+                    _this.about_us = ret.data.about_us
+                  }
+                },function fail(err){
+
+                })
+              }
+
+            }
+        })
+
+    };
+    //协议
+    function goprotocol(){
+      api.openWin({
+          name: 'protocol_win',
+          url: '../protocol_win.html',
+          pageParam: {
+              name: 'test'
+          }
+      });
+    }
+    function goprivacy(){
+      api.openWin({
+          name: 'privacy_win',
+          url: '../privacy_win.html',
+          pageParam: {
+              name: 'test'
+          }
+      });
+    }
+</script>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+        [v-cloak]{
+          /*display: none;*/
+        }
+        .list{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 3vw;
+        }
+        .listl{
+          display: flex;
+          align-items: center;
+        }
+        .listl img{
+          max-width: 30px;
+          margin-right: 10px;
+        }
+        .listr{
+          color: #999999;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="lists">
+        <div class="list" @click="cancelThird()">
+          <div class="listl">
+            <img src="../../image/facebook.png" alt="">
+            <span>Facebook</span>
+          </div>
+          <div class="listr">
+            <span></span>
+            <i class="iconfont">&#xe61f;</i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+
+                }
+            },
+            created() {
+
+            },
+            methods: {
+              //取消第三方登录
+              cancelThird(){
+                api.confirm({
+                    title: 'Do You Want to Unbind Your Facebook Account?',
+                    msg: '',
+                    buttons: ['Cancel', 'OK']
+                }, function(ret, err){
+                    if( ret ){
+                      if (ret.buttonIndex == 1) {
+
+                      }
+                        //  alert( JSON.stringify( ret ) );
+                    }else{
+                        //  alert( JSON.stringify( err ) );
+                    }
+                });
+
+              }
+
+            }
+        })
+
+    };
+</script>
+
+</html>

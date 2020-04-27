@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/iconfont.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            padding-top: 3vw;
+            box-sizing: border-box;
+        }
+
+        [v-cloak] {
+            /*display: none;*/
+        }
+
+        .box {
+            width: 94vw;
+            height: 30vw;
+            margin: auto;
+            padding: 5vw;
+            box-sizing: border-box;
+            background: linear-gradient(to right, #FF8C7C, #FF82AB);
+            border-radius: 10px;
+            color: white;
+            background-image: url(../../../image/card.png);
+            background-size: 100% 100%;
+        }
+
+        .box p {
+            font-size: 20px;
+        }
+
+        .box .balance {
+            font-size: 35px;
+        }
+
+        .count {
+            padding: 3vw;
+        }
+
+        .count .tit {
+            color: #999999;
+        }
+
+        .count p {
+            margin-bottom: 2vw;
+            line-height: 20px;
+            color: #4E4E4E;
+        }
+
+        .diamond_use_agreement img {
+            display: block;
+            max-width: 100%;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="box">
+            <p>Diamond Balance</p>
+            <p class="balance">{{jewel}}</p>
+        </div>
+        <div class="count">
+            <p class="tit">Terms & Conditions of Diamond</p>
+            <div class="diamond_use_agreement" v-html="diamond_use_agreement">
+
+            </div>
+            <!-- <p>1.Diamond can be purchased or earned in APP.Diamonds are not exchangeable.</p>
+        <p>2.Diamond can be used to reward Influencers during Live Stream</p>
+        <p>3.Diamond can be used towards in APP purchases on certain items</p> -->
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/fastclick.js"></script>
+<script src="../../../script/vue.min.js"></script>
+<script src="../../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    jewel: 0, //
+                    diamond_use_agreement: '',
+                }
+            },
+            mounted: function() { //页面渲染之后执行
+                api.addEventListener({
+                    name: 'fn_backdiamond'
+                }, (ret, err) => {
+                     this.getDiamond()
+                });
+            },
+            created() {
+                this.getDiamond()
+            },
+            methods: {
+                getDiamond() {
+                    var _this = this;
+                    requstPost('user/jewel', '', function success(ret) {
+                        if (ret.code == 0) {
+                            console.log(JSON.stringify(ret))
+                            _this.jewel = ret.data.jewel
+                            _this.diamond_use_agreement = ret.data.diamond_use_agreement
+                        }
+                    }, function fail(err) {
+
+                    })
+                },
+
+            }
+        })
+
+    };
+</script>
+
+</html>

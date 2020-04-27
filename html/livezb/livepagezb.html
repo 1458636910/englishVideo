@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body,
+        html {
+            background: none;
+        }
+
+        #app {
+            background: none;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+            box-sizing: border-box;
+        }
+
+        [v-cloak] {
+            /*display: none;*/
+        }
+
+        #header {
+            /*position: fixed;*/
+            top: 0;
+            left: 0;
+            right: 0;
+            /*height: 12vw;*/
+            padding: 3vw 0;
+            background: none;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .top {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3vw;
+            padding-bottom: 0;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .topl {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            margin-right: 3vw;
+        }
+
+        .head {
+            width: 12vw;
+            height: 12vw;
+            border-radius: 50%;
+            margin-right: 3vw;
+        }
+
+        .head img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .fol {
+            padding: 5px 10px;
+            background: #FB607D;
+            color: white;
+            margin-left: 3vw;
+            border-radius: 15px;
+            border: 1px solid white;
+        }
+
+        .topr .iconfont {
+            font-size: 25px;
+            color: white;
+        }
+
+        .sc {
+            margin-right: 3vw;
+        }
+
+        .tname {
+            max-width: 34vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        #app {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main {
+            flex: 1;
+        }
+
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3vw;
+            /*background: black;*/
+        }
+
+        .footerl {
+            width: 40vw;
+            height: 10vw;
+            line-height: 10vw;
+            text-align: left;
+            border-radius: 5vw;
+            padding-left: 3vw;
+            color: #363639;
+            box-sizing: border-box;
+            background: #CCCCCC;
+        }
+
+        .footerr {
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .footerr .iconfont {
+            font-size: 25px;
+        }
+
+        .footerr span {
+            margin-right: 2vw;
+        }
+
+        .footerr span:last-child {
+            margin-right: 0;
+        }
+
+        .main {
+            padding: 3vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            /*background: black;*/
+            color: white;
+        }
+
+        .title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .chatlists {
+            padding: 3vw;
+            height: 25vw;
+            overflow: scroll;
+            background: rgba(0, 0, 0, 0.12);
+            border-radius: 5px;
+            opacity: 0;
+            margin-top: 3vw;
+        }
+
+        .chatlist {
+            display: flex;
+            /*align-items: center;*/
+            margin-bottom: 1vw;
+        }
+
+        .nameBox {
+            max-width: 70vw;
+        }
+
+        .nameBox p:nth-child(1) {
+            font-size: 14px;
+            color: #929292;
+        }
+
+        .shopBtnBox {
+            display: flex;
+            align-items: center;
+            /*margin-bottom: 30vw;*/
+        }
+
+        .shopBtnBox .iconfont {
+            font-size: 25px;
+        }
+
+        .shopBtn {
+            height: 35px;
+            background: #FB607D;
+            border-radius: 17.5px;
+            margin-right: 3vw;
+            padding: 0 3vw;
+        }
+
+        .cart {
+            width: 35px;
+            height: 35px;
+            background: #FB607D;
+            text-align: center;
+            line-height: 35px;
+            border-radius: 17.5px;
+        }
+
+        .cart .iconfont {
+            font-size: 22px;
+        }
+        .zsNum{
+          text-align: right;
+          padding-right: 5vw;
+          color: white;
+        }
+        .topr{
+          display: flex;
+          align-items: center;
+        }
+        .headsOut{
+          max-width: 40vw;
+          overflow: scroll;
+          margin-right: 10px;
+        }
+        .headsBox{
+          width: max-content;
+          display: flex;
+          align-content: center;
+          margin-right: 3vw;
+        }
+        .heads{
+          width: 10vw;
+          height: 10vw;
+          margin-right: 5px;
+        }
+        .heads img{
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <header id="header">
+            <div class="top">
+                <div class="topl">
+                    <div class="head">
+                        <img :src="anchor_avatar" alt="">
+                    </div>
+                    <div class="tnameBox">
+                        <p class="tname">{{jstime}}</p>
+                        <p>
+                            <i class="iconfont">&#xe629;</i>
+                            <span>{{look_count}}</span>
+                        </p>
+                    </div>
+                    <!-- <span class="fol">Follow</span> -->
+                    <span style="margin-left:3vw;" @click="changeCamer()">
+                      <i class="iconfont" style="font-size:30px;">&#xe6de;</i>
+                    </span>
+                </div>
+                <div class="topr">
+                    <div class="headsOut">
+                      <div class="headsBox">
+                        <div class="heads" v-for="(item,index) in fav_list">
+                          <img :src="item.avatar_url" alt="">
+                        </div>
+                      </div>
+                    </div>
+                    <span class="close" @click="closeLive()">
+                      <i class="iconfont">&#xe69f;</i>
+                    </span>
+                </div>
+            </div>
+            <div class="zsNum">
+              <img src="" alt="">
+              <span>💎</span>
+              <span>{{jewel}}</span>
+            </div>
+        </header>
+
+
+        <div class="main">
+            <div></div>
+            <div class="shopBtnBox">
+                <div class="shopBtn" @click="openShop()">
+                    <i class="iconfont">&#xe7ed;</i>
+                    <span>Products {{product_count}} </span>
+                    <i class="iconfont" v-if="!showShop">&#xe65a;</i>
+                    <i class="iconfont" v-if="showShop">&#xe60f;</i>
+                </div>
+                <span class="cart" @click="showshopLists()">
+                  <i class="iconfont">&#xe7f9;</i>
+                </span>
+            </div>
+            <div class="chatlists" id="chatlists">
+                <div class="chatlist">
+                    <div class="head">
+                        <img src="../../image/img7.jpg" alt="">
+                    </div>
+                    <div class="nameBox">
+                        <p>Jean Walton</p>
+                        <p>Awesome,Love It Awesome,Love It Awesome,Love It Awesome,Love It Awesome,Love It</p>
+                    </div>
+                </div>
+            </div>
+            <div class="title" id="title">
+                {{title}}
+            </div>
+        </div>
+        <footer id="footer">
+            <div class="footer">
+                <div class="footerl" @click="sendPl()">
+                    Comments...
+                </div>
+                <div class="footerr">
+                    <!-- <span @click="goreport()">
+                      <i class="iconfont">&#xe764;</i>
+                    </span> -->
+                    <span>
+                      <i class="iconfont"></i>
+                    </span>
+                    <span @click="showOver()">
+                      <!-- <p>1263</p> -->
+                      <i class="iconfont">&#xe677;</i>
+                    </span>
+                </div>
+            </div>
+
+        </footer>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    var app;
+    apiready = function() {
+        $api.fixTabBar($api.byId('footer'));
+        $api.fixStatusBar($api.dom('header'));
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                  chatTop:0,//Y坐标
+                  showShop:false,//
+                  live_id:'',
+                  jstime:'00:00:00',
+                  jsnum:0,
+                  look_count:0,//浏览量
+                  jewel:0,//钻石数量
+                  product_count:0,//商品数量
+                  fav_list:[],//喜欢列表
+                  title:'',//直播标题
+                  anchor_avatar:'',//主播头像
+                  commission:0,//总佣金
+                  transaction:0,//总交易额
+
+                }
+            },
+            created() {
+              //接收id
+              this.live_id = api.pageParam.live_id
+
+              this.chatTop = $api.dom('#chatlists').offsetTop
+
+              // alert($api.dom('#chatlists').offsetTop)
+                console.log($api.dom('footer').offsetHeight);
+                this.getDetail()
+            },
+            methods: {
+              //切换摄像头
+              changeCamer(){
+                console.log("点击了切换摄像头")
+                api.execScript({
+                    name: 'livezb_win',
+                    // frameName: 'frmName',
+                    script: 'changeCamer();'
+                });
+              },
+              getDetail(){
+                var _this = this;
+                var data = {
+                  live_id:api.pageParam.live_id
+                };
+                requstPost('anchor/liveDetail',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.fav_list = ret.data.fav_list
+                    _this.title = ret.data.title
+                    _this.anchor_avatar = ret.data.anchor_avatar
+                    _this.look_count = ret.data.look_count
+                    _this.jewel = ret.data.jewel
+                    _this.product_count = ret.data.product_count
+                    _this.commission = ret.data.commission
+                    _this.transaction = ret.data.transaction
+                    _this.fav_list = ret.data.fav_list
+
+                    api.openFrame({
+                        name: 'livechatzb',
+                        url: './livechatzb.html',
+                        rect: {
+                            x: 0,
+                            y: $api.dom('#chatlists').offsetTop-20,
+                            w: api.winWidth,
+                            h: api.winWidth*30/100
+                        },
+                        pageParam: {
+                            websocket_url: ret.data.websocket_url,
+                            live_id:api.pageParam.live_id
+                        },
+                        bounces: false,
+                        bgColor: 'rgba(0,0,0,0)',
+                        vScrollBarEnabled: true,
+                        hScrollBarEnabled: true
+                    });
+                    //计时开始
+                    _this.startJstime()
+                  }
+                },function fail(err){
+
+                })
+              },
+              //开始计时
+              startJstime(){
+                //jstime
+                setInterval(()=>{
+                  this.jsnum += 1
+                  var hours = Math.floor(this.jsnum / 3600);
+                  var mintes = Math.floor((this.jsnum - hours*3600) / 60);
+                  var secend = this.jsnum - hours*3600 - mintes*60;
+                  if (hours < 10) {
+                    hours = '0'+hours
+                  }
+                  if (mintes < 10) {
+                    mintes = '0'+mintes
+                  }
+                  if (secend < 10) {
+                    secend = '0'+secend
+                  }
+                  this.jstime = hours + ':' + mintes + ':' + secend
+                },1000)
+
+              },
+              //显示收入流水
+              showOver(){
+                var _this = this;
+                api.openFrame({
+                    name: 'turnover',
+                    url: './turnover.html',
+                    rect: {
+                        x: 0,
+                        y: $api.dom('#chatlists').offsetTop,
+                        w: api.winWidth,
+                        h: api.winHeight-$api.dom('#chatlists').offsetTop
+                    },
+                    pageParam: {
+                      id:5,
+                      commission:_this.commission,
+                      transaction:_this.transaction
+                    },
+                    bounces:false,
+                    bgColor: 'rgba(0,0,0,0)',
+                    vScrollBarEnabled: true,
+                    hScrollBarEnabled: true,
+                    animation:{
+                      type:"push",
+                      subType:"from_bottom",
+                      duration:300
+                    }
+                });
+
+              },
+              //打开商品列表，增加或减少商品
+              showshopLists(){
+                api.openFrame({
+                    name: 'liveshopchose',
+                    url: './liveshopchose.html',
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: api.winWidth,
+                        h: api.winHeight
+                    },
+                    pageParam: {
+                      live_id:api.pageParam.live_id
+                    },
+                    bounces:false,
+                    bgColor: 'rgba(0,0,0,0)',
+                    vScrollBarEnabled: true,
+                    hScrollBarEnabled: true,
+                    animation:{
+                      type:"push",
+                      subType:"from_bottom",
+                      duration:300
+                    }
+                });
+              },
+              openShop(){
+                this.showShop = !this.showShop
+                if (this.showShop) {
+                  api.openFrame({
+                      name: 'liveshopzb',
+                      url: './liveshopzb.html',
+                      rect: {
+                          x: 0,
+                          y: $api.dom('#chatlists').offsetTop,
+                          w: api.winWidth,
+                          h: api.winHeight-$api.dom('#chatlists').offsetTop
+                      },
+                      pageParam: {
+                          live_id:api.pageParam.live_id
+                      },
+                      bounces: false,
+                      bgColor: 'rgba(0,0,0,0)',
+                      vScrollBarEnabled: true,
+                      hScrollBarEnabled: true
+                  });
+                }else {
+                  api.setFrameAttr({
+                      name: 'liveshopzb',
+                      bounces: false,
+                      bgColor: 'rgba(0,0,0,0)',
+                      vScrollBarEnabled: true,
+                      hScrollBarEnabled: true,
+                      hidden:true
+                  });
+
+                  // api.closeFrame({
+                  //     name: 'liveshop'
+                  // });
+
+                }
+
+              },
+                closeLive() {
+                  api.confirm({
+                      title: 'End live stream',
+                      msg: '',
+                      buttons: ['Cancel', 'End']
+                  }, function(ret, err){
+                      if( ret ){
+                        if (ret.buttonIndex == 2) {
+                          api.closeToWin({
+                              name: 'root'
+                          });
+                        }
+                          //  alert( JSON.stringify( ret ) );
+                      }else{
+                          //  alert( JSON.stringify( err ) );
+                      }
+                  });
+
+
+                },
+                sendPl() {
+                  var _this = this
+                  var inputField = api.require('inputField');
+                  inputField.setInputFieldListener(function(ret, err) {
+                      if (ret) {
+                          if (ret.chatViewH < 50) {
+
+                          }
+                          console.log(JSON.stringify(ret));
+                      } else {
+                          console.log(JSON.stringify(err));
+                      }
+                  });
+                  // inputField.becomeFirstResponder(function(ret, err) {
+                  //     if (ret.status) {
+                  //         console.log(JSON.stringify(ret));
+                  //     } else {
+                  //         console.log(JSON.stringify(err));
+                  //     }
+                  // });
+                  inputField.open({
+                      bgColor: '#ffffff',
+                      lineColor: '#999999',
+                      fileBgColor: '#f5f5f5',
+                      borderColor: '#999999',
+                      placeholder: '',
+                      autoFocus: true,
+                      maxLines: 5,
+                      limitedWordsNumber: 100,
+                      sendBtn: {
+                          bg: '#FB607D',
+                          title: 'Send',
+                          titleColor: '#fff',
+                          bgHighlight: '#e67187',
+                      },
+                      fixedOn: api.frameName
+                  }, function(ret, err) {
+                      if (ret) {
+                          if (ret.msg != '') {
+                              console.log(ret.msg + 'end');
+                              // _this.sendPl(ret.msg)
+                              inputField.resignFirstResponder();
+                              api.sendEvent({
+                                  name: 'livechatzbText',
+                                  extra: {
+                                      msg: ret.msg,
+                                  }
+                              });
+                          }
+                          // alert(JSON.stringify(ret));
+
+
+                      } else {
+                          // alert(JSON.stringify(err));
+                      }
+                  });
+                  inputField.setInputFieldListener(function(ret, err) {
+                      if (ret) {
+                          console.log(JSON.stringify(ret));
+                          if (ret.chatViewH <= 50) {
+                              inputField.close();
+                          }
+                          // alert(JSON.stringify(ret));
+                      } else {
+                          // alert(JSON.stringify(err));
+                      }
+                  });
+
+                },
+                //举报
+                goreport() {
+                    api.openWin({
+                        name: 'report_win',
+                        url: './report_win.html',
+                        pageParam: {
+                            id: 5
+                        }
+                    });
+
+                }
+
+
+            }
+        })
+
+    };
+</script>
+
+</html>
