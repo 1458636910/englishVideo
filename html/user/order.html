@@ -218,7 +218,7 @@
                     </div>
                 </div>
                 <div class="shoplists"  v-for="(ite,ind) in item.products">
-                    <div class="shoplist">
+                    <div class="shoplist"  @click="goshopDetail(ite.product_id)">
                         <div class="sllimg">
                             <img :src="ite.product_thumb" alt="">
                         </div>
@@ -284,6 +284,23 @@
               this.getMore()
             },
             methods: {
+              //查看详情
+              goshopDetail(id) {
+                requstGet('product/detail',{id:id},function success(ret){
+                  if(ret.code==0){
+                    api.openWin({
+                        name: 'shopdetail_win',
+                        url: '../common/shopdetail_win.html',
+                        pageParam: {
+                            name: 'test',
+                            id: id
+                        }
+                    });
+                  }else{
+
+                  }
+                })
+              },
               //争议申请
               dispute(ite,ind){
                 var _this = this;
