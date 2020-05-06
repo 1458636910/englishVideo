@@ -710,9 +710,9 @@
               gosq(){
                 var _this = this;
                 api.confirm({
-                    title: 'Certification',
-                    msg: 'Are you sure you want to submit an application to the merchant?',
-                    buttons: ['Sure', 'Cancel']
+                    title: 'Verification',
+                    msg: 'Get verified by the store',
+                    buttons: ['Submit', 'Cancel']
                 }, function(ret, err){
                     if( ret ){
                       if (ret.buttonIndex == 1) {

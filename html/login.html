@@ -268,13 +268,13 @@
                     <input @blur="getblur()" @focus="pwdFocus()" v-model="pwd" type="password" placeholder="Login password">
                 </li>
             </ul>
+            <div class="loginBtn" @click="phonelogin()">Log in</div>
             <p class="forgetpwd">
                 <span tapmode="hover" onclick="forgotpwd();">Forget password</span>
                 <span tapmode="hover" onclick="register();" style="color:black;">
                 Register
               </span>
             </p>
-            <div class="loginBtn" @click="phonelogin()">Log in</div>
 
 
             <!-- <div class="sanfang" v-if="wxHas">

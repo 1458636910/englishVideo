@@ -173,7 +173,7 @@
             <!-- <span>
               <i class="iconfont">&#xe686;</i>
             </span> -->
-            <input @blur="getblur()" @focus="phoneFocus()" v-model="phone" type="password" placeholder="Old password">
+            <input @blur="getblur()" @focus="phoneFocus()" v-model="phone" type="password" placeholder="Current password">
           </li>
 
           <li :class="active == 2?'active':''">
@@ -381,12 +381,12 @@
                   this.sendMsgCodeStatus = 60;
                   var timer = setInterval(() => {
                       this.sendMsgCodeStatus -= 1;
-                      this.codetext = this.sendMsgCodeStatus +'s后重新发送'
+                      this.codetext = 'Resend in '+this.sendMsgCodeStatus +'s'
                       if (this.sendMsgCodeStatus === 0) {
                           clearInterval(timer);
                           this.canGet = 1;
                           this.isSend = false;
-                          this.codetext = "重新发送";
+                          this.codetext = "Resend";
                       }
                   }, 1000);
               },
