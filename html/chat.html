@@ -1005,6 +1005,9 @@
               },
 
               getPicqj(sourceType, e) {
+                if (!confirmPer('camera')) {
+                      return;
+                  }
                 // alert(sourceType)
                   var _this = this;
                   if (sourceType == 1) { // 拍照

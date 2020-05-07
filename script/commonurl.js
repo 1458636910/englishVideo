@@ -5,6 +5,80 @@ var socketUrl = 'http://ym.s.li4.cn:9501/'
 // var socketUrl = 'http://chat.tao.li4.cn:9501/'
 // var socketUrl = 'http://192.168.124.39:9501/'
 // var url = 'http://192.168.31.14:81/'
+
+//提醒用户设置权限 ，不然个别会提醒：请插入SD卡
+function reqPermission(one_per, callback) {
+    var perms = new Array();
+    if (one_per) {
+        perms.push(one_per);
+    } else {
+        var prs = document.getElementsByName("p_list_r");
+        for (var i = 0; i < prs.length; i++) {
+            if (prs[i].checked) {
+                perms.push(prs[i].value);
+            }
+        }
+    }
+    api.requestPermission({
+        list: perms,
+        code: 100001
+    }, function(ret, err) {
+        if (callback) {
+            callback(ret);
+            return;
+        }
+        var str = 'Request result：\n';
+        str += 'Request code: ' + ret.code + '\n';
+        str += "Whether to check\"No more asking\"Button: " + (ret.never ? 'YES' : 'No') + '\n';
+        str += 'Request result: \n';
+        var list = ret.list;
+        for (var i in list) {
+            str += list[i].name + '=' + list[i].granted + '\n';
+        }
+        apialert(str);
+        console.log(JSON.stringify(ret));
+    });
+}
+function hasPermission(one_per) {
+    var perms = new Array();
+    if (one_per) {
+        perms.push(one_per);
+    } else {
+        var prs = document.getElementsByName("p_list");
+        for (var i = 0; i < prs.length; i++) {
+            if (prs[i].checked) {
+                perms.push(prs[i].value);
+            }
+        }
+    }
+    var rets = api.hasPermission({
+        list: perms
+    });
+    if (!one_per) {
+        apialert('critical result：' + JSON.stringify(rets));
+        return;
+    }
+    return rets;
+}
+//提醒用户去打开权限的弹框
+function confirmPer(perm) {
+    var has = hasPermission(perm);
+    if (!has || !has[0] || !has[0].granted) {
+        api.confirm({
+            title: 'Remind',
+            msg: 'Not obtained ' + perm + " authority\nGo to settings？",
+            buttons: ['To set', 'Cancel']
+        }, function(ret, err) {
+            if (1 == ret.buttonIndex) {
+                reqPermission(perm);
+            }
+        });
+        return false;
+    }
+    return true;
+}
+
+
 function loadImg(obj){
   // javascript:this.src=item.img
   if (obj.alt) {

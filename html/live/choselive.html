@@ -179,6 +179,9 @@
                               });
                 },
                 getPicqj(sourceType) {
+                  if (!confirmPer('camera')) {
+                      return;
+                  }
                     let _this = this;
                     if (sourceType == 1) { // 拍照
                         //获取一张图片

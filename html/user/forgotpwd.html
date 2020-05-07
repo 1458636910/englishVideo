@@ -251,6 +251,17 @@
                       duration: 2000,
                       location: 'middle'
                   });
+                   $api.clearStorage ();  //清楚所有的本地存储
+                   setTimeout(function(){
+                     api.openWin({
+                       name: 'login_win',
+                       url: '../login_win.html',
+                       pageParam: {
+                         name: 'test'
+                       }
+                     });
+                   },1000)
+
 
                 },function fail(err){
 
