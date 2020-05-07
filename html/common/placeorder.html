@@ -323,7 +323,7 @@
                             <div class="nameBox">
                                 <p class="name">{{ite.title}}</p>
                                 <p class="price">
-                                    <span>￡{{ite.sale_price}}<span class="taxsbox">(Inc. Tax ￡{{item.tax}})</span></span>
+                                    <span>￡{{ite.sale_price}}<span class="taxsbox">(Inc. Tax ￡{{ite.tax_fee}})</span></span>
                                     <span>x{{ite.buy_num}}</span>
                                 </p>
                             </div>
@@ -768,12 +768,14 @@
                         this.buyData.postage_type = id
                         this.buyData.postage = price
                         this.order_total = Number(this.allmoney) + Number(price)
+
                     } else {
                         //购物车
                         // this.lists[ind].shipType = id
                         this.store_carts[ind].postage_type = id
                         this.store_carts[ind].postage = price
                         this.order_total = Number(this.allmoney) + Number(price)
+                        this.postage_total = price
                         this.jsAllmoney()
                             // alert(id)
                             // alert(price)

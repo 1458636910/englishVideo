@@ -113,7 +113,7 @@
                     requstPost('user/jewel', '', function success(ret) {
                         if (ret.code == 0) {
                             console.log(JSON.stringify(ret))
-                            _this.jewel = ret.data.jewel
+                            _this.jewel = parseInt(ret.data.jewel)
                             _this.diamond_use_agreement = ret.data.diamond_use_agreement
                         }
                     }, function fail(err) {

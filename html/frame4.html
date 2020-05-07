@@ -328,6 +328,13 @@
                 </div>
                 <i class="iconfont">&#xe61f;</i>
             </div>
+            <div class="list" @click="goliveOrder()">
+                <div class="listl">
+                    <img src="../image/user/1.png" alt="">
+                    <span>Live Order</span>
+                </div>
+                <i class="iconfont">&#xe61f;</i>
+            </div>
             <div class="list" tapmode @click="godiamond()">
                 <div class="listl">
                     <img src="../image/user/2.png" alt="">
@@ -346,6 +353,13 @@
                 <div class="listl">
                     <img src="../image/user/3.png" alt="">
                     <span>My Discount Coupon</span>
+                </div>
+                <i class="iconfont">&#xe61f;</i>
+            </div>
+            <div class="list" tapmode @click="goinvite()">
+                <div class="listl">
+                    <img src="../image/user/3.png" alt="">
+                    <span>Invite Friends</span>
                 </div>
                 <i class="iconfont">&#xe61f;</i>
             </div>
@@ -724,6 +738,20 @@
                     });
 
                 },
+                goliveOrder(){
+                  if (this.islogin) {
+
+                  } else {
+                      userIslogin()
+                      return
+                  }
+                  api.openWin({
+                      name: 'liveOrder_win',
+                      url: './user/liveOrder_win.html',
+                      bgColor:'widget://image/invitebg.png',
+                      pageParam: {}
+                  });
+                },
                 godiamond() {
                     if (this.islogin) {
 
@@ -769,6 +797,21 @@
                             name: 'test'
                         }
                     });
+                },
+                goinvite(){
+                  if (this.islogin) {
+
+                  } else {
+                      userIslogin()
+                      return
+                  }
+                  api.openWin({
+                      name: 'invite_win',
+                      url: './user/invite_win.html',
+                      pageParam: {
+                          name: 'test'
+                      }
+                  });
                 },
                 goviewed() {
                     if (this.islogin) {

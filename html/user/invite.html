@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body,html {background: rgba(0,0,0,0)!important}
+          [v-cloak]{
+             display: none;
+          }
+          .inviteBox{
+            width: 70%;
+            height: auto;
+            box-sizing: border-box;
+            padding: 10vw;
+            background: white;
+            border-radius: 5vw;
+            position: absolute;
+            top:50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+          }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+          <div class="inviteBox">
+              <h3>NailVision</h3>
+              
+          </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/fastclick.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+
+                }
+            },
+            created() {
+
+            },
+            methods: {
+
+            }
+        })
+
+    };
+
+</script>
+
+</html>

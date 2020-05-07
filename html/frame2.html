@@ -680,6 +680,7 @@
                 },
                 //调用倒计时方法
                 fn_countDown(time, id) {
+                  console.log(time)
                     var _el = 'count' + "_" + this.refreshCount + "_" + id;
                     var ds = new countdown({el:_el,ed:time});
                 },

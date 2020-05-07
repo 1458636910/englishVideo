@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/countdown.css" />
+    <style>
+        body {}
+
+        #app {
+            background: white;
+            min-height: 100vh;
+            /*padding-top: 3vw;*/
+
+            box-sizing: border-box;
+        }
+
+        [v-cloak] {
+            /*display: none;*/
+        }
+
+        .lists {
+            padding: 3vw;
+        }
+
+        .list {
+            width: 94vw;
+            margin: 0 auto 3vw;
+            box-shadow: 0 1px 1px 2px #f5f5f5;
+            border-radius: 5px;
+            padding: 3vw;
+            box-sizing: border-box;
+        }
+
+        .top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .shoplogo {
+            width: 25px;
+            height: 25px;
+            background: #FA607D;
+            border-radius: 50%;
+            color: white;
+            text-align: center;
+            line-height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 5px;
+        }
+        .shoplogo img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+
+        .shoplogo .iconfont {
+            font-size: 18px;
+        }
+
+        .shopnameBox {
+            max-width: 65vw;
+            display: flex;
+            align-items: center;
+        }
+
+        .shopname {
+            font-weight: 700;
+            max-width: 40vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        .rico {
+            font-size: 25px;
+            color: #999999;
+        }
+
+        .rstate {
+            color: #FA607D;
+            font-size: 14px;
+        }
+        /**/
+
+        .shoplist {
+            display: flex;
+            align-items: center;
+            margin-top: 3vw;
+        }
+
+        .sllimg {
+            width: 20vw;
+            height: 20vw;
+            margin-right: 3vw;
+        }
+
+        .sllimg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slrcont {
+            height: 18vw;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .slrname {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .slrprice {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .slrprice span:nth-child(1) {
+            font-size: 18px;
+        }
+
+        .slrprice span:nth-child(2) {
+            font-size: 14px;
+            color: #999999;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 14px;
+            color: #999999;
+        }
+
+        .total span:nth-child(2) {
+            font-size: 18px;
+            color: black;
+        }
+
+        .btns {
+            text-align: right;
+            margin-top: 3vw;
+        }
+
+        .btns span {
+            min-width: 25vw;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 15px;
+            color: #999999;
+            border: 1px solid #999999;
+            text-align: center;
+            margin-left: 3vw;
+            padding: 0 3vw;
+            box-sizing: border-box;
+        }
+
+        .btns .color {
+            color: #FB6E89;
+            border: 1px solid #FB6E89;
+        }
+
+        .btns span:active {
+            background: #f5f5f5;
+            color: #999999;
+            border: 1px solid #999999;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+      <div class="empty" v-if="lists.length == 0">
+        <img src="../../image/empty.png" alt="">
+      </div>
+        <div class="lists">
+            <div class="list" v-for="(item,index) in lists">
+                <div class="top">
+                    <div class="shopnameBox">
+                        <span class="shoplogo">
+                          <img :src="url+item.thumb" alt="">
+                          <!-- <i class="iconfont">&#xe60d;</i> -->
+                        </span>
+                        <span class="shopname">{{item.full_name}}</span>
+                        <i class="iconfont rico">&#xe62d;</i>
+                    </div>
+                    <div>
+                        <span class="rstate">
+                          {{item.pay_status == 0?'Wait For Payment':''}}
+                          {{item.pay_status == 1?'Paid':''}}
+                        </span>
+                    </div>
+                </div>
+                <div class="shoplists">
+                    <div class="shoplist">
+                        <div class="sllimg">
+                            <img :src="url+item.upload_photo" alt="live">
+                        </div>
+                        <div class="slrcont">
+                            <!-- <p class="slrname" :id="countId(item.id,item.start_time)">
+                               {{fn_countDown(item.start_time,item.order_id)}}
+                            </p> -->
+                            <p v-if="item.start_time>0" class="slrprice" :id="countId(item.id,item.start_time)">
+                                <span>{{fn_countDown(item.start_time,item.order_id)}}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="total">
+                        <span>￡{{item.money}}</span>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="btns">
+                    <span v-if="item.pay_status == 0" @click="goPay(item)" class="color">Pay</span>
+                </div>
+                <!--  -->
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript" src="../../script/countdown.js"></script>
+<script type="text/javascript">
+    var app;
+    apiready = function() {
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    navActive: 0,
+                    page:1,
+                    more:true,
+                    lists:[],
+                    status:'all'
+                }
+            },
+            mounted:function(){  //页面渲染之后执行
+                api.addEventListener({
+                  name: 'fn_backorderlist'
+               }, (ret, err)=> {
+                this.getLists()
+               });
+             },
+              created() {
+              this.getLists()
+              this.getMore()
+            },
+            methods: {
+              //生成id
+              countId(id,time) {
+                  return 'count' + "_" + this.refreshCount + "_" + id
+              },
+              //调用倒计时方法
+              fn_countDown(time, id) {
+                console.log(time)
+                  var _el = 'count' + "_" + this.refreshCount + "_" + id;
+                  var ds = new countdown({el:_el,ed:time});
+              },
+              //查看详情
+              goshopDetail(id) {
+                requstGet('product/detail',{id:id},function success(ret){
+                  if(ret.code==0){
+                    api.openWin({
+                        name: 'shopdetail_win',
+                        url: '../common/shopdetail_win.html',
+                        pageParam: {
+                            name: 'test',
+                            id: id
+                        }
+                    });
+                  }else{
+
+                  }
+                })
+              },
+              //争议申请
+              dispute(ite,ind){
+                var _this = this;
+                var data = {
+                  order_id:ite.order_id
+                };
+                requstPost('user/orderDispute',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.lists[ind].pay_status = 40
+                    _this.lists[ind].refund_status = 40
+                    // alert(ret.message)
+                  }
+                },function fail(err){
+
+                })
+              },
+              //订单确认
+              orderSure(ite,ind){
+                pubshowloading()
+                var _this = this;
+                var data = {
+                  order_id:ite.order_id
+                };
+                requstPost('user/orderConfirm',data,function success(ret){
+                  if (ret.code == 0) {
+                    api.toast({
+                        msg: ret.message,
+                        duration: 2000,
+                        location: 'middle'
+                    });
+
+                    _this.lists[ind].pay_status = 30
+                  }
+                },function fail(err){
+
+                })
+              },
+              //监听滚动到底
+              getMore() {
+                var _this = this
+                api.addEventListener({
+                    name: 'scrolltobottom',
+                    extra: {
+                        threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                    }
+                }, function(ret, err) {
+                  console.log('加载更多');
+                  if (_this.more) {
+                    _this.getLists()
+                  }
+
+                });
+
+              },
+              getLists(){
+                var _this = this;
+                var data = {
+                  page:_this.page,
+                  page_size:20,
+                  status:_this.status
+                };
+                requstPost('user/live',data,function success(ret){
+                  if (ret.code == 0) {
+                    if (_this.page == 1) {
+                      _this.lists = []
+                    }
+                    _this.page += 1
+                    if (ret.data.length < 20) {
+                      _this.more = false
+                    }
+                    _this.lists = _this.lists.concat(ret.data)
+                  }else {
+                    _this.more = false
+                  }
+                },function fail(err){
+
+                })
+              },
+                //支付
+                goPay(item) {
+                  pubshowloading()
+                  var _this = this;
+                  var data = {
+                    order_id:item.order_id
+                  };
+                  requstPost('order/repay',data,function success(ret){
+                    if (ret.code == 0) {
+                      api.toast({
+                          msg: ret.message,
+                          duration: 2000,
+                          location: 'middle'
+                      });
+                      setTimeout(()=>{
+                        goPaypalUrl(ret.data.pay_url)
+                      },1000)
+
+                    }
+                  },function fail(err){
+
+                  })
+                  return
+                    var paypal = api.require('paypal');
+                    paypal.pay({
+                        currency: 'USD',
+                        price: '36.06',
+                        description: 'APICloud 短袖T恤',
+                        mode: 'noNetwork',
+                        // language:'zh-Hans'
+                    }, function(ret) {
+                        if (ret) {
+                          if (ret.state == 'cancel') {
+                            //用户取消支付
+                            api.alert({
+                                msg: 'Cancel payment',
+                                title:'',
+                                buttons:['Sure']
+                            });
+                          }else if (ret.state == 'fail') {
+                            //支付失败
+                            api.alert({
+                                msg: 'Payment failed',
+                                title:'',
+                                buttons:['Sure']
+                            });
+                          }else if (ret.state == 'success') {
+                            //支付成功
+                            api.alert({
+                                msg: 'Payment Successful',
+                                title:'',
+                                buttons:['Sure']
+                            });
+                          }
+                          console.log('支付结果：'+JSON.stringify(ret));
+                        }
+                    });
+                },
+                //申请退款
+                gorefund(ite){
+                  api.openWin({
+                      name: 'orderrefund_win',
+                      url: './orderrefund_win.html',
+                      pageParam: {
+                          order_id: ite.order_id
+                      }
+                  });
+                },
+                //查看物流
+                gologs(ite){
+                  api.openWin({
+                      name: 'orderlogistic_win',
+                      url: './orderlogistic_win.html',
+                      pageParam: {
+                          order_id: ite.order_id
+                      }
+                  });
+                },
+                //查看详情
+                godetail(ite) {
+                    api.openWin({
+                        name: 'orderdetail_win',
+                        url: './orderdetail_win.html',
+                        pageParam: {
+                            order_id: ite.order_id
+                        }
+                    });
+
+                },
+                //评论
+                goreview(item) {
+                    api.openWin({
+                        name: 'review_win',
+                        url: './review_win.html',
+                        pageParam: {
+                            order_id: item.order_id
+                        }
+                    });
+                },
+                //筛选
+                changeNav(e) {
+                  // alert(e - 1)
+                  var ind = e - 1;
+                  //0所有订单，1未付款 ，2已付款 ，3已发货 4已收货，5退款中/已退款
+                  //all全部订单，0待付款，10待发货，20已发货，30待评价，40有退款，50已完成
+
+
+                    if (this.navActive == ind) {
+                        return
+                    }
+                    if (ind == 0) {
+                      this.status = 'all'
+                    }else if (ind == 1) {
+                      this.status = 0
+                    }else if (ind == 2) {
+                      this.status = 10
+                    }else if (ind == 3) {
+                      this.status = 20
+                    }else if (ind == 4) {
+                      this.status = 30
+                    }else if (ind == 5) {
+                      this.status = 40
+                    }else if (ind == 6) {
+                      this.status = 50
+                    }
+                    this.navActive = ind
+                    this.page = 1
+                    this.more = true
+                    this.lists = []
+                    pubshowloading()
+                    this.getLists()
+                        // alert(e)
+                }
+
+            }
+        })
+
+    };
+</script>
+
+</html>

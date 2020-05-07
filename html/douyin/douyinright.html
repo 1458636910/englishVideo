@@ -113,11 +113,11 @@
                     <i class="iconfont">&#xe615;</i>
                     <p>{{talk_count}}</p>
                 </div>
-                <div @click="goshare()">
+                <!-- <div @click="goshare()">
                     <i class="iconfont">&#xe627;</i>
                     <p>{{share_count}}</p>
-                </div>
-                <!-- <div></div> -->
+                </div> -->
+                <div style="margin-top:10vh"></div>
             </div>
         </footer>
         <!-- <footer id="footer"></footer> -->
@@ -204,10 +204,10 @@
             },
             methods: {
                 goshare() {
-                  console.log(";;;;;;;;;;;;")
                    var _this = this;
                     var facebook = api.require('facebook');
                     facebook.isInstalled(function(ret, err) {
+                      console.log(ret)
                         if (ret.installed) {
                           _this.sharefacebook()
                         } else {
