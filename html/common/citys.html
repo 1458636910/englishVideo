@@ -256,6 +256,9 @@
                 });
               },
               getCitys(){
+                if (!confirmPer('camera')) {
+                      return;
+                  }
                 var _this = this;
                 var data = {};
                 var citysdata = api.readFile({

@@ -4,103 +4,113 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-    <meta name="format-detection" content="telephone=no,email=no"/>
+    <meta name="format-detection" content="telephone=no,email=no" />
     <title>title</title>
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
     <style>
-        body,html {
+        body,
+        html {
             background: none;
         }
 
         #app {
-          background: none;
+            background: none;
             min-height: 100vh;
             padding-top: 30vh;
             box-sizing: border-box;
             /*padding-bottom: 30vw;*/
         }
-        #app.appactive{
-                background: rgba(0,0,0,.1);
-        }
-        [v-cloak]{
-          /*display: none;*/
+
+        #app.appactive {
+            background: rgba(0, 0, 0, .1);
         }
 
+        [v-cloak] {
+            display: none;
+        }
 
-        #footer{
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          width: 100%;
-          height: 12vw;
-          text-align: center;
-          line-height: 12vw;
+        #footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 12vw;
+            text-align: center;
+            line-height: 12vw;
             background: #FA607D;
         }
-        #footer div{
-          background: #FA607D;
-          color: white;
-          font-size: 20px;
-          font-weight: 700;
-        }
-        .box{
-          height: 70vh;
-          overflow: scroll;
-          background: white;
-          position: relative;
-          padding-top: 15vw;
-          box-sizing: border-box;
-          padding-bottom: 30vw;
-          border-top-right-radius: 10px;
-          border-top-left-radius: 10px;
-        }
-        .head{
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 12vw;
-          display: flex;
-          padding: 0 3vw;
-          justify-content: space-between;
-          align-items: center;
-          border-bottom: 1px solid #f5f5f5;
-        }
-        #footer{
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 12vw;
-          line-height: 12vw;
-          color: white;
-          background: #FA607D;
-        }
-        .countTop{
-          text-align: center;
-          padding: 3vw 0;
-          border-bottom: 1px solid #f5f5f5;
-        }
-        .payth{
-          padding: 3vw;
-          border-bottom: 1px solid #f5f5f5;
-        }
-        .payth p{
-          color: #999999;
-        }
-        .paythbom{
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-top: 3vw;
-          padding-bottom: 3vw;
-        }
-        .paythbom img{
-          max-height: 20px;
+
+        #footer div {
+            background: #FA607D;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
         }
 
+        .box {
+            height: 70vh;
+            overflow: scroll;
+            background: white;
+            position: relative;
+            padding-top: 15vw;
+            box-sizing: border-box;
+            padding-bottom: 30vw;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+        }
+
+        .head {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 12vw;
+            display: flex;
+            padding: 0 3vw;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        #footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 12vw;
+            line-height: 12vw;
+            color: white;
+            background: #FA607D;
+        }
+
+        .countTop {
+            text-align: center;
+            padding: 3vw 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .payth {
+            padding: 3vw;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .payth p {
+            color: #999999;
+        }
+
+        .paythbom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 3vw;
+            padding-bottom: 3vw;
+        }
+
+        .paythbom img {
+            max-height: 20px;
+        }
     </style>
 </head>
 
@@ -108,32 +118,32 @@
     <div id="app" v-cloak :class="active?'appactive':''">
 
         <div class="box">
-          <div class="head">
-            <span></span>
-            <span>Pay</span>
-            <span tapmode onclick="closeShop()">
+            <div class="head">
+                <span></span>
+                <span>Pay</span>
+                <span tapmode @click="closeShop()">
               <i class="iconfont">&#xe603;</i>
             </span>
-          </div>
-          <div class="count">
-            <div class="countTop">
-              <p>Order Amount</p>
-              <h3>￡{{money}}</h3>
             </div>
-            <div class="payth">
-              <p>Pay with</p>
-              <div class="paythbom">
-                <img src="../../image/Paypal.png" alt="">
-                <img src="../../image/chose.png" alt="">
-              </div>
+            <div class="count">
+                <div class="countTop">
+                    <p>Order Amount</p>
+                    <h3>￡{{money}}</h3>
+                </div>
+                <div class="payth">
+                    <p>Pay with</p>
+                    <div class="paythbom">
+                        <img src="../../image/Paypal.png" alt="">
+                        <img src="../../image/chose.png" alt="">
+                    </div>
+                </div>
             </div>
-          </div>
-        <footer id="footer" @click="sure()">
-          <div>
-            Confirm and Pay
-          </div>
-        </footer>
-          <!-- <div class="list">
+            <footer id="footer" @click="sure()">
+                <div>
+                    Confirm and Pay
+                </div>
+            </footer>
+            <!-- <div class="list">
             <div class="listl">
               <img src="../../image/shop.png" alt="">
             </div>
@@ -150,8 +160,8 @@
               </div>
             </div>
           </div> -->
-      </div>
-      <!-- <footer id="footer" @click="sure()">
+        </div>
+        <!-- <footer id="footer" @click="sure()">
         <div>
           Comfirm Add
         </div>
@@ -165,133 +175,140 @@
 <script src="../../script/vue.min.js"></script>
 <script src="../../script/commonurl.js"></script>
 <script type="text/javascript">
-var app;
+    var app;
     apiready = function() {
-    $api.fixTabBar($api.byId('footer'))
+        $api.fixTabBar($api.byId('footer'))
         app = new Vue({
             el: '#app',
             data() {
                 return {
-                  lists:[],
-                  active:false,
-                  choseArry:[],
-                  money:0,
-                  videoid:'',
+                    lists: [],
+                    active: false,
+                    choseArry: [],
+                    money: 0,
+                    videoid: '',
                 }
             },
-            mounted:function () {
-                setTimeout(()=>{
-                  this.active = true
-                },500)
+            mounted: function() {
+                setTimeout(() => {
+                    this.active = true
+                }, 500)
             },
             created() {
-              this.money = api.pageParam.money
-              this.videoid = api.pageParam.id
+                this.money = api.pageParam.money
+                this.videoid = api.pageParam.id
             },
             methods: {
-              sure(){
-                pubshowloading()
-                var data = {
-                  video_id:this.videoid
-                };
-                var _this = this;
-                requstPost('order/video',data,function success(ret){
-                  if (ret.code == 0) {
-                    console.log(ret.data.pay_url);
-                    var pay_url = ret.data.pay_url;
-                    // alert(pay_url)
-                    goPaypalUrl(ret.data.pay_url)
-                    api.setPrefs({
-                        key: 'payType',
-                        value: 'video'
-                    });
-                    api.setPrefs({
-                        key: 'payStatus',
-                        value: 'paying'
-                    });
-                    api.execScript({
-                        name: 'douyin_win',
-                        // frameName: 'frmName',
-                        script: 'pausePlay();'
-                    });
-                    api.closeFrame();
-                  }else if (ret.code == 1) {
-                    _this.active = false
-                    //支付成功，开始播放
-                    api.execScript({
-                        name: 'douyin_win',
-                        // frameName: 'frmName',
-                        script: 'startPlay();'
-                    });
-                    api.closeFrame();
-                  }
-                },function fail(err){
+              closeShop() {
+                  api.closeFrame();
+                  api.execScript({
+                      name: 'douyin_win',
+                      // frameName: 'frmName',
+                      script: 'isMoney();'
+                  });
+              },
+                sure() {
+                    pubshowloading()
+                    var data = {
+                        video_id: this.videoid
+                    };
+                    var _this = this;
+                    requstPost('order/video', data, function success(ret) {
+                        if (ret.code == 0) {
+                            console.log(ret.data.pay_url);
+                            var pay_url = ret.data.pay_url;
+                            // alert(pay_url)
+                            goPaypalUrl(ret.data.pay_url)
+                            api.setPrefs({
+                                key: 'payType',
+                                value: 'video'
+                            });
+                            api.setPrefs({
+                                key: 'payStatus',
+                                value: 'paying'
+                            });
+                            api.execScript({
+                                name: 'douyin_win',
+                                // frameName: 'frmName',
+                                script: 'pausePlay();'
+                            });
+                            api.closeFrame();
+                        } else if (ret.code == 1) {
+                            _this.active = false
+                                //支付成功，开始播放
+                            api.execScript({
+                                name: 'douyin_win',
+                                // frameName: 'frmName',
+                                script: 'startPlay();'
+                            });
+                            api.closeFrame();
+                        }
+                    }, function fail(err) {
 
-                })
+                    })
 
-                return
-                var _this = this;
-                var paypal = api.require('paypal');
-                paypal.pay({
-                    currency: 'USD',
-                    price: '36.06',
-                    description: '短袖T恤',
-                    mode: 'sandbox',//production：线上环境，真实扣款
-                    // language:'zh-Hans'
-                }, function(ret) {
-                    if (ret) {
-                      if (ret.state == 'cancel') {
-                        //用户取消支付
-                        api.alert({
-                            title:'',
-                            msg: 'Cancel payment',
-                            buttons:['Sure']
-                        });
-                      }else if (ret.state == 'fail') {
-                        //支付失败
-                        api.alert({
-                          title:'',
-                            msg: 'Payment failed'
-                            buttons:['Sure']
-                        });
-                      }else if (ret.state == 'success') {
-                        //支付成功
-                        api.alert({
-                          title:'',
-                            msg: 'Payment Successful'
-                            buttons:['Sure']
-                        });
-                      }
-                      _this.active = false
-                      //支付成功，开始播放
-                      api.execScript({
-                          name: 'douyin_win',
-                          // frameName: 'frmName',
-                          script: 'startPlay();'
-                      });
-                      api.closeFrame();
-                      console.log('支付结果：'+JSON.stringify(ret));
-                    }
-                });
+                    return
+                    var _this = this;
+                    var paypal = api.require('paypal');
+                    paypal.pay({
+                        currency: 'USD',
+                        price: '36.06',
+                        description: '短袖T恤',
+                        mode: 'sandbox', //production：线上环境，真实扣款
+                        // language:'zh-Hans'
+                    }, function(ret) {
+                        if (ret) {
+                            if (ret.state == 'cancel') {
+                                //用户取消支付
+                                api.alert({
+                                    title: '',
+                                    msg: 'Cancel payment',
+                                    buttons: ['Sure']
+                                });
+                            } else if (ret.state == 'fail') {
+                                //支付失败
+                                api.alert({
+                                    title: '',
+                                    msg: 'Payment failed',
+                                    buttons: ['Sure']
+                                })
+                            } else if (ret.state == 'success') {
+                                //支付成功
+                                api.alert({
+                                    title: '',
+                                    msg: 'Payment Successful',
+                                    buttons: ['Sure']
+                                });
+                            }
+                            _this.active = false
+                                //支付成功，开始播放
+                            api.execScript({
+                                name: 'douyin_win',
+                                // frameName: 'frmName',
+                                script: 'startPlay();'
+                            });
+                            api.closeFrame();
+                            console.log('支付结果：' + JSON.stringify(ret));
+                        }
+                    });
 
 
-              }
+                }
 
 
             }
         })
 
     };
-    function closeShop(){
-      api.closeFrame();
-      api.execScript({
-          name: 'douyin_win',
-          // frameName: 'frmName',
-          script: 'isMoney();'
-      });
 
-
-    }
+    // function closeShop() {
+    //     api.closeFrame();
+    //     api.execScript({
+    //         name: 'douyin_win',
+    //         // frameName: 'frmName',
+    //         script: 'isMoney();'
+    //     });
+    // }
 </script>
 
 </html>
