@@ -253,6 +253,13 @@
          .iagree{
            color: #999999;
          }
+         .empty{
+           display: block;
+         }
+         .empty>div{
+           box-sizing: border-box;
+           padding-top:10vh;
+         }
     </style>
 </head>
 
@@ -268,6 +275,7 @@
           </div>
 
             <div class="empty" v-if="lists.length == 0">
+              <div>Your cart is empty</div>
               <img src="../../image/empty.png" alt="">
             </div>
         <div class="lists" v-if="lists.length > 0">

@@ -102,29 +102,37 @@
     };
     function openpage() {
 
+        // api.openFrame({
+        //     name: 'allcates',
+        //     url: 'allcates.html',
+        //     rect: {
+        //         x: 0,
+        //         y: $api.dom('header').offsetHeight - 1,
+        //         w: api.winWidth,
+        //         h: $api.dom('#main').offsetHeight,
+        //         // h: api.winHeight -  $api.dom('header').offsetHeight+1,
+        //
+        //     },
+        //     bounces: true,
+        //     bgColor: '#fff',
+        //     vScrollBarEnabled: false,
+        //     hScrollBarEnabled: true
+        // });
         api.openFrame({
-            name: 'allcates',
-            url: 'allcates.html',
+            name: 'allcatesright',
+            url: 'allcatesright.html',
+            // rect: {
+            //     x: api.winWidth/4,
+            //     y: $api.dom('header').offsetHeight - 1,
+            //     w: api.winWidth*3/4,
+            //     h: $api.dom('#main').offsetHeight,
+            //     // h: api.winHeight -  $api.dom('header').offsetHeight+1,
+            //
+            // },
             rect: {
                 x: 0,
                 y: $api.dom('header').offsetHeight - 1,
                 w: api.winWidth,
-                h: $api.dom('#main').offsetHeight,
-                // h: api.winHeight -  $api.dom('header').offsetHeight+1,
-
-            },
-            bounces: true,
-            bgColor: '#fff',
-            vScrollBarEnabled: false,
-            hScrollBarEnabled: true
-        });
-        api.openFrame({
-            name: 'allcatesright',
-            url: 'allcatesright.html',
-            rect: {
-                x: api.winWidth/4,
-                y: $api.dom('header').offsetHeight - 1,
-                w: api.winWidth*3/4,
                 h: $api.dom('#main').offsetHeight,
                 // h: api.winHeight -  $api.dom('header').offsetHeight+1,
 
