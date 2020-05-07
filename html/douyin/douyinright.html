@@ -4,14 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-    <meta name="format-detection" content="telephone=no,email=no"/>
+    <meta name="format-detection" content="telephone=no,email=no" />
     <title>title</title>
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
     <link rel="stylesheet" type="text/css" href="../../css/animate.min.css" />
     <style>
-        body,html {
-          background: none;
+        body,
+        html {
+            background: none;
         }
 
         #app {
@@ -19,94 +20,107 @@
             /*min-height: 100vh;*/
             box-sizing: border-box;
         }
-        [v-cloak]{
-          /*display: none;*/
+
+        [v-cloak] {
+            /*display: none;*/
         }
-        #footerr{
-          position: fixed;
-          right: 0;
-          bottom: 0;
+
+        #footerr {
+            position: fixed;
+            right: 0;
+            bottom: 0;
         }
-        .footer{
-          color: white;
+
+        .footer {
+            color: white;
         }
-        .headBox{
-          position: relative;
+
+        .headBox {
+            position: relative;
         }
-        .head{
-          width: 100vw;
-          height: 100vw;
-          border-radius: 50vw;
+
+        .head {
+            width: 100vw;
+            height: 100vw;
+            border-radius: 50vw;
         }
-        .head img{
-          width: 100vw;
-          height: 100vw;
-          border-radius: 50vw;
+
+        .head img {
+            width: 100vw;
+            height: 100vw;
+            border-radius: 50vw;
         }
-        .gz{
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          margin: auto;
-          width: 20px;
-          height: 20px;
-          line-height: 20px;
-          background: #FA607D;
-          border-radius: 10px;
-          transform: translateY(-5px);
+
+        .gz {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            background: #FA607D;
+            border-radius: 10px;
+            transform: translateY(-5px);
         }
-        .footerr{
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          color: white;
+
+        .footerr {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
         }
-        .footerr{
-          /*padding-bottom: 3vw;*/
+
+        .footerr {
+            /*padding-bottom: 3vw;*/
         }
-        .footerr div{
-          text-align: center;
-          margin-bottom: 30vw;
+
+        .footerr div {
+            text-align: center;
+            margin-bottom: 30vw;
         }
-        .footerr div:last-child{
-          margin-bottom: 0;
+
+        .footerr div:last-child {
+            margin-bottom: 0;
         }
-        .footerr .iconfont{
-          font-size: 70vw;
+
+        .footerr .iconfont {
+            font-size: 70vw;
         }
-        .fav{
-          color: red;
+
+        .fav {
+            color: red;
         }
     </style>
 </head>
 
 <body>
     <div id="app" v-cloak>
-      <footer id="footerr">
-        <div class="footerr" id="footer">
-          <div class="headBox">
-            <div class="head" @click="goanchor()">
-              <img :src="avatar_url" alt="">
+        <footer id="footerr">
+            <div class="footerr" id="footer">
+                <div class="headBox">
+                    <div class="head" @click="goanchor()">
+                        <img :src="avatar_url" alt="">
+                    </div>
+                    <span @click.stop="gzFn()" class="gz" v-if="focus_anchor_status == 0">+</span>
+                </div>
+                <div @click="favClick()" id="animationSandbox" onclick="doAnimate()">
+                    <i class="iconfont" :class="fav_video_status == 1?'fav':''">&#xe60c;</i>
+                    <p>{{fav_count}}</p>
+                </div>
+                <div @click="showPl()">
+                    <i class="iconfont">&#xe615;</i>
+                    <p>{{talk_count}}</p>
+                </div>
+                <div @click="goshare()">
+                    <i class="iconfont">&#xe627;</i>
+                    <p>{{share_count}}</p>
+                </div>
+                <!-- <div></div> -->
             </div>
-            <span @click.stop="gzFn()" class="gz" v-if="focus_anchor_status == 0">+</span>
-          </div>
-          <div @click="favClick()" id="animationSandbox" onclick="doAnimate()">
-            <i class="iconfont" :class="fav_video_status == 1?'fav':''">&#xe60c;</i>
-            <p>{{fav_count}}</p>
-          </div>
-          <div @click="showPl()">
-            <i class="iconfont">&#xe615;</i>
-            <p>{{talk_count}}</p>
-          </div>
-          <div @click="goshare()">
-            <i class="iconfont">&#xe627;</i>
-            <p>{{share_count}}</p>
-          </div>
-          <!-- <div></div> -->
-        </div>
-      </footer>
-      <!-- <footer id="footer"></footer> -->
+        </footer>
+        <!-- <footer id="footer"></footer> -->
     </div>
 
 </body>
@@ -116,47 +130,48 @@
 <script src="../../script/commonurl.js"></script>
 <script src="../../script/jquery.min.js"></script>
 <script type="text/javascript">
-var app;
-function doAnimate(){
-  if ($api.getStorage('islogin') != 'true') {
-    userIslogin()
-    api.execScript({
-        name: 'douyin_win',
-        // frameName: 'frmName',
-        script: 'pausePlay();'
-    });
-    return
-  }
-  var _this = this;
-  var data = {
-    video_id:app.videoid
-  };
-  requstPost('video/favorite',data,function success(ret){
-    if (ret.code == 0) {
-      app.fav_video_status = ret.data.fav_status
-      app.fav_count = ret.data.fav_count
-      api.execScript({
-          name: 'douyin_win',
-          // frameName: 'frmName',
-          script: 'setlike("'+ret.data.fav_status+'","'+ret.data.fav_count+'");'
-      });
+    var app;
+
+    function doAnimate() {
+        if ($api.getStorage('islogin') != 'true') {
+            userIslogin()
+            api.execScript({
+                name: 'douyin_win',
+                // frameName: 'frmName',
+                script: 'pausePlay();'
+            });
+            return
+        }
+        var _this = this;
+        var data = {
+            video_id: app.videoid
+        };
+        requstPost('video/favorite', data, function success(ret) {
+            if (ret.code == 0) {
+                app.fav_video_status = ret.data.fav_status
+                app.fav_count = ret.data.fav_count
+                api.execScript({
+                    name: 'douyin_win',
+                    // frameName: 'frmName',
+                    script: 'setlike("' + ret.data.fav_status + '","' + ret.data.fav_count + '");'
+                });
+            }
+
+
+        }, function fail(err) {
+
+        })
+        if (app.fav_video_status == 0) {
+            $('#animationSandbox').removeClass().addClass('rubberBand' + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                $(this).removeClass();
+            });
+        }
+
     }
-
-
-  },function fail(err){
-
-  })
-  if (app.fav_video_status == 0) {
-    $('#animationSandbox').removeClass().addClass('rubberBand' + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-      $(this).removeClass();
-    });
-  }
-
-}
     apiready = function() {
-      $api.fixTabBar($api.byId('footerr'));
+        $api.fixTabBar($api.byId('footerr'));
         $api.fixTabBar($api.byId('footer'));
-        console.log('高度'+$api.dom('#footer').offsetHeight);
+        console.log('高度' + $api.dom('#footer').offsetHeight);
         if ($api.dom('#footer').offsetHeight) {
 
         }
@@ -164,183 +179,209 @@ function doAnimate(){
             el: '#app',
             data() {
                 return {
-                  share_count:'',
-                  avatar_url:'',
-                  talk_count:'',
-                  fav_count:'',
-                  focus_anchor_status:0,
-                  fav_video_status:0,
-                  videoid:'',
-                  animate:false,
-                  anchor_id:'',
-                  goperson:false,
+                    share_count: '',
+                    avatar_url: '',
+                    talk_count: '',
+                    fav_count: '',
+                    focus_anchor_status: 0,
+                    fav_video_status: 0,
+                    videoid: '',
+                    animate: false,
+                    anchor_id: '',
+                    goperson: false,
                 }
             },
             created() {
-              this.fav_count = api.pageParam.fav_count
-              this.avatar_url = api.pageParam.avatar_url
-              this.share_count = api.pageParam.share_count
-              this.talk_count = api.pageParam.talk_count
-              this.focus_anchor_status = api.pageParam.focus_anchor_status
-              this.fav_video_status = api.pageParam.fav_video_status
-              this.videoid = api.pageParam.videoid
-              this.anchor_id = api.pageParam.anchor_id
-              this.upData()
+                this.fav_count = api.pageParam.fav_count
+                this.avatar_url = api.pageParam.avatar_url
+                this.share_count = api.pageParam.share_count
+                this.talk_count = api.pageParam.talk_count
+                this.focus_anchor_status = api.pageParam.focus_anchor_status
+                this.fav_video_status = api.pageParam.fav_video_status
+                this.videoid = api.pageParam.videoid
+                this.anchor_id = api.pageParam.anchor_id
+                this.upData()
             },
             methods: {
-              goshare(){
-                return
-                var facebook = api.require('facebook');
+                goshare() {
+                  console.log(";;;;;;;;;;;;")
+                   var _this = this;
+                    var facebook = api.require('facebook');
+                    facebook.isInstalled(function(ret, err) {
+                        if (ret.installed) {
+                          _this.sharefacebook()
+                        } else {
+                          api.toast({
+                              msg: 'Facebook is not installed on the current device',
+                              duration: 2000,
+                              location: 'middle'
+                          });
+                        }
+                    });
 
-                // return
-  //   facebook.refreshToken(function(ret){
-  //        if(ret.status) {
-  //          api.alert({msg:'刷新成功'});
-  //        } else {
-  //          alert('刷新失败');
-  //        }
-  //  });
-  //  return
-  //               var facebook = api.require('facebook');
-  //   facebook.getCurrentToken(function(ret){
-  //        if(ret.isLogin) {
-  //          api.alert({msg:JSON.stringify(ret)});
-  //        } else {
-  //          alert('尚未登录');
-  //        }
-  //  });
-  //               return
-   //
-  //               var facebook = api.require('facebook');
-  //               facebook.login({
-  //     appId: ''
-  //   },function(ret, err){
-  //        if(ret.status) {
-  //          api.alert({msg:JSON.stringify(ret)});
-  //        } else {
-  //           api.alert({msg:JSON.stringify(err)});
-  //        }
-  //  });
-  //  return
-    facebook.shareLinked({
-        url: 'http://www.apicloud.com/index?uzchannel=6',
-        imgUrl: 'http://p6.sinaimg.cn/2823006341/180/51101340154713',
-        description: 'app 跨平台开发工具',
-        title: 'APICloud',
-        quote: 'very good'
-    }, function(ret, err){
-         if(ret.status) {
+                },
+                sharefacebook(){
+                  facebook.refreshToken(function(ret) {
+                      if (ret.status) {
+                          api.alert({
+                              msg: '刷新成功'
+                          });
+                      } else {
+                          alert('刷新失败');
+                      }
+                  });
+                  return
+                  var facebook = api.require('facebook');
+                  facebook.getCurrentToken(function(ret) {
+                      if (ret.isLogin) {
+                          api.alert({
+                              msg: JSON.stringify(ret)
+                          });
+                      } else {
+                          alert('尚未登录');
+                      }
+                  });
+                  return
 
-           api.alert({msg:JSON.stringify(ret)});
-         } else {
-            api.alert({msg:JSON.stringify(err)});
-         }
-   });
-              },
-              upData(){
-                var _this = this
-                api.addEventListener({
-                    name: 'viewappear'
-                }, function(ret, err) {
-                  if (_this.goperson) {
+                  var facebook = api.require('facebook');
+                  facebook.login({
+                      appId: ''
+                  }, function(ret, err) {
+                      if (ret.status) {
+                          api.alert({
+                              msg: JSON.stringify(ret)
+                          });
+                      } else {
+                          api.alert({
+                              msg: JSON.stringify(err)
+                          });
+                      }
+                  });
+                  return
+                  facebook.shareLinked({
+                      url: 'http://www.apicloud.com/index?uzchannel=6',
+                      imgUrl: 'http://p6.sinaimg.cn/2823006341/180/51101340154713',
+                      description: 'app 跨平台开发工具',
+                      title: 'APICloud',
+                      quote: 'very good'
+                  }, function(ret, err) {
+                      if (ret.status) {
+
+                          api.alert({
+                              msg: JSON.stringify(ret)
+                          });
+                      } else {
+                          api.alert({
+                              msg: JSON.stringify(err)
+                          });
+                      }
+                  });
+                },
+                upData() {
+                    var _this = this
+                    api.addEventListener({
+                        name: 'viewappear'
+                    }, function(ret, err) {
+                        if (_this.goperson) {
+                            api.execScript({
+                                name: 'douyin_win',
+                                // frameName: 'frmName',
+                                script: 'startPlay();'
+                            });
+                        }
+                    });
+                },
+                //查看主播
+                goanchor() {
                     api.execScript({
                         name: 'douyin_win',
                         // frameName: 'frmName',
-                        script: 'startPlay();'
+                        script: 'pausePlay();'
                     });
-                  }
-                });
-              },
-              //查看主播
-              goanchor(){
-                api.execScript({
-                    name: 'douyin_win',
-                    // frameName: 'frmName',
-                    script: 'pausePlay();'
-                });
-                this.goperson = true
+                    this.goperson = true
 
-                api.openWin({
-                    name: 'person_win',
-                    url: '../person/person_win.html',
-                    pageParam: {
-                        id: api.pageParam.anchor_id
+                    api.openWin({
+                        name: 'person_win',
+                        url: '../person/person_win.html',
+                        pageParam: {
+                            id: api.pageParam.anchor_id
+                        }
+                    });
+
+                },
+                gzFn() {
+                    if ($api.getStorage('islogin') != 'true') {
+                        api.execScript({
+                            name: 'douyin_win',
+                            // frameName: 'frmName',
+                            script: 'pausePlay();'
+                        });
+                        userIslogin()
+                        return
                     }
-                });
+                    var _this = this;
+                    var data = {
+                        anchor_id: _this.anchor_id
+                    };
+                    requstPost('user/followAnchor', data, function success(ret) {
+                        if (ret.code == 0) {
+                            _this.focus_anchor_status = ret.data.focus_status
+                        }
+                    }, function fail(err) {
 
-              },
-              gzFn(){
-                if ($api.getStorage('islogin') != 'true') {
-                  api.execScript({
-                      name: 'douyin_win',
-                      // frameName: 'frmName',
-                      script: 'pausePlay();'
-                  });
-                  userIslogin()
-                  return
+                    })
+                },
+                //更新评论数量
+                setNums(e) {
+                    this.talk_count = e
+                },
+                //喜欢/不喜欢
+                favClick() {
+                    // var _this = this;
+                    // var data = {
+                    //   video_id:_this.videoid
+                    // };
+                    // requstPost('video/favorite',data,function success(ret){
+                    //   _this.fav_video_status = ret.data.fav_status
+                    //   _this.fav_count = ret.data.fav_count
+                    //   api.execScript({
+                    //       name: 'douyin_win',
+                    //       // frameName: 'frmName',
+                    //       script: 'setlike("'+ret.data.fav_status+'","'+ret.data.fav_count+'");'
+                    //   });
+                    //
+                    // },function fail(err){
+                    //
+                    // })
+                },
+                setInfo(avatar_url, fav_count, talk_count, share_count, focus_anchor_status, fav_video_status, videoid, anchor_id) {
+                    this.share_count = share_count
+                    this.talk_count = talk_count
+                    this.fav_count = fav_count
+                    this.avatar_url = avatar_url
+                    this.focus_anchor_status = focus_anchor_status
+                    this.fav_video_status = fav_video_status
+                    this.videoid = videoid
+                    this.anchor_id = anchor_id
+                        // alert(videoid)
+                },
+                showPl() {
+                    api.execScript({
+                        name: 'douyin_win',
+                        // frameName: 'frmName',
+                        script: 'showPl();'
+                    });
+
                 }
-                var _this = this;
-                var data = {
-                  anchor_id:_this.anchor_id
-                };
-                requstPost('user/followAnchor',data,function success(ret){
-                  if (ret.code == 0) {
-                    _this.focus_anchor_status = ret.data.focus_status
-                  }
-                },function fail(err){
-
-                })
-              },
-              //更新评论数量
-              setNums(e){
-                this.talk_count = e
-              },
-              //喜欢/不喜欢
-              favClick(){
-                // var _this = this;
-                // var data = {
-                //   video_id:_this.videoid
-                // };
-                // requstPost('video/favorite',data,function success(ret){
-                //   _this.fav_video_status = ret.data.fav_status
-                //   _this.fav_count = ret.data.fav_count
-                //   api.execScript({
-                //       name: 'douyin_win',
-                //       // frameName: 'frmName',
-                //       script: 'setlike("'+ret.data.fav_status+'","'+ret.data.fav_count+'");'
-                //   });
-                //
-                // },function fail(err){
-                //
-                // })
-              },
-              setInfo(avatar_url,fav_count,talk_count,share_count,focus_anchor_status,fav_video_status,videoid,anchor_id){
-                this.share_count = share_count
-                this.talk_count = talk_count
-                this.fav_count = fav_count
-                this.avatar_url = avatar_url
-                this.focus_anchor_status = focus_anchor_status
-                this.fav_video_status = fav_video_status
-                this.videoid = videoid
-                this.anchor_id = anchor_id
-                // alert(videoid)
-              },
-              showPl(){
-                api.execScript({
-                    name: 'douyin_win',
-                    // frameName: 'frmName',
-                    script: 'showPl();'
-                });
-
-              }
 
 
             }
         })
 
     };
-    function closeWin(){
-      api.closeWin();
+
+    function closeWin() {
+        api.closeWin();
     }
 </script>
 
