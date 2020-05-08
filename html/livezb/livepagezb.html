@@ -601,14 +601,14 @@
                       fixedOn: api.frameName
                   }, function(ret, err) {
                       if (ret) {
-                          if (ret.msg != '') {
-                              console.log(ret.msg + 'end');
-                              // _this.sendPl(ret.msg)
+                          if (ret.message != '') {
+                              console.log(ret.message + 'end');
+                              // _this.sendPl(ret.message)
                               inputField.resignFirstResponder();
                               api.sendEvent({
                                   name: 'livechatzbText',
                                   extra: {
-                                      msg: ret.msg,
+                                      msg: ret.message,
                                   }
                               });
                           }

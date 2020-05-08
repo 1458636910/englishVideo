@@ -657,17 +657,17 @@
                       if (ret) {
                           //发送
                           if (ret.eventType == 'send') {
-                              if (ret.msg != '') {
+                              if (ret.message != '') {
                                   var obj = {
                                           position: 'right',
                                           message_type:0,
-                                          content: ret.msg,
+                                          content: ret.message,
                                           avatar_url: $api.getStorage('headimg'),
                                           sort_time:0,
                                           create_time:''
                                       };
                                       var data = {
-                                        message:ret.msg,
+                                        message:ret.message,
                                         chat_group_id:api.pageParam.chat_group_id
                                       };
                                       console.log(JSON.stringify(data))
@@ -688,7 +688,7 @@
                                       })
 
 
-                                      // _this.sendSocketMes(1,ret.msg)
+                                      // _this.sendSocketMes(1,ret.message)
                                       // alert($api.getStorage('headimg'))
                                   // _this.lists.push(obj)
                               }

@@ -410,8 +410,10 @@
                     requstPost('auth/login',data,function success(ret){
                       // datadebug(ret)
                       if (ret.code == 0) {
+                        console.log(ret.data)
                         $api.setStorage('islogin', 'true');
                         $api.setStorage('token', ret.data.token);
+                        $api.setStorage('email',_this.phone);
                         api.execScript({
                             name: 'root',
                             // frameName: 'frmName',

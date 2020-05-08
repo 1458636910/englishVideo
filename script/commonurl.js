@@ -2,6 +2,7 @@
 var url = 'http://ym.s.li4.cn/api/'    //测试地址
 
 var socketUrl = 'http://ym.s.li4.cn:9501/'
+var shareurl = 'http://ym.s.li4.cn/register/'   //前台分享的链接地址
 // var socketUrl = 'http://chat.tao.li4.cn:9501/'
 // var socketUrl = 'http://192.168.124.39:9501/'
 // var url = 'http://192.168.31.14:81/'
@@ -245,7 +246,7 @@ function requstPost(apiUrl,data,success,fail){
       }else {
         //err
         api.toast({
-            msg: err.msg,
+            msg: err.message,
             duration: 2000,
             location: 'middle'
         });

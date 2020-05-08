@@ -366,11 +366,9 @@
               //更新验证码
               changeCode(){
                 verifyCode = new GVerify("v_container");
-                console.log(JSON.stringify(verifyCode));
               },
               register(){
                 var _this = this;
-                console.log(verifyCode.validate(document.getElementById("yanzheng").value));
                 if (!verifyCode.validate(document.getElementById("yanzheng").value)) {
                   api.toast({
                       msg: 'Graphic code error',

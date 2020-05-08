@@ -72,7 +72,7 @@
     <div id="app" v-cloak>
         <div class="inviteBox">
             <h3>NailVision</h3>
-            <div class="link">ciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJsYXN0X2xvZ2luX2lwIjoiMjI</div>
+            <div class="link">{{url}}</div>
             <div class="btn">
                 <div class="copy" @click="copy">Copy</div>
                 <div class="share" @click="goShare">Share</div>
@@ -92,23 +92,34 @@
             el: '#app',
             data() {
                 return {
-
+                     url:'',  //分享的链接
                 }
             },
             created() {
-
+                var url = shareurl+'?invite='+$api.getStorage('email');
+                this.url = url
             },
             methods: {
                 //保存
                 copy() {
                     var clipBoard = api.require('clipBoard');
                     clipBoard.set({
-                        value: 'test'
+                        value: this.url
                     }, function(ret, err) {
                         if (ret) {
-                            alert(JSON.stringify(ret));
+                          if(ret.status){
+                            api.toast({
+                                msg: 'Copy successful',
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                          }
                         } else {
-                            alert(JSON.stringify(err));
+                            api.toast({
+                                msg: err.msg,
+                                duration: 2000,
+                                location: 'middle'
+                            });
                         }
                     });
                 },
