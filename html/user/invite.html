@@ -144,20 +144,19 @@
                     console.log("==============")
                         // pubshowloading()
                     var _this = this
-                    var facebook = api.require('mobSharePlus');
+                    var facebook = api.require('facebook');
                     console.log(JSON.stringify(facebook))
-                    facebook.shareTo({
-                        target: 'facebook',
-                        title: '北京新鲜事',
-                        titleUrl: 'http://www.apicloud.com',
-                        text: '这里是测试的内容',
-                        imgPaths: ['widget://res/slide1.jpg'],
-                        url: 'http://www.apicloud.com',
-                    }, function(ret, err) {
-                        if (ret.status) {
-                            api.alert({
-                                msg: JSON.stringify(ret)
+                    facebook.isInstalled(function(ret, err) {
+                        if (ret.installed) {
+                            console.log(";;;;;;;;;;;;;")
+                            this.fbShare()
+                        } else {
+                            api.toast({
+                                msg: 'Facebook is not installed on the current device',
+                                duration: 2000,
+                                location: 'middle'
                             });
+
                         }
                     });
 
@@ -167,24 +166,24 @@
                 fbShare() {
                     var facebook = api.require('facebook');
                     facebook.shareLinked({
-                        url: this.url,
+                        url:this.url,
                         // imgUrl: 'http://p6.sinaimg.cn/2823006341/180/51101340154713',
                         // description: 'app 跨平台开发工具',
                         // title: 'APICloud',
                         quote: 'very good'
                     }, function(ret, err) {
                         if (ret.status) {
-                            api.toast({
-                                msg: 'Share success',
-                                duration: 2000,
-                                location: 'middle'
-                            });
+                          api.toast({
+                              msg: 'Share success',
+                              duration: 2000,
+                              location: 'middle'
+                          });
                         } else {
-                            api.toast({
-                                msg: err.msg,
-                                duration: 2000,
-                                location: 'middle'
-                            });
+                          api.toast({
+                              msg:err.msg,
+                              duration: 2000,
+                              location: 'middle'
+                          });
                         }
                     });
                 },
