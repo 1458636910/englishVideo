@@ -141,7 +141,7 @@
                 },
                 //验证fb
                 verifyFb() {
-                    console.log("==============")
+                    console.log("=============="+this.url)
                         // pubshowloading()
                     var _this = this
                     var facebook = api.require('facebook');
@@ -160,8 +160,9 @@
                 //fb分享
                 fbShare() {
                     var facebook = api.require('facebook');
+                    var _this =this;
                     facebook.shareLinked({
-                        url:this.url,
+                        url:_this.url,
                         // imgUrl: 'http://p6.sinaimg.cn/2823006341/180/51101340154713',
                         // description: 'app 跨平台开发工具',
                         // title: 'APICloud',
