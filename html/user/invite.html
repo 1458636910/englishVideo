@@ -92,12 +92,13 @@
             el: '#app',
             data() {
                 return {
-                     url:'',  //分享的链接
+                    url: '', //分享的链接
+                    fbHas: '', //是否安装fb
                 }
             },
             created() {
-                var url = shareurl+'?invite='+$api.getStorage('email');
-                this.url = url
+                var url = shareurl + '?invite=' + $api.getStorage('email');
+                this.url = url;
             },
             methods: {
                 //保存
@@ -107,13 +108,13 @@
                         value: this.url
                     }, function(ret, err) {
                         if (ret) {
-                          if(ret.status){
-                            api.toast({
-                                msg: 'Copy successful',
-                                duration: 2000,
-                                location: 'middle'
-                            });
-                          }
+                            if (ret.status) {
+                                api.toast({
+                                    msg: 'Copy successful',
+                                    duration: 2000,
+                                    location: 'middle'
+                                });
+                            }
                         } else {
                             api.toast({
                                 msg: err.msg,
@@ -125,6 +126,7 @@
                 },
                 //分享
                 goShare() {
+                    var _this = this;
                     api.actionSheet({
                         title: '',
                         cancelTitle: 'Cancel',
@@ -133,10 +135,86 @@
                     }, function(ret, err) {
                         var ind = ret.buttonIndex;
                         if (ind == 1) {
+                            _this.verifyFb()
+                        }
+                    });
+                },
+                //验证fb
+                verifyFb() {
+                  console.log("==============")
+                    pubshowloading()
+                    var _this = this
+                    var facebook = api.require('facebook');
+                    facebook.isInstalled(function(ret, err) {
+                        if (ret.installed) {
+                          console.log(";;;;;;;;;;;;;")
+                            this.fbLogin()
+                        } else {
+                            api.toast({
+                                msg: 'Facebook is not installed on the current device',
+                                duration: 2000,
+                                location: 'middle'
+                            });
 
                         }
                     });
-                }
+
+
+                },
+                //fb登录
+                fbLogin() {
+                    facebook.login({
+                        appId: '473277930026882',
+                        // permissions:['email']
+                        permissions: ['public_profile', 'email', 'user_birthday', 'user_gender']
+                    }, function(ret, err) {
+                        alert(ret)
+                        alert(err)
+                        pubhideloading()
+                        if (ret.status) {
+                            if (ret.isCancelled) {
+                                //用户取消授权
+                                api.toast({
+                                    msg: 'Cancel login',
+                                    duration: 2000,
+                                    location: 'middle'
+                                });
+
+                            } else {
+                                pubshowloading()
+                                    //获取用户信息
+                                facebook.getUserInfo({
+                                    parameters: {
+                                        fields: 'email,id,first_name,last_name,name,gender,birthday,picture.type(large)'
+                                    }
+                                }, function(ret, err) {
+                                    pubhideloading()
+                                    if (ret.status) {
+                                        // api.alert({
+                                        //     msg: JSON.stringify(ret)
+                                        // });
+                                        var facebook_data = ret.result;
+                                        console.log(JSON.stringify(ret.result));
+                                        var facedata = JSON.stringify(ret.result);
+                                        //发送后台
+                                        _this.sendServerData(facedata)
+                                    } else {
+                                        console.log(JSON.stringify(err))
+                                    }
+                                });
+                            }
+                            //保存facebook Token
+                            $api.setStorage('facebookToken', ret.token);
+                        } else {
+                            console.log(JSON.stringify(err))
+                                // api.alert({
+                                //     msg: JSON.stringify(err)
+                                // });
+                        }
+                    });
+                },
+
+
             }
         })
 
