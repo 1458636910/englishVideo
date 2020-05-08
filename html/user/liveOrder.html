@@ -276,60 +276,6 @@
                   var _el = 'count' + "_" + this.refreshCount + "_" + id;
                   var ds = new countdown({el:_el,ed:time});
               },
-              //查看详情
-              goshopDetail(id) {
-                requstGet('product/detail',{id:id},function success(ret){
-                  if(ret.code==0){
-                    api.openWin({
-                        name: 'shopdetail_win',
-                        url: '../common/shopdetail_win.html',
-                        pageParam: {
-                            name: 'test',
-                            id: id
-                        }
-                    });
-                  }else{
-
-                  }
-                })
-              },
-              //争议申请
-              dispute(ite,ind){
-                var _this = this;
-                var data = {
-                  order_id:ite.order_id
-                };
-                requstPost('user/orderDispute',data,function success(ret){
-                  if (ret.code == 0) {
-                    _this.lists[ind].pay_status = 40
-                    _this.lists[ind].refund_status = 40
-                    // alert(ret.message)
-                  }
-                },function fail(err){
-
-                })
-              },
-              //订单确认
-              orderSure(ite,ind){
-                pubshowloading()
-                var _this = this;
-                var data = {
-                  order_id:ite.order_id
-                };
-                requstPost('user/orderConfirm',data,function success(ret){
-                  if (ret.code == 0) {
-                    api.toast({
-                        msg: ret.message,
-                        duration: 2000,
-                        location: 'middle'
-                    });
-
-                    _this.lists[ind].pay_status = 30
-                  }
-                },function fail(err){
-
-                })
-              },
               //监听滚动到底
               getMore() {
                 var _this = this
@@ -354,6 +300,7 @@
                   page_size:20,
                   status:_this.status
                 };
+                console.log("----------"+JSON.stringify(data))
                 requstPost('user/live',data,function success(ret){
                   if (ret.code == 0) {
                     if (_this.page == 1) {
@@ -376,9 +323,9 @@
                   pubshowloading()
                   var _this = this;
                   var data = {
-                    order_id:item.order_id
+                    order_sn:item.order_sn
                   };
-                  requstPost('order/repay',data,function success(ret){
+                  requstPost('order/goPay',data,function success(ret){
                     if (ret.code == 0) {
                       api.toast({
                           msg: ret.message,
@@ -429,55 +376,10 @@
                         }
                     });
                 },
-                //申请退款
-                gorefund(ite){
-                  api.openWin({
-                      name: 'orderrefund_win',
-                      url: './orderrefund_win.html',
-                      pageParam: {
-                          order_id: ite.order_id
-                      }
-                  });
-                },
-                //查看物流
-                gologs(ite){
-                  api.openWin({
-                      name: 'orderlogistic_win',
-                      url: './orderlogistic_win.html',
-                      pageParam: {
-                          order_id: ite.order_id
-                      }
-                  });
-                },
-                //查看详情
-                godetail(ite) {
-                    api.openWin({
-                        name: 'orderdetail_win',
-                        url: './orderdetail_win.html',
-                        pageParam: {
-                            order_id: ite.order_id
-                        }
-                    });
-
-                },
-                //评论
-                goreview(item) {
-                    api.openWin({
-                        name: 'review_win',
-                        url: './review_win.html',
-                        pageParam: {
-                            order_id: item.order_id
-                        }
-                    });
-                },
                 //筛选
                 changeNav(e) {
-                  // alert(e - 1)
                   var ind = e - 1;
-                  //0所有订单，1未付款 ，2已付款 ，3已发货 4已收货，5退款中/已退款
-                  //all全部订单，0待付款，10待发货，20已发货，30待评价，40有退款，50已完成
-
-
+                  //0 全部  1代付款  2已付款
                     if (this.navActive == ind) {
                         return
                     }
@@ -486,15 +388,7 @@
                     }else if (ind == 1) {
                       this.status = 0
                     }else if (ind == 2) {
-                      this.status = 10
-                    }else if (ind == 3) {
-                      this.status = 20
-                    }else if (ind == 4) {
-                      this.status = 30
-                    }else if (ind == 5) {
-                      this.status = 40
-                    }else if (ind == 6) {
-                      this.status = 50
+                      this.status = 1
                     }
                     this.navActive = ind
                     this.page = 1
@@ -502,7 +396,6 @@
                     this.lists = []
                     pubshowloading()
                     this.getLists()
-                        // alert(e)
                 }
 
             }

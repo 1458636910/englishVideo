@@ -1146,6 +1146,37 @@
                 },
                 //查看直播
                 golive(ite) {
+                  //判断直播是否开始
+                  if((ite.start_time - parseInt((new Date()).getTime()) / 1000)>0){
+                    if(ite.price>0&&item.payed==1){   //价格大于0  同时还没有支付的情况
+                        api.confirm({
+                            title: 'Have not started',
+                            msg: 'You can choose to pay in advance',
+                            buttons: ['Sure', 'Cancel']
+                        }, function(ret, err){
+                            if( ret ){
+                                 if(ret.buttonIndex==1){
+                                   api.openWin({
+                                     name: 'payLive_win',
+                                     url: './live/payLive_win.html',
+                                     pageParam: {
+                                         item:ite
+                                     },
+                                     slidBackEnabled: false
+                                   })
+                                 }
+                            }else{
+                                 console.log("==========")
+                            }
+                        });
+                    }else{
+                      api.toast({
+                          msg: 'Have not started',
+                          duration: 2000,
+                          location: 'bottom'
+                      });
+                    }
+                  }else{
                     api.openWin({
                         name: 'live_win',
                         url: './live/live_win.html',
@@ -1155,7 +1186,7 @@
                         },
                         slidBackEnabled: false
                     });
-
+                  }
                 },
                 gonewsdetail(ite) {
                     api.openWin({

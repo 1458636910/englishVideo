@@ -81,102 +81,6 @@
             methods: {
                 choseType() {
                     var _this = this;
-                    // var mnPopups = api.require('MNPopups');
-                    // mnPopups.open({
-                    //     rect: {
-                    //         w: api.winWidth*6/10,
-                    //         h: 350
-                    //     },
-                    //     position: {
-                    //         x: api.winWidth/2,
-                    //         y: $api.dom('header').offsetHeight
-                    //     },
-                    //     styles: {
-                    //         mask: 'rgba(0,0,0,0.2)',
-                    //         bg: 'rgba(255,255,255,.7)',
-                    //         corner: 5,
-                    //         cell: {
-                    //             bg: {
-                    //                 normal: 'rgba(255,255,255,.7)',
-                    //                 highlight: 'rgba(255,255,255,1)'
-                    //             },
-                    //             h: 50,
-                    //             title: {
-                    //                 marginL: 5,
-                    //                 color: '#000000',
-                    //                 size: 16,
-                    //                 textAlign:'center',
-                    //             },
-                    //             icon: {
-                    //                 marginL: 0,
-                    //                 w: 0,
-                    //                 h: 0,
-                    //                 corner: 2
-                    //             }
-                    //         },
-                    //         pointer: {
-                    //             size: 7,
-                    //             xPercent: 50,
-                    //             yPercent: 0,
-                    //             orientation: 'downward'
-                    //         },
-                    //         separateLine:{
-                    //           bg: '#F4F4F4'
-                    //         }
-                    //     },
-                    //     datas: [{
-                    //         title: 'ALL',
-                    //         icon: ''
-                    //     }, {
-                    //         title: 'Wait For Payment',
-                    //         icon: ''
-                    //     }, {
-                    //         title: 'Wait For Delivery',
-                    //         icon: ''
-                    //     }, {
-                    //         title: 'Shipped',
-                    //         icon: ''
-                    //     }, {
-                    //         title: 'Wait For Review',
-                    //         icon: ''
-                    //     }, {
-                    //         title: 'Completed',
-                    //         icon: ''
-                    //     }, {
-                    //         title: 'Refunded',
-                    //         icon: ''
-                    //     }],
-                    //     animation: true
-                    // }, function(ret) {
-                    //     if (ret) {
-                    //       if (ret.eventType == 'click') {
-                    //         var ind = ret.index;
-                    //         var indNum = ind+1
-                    //         api.execScript({
-                    //             name: 'order_win',
-                    //             frameName: 'order',
-                    //             script: 'app.changeNav("' + indNum + '");'
-                    //         });
-                    //         if (ind == 0) {
-                    //             _this.title = 'ALL'
-                    //         } else if (ind == 1) {
-                    //             _this.title = 'Wait For Payment'
-                    //         } else if (ind == 2) {
-                    //             _this.title = 'Wait For Delivery'
-                    //         } else if (ind == 3) {
-                    //             _this.title = 'Shipped'
-                    //         } else if (ind == 4) {
-                    //             _this.title = 'Wait For Review'
-                    //         } else if (ind == 5) {
-                    //             _this.title = 'Completed'
-                    //         } else if (ind == 6) {
-                    //             _this.title = 'Refunded'
-                    //         }
-                    //       }
-                    //         // alert(JSON.stringify(ret));
-                    //     }
-                    // });
-                    // return
                     api.actionSheet({
                         title: '',
                         cancelTitle: 'Cancel',
@@ -185,11 +89,10 @@
                     }, function(ret, err) {
                         var ind = ret.buttonIndex;
                         api.execScript({
-                            name: 'order_win',
-                            frameName: 'order',
+                            name: 'liveOrder_win',
+                            frameName: 'liveOrder',
                             script: 'app.changeNav("' + ind + '");'
                         });
-
                         if (ind == 1) {
                             _this.title = 'ALL'
                         } else if (ind == 2) {

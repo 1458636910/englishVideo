@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <title>提前支付直播费用的界面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {}
+          [v-cloak]{
+            display: none;
+          }
+        .liveinfo{
+           box-sizing: border-box;
+           padding: 3vw;
+        }
+        .authorinfo{
+          width: 100%;
+          height: 15vw;
+          display: flex;
+          align-items: center;
+        }
+        .authorinfo>img{
+          width: 15vw;
+          height: 15vw;
+          border-radius: 50%;
+          border: 1px solid #ff5959;
+        }
+        .authorinfo>span{
+          margin-left: 5vw;
+        }
+        .live{
+          display: flex;
+          align-items: center;
+          box-sizing: border-box;
+          padding-top: 3vw;
+        }
+        .live>div:nth-of-type(1){
+          width: 30vw;
+          height: 30vw;
+
+        }
+        .live>div:nth-of-type(1)>img{
+          width: 100%;
+          height: 100%;
+        }
+        .wordsbox{
+          font-size: 14px;
+          box-sizing: border-box;
+          padding-left: 3vw;
+        }
+        .wordsbox>div{
+          line-height: 15vw;
+        }
+        #countTime{
+          color: #ff5959;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+          <div class="liveinfo">
+               <div class="authorinfo">
+                 <img :src="liveinfo.anchor_avatar" alt="anchor"><span>{{liveinfo.anchor_name}}</span>
+               </div>
+               <div class="live">
+                 <div><img :src="liveinfo.thumb" alt="live"></div>
+                 <div class="wordsbox"><div>Start Time: <span id="countTime">{{fn_countDown(liveinfo.start_time,'countTime')}}</span></div> <div>Price:￡{{liveinfo.price}}</div></div>
+               </div>
+          </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript" src="../../script/countdown.js"></script>
+<script type="text/javascript">
+var app;
+    apiready = function() {
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                   liveinfo:api.pageParam.ite
+                }
+            },
+            mounted:function () {
+
+            },
+            created() {
+
+            },
+            methods: {
+              //调用倒计时方法
+              fn_countDown(time, id) {
+                  var ds = new countdown({el:id,ed:time});
+              },
+               orderPay(){
+                 var data = {
+                   live_id:this.liveinfo.id
+                 }
+                   pubshowloading()
+                 requstPost('order/live',data,function success(ret){
+                  if (ret.code == 0) {
+                    goPaypalUrl(ret.data.pay_url)
+                    api.closeFrame();
+                  }
+                },function fail(err){
+
+                })
+              },
+
+            }
+        })
+
+    };
+</script>
+
+</html>

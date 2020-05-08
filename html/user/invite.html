@@ -4,36 +4,81 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-    <meta name="format-detection" content="telephone=no,email=no"/>
+    <meta name="format-detection" content="telephone=no,email=no" />
     <title>title</title>
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
     <style>
-        body,html {background: rgba(0,0,0,0)!important}
-          [v-cloak]{
-             display: none;
-          }
-          .inviteBox{
-            width: 70%;
+        body,
+        html {
+            background: rgba(0, 0, 0, 0)!important
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+
+        .inviteBox {
+            width: 85%;
             height: auto;
             box-sizing: border-box;
-            padding: 10vw;
+            padding: 5vw;
             background: white;
-            border-radius: 5vw;
+            border-radius: 2vw;
             position: absolute;
-            top:50%;
+            top: 50%;
             left: 50%;
-            transform: translate(-50%,-50%);
-          }
+            transform: translate(-50%, -50%);
+        }
+
+        .link {
+            font-size: 12px;
+            color: #636363;
+            white-space: normal;
+            box-sizing: border-box;
+            padding: 5vw 0;
+            word-break: break-all;
+            line-height: 15px;
+        }
+
+        .btn {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn>div {
+            width: 40%;
+            height: 7vh;
+            background: #ff4f75;
+            color: white;
+            border-radius: 5vw;
+            line-height: 7vh;
+            text-align: center;
+            margin: 0 auto;
+            margin-bottom: 10px;
+        }
+
+        .btn>div:active {
+            background: #d82249;
+        }
+
+        .tips {
+            font-size: 12px;
+        }
     </style>
 </head>
 
 <body>
     <div id="app" v-cloak>
-          <div class="inviteBox">
-              <h3>NailVision</h3>
-              
-          </div>
+        <div class="inviteBox">
+            <h3>NailVision</h3>
+            <div class="link">ciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJsYXN0X2xvZ2luX2lwIjoiMjI</div>
+            <div class="btn">
+                <div class="copy" @click="copy">Copy</div>
+                <div class="share" @click="goShare">Share</div>
+            </div>
+            <div class="tips">Share free coupons, enjoy shopping discounts!</div>
+        </div>
     </div>
 
 </body>
@@ -54,12 +99,37 @@
 
             },
             methods: {
+                //保存
+                copy() {
+                    var clipBoard = api.require('clipBoard');
+                    clipBoard.set({
+                        value: 'test'
+                    }, function(ret, err) {
+                        if (ret) {
+                            alert(JSON.stringify(ret));
+                        } else {
+                            alert(JSON.stringify(err));
+                        }
+                    });
+                },
+                //分享
+                goShare() {
+                    api.actionSheet({
+                        title: '',
+                        cancelTitle: 'Cancel',
+                        // destructiveTitle: '红色警告按钮',
+                        buttons: ['faceBook']
+                    }, function(ret, err) {
+                        var ind = ret.buttonIndex;
+                        if (ind == 1) {
 
+                        }
+                    });
+                }
             }
         })
 
     };
-
 </script>
 
 </html>
