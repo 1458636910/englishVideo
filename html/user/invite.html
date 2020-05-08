@@ -145,11 +145,9 @@
                         // pubshowloading()
                     var _this = this
                     var facebook = api.require('facebook');
-                    console.log(JSON.stringify(facebook))
                     facebook.isInstalled(function(ret, err) {
                         if (ret.installed) {
-                            console.log(";;;;;;;;;;;;;")
-                            this.fbShare()
+                            _this.fbShare()
                         } else {
                             api.toast({
                                 msg: 'Facebook is not installed on the current device',
@@ -169,6 +167,7 @@
                         // title: 'APICloud',
                         quote: 'very good'
                     }, function(ret, err) {
+                      console.log(JSON.stringify(ret)+'---------'+JSON.stringify(err))
                         if (ret.status) {
                           api.toast({
                               msg: 'Share success',
