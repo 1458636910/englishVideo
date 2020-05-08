@@ -881,7 +881,7 @@
                         api.requestPermission({
                             list: ['storage', 'camera', 'photos', 'location', 'microphone']
                         }, function(ret, err) {
-                            alert('选择了权限之后的结果'+JSON.stringify(ret))
+                            // alert('ret'+JSON.stringify(ret))
                             // alert('err'+JSON.stringify(err))
                             if (ret.list[3].granted) {
                                 // return
@@ -912,13 +912,12 @@
     }
     //地理位置解析
     function getBmapDress() {
-      alert('获取地理位置')
         api.startLocation({
             accuracy: '100m',
             filter: 1,
             autoStop: true
         }, function(ret, err) {
-            alert('api获取位置的结果'+JSON.stringify(ret))
+            // alert('ret'+JSON.stringify(ret))
             //  alert('err'+JSON.stringify(err));
             if (ret && ret.status) {
                 // return
@@ -934,7 +933,6 @@
                         },
                     }
                 }, function(ret, err) {
-                  alert('ajax获取地址的结果'+ret.result.addressComponent.city)
                     if (ret) {
                         if (ret.status == 0) {
                             setDress(ret.result.addressComponent.city)
@@ -958,7 +956,6 @@
     }
     //设置顶部城市
     function setDress(e) {
-      alert("该方法去改写城市"+e)
         // alert(e)
         //选择了城市，本次app运行中，不再定位
         isChoseDress = true
