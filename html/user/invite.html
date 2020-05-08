@@ -161,6 +161,41 @@
                 fbShare() {
                     var facebook = api.require('facebook');
                     var _this =this;
+                    facebook.refreshToken(function(ret) {
+                      if (ret.status) {
+                          api.alert({
+                              msg: '刷新成功'
+                          });
+                      } else {
+                          alert('刷新失败');
+                      }
+                  });
+                  return
+                  facebook.getCurrentToken(function(ret) {
+                      if (ret.isLogin) {
+                          api.alert({
+                              msg: JSON.stringify(ret)
+                          });
+                      } else {
+                          alert('尚未登录');
+                      }
+                  });
+                  return
+
+                  facebook.login({
+                      appId: ''
+                  }, function(ret, err) {
+                      if (ret.status) {
+                          api.alert({
+                              msg: JSON.stringify(ret)
+                          });
+                      } else {
+                          api.alert({
+                              msg: JSON.stringify(err)
+                          });
+                      }
+                  });
+                  return
                     facebook.shareLinked({
                         url:_this.url,
                         // imgUrl: 'http://p6.sinaimg.cn/2823006341/180/51101340154713',
