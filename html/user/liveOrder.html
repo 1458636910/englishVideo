@@ -130,16 +130,30 @@
 
         .slrprice {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
+            margin-top: 2vw;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 5px 0;
+            background: transparent!important;
         }
 
         .slrprice span:nth-child(1) {
             font-size: 18px;
+            color: #fd5e75!important;
+        }
+        .slrprice>span{
+          color: #fd5e75!important;
+          background: transparent!important;
+          margin-left: 3vw;
+          letter-spacing: 2px;
+        }
+        .slrprice>span>span{
+          color: #fd5e75!important;
         }
 
         .slrprice span:nth-child(2) {
             font-size: 14px;
-            color: #999999;
         }
 
         .total {
@@ -181,6 +195,7 @@
             color: #999999;
             border: 1px solid #999999;
         }
+
     </style>
 </head>
 
@@ -194,7 +209,7 @@
                 <div class="top">
                     <div class="shopnameBox">
                         <span class="shoplogo">
-                          <img :src="url+item.thumb" alt="">
+                          <img :src="img_url+item.thumb" alt="">
                           <!-- <i class="iconfont">&#xe60d;</i> -->
                         </span>
                         <span class="shopname">{{item.full_name}}</span>
@@ -210,14 +225,15 @@
                 <div class="shoplists">
                     <div class="shoplist">
                         <div class="sllimg">
-                            <img :src="url+item.upload_photo" alt="live">
+                            <img :src="img_url+item.upload_photo" alt="live">
                         </div>
                         <div class="slrcont">
                             <!-- <p class="slrname" :id="countId(item.id,item.start_time)">
                                {{fn_countDown(item.start_time,item.order_id)}}
                             </p> -->
-                            <p v-if="item.start_time>0" class="slrprice" :id="countId(item.id,item.start_time)">
-                                <span>{{fn_countDown(item.start_time,item.order_id)}}</span>
+                            <p v-if="(item.start_time - parseInt((new Date()).getTime()) / 1000)>0" class="slrprice" >
+                                countdown:<span style="color:#fd5e75" :id="countId(item.order_id,item.start_time)"></span>
+                                {{fn_countDown(item.start_time,item.order_id)}}
                             </p>
                         </div>
                     </div>
@@ -251,7 +267,8 @@
                     page:1,
                     more:true,
                     lists:[],
-                    status:'all'
+                    status:'all',
+                    refreshCount:0,  //从0开始累加，每次刷新+1，保证dom的最新
                 }
             },
             mounted:function(){  //页面渲染之后执行

@@ -1,5 +1,6 @@
 // var url = 'http://nailvision.tao.li4.cn/api/'   //正式地址
 var url = 'http://ym.s.li4.cn/api/'    //测试地址
+var img_url = 'http://ym.s.li4.cn/'
 
 var socketUrl = 'http://ym.s.li4.cn:9501/'
 var shareurl = 'http://ym.s.li4.cn/register/'   //前台分享的链接地址
