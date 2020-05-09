@@ -688,6 +688,7 @@
                       alivcLivePlayer.destroy();
                 },
                 sendPl() {
+                  console.log(";;;;;;;;")
                   if ($api.getStorage('islogin') != 'true') {
                     api.execScript({
                         name: 'live_win',
@@ -734,14 +735,14 @@
                       fixedOn: api.frameName
                   }, function(ret, err) {
                       if (ret) {
-                          if (ret.message != '') {
-                              console.log(ret.message + 'end');
-                              // _this.sendPl(ret.message)
+                          if (ret.msg != '') {
+                              console.log(ret.msg + 'end');
+                              // _this.sendPl(ret.msg)
                               inputField.resignFirstResponder();
                               api.sendEvent({
                                   name: 'livechatText',
                                   extra: {
-                                      msg: ret.message,
+                                      msg: ret.msg,
                                   }
                               });
                           }

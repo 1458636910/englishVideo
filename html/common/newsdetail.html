@@ -319,10 +319,10 @@ var app;
                       fixedOn: api.frameName
                   }, function(ret, err) {
                       if (ret) {
-                          if (ret.message != '') {
-                              console.log(ret.message + 'end');
-                              _this.postPl(ret.message)
-                              // _this.sendPl(ret.message)
+                          if (ret.msg != '') {
+                              console.log(ret.msg + 'end');
+                              _this.postPl(ret.msg)
+                              // _this.sendPl(ret.msg)
                               inputField.resignFirstResponder();
                           }
                           // alert(JSON.stringify(ret));
