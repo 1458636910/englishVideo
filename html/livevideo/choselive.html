@@ -312,7 +312,7 @@
 
                 getPicqj(sourceType) {
                     // console.log("------------"+this.confirmPer('camera'))
-                    if (!confirmPer('camera')) {
+                    if (!confirmPer('camera')||!confirmPer('storage')) {
                         return;
                     }
                     var _this = this;

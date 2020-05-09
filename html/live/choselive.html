@@ -179,7 +179,7 @@
                               });
                 },
                 getPicqj(sourceType) {
-                  if (!confirmPer('camera')) {
+                  if (!confirmPer('camera')||!confirmPer('storage')) {
                       return;
                   }
                     let _this = this;

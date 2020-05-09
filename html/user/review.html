@@ -258,7 +258,7 @@ var app;
               },
 
               getPicqj(sourceType,item) {
-                if (!confirmPer('camera')) {
+                if (!confirmPer('camera')||!confirmPer('storage')) {
                       return;
                   }
                   var _this = this;
