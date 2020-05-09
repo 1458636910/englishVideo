@@ -73,7 +73,7 @@ function countdown(o) {
         /**
          * 创建文本节点
          * */
-        var dt = document.createTextNode(d + '天');
+        var dt = document.createTextNode(d + 'Day');
         var ht = document.createTextNode(h);
         var mt = document.createTextNode(m);
         var st = document.createTextNode(s);
@@ -91,7 +91,7 @@ function countdown(o) {
         /**
          * 返回倒计时字符串
          * */
-        var t = d + '天' + h + ':' + m + ':' + s;
+        var t = d + 'Day' + h + ':' + m + ':' + s;
         /**
          * 将倒计时写入el节点
          * */
