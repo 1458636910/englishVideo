@@ -598,7 +598,7 @@
         }
         demo.open({
             pingInterval: 60,
-            url: 'ws://ym.s.li4.cn:1936'
+            url: socketUrl
         }, function(ret, err) {
             console.log(JSON.stringify(ret) + "  " + JSON.stringify(err));
             if (ret.status) {
