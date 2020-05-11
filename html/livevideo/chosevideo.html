@@ -203,7 +203,7 @@
             <div class="list" tapmode @click="choseVideos()">
                 <span>Upload Video</span>
                 <div class="ipt">
-                    <span style="height:8vw;"></span>
+                    <span style="height:8vw;line-height:8vw;">{{hadVideo}}</span>
                     <i class="iconfont">&#xe61f;</i>
                 </div>
             </div>
@@ -251,6 +251,7 @@
                     imgurl: '', //上传后的地址
                     videourl: '', //上传后的地址
                     price: '',
+                    hadVideo:'',  //是否选择了视频
                 }
             },
             created() {
@@ -330,6 +331,7 @@
                                 console.log(JSON.stringify(ret));
                                 var imgurl = ret.data
                                 _this.video = imgurl
+                                _this.hadVideo = 'Added'
                             }
                         });
                     } else if (sourceType == 2) {
@@ -351,6 +353,7 @@
                             if (ret.data) {
                                 var imgurl = ret.data
                                 _this.video = imgurl
+                                _this.hadVideo = 'Added'
 
                             }
                         });

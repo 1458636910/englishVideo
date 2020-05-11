@@ -198,7 +198,7 @@
                 requstPost('address/setDefault',data,function success(ret){
                   api.toast({
                       msg: ret.message,
-                      duration: 2000,
+                      duration: 3000,
                       location: 'middle'
                   });
                   for (var i = 0; i < _this.list.length; i++) {
@@ -246,7 +246,7 @@
                       }else {
                         api.toast({
                             msg: ret.message,
-                            duration: 2000,
+                            duration: 3000,
                             location: 'middle'
                         });
 
@@ -255,7 +255,7 @@
                     } else {
                       api.toast({
                           msg: err.msg,
-                          duration: 2000,
+                          duration: 3000,
                           location: 'middle'
                       });
 
@@ -281,7 +281,7 @@
                           requstPost('address/delete',data,function success(ret){
                             api.toast({
                                 msg: ret.message,
-                                duration: 2000,
+                                duration: 3000,
                                 location: 'middle'
                             });
                             _this.list.splice(ind,1)

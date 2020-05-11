@@ -64,9 +64,9 @@ function confirmPer(perm) {
     var has = hasPermission(perm);
     if (!has || !has[0] || !has[0].granted) {
         api.confirm({
-            title: 'Remind',
-            msg: 'Not obtained ' + perm + " authority\nGo to settings？",
-            buttons: ['To set', 'Cancel']
+            title: '',
+            msg: "Place allow use of this device’"+perm,
+            buttons: ['Setting', 'Cancel']
         }, function(ret, err) {
             if (1 == ret.buttonIndex) {
                 reqPermission(perm);
@@ -210,7 +210,7 @@ function requstPost(apiUrl,data,success,fail){
           //登陆失效
           api.toast({
               msg: 'Login is invalid',
-              duration: 2000,
+              duration: 3000,
               location: 'middle'
           });
           $api.clearStorage();
@@ -228,12 +228,12 @@ function requstPost(apiUrl,data,success,fail){
           success(ret)
           console.log('ret接口地址:'+apiUrl+'请求数据:'+JSON.stringify(data)+'---返回结果:'+JSON.stringify(ret));
         }else {
-          if(apiUrl == 'store' || apiUrl == 'cart'){
+          if(apiUrl == 'store' || apiUrl == 'cart'||apiUrl=='live'||apiUrl=='anchor/all'||apiUrl=='video'||apiUrl=='video/category'||apiUrl=='product/recommend'||apiUrl=='news/category'||apiUrl=='news'){
 
           }else {
             api.toast({
                 msg: ret.message,
-                duration: 2000,
+                duration: 3000,
                 location: 'middle'
             });
           }
@@ -243,11 +243,11 @@ function requstPost(apiUrl,data,success,fail){
         }
       }else {
         //err
-        api.toast({
-            msg: err.message,
-            duration: 2000,
-            location: 'middle'
-        });
+          api.toast({
+              msg: err.message,
+              duration: 3000,
+              location: 'middle'
+          });
         console.log('err接口地址:'+apiUrl+'请求数据:'+JSON.stringify(data)+'::::返回结果'+JSON.stringify(err));
         fail(err);
       }
@@ -281,7 +281,7 @@ function requstGet(apiUrl,data,success,fail){
           //登陆失效
           api.toast({
               msg: 'Login is invalid',
-              duration: 2000,
+              duration: 3000,
               location: 'middle'
           });
           $api.clearStorage();
@@ -302,7 +302,7 @@ function requstGet(apiUrl,data,success,fail){
         }else {
           api.toast({
               msg: ret.message,
-              duration: 2000,
+              duration: 3000,
               location: 'middle'
           });
           console.log('ret接口地址:'+apiUrl+'请求数据:'+JSON.stringify(data)+'---返回结果:'+JSON.stringify(ret));
@@ -311,7 +311,7 @@ function requstGet(apiUrl,data,success,fail){
         //err
         api.toast({
             msg: err.msg,
-            duration: 2000,
+            duration: 3000,
             location: 'middle'
         });
         console.log('err接口地址:'+apiUrl+'请求数据:'+JSON.stringify(data)+'::::返回结果'+JSON.stringify(err));
@@ -353,7 +353,7 @@ function requstUpload(data,success,fail){
           //登陆失效
           api.toast({
               msg: 'Login is invalid',
-              duration: 2000,
+              duration: 3000,
               location: 'middle'
           });
           // $api.clearStorage();
@@ -373,7 +373,7 @@ function requstUpload(data,success,fail){
         }else {
           api.toast({
               msg: ret.message,
-              duration: 2000,
+              duration: 3000,
               location: 'middle'
           });
           console.log('ret接口地址:'+'请求数据:'+JSON.stringify(data)+'---返回结果:'+JSON.stringify(ret));
@@ -382,7 +382,7 @@ function requstUpload(data,success,fail){
         //err
         api.toast({
             msg: err.msg,
-            duration: 2000,
+            duration: 3000,
             location: 'middle'
         });
         console.log('err接口地址:'+'请求数据:'+JSON.stringify(data)+'::::返回结果'+JSON.stringify(err));

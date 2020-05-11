@@ -322,7 +322,7 @@
                 if (!verifyCode.validate(document.getElementById("yanzheng").value)) {
                   api.toast({
                       msg: 'Graphic code error',
-                      duration: 2000,
+                      duration: 3000,
                       location: 'middle'
                   });
                   return
@@ -347,7 +347,7 @@
                   _this.code = '';
                   api.toast({
                       msg: ret.message+'Go to login',
-                      duration: 2000,
+                      duration: 3000,
                       location: 'middle'
                   });
                     setTimeout(()=>{
@@ -363,14 +363,14 @@
                   if (this.canGet == 0) {
                       api.toast({
                           msg: 'Please enter the correct phone number first',
-                          duration: 2000,
+                          duration: 3000,
                           location: 'middle'
                       });
 
                   } else if (this.canGet == 2) {
                       api.toast({
                           msg: 'Verification code has been sent, please wait...',
-                          duration: 2000,
+                          duration: 3000,
                           location: 'middle'
                       });
                   } else if (this.canGet == 1) {
@@ -388,7 +388,7 @@
                         if (this.isSend) {
                           api.toast({
                               msg: 'Verification code has been sent, please wait..',
-                              duration: 2000,
+                              duration: 3000,
                               location: 'middle'
                           });
                           return;
@@ -411,7 +411,7 @@
                 }else if (res.length <1){   //验证码输入的长度=等于0，就提示验证码错误
                     api.toast({
                         msg: 'Please enter a graphic verification code',
-                        duration: 2000,
+                        duration: 3000,
                         location: 'middle'
                     });
         // 　　　　　　　　verifyCode();  //重新刷新验证码
@@ -421,7 +421,7 @@
                 } else {   //如不一致，就验证错误
                   api.toast({
                       msg: 'Graphic verification code error',
-                      duration: 2000,
+                      duration: 3000,
                       location: 'middle'
                   });
         　　　　　　　　console.log("验证码错误的操作；")
@@ -445,7 +445,7 @@
                   if (ret.code == 0) {
                     api.toast({
                         msg: ret.message,
-                        duration: 2000,
+                        duration: 3000,
                         location: 'middle'
                     });
                     datadebug(ret.message)

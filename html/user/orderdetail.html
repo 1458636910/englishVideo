@@ -206,7 +206,7 @@
         <p class="dressprice">￡ {{postage_fee}}</p>
       </div>
       <div class="remarks">
-        <h4>Remarks</h4>
+        <h4>Notes</h4>
         <p>{{user_note}}</p>
       </div>
       <div class="shipto">
@@ -293,7 +293,7 @@
                   if (ret.code == 0) {
                     api.toast({
                         msg: ret.message,
-                        duration: 2000,
+                        duration: 3000,
                         location: 'middle'
                     });
                     _this.order_status = 10

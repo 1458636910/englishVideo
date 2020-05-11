@@ -346,7 +346,7 @@
               </div>
             </div>
             <div class="footerr" id="footerr" @click="payNow()">
-              Pay Now
+              Check Out
             </div>
           </div>
         </footer>
@@ -516,7 +516,7 @@ var app;
                           if (ret.code == 0) {
                             api.toast({
                                 msg: ret.message,
-                                duration: 2000,
+                                duration: 3000,
                                 location: 'middle'
                             });
                             item.carts.splice(ind,1);
@@ -722,7 +722,7 @@ var app;
                 if(cart_ids.length==0){
                   api.toast({
                       msg: 'Please select a product',
-                      duration: 2000,
+                      duration: 3000,
                       location: 'middle'
                   });
                   return;
@@ -730,7 +730,7 @@ var app;
                 if(!this.termChoose){
                   api.toast({
                       msg: 'Please agree to the terms',
-                      duration: 2000,
+                      duration: 3000,
                       location: 'middle'
                   });
                   return;

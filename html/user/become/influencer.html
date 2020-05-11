@@ -245,7 +245,7 @@
                                     } else {
                                         api.toast({
                                             msg: err.msg,
-                                            duration: 2000,
+                                            duration: 3000,
                                             location: 'bottom'
                                         });
 
@@ -306,7 +306,7 @@
                                     } else {
                                         api.toast({
                                             msg: err.msg,
-                                            duration: 2000,
+                                            duration: 3000,
                                             location: 'bottom'
                                         });
 
@@ -363,7 +363,7 @@
                         api.alert({
                             title: rret.message,
                             msg: '',
-                            buttons:['Sure']
+                            buttons:['Done']
                         }, function(ret, err) {
                             if (ret) {
                                 if (rret.code == 0) {

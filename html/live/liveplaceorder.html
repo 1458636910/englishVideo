@@ -313,7 +313,7 @@
                 <div class="nameBox">
                   <p class="name">{{product.title}}</p>
                   <p class="price">
-                    <span>￡{{product.sale_price}} (inc. ￡{{product.sale_price}} tax)</span>
+                    <span>￡{{product.sale_price}} (Inc. ￡{{taxs}} tax)</span>
                     <span>x{{buy_num}}</span>
                   </p>
                 </div>
@@ -497,6 +497,7 @@ var app;
                                       ishowDiamon:false,
                                       jewel_exchange_money:0,
                                       allmoney:0,
+                                      taxs:'',
                 }
             },
             mounted:function () {
@@ -682,6 +683,7 @@ var app;
                       _this.terms_status = ret.data.terms_status
                       _this.terms = ret.data.terms_content
                       _this.agree_status = ret.data.agree_status
+                      _this.taxs = ret.data.tax
                     if (ret.data.can_use_jewel != 0) {
                       _this.ishowDiamon = true
                       _this.jewel_exchange_money = ret.data.jewel_exchange_money

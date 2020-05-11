@@ -274,7 +274,7 @@
                         <div class="nameBox">
                             <p class="name">{{product.title}}</p>
                             <p class="price">
-                                <span>￡{{product.sale_price}}<span class="taxsbox">(Inc. Tax ￡{{taxs}})</span></span>
+                                <span>￡{{product.sale_price}}<span class="taxsbox">(Inc. ￡{{taxs}} tax)</span></span>
                                 <span>x{{buy_num}}</span>
                             </p>
                         </div>
@@ -539,7 +539,7 @@
                             }else{
                               api.toast({
                                   msg: ret.message,
-                                  duration: 2000,
+                                  duration: 3000,
                                   location: 'middle'
                               });
                             }
@@ -578,7 +578,7 @@
                         } else {
                             api.toast({
                                 msg: ret.message,
-                                duration: 2000,
+                                duration: 3000,
                                 location: 'middle'
                             });
 

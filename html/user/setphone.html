@@ -179,7 +179,9 @@
             <span style="margin-right:2vw" @click="choseCode()">+{{phoneCode}}</span>
             <input @blur="getblur()" @focus="phoneFocus()" v-model="phone" type="tel" placeholder="Cellphone number">
           </li>
-
+          <li style="display:flex;align-items:center" :class="active == 1?'active':''">
+            <input  @focus="pwdFocus()" readonly v-model="$api.getStorage('email')" >
+          </li>
 
           <!-- <li class="codeimgbox" :class="active == 3?'active':''">
             <input  @blur="getblur()" @focus="codeimgboxFocus()" id="yanzheng" type="text" name="" v-model="regcode" value="" placeholder="Graphic code">
@@ -220,7 +222,7 @@
                 pwd:'',
                 code:'',
                 codetext: 'Get Verification Code',
-                    canGet: 0,
+                    canGet: 1,
                     isSend:false,
                     regcode:'',//图形验证码
                       showMail:false,
@@ -276,17 +278,10 @@
 
               },
               getCode() {
-                  if (this.canGet == 0) {
-                      api.toast({
-                          msg: 'Please enter the correct phone number first',
-                          duration: 2000,
-                          location: 'middle'
-                      });
-
-                  } else if (this.canGet == 2) {
+                if (this.canGet == 2) {
                       api.toast({
                           msg: 'Verification code has been sent, please wait...',
-                          duration: 2000,
+                          duration: 3000,
                           location: 'middle'
                       });
                   } else if (this.canGet == 1) {
@@ -304,7 +299,7 @@
                         if (this.isSend) {
                           api.toast({
                               msg: 'Verification code has been sent, please wait..',
-                              duration: 2000,
+                              duration: 3000,
                               location: 'middle'
                           });
                           return;
@@ -324,8 +319,8 @@
                   phoneSer = _this.phone
                 }
                 var data = {
-                  mobile:phoneSer,
-                  verify_type:3
+                  mobile:$api.getStorage('email'),
+                  verify_type:4
                 };
                 requstPost('sms',data,function success(ret){
                   if (ret.code == 0) {
@@ -386,7 +381,7 @@
               　　　　　　　　console.log("验证码错误的操作；")
                             api.toast({
                                 msg: 'Please enter the graphic verification code',
-                                duration: 2000,
+                                duration: 3000,
                                 location: 'middle'
                             });
               // 　　　　　　　　verifyCode();  //重新刷新验证码
@@ -396,7 +391,7 @@
                       } else {   //如不一致，就验证错误
                         api.toast({
                             msg: 'Graphic verification code error',
-                            duration: 2000,
+                            duration: 3000,
                             location: 'middle'
                         });
               　　　　　　　　console.log("验证码错误的操作；")
@@ -553,24 +548,24 @@
           },
 
           watch: {
-              phone(e, b) {
-                var phoneTest = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/
-                  // console.log(e)
-                  if (e.length > 0) {
-                      // if (phoneTest.test(e)) {
-                        if (this.isSend) {
-                          this.canGet = 2;
-                        }else {
-                          this.canGet = 1;
-                        }
-
-                      // }else {
-                      //   this.canGet = 0
-                      // }
-                  }else {
-                    this.canGet = 0
-                  }
-              }
+              // phone(e, b) {
+              //   var phoneTest = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/
+              //     // console.log(e)
+              //     if (e.length > 0) {
+              //         // if (phoneTest.test(e)) {
+              //           if (this.isSend) {
+              //             this.canGet = 2;
+              //           }else {
+              //             this.canGet = 1;
+              //           }
+              //
+              //         // }else {
+              //         //   this.canGet = 0
+              //         // }
+              //     }else {
+              //       this.canGet = 0
+              //     }
+              // }
           }
           })
 

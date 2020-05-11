@@ -250,7 +250,7 @@ var app;
                 requstPost('address/post',data,function success(ret){
                   api.toast({
                       msg: ret.message,
-                      duration: 2000,
+                      duration: 3000,
                       location: 'bottom'
                   });
                   api.closeWin();
@@ -297,7 +297,7 @@ var app;
                         if (ret.code == 1000) {
                           api.toast({
                               msg: '修改成功',
-                              duration: 2000,
+                              duration: 3000,
                               location: 'middle'
                           });
                           // _this.name = ''
@@ -312,7 +312,7 @@ var app;
                         }else {
                           api.toast({
                               msg: ret.message,
-                              duration: 2000,
+                              duration: 3000,
                               location: 'middle'
                           });
 
@@ -321,7 +321,7 @@ var app;
                     } else {
                       api.toast({
                           msg: err.msg,
-                          duration: 2000,
+                          duration: 3000,
                           location: 'middle'
                       });
 
@@ -363,7 +363,7 @@ var app;
                       if (ret.code == 1000) {
                         api.toast({
                             msg: '添加成功',
-                            duration: 2000,
+                            duration: 3000,
                             location: 'middle'
                         });
                         _this.name = ''
@@ -378,7 +378,7 @@ var app;
                       }else {
                         api.toast({
                             msg: ret.message,
-                            duration: 2000,
+                            duration: 3000,
                             location: 'middle'
                         });
 
@@ -387,7 +387,7 @@ var app;
                     } else {
                       api.toast({
                           msg: err.msg,
-                          duration: 2000,
+                          duration: 3000,
                           location: 'middle'
                       });
 

@@ -372,7 +372,7 @@
                 if (!verifyCode.validate(document.getElementById("yanzheng").value)) {
                   api.toast({
                       msg: 'Graphic code error',
-                      duration: 2000,
+                      duration: 3000,
                       location: 'middle'
                   });
                   return
@@ -380,7 +380,7 @@
                 if(!_this.termChoose){
                   api.toast({
                       msg: 'Please check the user agreement',
-                      duration: 2000,
+                      duration: 3000,
                       location: 'middle'
                   });
                     return
@@ -413,7 +413,7 @@
                   // alert(JSON.stringify(err))
                   api.toast({
                       msg: ret.message+',Go to login',
-                      duration: 2000,
+                      duration: 3000,
                       location: 'middle'
                   });
                   setTimeout(()=>{
@@ -428,14 +428,14 @@
                   if (this.canGet == 0) {
                       api.toast({
                           msg: 'Please enter the correct phone number first',
-                          duration: 2000,
+                          duration: 3000,
                           location: 'middle'
                       });
 
                   } else if (this.canGet == 2) {
                       api.toast({
                           msg: 'Verification code has been sent, please wait...',
-                          duration: 2000,
+                          duration: 3000,
                           location: 'middle'
                       });
                   } else if (this.canGet == 1) {
@@ -453,7 +453,7 @@
                         if (this.isSend) {
                           api.toast({
                               msg: 'Verification code has been sent, please wait..',
-                              duration: 2000,
+                              duration: 3000,
                               location: 'middle'
                           });
                           return;
@@ -504,7 +504,7 @@
                   if (ret.code == 0) {
                     api.toast({
                         msg: ret.message,
-                        duration: 2000,
+                        duration: 3000,
                         location: 'middle'
                     });
                     datadebug(ret.message)
