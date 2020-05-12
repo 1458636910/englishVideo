@@ -365,10 +365,9 @@
 
         .countdownTime {
             margin-top: 2vw;
-            display: flex;
             background: rgba(0, 0, 0, 0.4);
             color: white;
-            display: flex;
+            /*display: flex;*/
             align-items: center;
             box-sizing: border-box;
             padding: 5px 0;
@@ -658,7 +657,7 @@
                     followlivepage: 1,
                     followmore: true,
                     time: '200000',
-                    refreshCount:0,  //从0开始累加，每次刷新+1，保证dom的最新
+                    refreshCount: 0, //从0开始累加，每次刷新+1，保证dom的最新
                 }
             },
             created() {
@@ -675,14 +674,17 @@
             },
             methods: {
                 //生成id
-                countId(id,time) {
+                countId(id, time) {
                     return 'count' + "_" + this.refreshCount + "_" + id
                 },
                 //调用倒计时方法
                 fn_countDown(time, id) {
-                  console.log(time)
+                    console.log(time)
                     var _el = 'count' + "_" + this.refreshCount + "_" + id;
-                    var ds = new countdown({el:_el,ed:time});
+                    var ds = new countdown({
+                        el: _el,
+                        ed: time
+                    });
                 },
                 liveactiveChange(e) {
                     if ($api.getStorage('islogin') == 'false') {
@@ -1084,8 +1086,7 @@
                                     listData[ret.tag].thumb = ret.url;
                                 });
                             }
-                        } else {
-                        }
+                        } else {}
                     }, function fail(err) {
                         api.refreshHeaderLoadDone();
 
@@ -1108,7 +1109,7 @@
                         showTime: false,
                         textTime: '',
                     }, function(ret, err) {
-                        _this.refreshCount = _this.refreshCount+1;  //每次刷新都+1，可以保证每次的dom的Id都是最新的
+                        _this.refreshCount = _this.refreshCount + 1; //每次刷新都+1，可以保证每次的dom的Id都是最新的
                         if (_this.active == 1) {
                             //直播
                             if (_this.liveactive == 1) {
@@ -1146,47 +1147,47 @@
                 },
                 //查看直播
                 golive(ite) {
-                  //判断直播是否开始
-                  if((ite.start_time - parseInt((new Date()).getTime()) / 1000)>0){
-                    if(ite.price>0&&ite.payed==1){   //价格大于0  同时还没有支付的情况
-                        api.confirm({
-                            title: 'Have not started',
-                            msg: 'You can choose to pay in advance',
-                            buttons: ['Sure', 'Cancel']
-                        }, function(ret, err){
-                            if( ret ){
-                                 if(ret.buttonIndex==1){
-                                   api.openWin({
-                                     name: 'payLive_win',
-                                     url: './live/payLive_win.html',
-                                     pageParam: {
-                                         item:ite
-                                     },
-                                     slidBackEnabled: false
-                                   })
-                                 }
-                            }else{
-                                 console.log("==========")
-                            }
+                    //判断直播是否开始
+                    if ((ite.start_time - parseInt((new Date()).getTime()) / 1000) > 0) {
+                        if (ite.price > 0 && ite.payed == 1) { //价格大于0  同时还没有支付的情况
+                            api.confirm({
+                                title: 'Have not started',
+                                msg: 'You can choose to pay in advance',
+                                buttons: ['Sure', 'Cancel']
+                            }, function(ret, err) {
+                                if (ret) {
+                                    if (ret.buttonIndex == 1) {
+                                        api.openWin({
+                                            name: 'payLive_win',
+                                            url: './live/payLive_win.html',
+                                            pageParam: {
+                                                item: ite
+                                            },
+                                            slidBackEnabled: false
+                                        })
+                                    }
+                                } else {
+                                    console.log("==========")
+                                }
+                            });
+                        } else {
+                            api.toast({
+                                msg: 'Have not started',
+                                duration: 3000,
+                                location: 'bottom'
+                            });
+                        }
+                    } else {
+                        api.openWin({
+                            name: 'live_win',
+                            url: './live/live_win.html',
+                            pageParam: {
+                                live_id: ite.id,
+                                anchor_id: ite.anchor_id, //作者id
+                            },
+                            slidBackEnabled: false
                         });
-                    }else{
-                      api.toast({
-                          msg: 'Have not started',
-                          duration: 3000,
-                          location: 'bottom'
-                      });
                     }
-                  }else{
-                    api.openWin({
-                        name: 'live_win',
-                        url: './live/live_win.html',
-                        pageParam: {
-                            live_id: ite.id,
-                            anchor_id:ite.anchor_id,  //作者id
-                        },
-                        slidBackEnabled: false
-                    });
-                  }
                 },
                 gonewsdetail(ite) {
                     api.openWin({
@@ -1210,6 +1211,7 @@
             }
         })
     };
+
     function gosearch() {
         api.openWin({
             name: 'search_win',
