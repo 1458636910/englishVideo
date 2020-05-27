@@ -216,8 +216,8 @@ var app;
                 requstPost('store/apply',data,function success(ret){
                   if (ret.code == 0) {
                     api.alert({
-                        title: ret.message,
-                        msg: '',
+                        title: '',
+                        msg: ret.message,
                         buttons:['Done']
                     }, function(ret, err){
                         if( ret ){

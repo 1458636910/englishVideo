@@ -131,13 +131,22 @@ function goPaypalUrl(e){
       iosUrl: e, //打开微信的，其中weixin为微信的URL Scheme
     });
   }else {
-    api.openApp({
-        androidPkg: 'android.intent.action.VIEW',
-        mimeType: 'text/html',
-        uri: e
-    },function(ret,err){
-      console.log(JSON.stringify(ret));
+    console.log("paypal支付地址",e)
+    api.openWin({
+        name: 'paypal_win',
+        url: 'widget://html/common/paypal_win.html',
+        pageParam: {
+            url:e
+        }
     });
+
+    // api.openApp({
+    //     androidPkg: 'android.intent.action.VIEW',
+    //     mimeType: 'text/html',
+    //     uri: e
+    // },function(ret,err){
+    //   console.log(JSON.stringify(ret));
+    // });
   }
 }
 
@@ -397,8 +406,8 @@ function userIslogin(){
   console.log('登录状态'+userlogin);
 
     api.confirm({
-        title: 'Not logged in',
-        msg: 'Please login before proceeding',
+        title: 'Please log in first',
+        msg: '',
         buttons: ['Sure', 'Cancel']
     }, function(ret, err){
         if( ret ){
