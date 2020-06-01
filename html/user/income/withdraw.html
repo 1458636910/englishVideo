@@ -137,7 +137,6 @@
                         paypal: _this.paypal,
                         money: _this.money
                     };
-                    console.log(JSON.stringify(data))
                         // requstPost('commission/anchorWithdraw',data,function success(ret){
                     requstPost('jewel/withdraw', data, function success(ret) {
                         if (ret.code == 0) {

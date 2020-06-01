@@ -171,7 +171,7 @@
       </header>
       <div class="appBox">
         <h2 class="title" tapmode="hover">
-          <span>Enter the New Phone Number You Need to Bind</span>
+          <span>Please enter your new contact number</span>
         </h2>
 
         <ul class="form">
@@ -269,8 +269,17 @@
                 pubshowloading()
                 requstPost('user/reMobile',data,function success(ret){
                   if (ret.code == 0) {
-                    _this.phone = '';
-                    _this.code = '';
+                    api.toast({
+                        msg: ret.message,
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                    setTimeout(function(){
+                      api.closeWin()
+
+                    },2000)
+                    // _this.phone = '';
+                    // _this.code = '';
                   }
                 },function fail(err){
 

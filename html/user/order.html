@@ -90,6 +90,9 @@
             color: #FA607D;
             font-size: 14px;
         }
+        .waitdelivery{
+          color: green;
+        }
         /**/
 
         .shoplist {
@@ -157,6 +160,7 @@
         }
 
         .btns span {
+            display: inline-block;
             min-width: 25vw;
             height: 30px;
             line-height: 30px;
@@ -167,11 +171,14 @@
             margin-left: 3vw;
             padding: 0 3vw;
             box-sizing: border-box;
+            margin-bottom: 10rpx;
+            margin-top: 10rpx;
         }
 
         .btns .color {
             color: #FB6E89;
             border: 1px solid #FB6E89;
+              margin-top: 10rpx;
         }
 
         .btns span:active {
@@ -199,7 +206,7 @@
                         <i class="iconfont rico">&#xe62d;</i>
                     </div>
                     <div>
-                        <span class="rstate">
+                        <span class="rstate" :class="item.order_status == 10?'waitdelivery':''">
                           {{item.order_status == 0?'Wait For Payment':''}}
                           {{item.order_status == 10?'Wait For Delivery':''}}
                           {{item.order_status == 20?'Shipped':''}}
@@ -240,13 +247,14 @@
                 </div>
                 <!--  -->
                 <div class="btns">
-                  <span @click="godetail(item)">Details</span>
+                    <span @click="godetail(item)">Details</span>
                     <span v-if="item.show_refund_button == 1" @click="gorefund(item)">Request a Refund</span>
                     <span v-if="item.order_status == 0" @click="goPay(item)" class="color">Pay</span>
                     <span v-if="item.order_status == 20" @click="orderSure(item,index)" class="color">Confirm receipt</span>
                     <span v-if="item.order_status == 30" class="color" @click="goreview(item)">Add Review</span>
                     <span v-if="item.order_status == 20" class="color" @click="gologs(item)">Logistics</span>
                     <span v-if="item.refund_status == 30" class="color" @click="dispute(item,index)">Dispute</span>
+                    <span v-if="item.order_status == 0" class="color" @click="fn_delete(item,index)">Delete</span>
                 </div>
                 <!--  -->
             </div>
@@ -300,6 +308,49 @@
 
                   }
                 })
+              },
+              //删除
+              fn_delete(ite,ind){
+                var _this = this;
+                api.confirm({
+                    title: 'Are you sure you want to delete it?',
+                    msg: '',
+                    buttons: ['Sure', 'Cancel']
+                }, function(ret, err){
+                    if( ret ){
+                         if (ret.buttonIndex == 1) {
+                           var data = {
+                             id:ite.order_id
+                           };
+                           requstPost('user/delOrder',data,function success(ret){
+                             if (ret.code == 0) {
+                               var lists = _this.lists;
+                               lists.map((item,index)=>{
+                                 if(item.order_id==ite.order_id){
+                                   lists.splice(index,1)
+                                 }
+                               })
+                               _this.lists = lists
+                                 api.toast({
+                                     msg: ret.message,
+                                     duration: 3000,
+                                     location: 'middle'
+                                 });
+                             }else {
+                               api.toast({
+                                   msg: ret.message,
+                                   duration: 3000,
+                                   location: 'middle'
+                               });
+                             }
+                           },function fail(err){
+
+                           })
+                         }
+                    }else{
+                         alert( JSON.stringify( err ) );
+                    }
+                });
               },
               //争议申请
               dispute(ite,ind){

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-    <meta name="format-detection" content="telephone=no,email=no"/>
+    <meta name="format-detection" content="telephone=no,email=no" />
     <title>title</title>
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
@@ -18,147 +18,165 @@
             box-sizing: border-box;
             padding-bottom: 30vw;
         }
-        [v-cloak]{
-          display: none;
+
+        [v-cloak] {
+            display: none;
         }
-        .search{
-          width: 94vw;
-          height: 12vw;
-          line-height: 12vw;
-          padding: 0 3vw;
-          box-sizing: border-box;
-          border-radius: 6vw;
-          margin: auto;
-          /*border: 1px solid #999999;*/
-          box-shadow: 0 0 1px 2px #e8e8e8;
-          background: white;
-          color: #999999;
-          display: flex;
-          align-items: center;
+
+        .search {
+            width: 94vw;
+            height: 12vw;
+            line-height: 12vw;
+            padding: 0 3vw;
+            box-sizing: border-box;
+            border-radius: 6vw;
+            margin: auto;
+            /*border: 1px solid #999999;*/
+            box-shadow: 0 0 1px 2px #e8e8e8;
+            background: white;
+            color: #999999;
+            display: flex;
+            align-items: center;
         }
-        .search .iconfont{
-          color: #F96480;
-          font-size: 20px;
-          font-weight: 700;
-          margin-right: 3vw;
+
+        .search .iconfont {
+            color: #F96480;
+            font-size: 20px;
+            font-weight: 700;
+            margin-right: 3vw;
         }
-        .search input{
-          flex: 1;
-          height: 8vw;
-          outline: none;
+
+        .search input {
+            flex: 1;
+            height: 8vw;
+            outline: none;
         }
-        .lists{
-          padding-top: 10vw;
+
+        .lists {
+            padding-top: 10vw;
         }
-        .list{
-          width: 94vw;
-          padding: 3vw;
-          margin:0 auto 3vw;
-          box-sizing: border-box;
-          background: #2B2B2E;
-          color: white;
-          border-radius: 5px;
-          display: flex;
-          justify-content: space-between;
+
+        .list {
+            width: 94vw;
+            padding: 3vw;
+            margin: 0 auto 3vw;
+            box-sizing: border-box;
+            background: #2B2B2E;
+            color: white;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
         }
-        .listl{
-          width: 25vw;
-          height: 25vw;
-          margin-right: 3vw;
+
+        .listl {
+            width: 25vw;
+            height: 25vw;
+            margin-right: 3vw;
         }
-        .listr{
-          width: 60vw;
-          flex: 1;
-          display: flex;
-          align-items: center;
+
+        .listr {
+            width: 60vw;
+            flex: 1;
+            display: flex;
+            align-items: center;
         }
-        .listl img{
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 5px;
+
+        .listl img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
         }
-        .info{
-          height: 25vw;
-          width: 50vw;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
+
+        .info {
+            height: 25vw;
+            width: 50vw;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-        .chose{
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          background: #f5f5f5;
+
+        .chose {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #f5f5f5;
         }
-        .chose img{
-          width: 100%;
-          /*display: none;*/
+
+        .chose img {
+            width: 100%;
+            /*display: none;*/
         }
-        .showimg{
+
+        .showimg {
             background-image: url('../../image/chose.png');
             background-size: 100%;
             border: 0;
         }
-        .name{
-          width: 100%;
-          overflow: hidden;
-          text-overflow: ellipsis;
-           display: -webkit-box;
-           -webkit-line-clamp: 2;
-           -webkit-box-orient: vertical;
+
+        .name {
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
 
-
-        #footer{
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          width: 100%;
-          height: 12vw;
-          text-align: center;
-          line-height: 12vw;
+        #footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 12vw;
+            text-align: center;
+            line-height: 12vw;
             background: #FA607D;
         }
-        #footer div{
-          background: #FA607D;
-          color: white;
-          font-size: 20px;
-          font-weight: 700;
-        }
 
+        #footer div {
+            background: #FA607D;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .searchBtn{
+          color: black;
+
+        }
     </style>
 </head>
 
 <body>
     <div id="app" v-cloak>
 
-        <!-- <div class="search">
-          <i class="iconfont">&#xe612;</i>
-          <input type="text" name="" value="" placeholder="Search for products">
-        </div> -->
-      <div class="lists">
-        <div class="list" v-for="(item,index) in lists" @click="choseShop(item,index)" :key='index'>
-          <div class="listl">
-            <img :src="item.thumb" alt="">
-          </div>
-          <div class="listr">
-            <div class="info">
-              <p class="name">{{item.title}}</p>
-              <p>Commission:￡{{item.commission}}</p>
-              <p>￡{{item.sale_price}}</p>
-            </div>
-            <div class="choseBox" >
-              <span class="chose" >
+        <div class="search">
+            <i class="iconfont">&#xe612;</i>
+            <input type="text" name="" @focus="searchBtn=true" @confirm="fnSearch(searchWords)" v-model="searchWords" placeholder="Search for products">
+            <span class="searchBtn"  @click="fnSearch(searchWords)">{{searchBtn?'Search':'Cancel'}}</span>
+        </div>
+        <div class="lists">
+            <div class="list" v-for="(item,index) in lists" @click="choseShop(item,index)" :key='index'>
+                <div class="listl">
+                    <img :src="item.thumb" alt="">
+                </div>
+                <div class="listr">
+                    <div class="info">
+                        <p class="name">{{item.title}}</p>
+                        <p>Commission:￡{{item.commission}}</p>
+                        <p>￡{{item.sale_price}}</p>
+                    </div>
+                    <div class="choseBox">
+                        <span class="chose">
               <!-- <span class="chose" :class="item.ischose?'showimg':''"> -->
                 <img v-if="item.ischose" src="../../image/chose.png" alt="">
               </span>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-          <!-- <div class="list">
+            <!-- <div class="list">
             <div class="listl">
               <img src="../../image/shop.png" alt="">
             </div>
@@ -175,8 +193,8 @@
               </div>
             </div>
           </div> -->
-      </div>
-      <!-- <footer id="footer" @click="sure()">
+        </div>
+        <!-- <footer id="footer" @click="sure()">
         <div>
           Comfirm Add
         </div>
@@ -190,106 +208,141 @@
 <script src="../../script/vue.min.js"></script>
 <script src="../../script/commonurl.js"></script>
 <script type="text/javascript">
-var app;
+    var app;
     apiready = function() {
-    // $api.fixTabBar($api.byId('footer'))
+        // $api.fixTabBar($api.byId('footer'))
         app = new Vue({
             el: '#app',
             data() {
                 return {
-                  lists:[],
-                  lists1:[
-                    {
-                      name:'Fariy GumdropFariy',
-                      id:5,
-                    },
-                    {
-                        name:'Fariy GumdropFariy',
-                        id:8,
-                    },
-                    {
-                        name:'Fariy GumdropFariy',
-                        id:6,
-                    }
-                  ],
-                  choseArry:[],
-                  page:1,
-                  more:true,
+                    lists: [],
+                    lists1: [{
+                        name: 'Fariy GumdropFariy',
+                        id: 5,
+                    }, {
+                        name: 'Fariy GumdropFariy',
+                        id: 8,
+                    }, {
+                        name: 'Fariy GumdropFariy',
+                        id: 6,
+                    }],
+                    choseArry: [],
+                    page: 1,
+                    more: true,
+                    searchWords:'',
+                    searchBtn:true,
                 }
             },
-            mounted:function () {
+            mounted: function() {
                 // this.addIschose()
             },
             created() {
-              console.log('id:'+api.pageParam.ids);
-              console.log(typeof(api.pageParam.ids));
-              this.getLists()
+                console.log('id:' + api.pageParam.ids);
+                console.log(typeof(api.pageParam.ids));
+                this.getLists()
             },
             methods: {
-              //获取商品列表
-              getLists(){
-                var _this = this;
-                var data = {
-                  page:_this.page,
-                };
-                requstPost('live/selectProduct',data,function success(ret){
-                  if (ret.code == 0) {
-                    ret.data.list.map(function (item) {
+              //点击搜索
+              fnSearch(){
+                this.searchBtn = !this.searchBtn
+                var _this=  this;
+                var parameter = {
+                  keyword:this.searchWords,
+                }
+                if(!this.searchBtn){
+                  requstPost('live/selectProduct', parameter, function success(ret) {
+                      if (ret.code == 0) {
+                          ret.data.list.map(function(item) {
+                              _this.$set(item, 'ischose', false);
+                          })
+                          if (api.pageParam.ids) {
+                              var obj = api.pageParam.ids;
+                              for (var i = 0; i < obj.length; i++) {
+                                  for (var i = 0; i < ret.data.list.length; i++) {
+
+                                      if (obj[i] == ret.data.list[i].id) {
+                                          ret.data.list[i].ischose = true
+                                          _this.choseArry.push(ret.data.list[i].id)
+                                      }
+                                  }
+                              }
+                          }
+                          _this.lists = ret.data.list
+                      }else{
+                        _this.lists = ret.data.list
+                      }
+                  }, function fail(err) {
+
+                  })
+                }else{
+                    _this.lists = [];
+                    this.searchWords = '';
+                    _this.getLists()
+                }
+              },
+                //获取商品列表
+                getLists() {
+                    var _this = this;
+                    var data = {
+                          page: _this.page,
+                      };
+
+                    requstPost('live/selectProduct', data, function success(ret) {
+                        if (ret.code == 0) {
+                            ret.data.list.map(function(item) {
+                                _this.$set(item, 'ischose', false);
+                            })
+                            if (api.pageParam.ids) {
+                                var obj = api.pageParam.ids;
+                                for (var i = 0; i < obj.length; i++) {
+                                    for (var i = 0; i < ret.data.list.length; i++) {
+
+                                        if (obj[i] == ret.data.list[i].id) {
+                                            ret.data.list[i].ischose = true
+                                            _this.choseArry.push(ret.data.list[i].id)
+                                        }
+                                    }
+                                }
+                            }
+                            _this.lists = _this.lists.concat(ret.data.list)
+                        }
+                    }, function fail(err) {
+
+                    })
+                },
+                //追加是否选中属性
+                addIschose() {
+                    //为lists添加ischose（是否选中）字段，初始值为false
+                    var _this = this;
+                    //为lists添加ischose（是否选中）字段，初始值为false
+                    this.lists1.map(function(item) {
                         _this.$set(item, 'ischose', false);
                     })
-                    if (api.pageParam.ids) {
-                      var obj = api.pageParam.ids;
-                      for (var i = 0; i < obj.length; i++) {
-                        for (var i = 0; i < ret.data.list.length; i++) {
-
-                          if (obj[i] == ret.data.list[i].id) {
-                            ret.data.list[i].ischose = true
-                            _this.choseArry.push(ret.data.list[i].id)
-                          }
-                        }
-                      }
+                    this.lists = this.lists1
+                    console.log(JSON.stringify(this.lists));
+                    //要像上面这样写双向绑定才能起效，下面的写法是有问题的，双向绑定不起效的！
+                    //this.productList.map(function (item) {item.select=true})
+                },
+                choseShop(ite, ind) {
+                    ite.ischose = !ite.ischose
+                    if (ite.ischose) {
+                        this.choseArry.push(ite.id)
+                    } else {
+                        var Idindex = this.choseArry.indexOf(ite.id)
+                        this.choseArry.splice(Idindex, 1)
                     }
-                    _this.lists = _this.lists.concat(ret.data.list)
-                  }
-                },function fail(err){
+                },
+                sure() {
+                    api.execScript({
+                        name: 'choselive_win',
+                        frameName: 'choselive',
+                        script: 'app.addShopId("' + JSON.stringify(this.choseArry) + '");'
+                    });
+                    api.closeWin();
 
-                })
-              },
-              //追加是否选中属性
-              addIschose(){
-                //为lists添加ischose（是否选中）字段，初始值为false
-                var _this=this;
-                    //为lists添加ischose（是否选中）字段，初始值为false
-                this.lists1.map(function (item) {
-                    _this.$set(item, 'ischose', false);
-                })
-                this.lists = this.lists1
-                console.log(JSON.stringify(this.lists));
-                //要像上面这样写双向绑定才能起效，下面的写法是有问题的，双向绑定不起效的！
-                //this.productList.map(function (item) {item.select=true})
-              },
-              choseShop(ite,ind){
-                ite.ischose = !ite.ischose
-                if(ite.ischose){
-                  this.choseArry.push(ite.id)
-                }else {
-                  var Idindex = this.choseArry.indexOf(ite.id)
-                  this.choseArry.splice(Idindex,1)
-                  console.log(this.choseArry.indexOf(ite.id));
+
+                    console.log(JSON.stringify(this.choseArry));
                 }
-                console.log(JSON.stringify(this.choseArry));
-              },
-              sure(){
-                api.execScript({
-                    name: 'choselive_win',
-                    frameName: 'choselive',
-                    script: 'app.addShopId("'+JSON.stringify(this.choseArry)+'");'
-                });
-                api.closeWin();
-
-
-                console.log(JSON.stringify(this.choseArry));
-              }
 
 
             }

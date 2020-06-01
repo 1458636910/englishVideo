@@ -247,7 +247,7 @@
             <li class="phoneBox" :class="active == 0?'active':''">
                 <div class="iptBox" :class="showMail?'hide':''">
                   <span class="phoneCode"  @click="choseCode()">+{{phoneCode}}</span>
-                  <input class="ipt" @blur="getblur()" @focus="phoneFocus()" oninput="value=value.replace(/[^\d]/g,'')" v-model="phone" type="tel" placeholder="Cellphone number">
+                  <input class="ipt" @blur="getblur()" @focus="phoneFocus()" oninput="value=value.replace(/[^\d]/g,'')" v-model="phone" type="tel" placeholder="number">
                 </div>
                 <div class="iptBox emailBox" :class="showMail?'show':''">
                   <input style="padding-left:0;" class="ipt" @blur="getblur()" @focus="phoneFocus()"  v-model="phone" type="" placeholder="Email address">

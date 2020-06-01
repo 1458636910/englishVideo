@@ -244,6 +244,7 @@
                 <!--  -->
                 <div class="btns">
                     <span v-if="item.pay_status == 0" @click="goPay(item)" class="color">Pay</span>
+                    <span v-if="item.pay_status == 0" @click="fn_delete(item,index)" class="color">Delete</span>
                 </div>
                 <!--  -->
             </div>
@@ -317,7 +318,6 @@
                   page_size:20,
                   status:_this.status
                 };
-                console.log("----------"+JSON.stringify(data))
                 requstPost('user/live',data,function success(ret){
                   if (ret.code == 0) {
                     if (_this.page == 1) {
@@ -334,6 +334,49 @@
                 },function fail(err){
 
                 })
+              },
+              //删除
+              fn_delete(ite,ind){
+                var _this = this;
+                api.confirm({
+                    title: 'Are you sure you want to delete it?',
+                    msg: '',
+                    buttons: ['Sure', 'Cancel']
+                }, function(ret, err){
+                    if( ret ){
+                         if (ret.buttonIndex == 1) {
+                           var data = {
+                             id:ite.order_id
+                           };
+                           requstPost('user/delLiveOrder',data,function success(ret){
+                             if (ret.code == 0) {
+                               var lists = _this.lists;
+                               lists.map((item,index)=>{
+                                 if(item.order_id==ite.order_id){
+                                   lists.splice(index,1)
+                                 }
+                               })
+                               _this.lists = lists
+                                 api.toast({
+                                     msg: ret.message,
+                                     duration: 3000,
+                                     location: 'middle'
+                                 });
+                             }else {
+                               api.toast({
+                                   msg: ret.message,
+                                   duration: 3000,
+                                   location: 'middle'
+                               });
+                             }
+                           },function fail(err){
+
+                           })
+                         }
+                    }else{
+                         alert( JSON.stringify( err ) );
+                    }
+                });
               },
                 //支付
                 goPay(item) {
