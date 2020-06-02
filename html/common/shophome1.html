@@ -591,25 +591,25 @@
                 </div>
             </div>
             <!-- cate -->
-            <div class="cates" id="cates" v-if="navactive == 3" v-for="(item,index) in slideNavs">
+            <div class="cates" id="cates" v-if="navactive == 3">
               <div class="catesL">
                 <div class="slidenav">
-                  <div  class="slide"  v-for="(item,_index) in slideNavs"   @click="changeSlide(item,_index)"  :class="slideActive==_index?'slideActive':''">
+                  <div @click="changeSlide(item,index)" class="slide" v-for="(item,index) in slideNavs" :class="slideActive==index?'slideActive':''">
                     <span>
-                      {{item.title}}
+                      {{item}}
                     </span>
                   </div>
                 </div>
               </div>
               <div class="catesR">
-                <div class="catesCount" >
-                  <!-- <div class="empty" v-if="item.subs_status == 0">
+                <div class="catesCount"  v-for="(item,index) in slideNavsRight" v-if="slideActive == index">
+                  <div class="empty" v-if="item.subs_status == 0">
                     <img src="../../image/empty.png" alt="">
-                  </div> -->
-                  <div class="cateslistBox">
-                    <!-- <p class="cateTit">{{ite.title}}</p> -->
+                  </div>
+                  <div class="cateslistBox" v-for="(ite,ind) in item.subs">
+                    <p class="cateTit">{{ite.title}}</p>
                     <div class="cateslists">
-                      <div class="cateslist" @click="goshopDetail(item)" v-for="(it,id) in rightGoodsLists">
+                      <div class="cateslist" @click="goshopcate(it)" v-for="(it,id) in ite.subs">
                         <img v-lazy="it.thumb" alt="">
                         <p class="catesName">{{it.title}}</p>
                       </div>
@@ -668,7 +668,6 @@
                     prolists:[],
                     promore:true,
                     propage:1,
-                    rightGoodsLists:[],  //右侧对应的商品
                 }
             },
             created() {
@@ -686,39 +685,6 @@
                 this.getMore()
             },
             methods: {
-              //获取分类的商品列表
-              getList(category_id) {
-                  var _this = this;
-                  var data = {
-                      store_id: api.pageParam.id,
-                      keyword: '',
-                      category_id: category_id,
-                      order_by: 1,
-                      // page: _this.rightpage,
-                      // page_size: 20,
-                  };
-                  requstPost('product', data, function success(ret) {
-                    console.log(JSON.stringify(ret)+'00000000000')
-                      if (ret.code == 0) {
-                        _this.rightGoodsLists = ret.data.list
-                          // if (_this.page == 1) {
-                          //     _this.list = []
-                          // }
-                          // _this.last_product_id = ret.data.last_product_id
-                          // _this.list = _this.list.concat(ret.data.list)
-                          // _this.page += 1
-                          // if (ret.data.list.length < 20) {
-                          //     _this.more = false
-                          // }
-
-                      } else {
-                          _this.more = false
-                      }
-
-                  }, function fail(err) {
-
-                  })
-              },
               //前往聊天
               gochat(){
                 var _this = this;
@@ -943,7 +909,6 @@
 
               })
             },
-
             //获取直播列表
             getLiveList(){
               pubshowloading()
@@ -1021,15 +986,12 @@
                 requstPost('store/selfCategory',data,function success(ret){
                   if (ret.code == 0) {
                     // alert(JSON.stringify(ret.data))
-                    // _this.slideNavsRight = ret.data
-                    // var arrSlide = [];
-                    // for (var i = 0; i < ret.data.length; i++) {
-                    //   arrSlide.push(ret.data[i].title)
-                    // }
-                    _this.slideNavs = ret.data;
-                    if(ret.data.length>0){
-                      _this.getList(ret.data[0].id)
+                    _this.slideNavsRight = ret.data
+                    var arrSlide = [];
+                    for (var i = 0; i < ret.data.length; i++) {
+                      arrSlide.push(ret.data[i].title)
                     }
+                    _this.slideNavs = arrSlide;
                   }
                 },function fail(err){
 
@@ -1101,8 +1063,6 @@
               changeSlide(ite,ind){
                 // alert(JSON.stringify(this.slideNavsRight[ind]))
                 this.slideActive = ind
-                this.getList(ite.id)
-                console.log(";;;;;;;;;;;;;"+JSON.stringify(ite))
               },
                 changeProNav(e) {
                     this.pronav = e
