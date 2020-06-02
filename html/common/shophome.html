@@ -798,8 +798,8 @@
                                 requstPost('user/applyStoreMember',data,function success(ret){
                                   if (ret.code == 0) {
                                     api.alert({
-                                        title: ret.message,
-                                        msg: '',
+                                        title: '',
+                                        msg: ret.message,
                                         buttons:['Sure']
                                     }, function(ret, err){
                                         if( ret ){
@@ -845,8 +845,8 @@
                                   requstPost('user/applyStoreMember',data,function success(res){
                                     if (res.code == 0) {
                                       api.alert({
-                                          title: res.message,
-                                          msg: '',
+                                          title: '',
+                                          msg: ret.message,
                                           buttons:['Sure']
                                       }, function(ret, err){
                                           if( ret ){

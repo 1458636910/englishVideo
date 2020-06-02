@@ -551,8 +551,8 @@
                 buyPayFn() {
                     if (this.terms_status == 1 && this.agree_status == 0) {
                         api.alert({
-                            title: 'Please agree to terms and conditions',
-                            msg: '',
+                            title: '',
+                            msg: 'Please agree to terms and conditions',
                             buttons: ['Sure']
                         });
                         return
@@ -699,8 +699,8 @@
                 choseship(item, index) {
                     if (this.receiver_country == '') {
                         api.alert({
-                            title: 'Please select a shipping address',
-                            msg: '',
+                            title: '',
+                            msg: 'Please select a shipping address',
                             buttons: ["Sure"]
                         }, function(ret, err) {
                             if (ret) {

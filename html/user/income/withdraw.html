@@ -144,8 +144,8 @@
                                 name: 'fn_backdiamond',
                             })
                             api.alert({
-                                title: ret.message,
-                                msg: '',
+                                title: '',
+                                msg:ret.message,
                                 buttons:['Sure']
                             }, function(ret, err) {
                                 if (ret) {
@@ -170,8 +170,8 @@
                     requstPost('jewel/withdraw', data, function success(ret) {
                         if (ret.code == 0) {
                             api.alert({
-                                title: ret.message,
-                                msg: '',
+                                title: '',
+                                msg:ret.message,
                                 buttons:['Sure']
                             }, function(ret, err) {
                                 if (ret) {

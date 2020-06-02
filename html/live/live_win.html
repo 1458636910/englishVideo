@@ -81,8 +81,8 @@
             } else {
                 api.hideProgress();
                 api.alert({
-                    title: ret.message,
-                    msg: '',
+                    title: '',
+                    msg: ret.message,
                     buttons: ['Sure']
                 }, function(ret, err) {
                     if (ret) {

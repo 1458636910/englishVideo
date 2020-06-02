@@ -361,8 +361,8 @@
                     requstPost('anchor/apply', postData, function success(rret) {
                         // alert(JSON.stringify(rret))
                         api.alert({
-                            title: rret.message,
-                            msg: '',
+                            title: '',
+                            msg: rret.message,
                             buttons:['Done']
                         }, function(ret, err) {
                             if (ret) {

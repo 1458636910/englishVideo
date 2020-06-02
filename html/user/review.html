@@ -227,8 +227,8 @@ var app;
                 requstPost('user/orderTalk',data,function success(ret){
                   if (ret.code == 0) {
                     api.alert({
-                        title: ret.message,
-                        msg: '',
+                        title: '',
+                        msg: ret.message,
                         buttons:['Sure']
                     }, function(ret, err){
                       api.closeWin();

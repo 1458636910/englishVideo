@@ -419,8 +419,8 @@
                     };
                     requstPost('video/push', data, function success(rett) {
                         api.alert({
-                            title: rett.message,
-                            msg: '',
+                            title: '',
+                            msg: ret.message,
                             buttons:['Sure']
                         }, function(ret, err) {
                             if (ret) {
