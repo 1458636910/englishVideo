@@ -242,6 +242,91 @@
         .show{
           transform: translateX(0);
         }
+        /*选择协议部分*/
+        .shopNameBoxr{
+          flex: 1;
+          text-align: right;
+          color: #FBC36E;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          box-sizing: border-box;
+          padding-top: 30px;
+        }
+        .chose{
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: #f5f5f5;
+        }
+        .chose img{
+          width: 100%;
+          /*display: none;*/
+        }
+        .iagree{
+          color: #f9587f;
+        }
+
+        .divier {
+    			width: 100%;
+    			height: 1px;
+    			background: #ede9e9;
+    			position: relative;
+    			font-size: 12px;
+    			color: #bebebe;
+    			margin: 30px 0;
+    		}
+
+		.divier>span {
+			position: absolute;
+			background: white;
+			box-sizing: border-box;
+			padding: 10px;
+			top: 0;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		.inputBox {
+			margin-top: 20px;
+		}
+
+		.van-cell {
+			box-sizing: border-box;
+			padding: 15px;
+		}
+		/*apple登录*/
+		.apple>img{
+			  width: 100%;
+		}
+
+    .wechatimg {
+			text-align: center;
+			/*display: flex;*/
+			align-items: center;
+			justify-content: space-around;
+		}
+
+		.wechatimg>img {
+			width: 45px;
+			height: 45px;
+		}
+
+		.wechatimg>.apple{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			box-sizing: border-box;
+			padding: 4px 0;
+			margin: 0 auto;
+			margin-bottom: 10px;
+		}
+
+		.wechatimg>.apple>img {
+			width: 35px;
+			height: 35px;
+		}
     </style>
 </head>
 
@@ -275,7 +360,16 @@
                 Register
               </span>
             </p>
-
+            <div  class="shopNameBoxr">
+              <span @click.stop="chooseTrems()" class="chose" style="margin-right:5px;">
+                <img v-if="termChoose"  src="../image/chose.png" alt="">
+              </span>
+              <span v-if="!showapple" class="iagree" @click.stop="showterms()">I agree all terms & conditions</span>
+            </div>
+            <div v-if="!showapple" class="divier"><span>第三方登录</span></div>
+      			<div class="wechatimg">
+      				<span class="apple" @click="applelogin()"><img src="../image/apple.png" alt="apple"></span>
+      		  </div>
 
             <!-- <div class="sanfang" v-if="wxHas">
                 <p class="sanUp"><i></i><span>or</span><i></i></p>
@@ -314,7 +408,9 @@
                     qqHas: false,
                     wxHas: false,
                     confirmShow: false,
-                    phoneCode:'86'
+                    phoneCode:'86',
+                    termChoose:false,
+                    showapple: false, //是否展示apple登录
                 }
             },
             mounted() {
@@ -323,9 +419,21 @@
                 }, function(ret, err) {
                     console.log(1111);
                 });
+                //获取授权状态，证书等问题
+      					if (this.showapple) {
+      						var Apple = api.require('Apple');
+      						//监听用户是否从设置内删除了该app的授权
+      						Apple.observeAppleSignInState(function(ret) {
+      							console.log(用户取消该App的授权)
+      						});
+      					}
             },
             created() {
-
+              var sysversion = (api.systemVersion).split('.');
+                var systype = api.systemType;
+      					if (systype == 'ios' && sysversion[0] >= 13) {
+      							this.showapple = true
+      					}
                 this.isShowface()
                 if ($api.getStorage('islogin') == 'true') {
                     setTimeout(() => {
@@ -342,6 +450,10 @@
 
             },
             methods: {
+              //改变选中协议的状态
+              chooseTrems(){
+                 this.termChoose = !this.termChoose;
+              },
               // changePhoneCode(ite){
               //   // alert(ite)
               //   this.phoneCode = ite
@@ -360,6 +472,112 @@
                     }
                 });
               },
+              //点击查看协议
+              showterms(){
+                api.openFrame({
+                    name: 'terms',
+                    url: './common/registerTrems.html',
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: api.winWidth,
+                        h: api.winHeight
+                    },
+                    pageParam: {},
+                    bounces:false,
+                    bgColor: 'rgba(0,0,0,0)',
+                    vScrollBarEnabled: true,
+                    hScrollBarEnabled: true,
+                    animation:{
+                      type:"push",
+                      subType:"from_bottom",
+                      duration:300
+                    }
+                });
+              },
+              //apple登录
+      					applelogin() {
+      						var Apple = api.require('Apple');
+      						Apple.login(function(ret, err) {
+      							if (ret.status) {
+      								var parameter = {
+      									identityToken:ret.authInfo.identityToken,
+      									user:ret.authInfo.user,
+      								}
+      								  requstPost(URLRouter.appleLogin,parameter,function success(ret){
+      										if (ret.code == 0) {
+                                $api.setStorage('islogin', 'true');
+                                $api.setStorage('token', ret.data.token);
+                                $api.setStorage('email',_this.phone);
+                                api.execScript({
+                                    name: 'root',
+                                    // frameName: 'frmName',
+                                    script: 'socketInitFn();'
+                                });
+                                api.execScript({
+                                    name: 'root',
+                                    // frameName: 'frmName',
+                                    script: 'homeFrame();'
+                                });
+                                api.closeToWin({
+                                    name: 'root'
+                                });
+      										} else if (ret.code == 402) {
+      											setTimeout(function() {
+      												api.openWin({
+      													name: 'bindPhone_win',
+      													url: 'bindPhone_win.html',
+      													pageParam:{
+      														apple:true,
+      														identityToken:ret.authInfo.identityToken,
+      														user:ret.authInfo.user
+      													}
+      												});
+      											}, 100)
+      										} else {
+      											api.toast({
+      												msg: ret.msg,
+      												duration: 2000,
+      												location: 'middle'
+      											});
+      										}
+      									})
+      							} else {
+      								console.log(JSON.stringify(err));
+      								if(err.code==1000){
+      									api.toast({
+      									    msg: '用户已经删除授权该app',
+      									    duration: 2000,
+      									    location: 'middle'
+      									});
+      								}else if(err.code==1001){
+      									api.toast({
+      									    msg: '用户取消了授权请求',
+      									    duration: 2000,
+      									    location: 'middle'
+      									});
+      								}else if(err.code==1002){
+      									api.toast({
+      									    msg: '授权请求无响应',
+      									    duration: 2000,
+      									    location: 'middle'
+      									});
+      								}else if(err.code==1004){
+      									api.toast({
+      									    msg: '授权请求失败',
+      									    duration: 2000,
+      									    location: 'middle'
+      									});
+      								}else{
+      									api.toast({
+      									    msg: '未知错误',
+      									    duration: 2000,
+      									    location: 'middle'
+      									});
+      								}
+      							}
+      						});
+      					},
                 //判断微信
                 isShowface() {
                     var _this = this;
@@ -410,7 +628,6 @@
                     requstPost('auth/login',data,function success(ret){
                       // datadebug(ret)
                       if (ret.code == 0) {
-                        console.log(ret.data)
                         $api.setStorage('islogin', 'true');
                         $api.setStorage('token', ret.data.token);
                         $api.setStorage('email',_this.phone);
