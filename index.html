@@ -601,7 +601,7 @@
             pingInterval: 60,
             url: socketUrl
         }, function(ret, err) {
-            console.log(JSON.stringify(ret) + "  " + JSON.stringify(err));
+            // console.log(JSON.stringify(ret) + "  " + JSON.stringify(err));
             if (ret.status) {
                 demo.bindEvent(function(rett, errr) {
                     var type = rett.type;
@@ -613,7 +613,7 @@
                             break;
                         case 'receive':
                             var message = JSON.parse(str);
-                            console.log("接收消息：" + str);
+                            console.log("index.html接收消息：" + str);
                             var data = JSON.parse(str);
                             if (data.op == 'init') {
                                 $api.setStorage('client_id', data.client_id);

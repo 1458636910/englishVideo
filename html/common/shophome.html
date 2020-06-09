@@ -562,7 +562,7 @@
                 </div>
             </div>
             <!-- products -->
-            <div class="products" v-if="liveslist == 2">
+            <div class="products" v-if="navactive == 2">
                 <div class="pronav">
                     <div @click="changeProNav(1)" :class="pronav==1?'active':''">Newly Listed</div>
                     <div @click="changeProNav(2)" :class="pronav==2?'active':''">Most Popular</div>
@@ -931,6 +931,7 @@
                   if (_this.propage == 1) {
                     _this.prolists = []
                     _this.prolists = _this.prolists.concat(ret.data)
+                    console.log(";;;;;;;;;;;;"+JSON.stringify(_this.prolists.concat(ret.data)))
                     if (ret.data.length < 20) {
                       _this.promore = false
                     }

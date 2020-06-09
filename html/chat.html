@@ -318,15 +318,15 @@
                                   break;
                              case 'receive':
                                  var message = JSON.parse(str);
-                                 console.log("接收消息："+str);
+                                 console.log("chat.html接收消息："+str);
                                  var data = JSON.parse(str);
                                  if (data.op == 'init') {
                                   //  _this.client_id = data.client_id
                                   //  _this.bindlive_id()
                                  }
                                  if (data.op == 'message') {
-                                   console.log(_this.room_id);
-                                   console.log(api.pageParam.chat_group_id);
+                                  //  console.log(_this.room_id);
+                                  //  console.log(api.pageParam.chat_group_id);
                                    if (data.room_id == _this.room_id) {
                                      var obj = {
                                        position: data.data.position,
@@ -369,6 +369,7 @@
               },
               //获取消息详情
               getLists(){
+                console.log(";;;;;;;;;;;")
                 var _this = this;
                 var data = {
                   chat_group_id:api.pageParam.chat_group_id,
@@ -657,20 +658,19 @@
                       if (ret) {
                           //发送
                           if (ret.eventType == 'send') {
-                              if (ret.message != '') {
+                              if (ret.msg != '') {
                                   var obj = {
                                           position: 'right',
                                           message_type:0,
-                                          content: ret.message,
+                                          content: ret.msg,
                                           avatar_url: $api.getStorage('headimg'),
                                           sort_time:0,
                                           create_time:''
                                       };
                                       var data = {
-                                        message:ret.message,
+                                        message:ret.msg,
                                         chat_group_id:api.pageParam.chat_group_id
                                       };
-                                      console.log(JSON.stringify(data))
                                       requstPost('chat/sendGroupMessage',data,function success(ret){
                                         if (ret.code == 0) {
 
