@@ -59,6 +59,7 @@
             display: flex;
             justify-content: space-around;
             border: 1px solid #f5f5f5;
+            box-sizing: border-box;
             padding: 3vw 0;
             border-radius: 5px;
             box-shadow: 0 1px 1px 1px #f5f5f5;
@@ -328,7 +329,7 @@
                 </div>
                 <i class="iconfont">&#xe61f;</i>
             </div>
-            <div class="list" @click="goliveOrder()">
+            <div class="list" @click="goliveOrder()" v-if="!isIos">
                 <div class="listl">
                     <img src="../image/user/1.png" alt="">
                     <span>Paid Live/Video</span>
@@ -443,9 +444,11 @@
                     heaGht: 100,
                     qdShow: true,
                     is_sign:'',  //是否可以继续领钻石
+                    isIos:0,
                 }
             },
             created() {
+                this.isIos = $api.getStorage('isIos');
                 var headHeight = api.winWidth / 100 * 12;
                 this.heaGht = $api.dom('header').offsetHeight
                     // alert(this.heaGht)

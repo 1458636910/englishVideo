@@ -339,7 +339,7 @@ function requstUpload(data,success,fail){
         token = "";
     }
     data.token = token;
-    console.log(token)
+    console.log(token+'==========='+data)
     api.ajax({
         url: url+'upload',
         method: 'post',

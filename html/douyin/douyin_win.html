@@ -298,22 +298,26 @@
              videoid = ret.data.list[0].id;//视频id
              focus_anchor_status = ret.data.list[0].focus_anchor_status;//是否关注
              fav_video_status = ret.data.list[0].fav_video_status;//是否点赞
-             if(Number(ret.data.list[0].price) > 0){
-               if (Number(ret.data.list[0].pay_order_status) == 0) {
-                 //未支付
-                 setTimeout(()=>{
-                   demo.pause()
-                   isPause = true
-                   isMoney()
-                 },3000)
-               }else {
-                 payed = true
-               }
-             }else {
-               //免费
-               payed = true
+             if($api.getStorage('isIos')){
+                 if(Number(ret.data.list[0].price) > 0){
+                   if (Number(ret.data.list[0].pay_order_status) == 0) {
+                     //未支付
+                     setTimeout(()=>{
+                       demo.pause()
+                       isPause = true
+                       isMoney()
+                     },3000)
+                   }else {
+                     payed = true
+                   }
+                 }else {
+                   //免费
+                   payed = true
+                 }
+             }else{
+               //ios免费
+                payed = true
              }
-
             //  alert(ismore)
             openPullLive()
           }else {

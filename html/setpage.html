@@ -98,7 +98,7 @@
               </span>
             </div>
       </div>
-      <div class="lists" tapmode="hover" onclick="checkUpdate()">
+      <div class="lists" tapmode="hover" onclick="checkUpdate()" v-if="!isIos">
         <div class="list">
           <span>Version Information</span>
           <span style="color:#999999;">
@@ -156,9 +156,11 @@ var app;
                 return {
                   catchNum:'',
                   version:'',
+                  isIos:0
                 }
             },
             created:function() {
+              this.isIos = $api.getStorage('isIos');
               this.version = api.appVersion
               this.catchNum = $api.getStorage('catchNum');
               this.getCatch()

@@ -250,8 +250,7 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
-          box-sizing: border-box;
-          padding-top: 30px;
+          margin-top: 2vw;
         }
         .chose{
           width: 20px;
@@ -264,7 +263,7 @@
           /*display: none;*/
         }
         .iagree{
-          color: #f9587f;
+          color: #FBC36E;
         }
 
         .divier {
@@ -327,6 +326,10 @@
 			width: 35px;
 			height: 35px;
 		}
+    .appleicon{
+      width: 15vw;
+      height: auto;
+    }
     </style>
 </head>
 
@@ -353,25 +356,36 @@
                     <input @blur="getblur()" @focus="pwdFocus()" v-model="pwd" type="password" placeholder="Login password">
                 </li>
             </ul>
+
+            <div  class="shopNameBoxr">
+              <span @click.stop="chooseTrems()" class="chose" style="margin-right:5px;">
+                <img v-if="termChoose"  src="../image/chose.png" alt="">
+              </span>
+              <span class="iagree" @click.stop="showterms()">I agree all terms & conditions</span>
+            </div>
+
             <div class="loginBtn" @click="phonelogin()">Log in</div>
+
             <p class="forgetpwd">
                 <span tapmode="hover" onclick="forgotpwd();">Forget password</span>
                 <span tapmode="hover" onclick="register();" style="color:#ff4f75;">
                 Register
               </span>
             </p>
-            <div  class="shopNameBoxr">
-              <span @click.stop="chooseTrems()" class="chose" style="margin-right:5px;">
-                <img v-if="termChoose"  src="../image/chose.png" alt="">
-              </span>
-              <span v-if="!showapple" class="iagree" @click.stop="showterms()">I agree all terms & conditions</span>
-            </div>
-            <div v-if="!showapple" class="divier"><span>第三方登录</span></div>
-      			<div class="wechatimg">
+            <!-- <div v-if="showapple" class="divier"><span>第三方登录</span></div>
+      			<div class="wechatimg" v-if="showapple">
       				<span class="apple" @click="applelogin()"><img src="../image/apple.png" alt="apple"></span>
-      		  </div>
+      		  </div> -->
+            <div class="sanfang">
+                <p class="sanUp"><i></i><span>or</span><i></i></p>
+                <div class="sanBtn">
+                    <span @click="applelogin()">
+                  <img class="appleicon" src="../image/apple.png" alt="apple">
+                </span>
+                </div>
+            </div>
 
-            <!-- <div class="sanfang" v-if="wxHas">
+            <!-- <div class="sanfang">
                 <p class="sanUp"><i></i><span>or</span><i></i></p>
                 <div class="sanBtn">
                     <span @click="facelogin()">
@@ -429,6 +443,7 @@
       					}
             },
             created() {
+              this.getSysType()
                 var sysversion = (api.systemVersion).split('.');
                 var systype = api.systemType;
       					if (systype == 'ios' && sysversion[0] >= 13) {
@@ -450,6 +465,16 @@
 
             },
             methods: {
+              getSysType(){
+                var Apple = api.require('Apple');
+                var systype = api.systemType;
+                var iosClose = systype=='ios'?1:0;   //当前系统是安卓还是ios
+                requstPost('app/iosStatus',{iosClose:iosClose},function success(ret){
+                  if(ret.code==0){
+                    $api.setStorage('isIos', iosClose);
+                  }
+                })
+              },
               //改变选中协议的状态
               chooseTrems(){
                  this.termChoose = !this.termChoose;
@@ -497,6 +522,14 @@
               },
               //apple登录
       					applelogin() {
+                  if(!this.termChoose){
+                    api.toast({
+                        msg: 'Please agree to the terms',
+                        duration: 3000,
+                        location: 'middle'
+                    });
+                    return;
+                  }
       						var Apple = api.require('Apple');
       						Apple.login(function(ret, err) {
       							if (ret.status) {
@@ -504,36 +537,21 @@
       									identityToken:ret.authInfo.identityToken,
       									user:ret.authInfo.user,
       								}
-      								  requstPost(URLRouter.appleLogin,parameter,function success(ret){
+      								  requstPost('auth/appleLogin',parameter,function success(ret){
       										if (ret.code == 0) {
-                                $api.setStorage('islogin', 'true');
-                                $api.setStorage('token', ret.data.token);
-                                $api.setStorage('email',_this.phone);
-                                api.execScript({
-                                    name: 'root',
-                                    // frameName: 'frmName',
-                                    script: 'socketInitFn();'
-                                });
-                                api.execScript({
-                                    name: 'root',
-                                    // frameName: 'frmName',
-                                    script: 'homeFrame();'
-                                });
-                                api.closeToWin({
-                                    name: 'root'
-                                });
-      										} else if (ret.code == 402) {
-      											setTimeout(function() {
-      												api.openWin({
-      													name: 'bindPhone_win',
-      													url: 'bindPhone_win.html',
-      													pageParam:{
-      														apple:true,
-      														identityToken:ret.authInfo.identityToken,
-      														user:ret.authInfo.user
-      													}
-      												});
-      											}, 100)
+                              $api.setStorage('islogin', 'true');
+                              $api.setStorage('token', ret.data.token);
+                              api.execScript({
+                                  name: 'root',
+                                  script: 'socketInitFn();'
+                              });
+                              api.execScript({
+                                  name: 'root',
+                                  script: 'homeFrame();'
+                              });
+                              api.closeToWin({
+                                  name: 'root'
+                              });
       										} else {
       											api.toast({
       												msg: ret.msg,

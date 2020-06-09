@@ -132,7 +132,7 @@
             </div>
         </div>
         <div class="lists">
-            <div class="list">
+            <div class="list" v-if="!isIos">
                 <span>Price</span>
                 <div class="ipt">
                     <span></span>
@@ -191,7 +191,7 @@
                     headimg: '',
                     shopId: [],
                     shopIdstr: '',
-                    price: '',
+                    price: 0,
                     title: '',
                     headimgsrc: '', //传给后台
                     hasShop: '',
@@ -201,9 +201,11 @@
                     currentDate: new Date(),
                     showtime: '', //显示的时间
                     Timestamp: '', //时间戳格式
+                    isIos:0,
                 }
             },
             created() {
+                this.isIos = $api.getStorage('isIos');
                 //设置最小可选时间，和最大时间
                 var time = new Date();
                 this.minDate = new Date(time.getFullYear(), time.getMonth(), time.getDate(), time.getHours(), time.getMinutes())

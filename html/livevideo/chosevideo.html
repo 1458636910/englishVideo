@@ -193,7 +193,7 @@
             </div>
         </div>
         <div class="lists">
-            <div class="list">
+            <div class="list" v-if="!isIos">
                 <span>Price</span>
                 <div class="ipt">
                     <span></span>
@@ -250,11 +250,13 @@
                     choseArry: [],
                     imgurl: '', //上传后的地址
                     videourl: '', //上传后的地址
-                    price: '',
+                    price: 0,
                     hadVideo:'',  //是否选择了视频
+                    isIos:0
                 }
             },
             created() {
+                this.isIos = $api.getStorage('isIos');
                 this.getTypes()
             },
             methods: {
@@ -371,7 +373,6 @@
                         if (_this.imgurl) {
                             _this.upVideo()
                         } else {
-
                             var data = _this.headimg;
                             requstUpload(data, function success(ret) {
                                 _this.imgurl = ret.data.src
@@ -402,6 +403,7 @@
                 },
                 //发布
                 subMit() {
+
                     pubshowloading()
                         // alert()
                     var _this = this;
@@ -420,7 +422,7 @@
                     requstPost('video/push', data, function success(rett) {
                         api.alert({
                             title: '',
-                            msg: ret.message,
+                            msg: rett.message,
                             buttons:['Sure']
                         }, function(ret, err) {
                             if (ret) {

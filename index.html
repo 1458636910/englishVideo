@@ -331,6 +331,7 @@
                 // alert(api.appVersion)
                 //获取偏好设置
                 /*协议*/
+            getSysType()  //获取权限（ios
             getReadProtol()
             ajpush = api.require('ajpush');
             NVTabBar = api.require('NVTabBar');
@@ -554,7 +555,7 @@
             // ajPushListen()
                 //初始化握手
             setTimeout(() => {
-                socketInitFn() 
+                socketInitFn()
             }, 3000)
 
         }
@@ -653,6 +654,16 @@
                 }
             }
         });
+    }
+    function getSysType(){
+      var Apple = api.require('Apple');
+      var systype = api.systemType;
+      var iosClose = systype=='ios'?1:0;   //当前系统是安卓还是ios
+      requstPost('app/iosStatus',{iosClose:iosClose},function success(ret){
+        if(ret.code==0){
+          $api.setStorage('isIos', iosClose);
+        }
+      })
     }
     //打开协议说明
     function getReadProtol() {
