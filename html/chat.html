@@ -285,20 +285,19 @@
                 }
             },
             created() {
-
+                 this.getInitSocket()
                   api.refreshHeaderLoading();
                   setTimeout(()=>{
                     api.refreshHeaderLoadDone();
                   },100)
-              if (api.systemType == 'android') {
-                this.isandroid = true
-              }else {
-                this.isandroid = false
-              }
-              this.headHeight = api.pageParam.headHeight
-              this.writeText()
-              this.refreach()
-              this.getInitSocket()
+                if (api.systemType == 'android') {
+                  this.isandroid = true
+                }else {
+                  this.isandroid = false
+                }
+                this.headHeight = api.pageParam.headHeight
+                this.writeText()
+                this.refreach()
             },
             methods: {
               //初始化聊天，进行监听
@@ -336,17 +335,19 @@
                                        sort_time:data.data.sort_time,
                                        create_time:data.data.create_time
                                      };
-                                     _this.lists.push(obj)
-                                     api.pageDown({
-                                         bottom: true
-                                     }, function(ret, err) {
-                                         if (!ret.scrolled) {
-                                             //已经滚动到底部
-                                             // console.log('到底了')
-                                         } else {
+                                    //  _this.lists.push(obj)
+                                     setTimeout(()=>{
+                                       api.pageDown({
+                                           bottom: true
+                                       }, function(ret, err) {
+                                           if (!ret.scrolled) {
+                                               //已经滚动到底部
+                                               // console.log('到底了')
+                                           } else {
 
-                                         }
-                                     });
+                                           }
+                                       });
+                                     },300)
                                      _this.showTime()
                                     //  _this.addLists(data.data.nickname,data.data.avatar_url,data.data.message)
                                    }
@@ -369,7 +370,6 @@
               },
               //获取消息详情
               getLists(){
-                console.log(";;;;;;;;;;;")
                 var _this = this;
                 var data = {
                   chat_group_id:api.pageParam.chat_group_id,
@@ -580,9 +580,6 @@
               //编辑文字
               writeText() {
                   var _this = this
-
-                  //chatbox
-
                   var UIChatBox = api.require('UIChatBox');
                   UIChatBox.open({
                       placeholder: '',
@@ -690,7 +687,7 @@
 
                                       // _this.sendSocketMes(1,ret.message)
                                       // alert($api.getStorage('headimg'))
-                                  // _this.lists.push(obj)
+                                  _this.lists.push(obj)
                               }
                           }
                           //附加按钮
@@ -702,16 +699,6 @@
                           }
                           //重置大小
                           if (ret.eventType == 'show') {
-                              // api.setFrameAttr({
-                              //     name: 'chat',
-                              //     bounces: true,
-                              //     rect: {
-                              //         x: 0,
-                              //         y: _this.headerH,
-                              //         w: api.winWidth,
-                              //         h: api.winHeight - _this.headerH - ret.inputBarHeight
-                              //     }
-                              // })
                           }
                           setTimeout(() => {
                               api.pageDown({
@@ -948,17 +935,6 @@
                             }, 500)
                             if (ret.panelHeight == 0) {
                               return
-                                console.log('000000');
-                                api.setFrameAttr({
-                                    name: 'chat',
-                                    bounces: true,
-                                    rect: {
-                                        x: 0,
-                                        y: _this.headerH,
-                                        w: api.winWidth,
-                                        h: api.winHeight - _this.headerH - ret.inputBarHeight
-                                    }
-                                })
                             }
                             console.log('键盘' + JSON.stringify(ret));
                         }else {
