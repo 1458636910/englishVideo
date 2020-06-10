@@ -614,6 +614,9 @@
                         case 'receive':
                             var message = JSON.parse(str);
                             console.log("index.html接收消息：" + str);
+                            api.sendEvent({
+                                name: 'updataMessage',
+                            });
                             var data = JSON.parse(str);
                             if (data.op == 'init') {
                                 $api.setStorage('client_id', data.client_id);

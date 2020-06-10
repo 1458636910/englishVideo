@@ -243,8 +243,18 @@
               if ($api.getStorage('islogin') == 'true') {
                 this.getList()
               }
+              this.upDataNewMessage()
             },
             methods: {
+              //监听收到消息
+              upDataNewMessage(){
+                var _this = this;
+                api.addEventListener({
+                    name: 'updataMessage'
+                }, function(ret, err) {
+                      _this.getList()
+                });
+              },
               getList(){
                 var _this = this;
                 requstPost('chat/userChatGroupList','',function success(ret){
