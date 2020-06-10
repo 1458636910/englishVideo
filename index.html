@@ -1281,8 +1281,8 @@
             alias: 'nailvision_' + 1,
             tags: ['tag2']
         };
-        console.log('userid' + 1);
-        console.log(api.systemType);
+        // console.log('userid' + 1);
+        // console.log(api.systemType);
         if (api.systemType == 'android') {
             ajpush.init(function(ret) {
                 if (ret && ret.status) {
@@ -1455,11 +1455,14 @@
                             });
                         } else if (extra.type == 'updata') {
                             //更新
+                            console.log('index.html-updata')
                         } else if (extra.type == 'urgent') {
                             //紧急消息，将直接显示app 弹出来
+                            console.log('紧急消息，将直接显示app 弹出来')
                             alert(extra.urgent)
                         }
                         //处理通知消息
+                        console.log('处理通知消息')
                         alert(JSON.stringify(ret));
 
                     }
