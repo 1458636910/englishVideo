@@ -844,7 +844,6 @@
                                   };
                                   requstPost('user/applyStoreMember',data,function success(res){
                                     if (res.code == 0) {
-                                      console.log(JSON.stringify(res)+';;;;;;;;;;;')
                                       api.alert({
                                           title: '',
                                           msg: res.message,
