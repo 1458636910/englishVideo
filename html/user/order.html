@@ -453,40 +453,40 @@
 
                   })
                   return
-                    var paypal = api.require('paypal');
-                    paypal.pay({
-                        currency: 'USD',
-                        price: '36.06',
-                        description: 'APICloud 短袖T恤',
-                        mode: 'noNetwork',
-                        // language:'zh-Hans'
-                    }, function(ret) {
-                        if (ret) {
-                          if (ret.state == 'cancel') {
-                            //用户取消支付
-                            api.alert({
-                                msg: 'Cancel payment',
-                                title:'',
-                                buttons:['Sure']
-                            });
-                          }else if (ret.state == 'fail') {
-                            //支付失败
-                            api.alert({
-                                msg: 'Payment failed',
-                                title:'',
-                                buttons:['Sure']
-                            });
-                          }else if (ret.state == 'success') {
-                            //支付成功
-                            api.alert({
-                                msg: 'Payment Successful',
-                                title:'',
-                                buttons:['Sure']
-                            });
-                          }
-                          console.log('支付结果：'+JSON.stringify(ret));
-                        }
-                    });
+                    // var paypal = api.require('paypal');
+                    // paypal.pay({
+                    //     currency: 'USD',
+                    //     price: '36.06',
+                    //     description: 'APICloud 短袖T恤',
+                    //     mode: 'noNetwork',
+                    //     // language:'zh-Hans'
+                    // }, function(ret) {
+                    //     if (ret) {
+                    //       if (ret.state == 'cancel') {
+                    //         //用户取消支付
+                    //         api.alert({
+                    //             msg: 'Cancel payment',
+                    //             title:'',
+                    //             buttons:['Sure']
+                    //         });
+                    //       }else if (ret.state == 'fail') {
+                    //         //支付失败
+                    //         api.alert({
+                    //             msg: 'Payment failed',
+                    //             title:'',
+                    //             buttons:['Sure']
+                    //         });
+                    //       }else if (ret.state == 'success') {
+                    //         //支付成功
+                    //         api.alert({
+                    //             msg: 'Payment Successful',
+                    //             title:'',
+                    //             buttons:['Sure']
+                    //         });
+                    //       }
+                    //       console.log('支付结果：'+JSON.stringify(ret));
+                    //     }
+                    // });
                 },
                 //申请退款
                 gorefund(ite){

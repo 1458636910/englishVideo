@@ -249,48 +249,48 @@
 
                     return
                     var _this = this;
-                    var paypal = api.require('paypal');
-                    paypal.pay({
-                        currency: 'USD',
-                        price: '36.06',
-                        description: '短袖T恤',
-                        mode: 'sandbox', //production：线上环境，真实扣款
-                        // language:'zh-Hans'
-                    }, function(ret) {
-                        if (ret) {
-                            if (ret.state == 'cancel') {
-                                //用户取消支付
-                                api.alert({
-                                    title: '',
-                                    msg: 'Cancel payment',
-                                    buttons: ['Sure']
-                                });
-                            } else if (ret.state == 'fail') {
-                                //支付失败
-                                api.alert({
-                                    title: '',
-                                    msg: 'Payment failed',
-                                    buttons: ['Sure']
-                                })
-                            } else if (ret.state == 'success') {
-                                //支付成功
-                                api.alert({
-                                    title: '',
-                                    msg: 'Payment Successful',
-                                    buttons: ['Sure']
-                                });
-                            }
-                            _this.active = false
-                                //支付成功，开始播放
-                            api.execScript({
-                                name: 'douyin_win',
-                                // frameName: 'frmName',
-                                script: 'startPlay();'
-                            });
-                            api.closeFrame();
-                            console.log('支付结果：' + JSON.stringify(ret));
-                        }
-                    });
+                    // var paypal = api.require('paypal');
+                    // paypal.pay({
+                    //     currency: 'USD',
+                    //     price: '36.06',
+                    //     description: '短袖T恤',
+                    //     mode: 'sandbox', //production：线上环境，真实扣款
+                    //     // language:'zh-Hans'
+                    // }, function(ret) {
+                    //     if (ret) {
+                    //         if (ret.state == 'cancel') {
+                    //             //用户取消支付
+                    //             api.alert({
+                    //                 title: '',
+                    //                 msg: 'Cancel payment',
+                    //                 buttons: ['Sure']
+                    //             });
+                    //         } else if (ret.state == 'fail') {
+                    //             //支付失败
+                    //             api.alert({
+                    //                 title: '',
+                    //                 msg: 'Payment failed',
+                    //                 buttons: ['Sure']
+                    //             })
+                    //         } else if (ret.state == 'success') {
+                    //             //支付成功
+                    //             api.alert({
+                    //                 title: '',
+                    //                 msg: 'Payment Successful',
+                    //                 buttons: ['Sure']
+                    //             });
+                    //         }
+                    //         _this.active = false
+                    //             //支付成功，开始播放
+                    //         api.execScript({
+                    //             name: 'douyin_win',
+                    //             // frameName: 'frmName',
+                    //             script: 'startPlay();'
+                    //         });
+                    //         api.closeFrame();
+                    //         console.log('支付结果：' + JSON.stringify(ret));
+                    //     }
+                    // });
 
 
                 }
