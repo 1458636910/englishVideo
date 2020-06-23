@@ -77,6 +77,11 @@
         requstPost('live/detail', data, function success(ret) {
             api.hideProgress();
             if (ret.code == 0) {
+              api.toast({
+                  msg: '请求的播流地址：'+ret.data.live_play_url,
+                  duration: 10000,
+                  location: 'middle'
+              });
                 openPullLive(ret.data.live_play_url)
             } else {
                 api.hideProgress();
@@ -161,12 +166,22 @@
             h:api.winHeight
           },
         },function(ret){
+          api.toast({
+              msg: '播放初始化',
+              duration: 5000,
+              location: 'middle'
+          });
         })
           alivcLivePlayer.prepareToPlay({
             // url:'http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8'
             url:live_play_url
             // url:'http://nailvision.tao.li4.cn:1936/nailvision_27_130.m3u8'
           },function(ret){
+            api.toast({
+                msg: '开始播放',
+                duration: 5000,
+                location: 'middle'
+            });
               //禁止屏幕休眠
               api.setKeepScreenOn({
                   keepOn: true

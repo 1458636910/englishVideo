@@ -132,12 +132,27 @@ var live_id = '';
     //开始推流
     function startPushFn(e){
       console.log(e+'推流的视频')
+      api.toast({
+          msg: e+'推流的视频地址',
+          duration: 10000,
+          location: 'middle'
+      });
       alivcLivePusher.startPush({
         url:e
       },function(ret){
           if (ret.status) {
+            api.toast({
+              msg: '推流成功',
+              duration: 10000,
+              location: 'middle'
+            })
             console.log('推流成功')
           }else{
+            api.toast({
+              msg: '推流失败',
+              duration: 10000,
+              location: 'middle'
+            })
             console.log(JSON.stringify(ret))
           }
       })
