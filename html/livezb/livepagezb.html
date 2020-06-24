@@ -215,41 +215,35 @@
         .cart .iconfont {
             font-size: 22px;
         }
-
-        .zsNum {
-            text-align: right;
-            padding-right: 5vw;
-            color: white;
+        .zsNum{
+          text-align: right;
+          padding-right: 5vw;
+          color: white;
         }
-
-        .topr {
-            display: flex;
-            align-items: center;
+        .topr{
+          display: flex;
+          align-items: center;
         }
-
-        .headsOut {
-            max-width: 40vw;
-            overflow: scroll;
-            margin-right: 10px;
+        .headsOut{
+          max-width: 40vw;
+          overflow: scroll;
+          margin-right: 10px;
         }
-
-        .headsBox {
-            width: max-content;
-            display: flex;
-            align-content: center;
-            margin-right: 3vw;
+        .headsBox{
+          width: max-content;
+          display: flex;
+          align-content: center;
+          margin-right: 3vw;
         }
-
-        .heads {
-            width: 10vw;
-            height: 10vw;
-            margin-right: 5px;
+        .heads{
+          width: 10vw;
+          height: 10vw;
+          margin-right: 5px;
         }
-
-        .heads img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
+        .heads img{
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
         }
     </style>
 </head>
@@ -276,11 +270,11 @@
                 </div>
                 <div class="topr">
                     <div class="headsOut">
-                        <div class="headsBox">
-                            <div class="heads" v-for="(item,index) in fav_list">
-                                <img :src="item.avatar_url" alt="">
-                            </div>
+                      <div class="headsBox">
+                        <div class="heads" v-for="(item,index) in fav_list">
+                          <img :src="item.avatar_url" alt="">
                         </div>
+                      </div>
                     </div>
                     <span class="close" @click="closeLive()">
                       <i class="iconfont">&#xe69f;</i>
@@ -288,9 +282,9 @@
                 </div>
             </div>
             <div class="zsNum">
-                <img src="" alt="">
-                <span>💎</span>
-                <span>{{jewel}}</span>
+              <img src="" alt="">
+              <span>💎</span>
+              <span>{{jewel}}</span>
             </div>
         </header>
 
@@ -359,280 +353,279 @@
             el: '#app',
             data() {
                 return {
-                    chatTop: 0, //Y坐标
-                    showShop: false, //
-                    live_id: '',
-                    jstime: '00:00:00',
-                    jsnum: 0,
-                    look_count: 0, //浏览量
-                    jewel: 0, //钻石数量
-                    product_count: 0, //商品数量
-                    fav_list: [], //喜欢列表
-                    title: '', //直播标题
-                    anchor_avatar: '', //主播头像
-                    commission: 0, //总佣金
-                    transaction: 0, //总交易额
+                  chatTop:0,//Y坐标
+                  showShop:false,//
+                  live_id:'',
+                  jstime:'00:00:00',
+                  jsnum:0,
+                  look_count:0,//浏览量
+                  jewel:0,//钻石数量
+                  product_count:0,//商品数量
+                  fav_list:[],//喜欢列表
+                  title:'',//直播标题
+                  anchor_avatar:'',//主播头像
+                  commission:0,//总佣金
+                  transaction:0,//总交易额
 
                 }
             },
             created() {
-                //接收id
-                this.live_id = api.pageParam.live_id
+              //接收id
+              this.live_id = api.pageParam.live_id
 
-                this.chatTop = $api.dom('#chatlists').offsetTop
+              this.chatTop = $api.dom('#chatlists').offsetTop
 
-                // alert($api.dom('#chatlists').offsetTop)
+              // alert($api.dom('#chatlists').offsetTop)
                 console.log($api.dom('footer').offsetHeight);
                 this.getDetail()
             },
             methods: {
-                //切换摄像头
-                changeCamer() {
-                    console.log("点击了切换摄像头")
-                    api.execScript({
-                        name: 'livezb_win',
-                        // frameName: 'frmName',
-                        script: 'changeCamer();'
-                    });
-                },
-                getDetail() {
-                    var _this = this;
-                    var data = {
-                        live_id: api.pageParam.live_id
-                    };
-                    requstPost('anchor/liveDetail', data, function success(ret) {
-                        if (ret.code == 0) {
-                            _this.fav_list = ret.data.fav_list
-                            _this.title = ret.data.title
-                            _this.anchor_avatar = ret.data.anchor_avatar
-                            _this.look_count = ret.data.look_count
-                            _this.jewel = ret.data.jewel
-                            _this.product_count = ret.data.product_count
-                            _this.commission = ret.data.commission
-                            _this.transaction = ret.data.transaction
-                            _this.fav_list = ret.data.fav_list
+              //切换摄像头
+              changeCamer(){
+                console.log("点击了切换摄像头")
+                api.execScript({
+                    name: 'livezb_win',
+                    // frameName: 'frmName',
+                    script: 'changeCamer();'
+                });
+              },
+              getDetail(){
+                var _this = this;
+                var data = {
+                  live_id:api.pageParam.live_id
+                };
+                requstPost('anchor/liveDetail',data,function success(ret){
+                  if (ret.code == 0) {
+                    _this.fav_list = ret.data.fav_list
+                    _this.title = ret.data.title
+                    _this.anchor_avatar = ret.data.anchor_avatar
+                    _this.look_count = ret.data.look_count
+                    _this.jewel = ret.data.jewel
+                    _this.product_count = ret.data.product_count
+                    _this.commission = ret.data.commission
+                    _this.transaction = ret.data.transaction
+                    _this.fav_list = ret.data.fav_list
 
-                            api.openFrame({
-                                name: 'livechatzb',
-                                url: './livechatzb.html',
-                                rect: {
-                                    x: 0,
-                                    y: $api.dom('#chatlists').offsetTop - 20,
-                                    w: api.winWidth,
-                                    h: api.winWidth * 30 / 100
-                                },
-                                pageParam: {
-                                    websocket_url: ret.data.websocket_url,
-                                    live_id: api.pageParam.live_id
-                                },
-                                bounces: false,
-                                bgColor: 'rgba(0,0,0,0)',
-                                vScrollBarEnabled: true,
-                                hScrollBarEnabled: true
-                            });
-                            //计时开始
-                            _this.startJstime()
-                        }
-                    }, function fail(err) {
-
-                    })
-                },
-                //开始计时
-                startJstime() {
-                    //jstime
-                    setInterval(() => {
-                        this.jsnum += 1
-                        var hours = Math.floor(this.jsnum / 3600);
-                        var mintes = Math.floor((this.jsnum - hours * 3600) / 60);
-                        var secend = this.jsnum - hours * 3600 - mintes * 60;
-                        if (hours < 10) {
-                            hours = '0' + hours
-                        }
-                        if (mintes < 10) {
-                            mintes = '0' + mintes
-                        }
-                        if (secend < 10) {
-                            secend = '0' + secend
-                        }
-                        this.jstime = hours + ':' + mintes + ':' + secend
-                    }, 1000)
-
-                },
-                //显示收入流水
-                showOver() {
-                    var _this = this;
                     api.openFrame({
-                        name: 'turnover',
-                        url: './turnover.html',
+                        name: 'livechatzb',
+                        url: './livechatzb.html',
                         rect: {
                             x: 0,
-                            y: $api.dom('#chatlists').offsetTop,
+                            y: $api.dom('#chatlists').offsetTop-20,
                             w: api.winWidth,
-                            h: api.winHeight - $api.dom('#chatlists').offsetTop
+                            h: api.winWidth*30/100
                         },
                         pageParam: {
-                            id: 5,
-                            commission: _this.commission,
-                            transaction: _this.transaction
+                            websocket_url: ret.data.websocket_url,
+                            live_id:api.pageParam.live_id
                         },
                         bounces: false,
                         bgColor: 'rgba(0,0,0,0)',
                         vScrollBarEnabled: true,
-                        hScrollBarEnabled: true,
-                        animation: {
-                            type: "push",
-                            subType: "from_bottom",
-                            duration: 300
-                        }
+                        hScrollBarEnabled: true
                     });
+                    //计时开始
+                    _this.startJstime()
+                  }
+                },function fail(err){
 
-                },
-                //打开商品列表，增加或减少商品
-                showshopLists() {
-                    api.openFrame({
-                        name: 'liveshopchose',
-                        url: './liveshopchose.html',
-                        rect: {
-                            x: 0,
-                            y: 0,
-                            w: api.winWidth,
-                            h: api.winHeight
-                        },
-                        pageParam: {
-                            live_id: api.pageParam.live_id
-                        },
-                        bounces: false,
-                        bgColor: 'rgba(0,0,0,0)',
-                        vScrollBarEnabled: true,
-                        hScrollBarEnabled: true,
-                        animation: {
-                            type: "push",
-                            subType: "from_bottom",
-                            duration: 300
-                        }
-                    });
-                },
-                openShop() {
-                    this.showShop = !this.showShop
-                    if (this.showShop) {
-                        api.openFrame({
-                            name: 'liveshopzb',
-                            url: './liveshopzb.html',
-                            rect: {
-                                x: 0,
-                                y: $api.dom('#chatlists').offsetTop,
-                                w: api.winWidth,
-                                h: api.winHeight - $api.dom('#chatlists').offsetTop
-                            },
-                            pageParam: {
-                                live_id: api.pageParam.live_id
-                            },
-                            bounces: false,
-                            bgColor: 'rgba(0,0,0,0)',
-                            vScrollBarEnabled: true,
-                            hScrollBarEnabled: true
-                        });
-                    } else {
-                        api.setFrameAttr({
-                            name: 'liveshopzb',
-                            bounces: false,
-                            bgColor: 'rgba(0,0,0,0)',
-                            vScrollBarEnabled: true,
-                            hScrollBarEnabled: true,
-                            hidden: true
-                        });
+                })
+              },
+              //开始计时
+              startJstime(){
+                //jstime
+                setInterval(()=>{
+                  this.jsnum += 1
+                  var hours = Math.floor(this.jsnum / 3600);
+                  var mintes = Math.floor((this.jsnum - hours*3600) / 60);
+                  var secend = this.jsnum - hours*3600 - mintes*60;
+                  if (hours < 10) {
+                    hours = '0'+hours
+                  }
+                  if (mintes < 10) {
+                    mintes = '0'+mintes
+                  }
+                  if (secend < 10) {
+                    secend = '0'+secend
+                  }
+                  this.jstime = hours + ':' + mintes + ':' + secend
+                },1000)
 
-                        // api.closeFrame({
-                        //     name: 'liveshop'
-                        // });
-
+              },
+              //显示收入流水
+              showOver(){
+                var _this = this;
+                api.openFrame({
+                    name: 'turnover',
+                    url: './turnover.html',
+                    rect: {
+                        x: 0,
+                        y: $api.dom('#chatlists').offsetTop,
+                        w: api.winWidth,
+                        h: api.winHeight-$api.dom('#chatlists').offsetTop
+                    },
+                    pageParam: {
+                      id:5,
+                      commission:_this.commission,
+                      transaction:_this.transaction
+                    },
+                    bounces:false,
+                    bgColor: 'rgba(0,0,0,0)',
+                    vScrollBarEnabled: true,
+                    hScrollBarEnabled: true,
+                    animation:{
+                      type:"push",
+                      subType:"from_bottom",
+                      duration:300
                     }
+                });
 
-                },
+              },
+              //打开商品列表，增加或减少商品
+              showshopLists(){
+                api.openFrame({
+                    name: 'liveshopchose',
+                    url: './liveshopchose.html',
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: api.winWidth,
+                        h: api.winHeight
+                    },
+                    pageParam: {
+                      live_id:api.pageParam.live_id
+                    },
+                    bounces:false,
+                    bgColor: 'rgba(0,0,0,0)',
+                    vScrollBarEnabled: true,
+                    hScrollBarEnabled: true,
+                    animation:{
+                      type:"push",
+                      subType:"from_bottom",
+                      duration:300
+                    }
+                });
+              },
+              openShop(){
+                this.showShop = !this.showShop
+                if (this.showShop) {
+                  api.openFrame({
+                      name: 'liveshopzb',
+                      url: './liveshopzb.html',
+                      rect: {
+                          x: 0,
+                          y: $api.dom('#chatlists').offsetTop,
+                          w: api.winWidth,
+                          h: api.winHeight-$api.dom('#chatlists').offsetTop
+                      },
+                      pageParam: {
+                          live_id:api.pageParam.live_id
+                      },
+                      bounces: false,
+                      bgColor: 'rgba(0,0,0,0)',
+                      vScrollBarEnabled: true,
+                      hScrollBarEnabled: true
+                  });
+                }else {
+                  api.setFrameAttr({
+                      name: 'liveshopzb',
+                      bounces: false,
+                      bgColor: 'rgba(0,0,0,0)',
+                      vScrollBarEnabled: true,
+                      hScrollBarEnabled: true,
+                      hidden:true
+                  });
+
+                  // api.closeFrame({
+                  //     name: 'liveshop'
+                  // });
+
+                }
+
+              },
                 closeLive() {
-                    api.confirm({
-                        title: 'End live stream',
-                        msg: '',
-                        buttons: ['Cancel', 'End']
-                    }, function(ret, err) {
-                        if (ret) {
-                            if (ret.buttonIndex == 2) {
-                                var acLive = api.require('acLive');
-                                acLive.end();
-                                api.closeToWin({
-                                    name: 'root'
-                                });
-                            }
-                        } else {}
-                    });
+                  api.confirm({
+                      title: 'End live stream',
+                      msg: '',
+                      buttons: ['Cancel', 'End']
+                  }, function(ret, err){
+                      if( ret ){
+                        if (ret.buttonIndex == 2) {
+                          api.closeToWin({
+                              name: 'root'
+                          });
+                        }
+                      }else{
+                      }
+                  });
                 },
                 sendPl() {
-                    var _this = this
-                    var inputField = api.require('inputField');
-                    inputField.setInputFieldListener(function(ret, err) {
-                        if (ret) {
-                            if (ret.chatViewH < 50) {
+                  var _this = this
+                  var inputField = api.require('inputField');
+                  inputField.setInputFieldListener(function(ret, err) {
+                      if (ret) {
+                          if (ret.chatViewH < 50) {
 
-                            }
-                            console.log(JSON.stringify(ret));
-                        } else {
-                            console.log(JSON.stringify(err));
-                        }
-                    });
-                    // inputField.becomeFirstResponder(function(ret, err) {
-                    //     if (ret.status) {
-                    //         console.log(JSON.stringify(ret));
-                    //     } else {
-                    //         console.log(JSON.stringify(err));
-                    //     }
-                    // });
-                    inputField.open({
-                        bgColor: '#ffffff',
-                        lineColor: '#999999',
-                        fileBgColor: '#f5f5f5',
-                        borderColor: '#999999',
-                        placeholder: '',
-                        autoFocus: true,
-                        maxLines: 5,
-                        limitedWordsNumber: 100,
-                        sendBtn: {
-                            bg: '#FB607D',
-                            title: 'Send',
-                            titleColor: '#fff',
-                            bgHighlight: '#e67187',
-                        },
-                        fixedOn: api.frameName
-                    }, function(ret, err) {
-                        if (ret) {
-                            if (ret.msg != '') {
-                                console.log(ret.msg + 'end');
-                                // _this.sendPl(ret.msg)
-                                inputField.resignFirstResponder();
-                                api.sendEvent({
-                                    name: 'livechatzbText',
-                                    extra: {
-                                        msg: ret.msg,
-                                    }
-                                });
-                            }
-                            // alert(JSON.stringify(ret));
+                          }
+                          console.log(JSON.stringify(ret));
+                      } else {
+                          console.log(JSON.stringify(err));
+                      }
+                  });
+                  // inputField.becomeFirstResponder(function(ret, err) {
+                  //     if (ret.status) {
+                  //         console.log(JSON.stringify(ret));
+                  //     } else {
+                  //         console.log(JSON.stringify(err));
+                  //     }
+                  // });
+                  inputField.open({
+                      bgColor: '#ffffff',
+                      lineColor: '#999999',
+                      fileBgColor: '#f5f5f5',
+                      borderColor: '#999999',
+                      placeholder: '',
+                      autoFocus: true,
+                      maxLines: 5,
+                      limitedWordsNumber: 100,
+                      sendBtn: {
+                          bg: '#FB607D',
+                          title: 'Send',
+                          titleColor: '#fff',
+                          bgHighlight: '#e67187',
+                      },
+                      fixedOn: api.frameName
+                  }, function(ret, err) {
+                      if (ret) {
+                          if (ret.msg != '') {
+                              console.log(ret.msg + 'end');
+                              // _this.sendPl(ret.msg)
+                              inputField.resignFirstResponder();
+                              api.sendEvent({
+                                  name: 'livechatzbText',
+                                  extra: {
+                                      msg: ret.msg,
+                                  }
+                              });
+                          }
+                          // alert(JSON.stringify(ret));
 
 
-                        } else {
-                            // alert(JSON.stringify(err));
-                        }
-                    });
-                    inputField.setInputFieldListener(function(ret, err) {
-                        if (ret) {
-                            console.log(JSON.stringify(ret));
-                            if (ret.chatViewH <= 50) {
-                                inputField.close();
-                            }
-                            // alert(JSON.stringify(ret));
-                        } else {
-                            // alert(JSON.stringify(err));
-                        }
-                    });
+                      } else {
+                          // alert(JSON.stringify(err));
+                      }
+                  });
+                  inputField.setInputFieldListener(function(ret, err) {
+                      if (ret) {
+                          console.log(JSON.stringify(ret));
+                          if (ret.chatViewH <= 50) {
+                              inputField.close();
+                          }
+                          // alert(JSON.stringify(ret));
+                      } else {
+                          // alert(JSON.stringify(err));
+                      }
+                  });
 
                 },
                 //举报
