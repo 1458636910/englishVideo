@@ -224,7 +224,8 @@
     function goBack() {
         //销毁推流
         // var alivcLivePusher = api.require('alivcLivePusher');
-        alivcLivePusher.destroy();
+        // alivcLivePusher.destroy();
+        acLive.end();
         api.closeWin()
     }
 </script>
