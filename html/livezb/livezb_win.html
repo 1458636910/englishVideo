@@ -51,7 +51,7 @@
     var acLive;
     var live_id = '';
     apiready = function() {
-        alivcLivePusher = api.require('acLive');
+        acLive = api.require('acLive');
         // var header = $api.byId('header');
         //适配iOS 7+，Android 4.4+状态栏
         $api.fixStatusBar($api.dom('header'));
@@ -68,6 +68,19 @@
 
     };
 
+    function openCamer() {
+        acLive.open({
+            rect: {
+                x: 0,
+                y: 0,
+                h: 'auto',
+                w: 'auto'
+            }
+        }, function(ret, err) {
+            console.log(JSON.stringify(ret) + '打开摄像头成功')
+        });
+    }
+
     function getDetail() {
         var data = {
             live_id: api.pageParam.live_id
@@ -79,20 +92,6 @@
         }, function fail(err) {
 
         })
-    }
-
-    function openCamer() {
-        acLive.open({
-            rect: {
-                x: 0,
-                y: 150,
-                w: 'auto',
-                h: 'auto'
-            }
-        }, function(ret, err) {
-            alert(JSON.stringify(ret));
-            alert(JSON.stringify(err));
-        });
     }
     //切换摄像头
     function changeCamer() {
@@ -106,7 +105,9 @@
             name: name,
             authkey: authkey
         }
-        startPushFn(e)
+        setTimeout(() => {
+            startPushFn(e)
+        }, 3000)
         openpage(name, authkey)
             //该方法去发送后台告诉直播开始了，没有返回值
             // requstPost('live/notify',parameterLive)
@@ -158,8 +159,12 @@
         acLive.start({
             url: e
         }, function(ret, err) {
-            alert(JSON.stringify(ret)+'ret');
-              alert(JSON.stringify(err)+'err');
+          console.log(";;;;;;;;;;;;;;;;;;;")
+           api.toast({
+               msg: JSON.stringify(ret),
+               duration: 2000,
+               location: 'bottom'
+           });
         });
         // alivcLivePusher.startPush({
         //     url: e
@@ -167,7 +172,7 @@
         //     if (ret.status) {
         //         console.log('推流成功')
         //     } else {
-        //         console.log(JSON.stringify(ret), "推流失败")
+        //         console.log(JSON.stringify(ret))
         //     }
         // })
     }
