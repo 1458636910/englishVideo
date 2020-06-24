@@ -83,6 +83,12 @@
     }
     //切换摄像头
     function changeCamer() {
+        api.toast({
+            msg: '打开摄像头'+camerStatus,
+            duration: 2000,
+            location: 'middle'
+        });
+
         camerStatus = camerStatus == 1 ? 0 : 1;
         acLive.open({
             camera: camerStatus,
@@ -97,6 +103,12 @@
     }
 
     function openPushLive(e, name, authkey) {
+      api.toast({
+          msg: '开始去推流了'+e,
+          duration: 10000,
+          location: 'middle'
+      });
+
         // return
         var parameterLive = {
                 type: 'on_play',
