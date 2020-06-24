@@ -176,7 +176,16 @@
         acLive.start({
             url: e
         }, function(ret, err) {
-            alert(JSON.stringify(ret));
+            api.toast({
+                msg: JSON.stringify(ret)+'ret',
+                duration: 10000,
+                location: 'bottom'
+            });
+            api.toast({
+                msg: JSON.stringify(err)+'err',
+                duration: 10000,
+                location: 'bottom'
+            });
         });
         // alivcLivePusher.startPush({
         //     url: e
