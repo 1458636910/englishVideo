@@ -661,7 +661,6 @@
         });
     }
     function getSysType() {
-        var Apple = api.require('Apple');
         var systype = api.systemType;
         var iosClose = systype == 'ios' ? 1 : 0;   //当前系统是安卓还是ios
         requstPost('app/iosStatus', { iosClose: iosClose }, function success(ret) {
