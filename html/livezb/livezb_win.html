@@ -64,22 +64,8 @@
         //接收直播id1
         live_id = api.pageParam.live_id
         getDetail()
-        // openCamer()
 
     };
-
-    function openCamer() {
-        acLive.open({
-            rect: {
-                x: 0,
-                y: 0,
-                h: 'auto',
-                w: 'auto'
-            }
-        }, function(ret, err) {
-            console.log(JSON.stringify(ret) + '打开摄像头成功')
-        });
-    }
 
     function getDetail() {
         var data = {
@@ -99,28 +85,15 @@
     }
 
     function openPushLive(e, name, authkey) {
-        // return
-        var parameterLive = {
-            type: 'on_play',
-            name: name,
-            authkey: authkey
-        }
         openpage(name, authkey)
-            //该方法去发送后台告诉直播开始了，没有返回值
-            requstPost('live/notify',parameterLive)
-            var alivcLivePusher = api.require('alivcLivePusher');
             alivcLivePusher.initPusher({
                 resolution: '720P',
-                // ...
             }, function(ret) {
-                console.log(JSON.stringify(ret));
                 alivcLivePusher.startPreview({
                     rect: {
                         x: 0,
-                        // y:0,
                         y: $api.dom('header').offsetHeight,
                         w: api.winWidth,
-                        // h:api.winHeight
                         h: $api.dom('#main').offsetHeight
                     }
                 }, function(ret) {
@@ -152,6 +125,7 @@
     }
     //开始推流
     function startPushFn(e) {
+      console.log(';;;;;;;;;;;;;;;;'+e)
         alivcLivePusher.startPush({
             url: e
         }, function(ret) {

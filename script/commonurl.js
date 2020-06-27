@@ -1,8 +1,8 @@
-var url = 'http://ym.s.li4.cn/api/'    //测试地址
-var img_url = 'http://ym.s.li4.cn/'    //个别图片后台没有自动匹配AP,需要自行添加
+var url = 'http://nv.s3.li4.cn/api/'    //测试地址
+var img_url = 'http://nv.s3.li4.cn/'    //个别图片后台没有自动匹配AP,需要自行添加
 
 var socketUrl = 'ws://ym.s.li4.cn:1936'   //聊天的地址，全局设置
-var shareurl = 'http://ym.s.li4.cn/register/'   //前台分享的链接地址
+var shareurl = 'http://nv.s3.li4.cn/register/'   //前台分享的链接地址
 
 
 //提醒用户设置权限 ，不然个别会提醒：请插入SD卡
