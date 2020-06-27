@@ -48,10 +48,11 @@
 <script type="text/javascript" src="../../script/fastclick.js"></script>
 <script type="text/javascript" src="../../script/commonurl.js"></script>
 <script type="text/javascript">
-    var acLive;
+    var gotyeLiveCore;
     var live_id = '';
+    var publishOn=false;
     apiready = function() {
-        acLive = api.require('acLive');
+        gotyeLiveCore = api.require('gotyeLiveCore');
         // var header = $api.byId('header');
         //适配iOS 7+，Android 4.4+状态栏
         $api.fixStatusBar($api.dom('header'));
@@ -69,15 +70,36 @@
     };
 
     function openCamer() {
-        acLive.open({
+        publisher.startPreview({
+            preview: "publisher",
+            position: 'front',
             rect: {
                 x: 0,
                 y: 0,
-                h: 'auto',
-                w: 'auto'
+                w: api.frameWidth,
+                h: api.frameHeight
             }
         }, function(ret, err) {
-            console.log(JSON.stringify(ret) + '打开摄像头成功')
+            if (ret) {
+                //登录，此时并未正式开启直播，如要开启，还需触发startPublisher
+                publisher.login({
+                    force: true
+                }, function(ret, err) {
+                    if (ret) {
+                        // insertChartContent('sys', '系统', '连接直播服务器成功');
+                    } else {
+                        // insertChartContent('syserro', '系统', '登录失败');
+                    }
+                });
+            } else {
+               api.toast({
+                   msg: '打开设备摄像头失败',
+                   duration: 2000,
+                   location: 'middle'
+               });
+
+                // insertChartContent('syserro', '系统', '打开设备摄像头失败');
+            }
         });
     }
 
@@ -155,17 +177,13 @@
     }
     //开始推流
     function startPushFn(e) {
-        console.log(e + '推流的视频')
-        acLive.start({
-            url: e
-        }, function(ret, err) {
-          console.log(";;;;;;;;;;;;;;;;;;;")
-           api.toast({
-               msg: JSON.stringify(ret),
-               duration: 2000,
-               location: 'bottom'
-           });
-        });
+      if(!publishOn){
+			publisher.publish();
+			publishOn=true;
+		}else{
+			publisher.unpublish();
+			publishOn=false;
+		}
         // alivcLivePusher.startPush({
         //     url: e
         // }, function(ret) {
