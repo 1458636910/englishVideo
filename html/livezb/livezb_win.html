@@ -81,51 +81,65 @@
     }
     //切换摄像头
     function changeCamer() {
+      console.log("切换摄像头")
         alivcLivePusher.switchCamera();
     }
 
     function openPushLive(e, name, authkey) {
         openpage(name, authkey)
-            alivcLivePusher.initPusher({
-                resolution: '720P',
+        if (!confirmPer('camera') || !confirmPer('storage')) {
+            return;
+        }
+        alivcLivePusher.initPusher({
+            resolution: '720P',
+            initialVideoBitrate: 800,
+            targetVideoBitrate: 800,
+            minVideoBitrate: 400,
+            qualityMode: 'ResolutionFirst',
+            beautyMode: 'normal',
+            previewOrientation: 'PORTRAIT',
+            externMainStream: true,
+            fps: 20,
+            videoOnly: true,
+            cameraType: 'front'
+        }, function(ret) {
+            alivcLivePusher.startPreview({
+                rect: {
+                    x: 0,
+                    y: $api.dom('header').offsetHeight,
+                    w: api.winWidth,
+                    h: $api.dom('#main').offsetHeight
+                }
             }, function(ret) {
-                alivcLivePusher.startPreview({
-                    rect: {
-                        x: 0,
-                        y: $api.dom('header').offsetHeight,
-                        w: api.winWidth,
-                        h: $api.dom('#main').offsetHeight
-                    }
-                }, function(ret) {
-                    // alert(JSON.stringify(ret));
-                    // alivcLivePusher.getPushUrl(function(ret){
-                    //     alert(JSON.stringify(ret));
-                    // });
-                    //自动对焦
-                    alivcLivePusher.setAutoFocus({
-                        isAutoFocus: true
-                    });
-                    //禁止屏幕休眠
-                    api.setKeepScreenOn({
-                        keepOn: true
-                    });
-                    //开启美颜
-                    setTimeout(() => {
-                        // isBeauty()
-                    }, 1000)
+                // alert(JSON.stringify(ret));
+                // alivcLivePusher.getPushUrl(function(ret){
+                //     alert(JSON.stringify(ret));
+                // });
+                //自动对焦
+                alivcLivePusher.setAutoFocus({
+                    isAutoFocus: true
+                });
+                //禁止屏幕休眠
+                api.setKeepScreenOn({
+                    keepOn: true
+                });
+                //开启美颜
+                setTimeout(() => {
+                    // isBeauty()
+                }, 1000)
 
 
-                    //开始推流
-                    setTimeout(() => {
-                        startPushFn(e)
-                    }, 3000)
-                    openpage(name, authkey)
-                })
+                //开始推流
+                setTimeout(() => {
+                    startPushFn(e)
+                }, 3000)
+                openpage(name, authkey)
             })
+        })
     }
     //开始推流
     function startPushFn(e) {
-      console.log(';;;;;;;;;;;;;;;;'+e)
+        console.log(';;;;;;;;;;;;;;;;' + e)
         alivcLivePusher.startPush({
             url: e
         }, function(ret) {
