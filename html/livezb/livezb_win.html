@@ -48,11 +48,11 @@
 <script type="text/javascript" src="../../script/fastclick.js"></script>
 <script type="text/javascript" src="../../script/commonurl.js"></script>
 <script type="text/javascript">
-    var gotyeLiveCore;
+    var publisher;
     var live_id = '';
     var publishOn=false;
     apiready = function() {
-        gotyeLiveCore = api.require('gotyeLiveCore');
+        publisher = api.require('gotyeLiveCore');
         // var header = $api.byId('header');
         //适配iOS 7+，Android 4.4+状态栏
         $api.fixStatusBar($api.dom('header'));
@@ -70,6 +70,7 @@
     };
 
     function openCamer() {
+      publisher = api.require('gotyeLiveCore');
         publisher.startPreview({
             preview: "publisher",
             position: 'front',
@@ -177,6 +178,7 @@
     }
     //开始推流
     function startPushFn(e) {
+      publisher = api.require('gotyeLiveCore');
       if(!publishOn){
 			publisher.publish();
 			publishOn=true;
