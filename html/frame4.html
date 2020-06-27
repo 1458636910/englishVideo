@@ -318,7 +318,7 @@
             </div>
         </div>
 
-        <div class="qdimg" v-if="islogin && is_sign" @click="qdFn()">
+        <div class="qdimg" v-if="islogin && is_sign && !isIos" @click="qdFn()">
             Claim today's bonus Diamond
         </div>
         <div class="lists">
@@ -336,7 +336,7 @@
                 </div>
                 <i class="iconfont">&#xe61f;</i>
             </div>
-            <div class="list" tapmode @click="godiamond()">
+            <div class="list" tapmode @click="godiamond()"  v-if="!isIos">
                 <div class="listl">
                     <img src="../image/user/2.png" alt="">
                     <span>My Diamond</span>
@@ -373,7 +373,7 @@
                 </div>
                 <i class="iconfont">&#xe61f;</i>
             </div>
-            <div class="list" tapmode @click="goinfluencer()">
+            <div class="list" tapmode @click="goinfluencer()"  v-if="!isIos">
                 <div class="listl">
                     <img src="../image/user/5.png" alt="">
                     <span>Become a NailVision influencer</span>
