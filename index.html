@@ -332,6 +332,7 @@
         // alert(api.appVersion)
         //获取偏好设置
         /*协议*/
+        $api.setStorage('isIos', 1);  //初始化存储
         getSysType()  //获取权限（ios
         getReadProtol()
         ajpush = api.require('ajpush');
@@ -663,9 +664,14 @@
     function getSysType() {
         var systype = api.systemType;
         var iosClose = systype == 'ios' ? 1 : 0;   //当前系统是安卓还是ios
-        requstPost('app/iosStatus', { iosClose: iosClose }, function success(ret) {
-            if (ret.code == 0) {
-                $api.setStorage('isIos', iosClose);
+        requstPost('app/iosStatus', {}, function success(ret) {
+            if (ret.code == 0) {   //返回1 隐藏  2 打开
+              console.log('后台获取的开关状态',ret.data.iosClose)
+              if(iosClose==1){   //如果当前机型是ios  需要存储
+                $api.setStorage('isIos', ret.data.iosClose);
+              }else{           //否则都显示
+                $api.setStorage('isIos', 0);
+              }
             }
         })
     }

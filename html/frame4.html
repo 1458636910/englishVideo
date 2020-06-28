@@ -318,7 +318,7 @@
             </div>
         </div>
 
-        <div class="qdimg" v-if="islogin && is_sign && !isIos" @click="qdFn()">
+        <div class="qdimg" v-if="islogin && is_sign && isIos!=1" @click="qdFn()">
             Claim today's bonus Diamond
         </div>
         <div class="lists">
@@ -329,21 +329,21 @@
                 </div>
                 <i class="iconfont">&#xe61f;</i>
             </div>
-            <div class="list" @click="goliveOrder()" v-if="!isIos">
+            <div class="list" @click="goliveOrder()" v-if="isIos!=1">
                 <div class="listl">
                     <img src="../image/user/1.png" alt="">
                     <span>Paid Live/Video</span>
                 </div>
                 <i class="iconfont">&#xe61f;</i>
             </div>
-            <div class="list" tapmode @click="godiamond()"  v-if="!isIos">
+            <div class="list" tapmode @click="godiamond()"  v-if="isIos!=1">
                 <div class="listl">
                     <img src="../image/user/2.png" alt="">
                     <span>My Diamond</span>
                 </div>
                 <i class="iconfont">&#xe61f;</i>
             </div>
-            <div class="list" v-if="userType == 1 && !isIos" tapmode @click="goincome()">
+            <div class="list" v-if="userType == 1 && isIos!=1" tapmode @click="goincome()">
                 <div class="listl">
                     <img src="../image/user/9.png" alt="">
                     <span>My Income</span>
@@ -373,7 +373,7 @@
                 </div>
                 <i class="iconfont">&#xe61f;</i>
             </div>
-            <div class="list" tapmode @click="goinfluencer()"  v-if="!isIos">
+            <div class="list" tapmode @click="goinfluencer()"  v-if="isIos!=1">
                 <div class="listl">
                     <img src="../image/user/5.png" alt="">
                     <span>Become a NailVision influencer</span>
@@ -448,6 +448,7 @@
                 }
             },
             created() {
+              console.log($api.getStorage('isIos')+'pppppppppppppp')
                 this.isIos = $api.getStorage('isIos');
                 var headHeight = api.winWidth / 100 * 12;
                 this.heaGht = $api.dom('header').offsetHeight

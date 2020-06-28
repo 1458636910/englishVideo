@@ -298,7 +298,7 @@
              videoid = ret.data.list[0].id;//视频id
              focus_anchor_status = ret.data.list[0].focus_anchor_status;//是否关注
              fav_video_status = ret.data.list[0].fav_video_status;//是否点赞
-             if($api.getStorage('isIos')==1){
+             if($api.getStorage('isIos')!=1){    //安卓付费
                  if(Number(ret.data.list[0].price) > 0){
                    if (Number(ret.data.list[0].pay_order_status) == 0) {
                      //未支付
@@ -383,7 +383,7 @@
                     console.log('单击了');
                     // alert(money)
                     // alert(pay_order_status)
-                    if($api.getStorage('isIos')==1){
+                    if($api.getStorage('isIos')!=1){
                         if (payed) {
                             //已经支付
                             if (isPause) {
