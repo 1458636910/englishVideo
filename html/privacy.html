@@ -63,7 +63,7 @@
               getLists(){
                 var _this = this;
                 var data = {};
-                requstGet('app/privacyPolicy',data,function success(ret){
+                requstPost('app/privacyPolicy',data,function success(ret){
                   _this.dataText = ret.data;
                   $api.setStorage('privacyPolicy', JSON.stringify(ret.data));
                 },function fail(err){

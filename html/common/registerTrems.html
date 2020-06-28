@@ -211,6 +211,7 @@ var app;
                 }
             },
             created() {
+              console.log("0000")
               this.getTerms()
             },
             methods: {
@@ -225,6 +226,7 @@ var app;
               var  _this = this;
                  requstPost('app/userAgreement','',function success(ret){
                    if(ret.code==0){
+                     console.log(ret.data+'///////////////////')
                        _this.termsinfo =ret.data
                    }else{
                      api.toast({

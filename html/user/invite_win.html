@@ -10,42 +10,43 @@
     <style>
       body,html  {background: rgba(0,0,0,0)!important}
 
-        #header{
-            /*background: white;*/
+      body {}
 
-            align-items: center;
-            height: 10vw;
-            border-bottom: 1px solid #e9e9e9;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 500;
-        }
-        #header .iconfont{
-          /*font-size: 25px;*/
-        }
-        #footer {
-            /*height: 20px;*/
-        }
-        .flex-con{
-          overflow: auto;
-          height: 90vh;
-        }
-        #title{
-          max-width: 80vw;
-          overflow: hidden;
-          text-overflow: ellipsis;
-           display: -webkit-box;
-           -webkit-line-clamp: 1;
-           -webkit-box-orient: vertical;
-        }
+      #header{
+          background: white;
+
+          align-items: center;
+          height: 10vw;
+          border-bottom: 1px solid #e9e9e9;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 500;
+      }
+      #header .iconfont{
+        /*font-size: 25px;*/
+      }
+      #footer {
+          /*height: 20px;*/
+      }
+      .flex-con{
+        overflow: auto;
+        height: 90vh;
+      }
+      #title{
+        max-width: 80vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+         display: -webkit-box;
+         -webkit-line-clamp: 1;
+         -webkit-box-orient: vertical;
+      }
     </style>
 </head>
 
 <body>
     <div>
-
         <header id="header" style=" display: flex; padding: 0 12px;">
             <label onclick="goBack()" style="flex:1;">
                                 <i class="icon iconfont back">&#xe608;</i>
@@ -86,7 +87,7 @@
                 // h: api.winHeight -  $api.dom('header').offsetHeight+1,
 
             },
-            bounces: true,
+            bounces: false,
             bgColor:'widget://image/invitebg.png',
             vScrollBarEnabled: false,
             hScrollBarEnabled: true,

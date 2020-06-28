@@ -343,7 +343,7 @@
                 </div>
                 <i class="iconfont">&#xe61f;</i>
             </div>
-            <div class="list" v-if="userType == 1" tapmode @click="goincome()">
+            <div class="list" v-if="userType == 1 && !isIos" tapmode @click="goincome()">
                 <div class="listl">
                     <img src="../image/user/9.png" alt="">
                     <span>My Income</span>
