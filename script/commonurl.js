@@ -251,9 +251,10 @@ function requstPost(apiUrl,data,success,fail){
           console.log('ret接口地址:'+apiUrl+'请求数据:'+JSON.stringify(data)+'---返回结果:'+JSON.stringify(ret));
         }
       }else {
+        var tips = err.msg=='网络请求超时，请稍后重试'?'Network request timed out, please try again later.':''
         //err
           api.toast({
-              msg: err.message,
+              msg: err.message||tips,
               duration: 3000,
               location: 'middle'
           });
@@ -310,7 +311,7 @@ function requstGet(apiUrl,data,success,fail){
           console.log('ret接口地址:'+apiUrl+'请求数据:'+JSON.stringify(data)+'---返回结果:'+JSON.stringify(ret));
         }else {
           api.toast({
-              msg: ret.message,
+              msg: ret.message||ret.msg,
               duration: 3000,
               location: 'middle'
           });
@@ -318,8 +319,9 @@ function requstGet(apiUrl,data,success,fail){
         }
       }else {
         //err
+        var tips = err.msg=='网络请求超时，请稍后重试'?'Network request timed out, please try again later.':''
         api.toast({
-            msg: err.msg,
+            msg: err.message||tips,
             duration: 3000,
             location: 'middle'
         });
