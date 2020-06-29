@@ -166,7 +166,7 @@ function pubshowloading(title, etxt) {
     } else {
         txt = '';
     }
-    // setTimeout(function(){
+    setTimeout(function(){
       api.showProgress({
           style: 'default',
           animationType: 'fade',
@@ -174,7 +174,7 @@ function pubshowloading(title, etxt) {
           text: txt,
           modal: true
       });
-    // },500)
+    },500)
 }
 //关闭loading
 function pubhideloading() {
