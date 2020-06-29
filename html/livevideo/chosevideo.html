@@ -241,7 +241,7 @@
             el: '#app',
             data() {
                 return {
-                    headimg: '',//封面图
+                    headimg: '', //封面图
                     shopId: [],
                     types: [],
                     textCount: '',
@@ -251,8 +251,8 @@
                     imgurl: '', //上传后的地址
                     videourl: '', //上传后的地址
                     price: 0,
-                    hadVideo:'',  //是否选择了视频
-                    isIos:0
+                    hadVideo: '', //是否选择了视频
+                    isIos: 0
                 }
             },
             created() {
@@ -311,9 +311,9 @@
                     });
                 },
                 getVideo(sourceType) {
-                    if (!confirmPer('camera')||!confirmPer('storage')) {
-                      return;
-                  }
+                    if (!confirmPer('camera') || !confirmPer('storage')) {
+                        return;
+                    }
                     var _this = this;
                     if (sourceType == 1) {
                         //相机
@@ -367,9 +367,9 @@
                 },
                 //上传封面图片
                 upImg() {
+                    pubshowloading()
                     var _this = this;
                     if (_this.headimg) {
-                        pubshowloading()
                         if (_this.imgurl) {
                             _this.upVideo()
                         } else {
@@ -387,12 +387,13 @@
 
                 },
                 upVideo() {
+                    pubshowloading()
                     var _this = this;
                     if (_this.videourl) {
                         _this.subMit()
                     } else {
-                        pubshowloading()
                         var data = _this.video
+                        pubshowloading()
                         requstUpload(data, function success(ret) {
                             _this.videourl = ret.data.src
                             _this.subMit()
@@ -403,7 +404,6 @@
                 },
                 //发布
                 subMit() {
-
                     pubshowloading()
                         // alert()
                     var _this = this;
@@ -423,14 +423,12 @@
                         api.alert({
                             title: '',
                             msg: rett.message,
-                            buttons:['Sure']
+                            buttons: ['Sure']
                         }, function(ret, err) {
                             if (ret) {
-                              if (rett.code == 0) {
-                                  api.closeWin();
-                              }
-
-
+                                if (rett.code == 0) {
+                                    api.closeWin();
+                                }
                                 //  alert( JSON.stringify( ret ) );
                             } else {
                                 //  alert( JSON.stringify( err ) );
@@ -456,9 +454,9 @@
                     });
                 },
                 getPicqj(sourceType) {
-                    if (!confirmPer('camera')||!confirmPer('storage')) {
-                      return;
-                  }
+                    if (!confirmPer('camera') || !confirmPer('storage')) {
+                        return;
+                    }
                     var _this = this;
                     if (sourceType == 1) { // 拍照
                         //获取一张图片

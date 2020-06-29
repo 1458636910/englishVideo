@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-    <meta name="format-detection" content="telephone=no,email=no"/>
+    <meta name="format-detection" content="telephone=no,email=no" />
     <title>title</title>
     <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../css/iconfont.css" />
@@ -17,94 +17,103 @@
             /*padding-top: 3vw;*/
             box-sizing: border-box;
         }
-        [v-cloak]{
-          /*display: none;*/
-        }
-        .lists{
-          padding: 3vw;
-          display: flex;
-          flex-wrap: wrap;
-        }
-        .list{
-          width: 45vw;
-          /*height: 45vw;*/
-          border-radius: 5px;
-          /*position: relative;*/
-          overflow: hidden;
-          margin-right: 3vw;
-          margin-bottom: 5vw;
-        }
-        .imgBox{
-          height: 30vw;
-          position: relative;
-        }
-        .list:nth-child(2n+2){
-          margin-right: 0;
-        }
-        .list img{
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 5px;
-        }
-        .top{
-          position: absolute;
-          top: 1vw;
-          left: 1vw;
-          right: 1vw;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          color: white;
-          font-size: 12px;
-        }
-        .bom{
-          margin-top: 3vw;
-          color: #999999;
-          font-size:16px;
-        }
-        .bomname{
-          margin-bottom: 3vw;
-          color: #696767;
-          font-size: 14px;
-        }
-        .bom p{
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
+
+        [v-cloak] {
+            /*display: none;*/
         }
 
-        .top .del .iconfont{
-          font-size: 25px;
+        .lists {
+            padding: 3vw;
+            display: flex;
+            flex-wrap: wrap;
         }
 
+        .list {
+            width: 45vw;
+            /*height: 45vw;*/
+            border-radius: 5px;
+            /*position: relative;*/
+            overflow: hidden;
+            margin-right: 3vw;
+            margin-bottom: 5vw;
+        }
+
+        .imgBox {
+            height: 30vw;
+            position: relative;
+        }
+
+        .list:nth-child(2n+2) {
+            margin-right: 0;
+        }
+
+        .list img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .top {
+            position: absolute;
+            top: 1vw;
+            left: 1vw;
+            right: 1vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            font-size: 12px;
+        }
+
+        .bom {
+            margin-top: 3vw;
+            color: #999999;
+            font-size: 16px;
+        }
+
+        .bomname {
+            margin-bottom: 3vw;
+            color: #696767;
+            font-size: 14px;
+        }
+
+        .bom p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .top .del .iconfont {
+            font-size: 25px;
+        }
     </style>
 </head>
 
 <body>
     <div id="app" v-cloak>
 
-      <div class="lists">
-        <div class="list" v-for="(item,index) in list" @click="govideo(item)">
-          <div class="imgBox">
-            <img :src="item.thumb" alt="">
-            <div class="top">
-              <span>
+        <div class="lists">
+            <div class="list" v-for="(item,index) in list" @click="govideo(item)">
+                <div class="imgBox">
+                    <img :src="item.thumb" alt="">
+                    <div class="top">
+                        <span>
                 <i class="iconfont">&#xe629;</i>
                 {{item.look_count}}
               </span>
-              <span class="del" @click.stop="delVideo(item)">
+                        <span class="del" @click.stop="delVideo(item)">
                 <i class="iconfont">&#xe611;</i>
               </span>
+                    </div>
+                </div>
+                <div class="bom">
+                    <p class="bomname">{{item.title}}</p>
+                </div>
             </div>
-          </div>
-          <div class="bom">
-            <p class="bomname">{{item.title}}</p>
-          </div>
         </div>
-      </div>
     </div>
 
 </body>
@@ -118,131 +127,140 @@
             el: '#app',
             data() {
                 return {
-                    list:[],
-                    page:1,
-                    more:true
+                    list: [],
+                    page: 1,
+                    more: true
                 }
             },
             created() {
                 api.refreshHeaderLoading();
-                setTimeout(()=>{
-                  api.refreshHeaderLoadDone();
-                },300)
+                setTimeout(() => {
+                    api.refreshHeaderLoadDone();
+                }, 300)
                 this.refresh()
                 this.getMore()
             },
             methods: {
-              //监听滚动到底
-              getMore() {
-                var _this = this
-                api.addEventListener({
-                    name: 'scrolltobottom',
-                    extra: {
-                        threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                //监听滚动到底
+                getMore() {
+                    var _this = this
+                    api.addEventListener({
+                        name: 'scrolltobottom',
+                        extra: {
+                            threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                        }
+                    }, function(ret, err) {
+                        console.log('加载更多');
+                        _this.getLists()
+
+                    });
+
+                },
+                //删除视频
+                delVideo(ite) {
+                    var _this = this;
+                    api.confirm({
+                        title: 'Delete video',
+                        msg: 'Are you sure you want to delete this video?',
+                        buttons: ['Delete', 'Cancel']
+                    }, function(ret, err) {
+                        if (ret) {
+                            if (ret.buttonIndex == 1) {
+                                console.log(ite)
+                                    //删除
+                                    //删除
+                                requstPost('anchor/delVideo', {
+                                    id: ite.id
+                                }, function success(ret) {
+                                    if (ret.code == 0) {
+                                        _this.page = 1
+                                        _this.more = true
+                                        _this.getLists()
+                                        api.toast({
+                                            msg: ret.message,
+                                            duration: 3000,
+                                            location: 'middle'
+                                        });
+                                    } else {
+                                        api.toast({
+                                            msg: ret.message,
+                                            duration: 3000,
+                                            location: 'middle'
+                                        });
+                                    }
+                                }, function fail(err) {
+
+                                })
+                            } else if (ret.buttonIndex == 2) {
+
+                            }
+                            //  alert( JSON.stringify( ret ) );
+                        } else {
+                            //  alert( JSON.stringify( err ) );
+                        }
+                    });
+
+                },
+                govideo(ite) {
+                    api.openWin({
+                        name: 'douyin_win',
+                        url: '../../douyin/douyin_win.html',
+                        pageParam: {
+                            id: ite.id
+                        },
+                    });
+                },
+                getLists() {
+                  console.log(this.more)
+                    if (!this.more) {
+                        return
                     }
-                }, function(ret, err) {
-                  console.log('加载更多');
-                  _this.getLists()
+                    var _this = this;
+                    var data = {
+                        page: _this.page,
+                        page_size: 20
+                    };
+                    requstPost('anchor/video', data, function success(ret) {
+                        console.log(";;;;;;;;;"+JSON.stringify(ret))
+                        if (ret.code == 0) {
+                            if (_this.page == 1) {
+                                _this.list = [];
+                            }
+                            if (ret.data.length < 20) {
+                                _this.more = false
+                            }
+                            _this.page += 1
 
-                });
+                            _this.list = _this.list.concat(ret.data)
+                        }else{
+                          api.toast({
+                              msg: ret.message,
+                              duration: 3000,
+                              location: 'middle'
+                          });
+                        }
+                    }, function fail(err) {
 
-              },
-              //删除视频
-              delVideo(ite){
-                var _this = this;
-                api.confirm({
-                    title: 'Delete video',
-                    msg: 'Are you sure you want to delete this video?',
-                    buttons: ['Delete', 'Cancel']
-                }, function(ret, err){
-                    if( ret ){
-                      if (ret.buttonIndex == 1) {
-                        console.log(ite)
-                        //删除
-                        //删除
-                        requstPost('anchor/delVideo',{id:ite.id},function success(ret){
-                          if (ret.code == 0) {
-                            _this.page = 1
-                            _this.more = true
-                            _this.getLists()
-                             api.toast({
-                                 msg: ret.message,
-                                 duration: 3000,
-                                 location: 'middle'
-                             });
-                          }else{
-                            api.toast({
-                                msg: ret.message,
-                                duration: 3000,
-                                location: 'middle'
-                            });
-                          }
-                        },function fail(err){
-
-                        })
-                      }else if (ret.buttonIndex == 2) {
-
-                      }
-                        //  alert( JSON.stringify( ret ) );
-                    }else{
-                        //  alert( JSON.stringify( err ) );
-                    }
-                });
-
-              },
-              govideo(ite){
-                api.openWin({
-                    name: 'douyin_win',
-                    url: '../../douyin/douyin_win.html',
-                    pageParam: {
-                        id: ite.id
-                    },
-                });
-              },
-              getLists(){
-                if (!this.more) {
-                  return
-                }
-                var _this = this;
-                var data = {
-                  page:_this.page,
-                  page_size:20
-                };
-                requstPost('anchor/video',data,function success(ret){
-                  console.log(";;;;;;;;;")
-                  if (ret.code == 0) {
-                    if (_this.page == 1) {
-                      _this.list = [];
-                    }
-                    if (ret.data.length < 20) {
-                      _this.more = false
-                    }
-                    _this.page += 1
-
-                    _this.list = _this.list.concat(ret.data)
-                  }
-                },function fail(err){
-
-                })
-              },
-              refresh(){
-                      var _this = this
-                      api.setRefreshHeaderInfo({
-                          visible: true,
-                          loadingImg: 'widget://image/loading_more1.png',
-                          bgColor: 'rgba(0,0,0,0)',
-                          textColor: '#000',
-                          textDown: 'Drop Down',
-                          textUp: 'Release',
-                          textLoading:'Loading...',
-                          showTime:false,
-                          textTime:'',
-                      }, function(ret, err) {
+                    })
+                },
+                refresh() {
+                    var _this = this
+                    api.setRefreshHeaderInfo({
+                        visible: true,
+                        loadingImg: 'widget://image/loading_more1.png',
+                        bgColor: 'rgba(0,0,0,0)',
+                        textColor: '#000',
+                        textDown: 'Drop Down',
+                        textUp: 'Release',
+                        textLoading: 'Loading...',
+                        showTime: false,
+                        textTime: '',
+                    }, function(ret, err) {
                         _this.page = 1
                         _this.more = true
                         _this.getLists()
-                      });
-              },
+                    });
+                },
 
             }
         })

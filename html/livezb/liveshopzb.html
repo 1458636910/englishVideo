@@ -28,89 +28,98 @@
         [v-cloak] {
             display: none;
         }
-        .listsBox{
-          width: 100vw;
-          overflow: scroll;
+
+        .listsBox {
+            width: 100vw;
+            overflow: scroll;
         }
-        .lists{
-          width: max-content;
-          padding: 0 3vw;
+
+        .lists {
+            width: max-content;
+            padding: 0 3vw;
         }
-        .list{
-          width: 40vw;
-          height: 50vw;
-          border: 2px solid white;
-          position: relative;
-          border-radius: 5px;
-          display: inline-block;
-          margin-right: 3vw;
+
+        .list {
+            width: 40vw;
+            height: 50vw;
+            border: 2px solid white;
+            position: relative;
+            border-radius: 5px;
+            display: inline-block;
+            margin-right: 3vw;
         }
-        .list img{
-          width: 100%;
-          height: 100%;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          object-fit: cover;
-          position: absolute;
-          z-index: 5;
+
+        .list img {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            object-fit: cover;
+            position: absolute;
+            z-index: 5;
         }
-        .list .count{
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          z-index: 6;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          background: rgba(0, 0, 0, 0.1);
+
+        .list .count {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 6;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.1);
         }
-        .top{
-          text-align: right;
+
+        .top {
+            text-align: right;
         }
+
         .bom {
-          padding: 0 1vw;
+            padding: 0 1vw;
         }
-        .btns{
-          padding-bottom: 2vw;
+
+        .btns {
+            padding-bottom: 2vw;
         }
-        .btns span{
-          width: 100%;
-          height: 8vw;
-          text-align: center;
-          line-height: 8vw;
-          background: #FA607D;
-          border-radius: 4vw;
-          margin-top: 2vw;
+
+        .btns span {
+            width: 100%;
+            height: 8vw;
+            text-align: center;
+            line-height: 8vw;
+            background: #FA607D;
+            border-radius: 4vw;
+            margin-top: 2vw;
         }
     </style>
 </head>
 
 <body>
     <div id="app" v-cloak>
-      <div class="listsBox">
-        <div class="lists">
-          <div class="list" v-for="(item,index) in lists">
-            <img :src="item.thumb" alt="">
-            <div class="count">
-              <div class="top">
-                Sales:{{item.sale_count}}
-              </div>
-              <div class="bom">
-                <h3>￡{{item.sale_price}}</h3>
-                <p>{{item.title}}</p>
-                <!-- <div class="btns">
+        <div class="listsBox">
+            <div class="lists">
+                <div class="list" v-for="(item,index) in lists">
+                    <img :src="item.thumb" alt="">
+                    <div class="count">
+                        <div class="top">
+                            Sales:{{item.sale_count}}
+                        </div>
+                        <div class="bom">
+                            <h3>￡{{item.sale_price}}</h3>
+                            <p>{{item.title}}</p>
+                            <!-- <div class="btns">
                   <span @click="addCart(item)">Add Cart</span>
                   <span>Buy Now</span>
                 </div> -->
-              </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
 
     </div>
 
@@ -127,70 +136,92 @@
             el: '#app',
             data() {
                 return {
-                    page:1,
-                    lists:[],
-                    more:true
+                    page: 1,
+                    lists: [],
+                    more: true
                 }
             },
             mounted: function() {
 
             },
             created() {
-              this.getLists()
+                this.getLists()
+                this.getMore()
+                var _this = this;
+                api.addEventListener({
+                    name: 'changechooseGoods'
+                }, function(ret, err) {
+                  // console.log("重新获取商品列表")
+                    _this.page = 1;
+                    _this.lists = [];
+                    _this.more = true;
+                    _this.getLists()
+                });
             },
             methods: {
-              //加入购物车
-              addCart(ite){
-                var data = {
-                  product_id:ite.id,
-                  buy_num:1,
-                  live_id:api.pageParam.live_id
-                };
-                requstPost('cart/add',data,function success(ret){
-                  if (ret.code == 0) {
-                    api.toast({
-                        msg: ret.message,
-                        duration: 3000,
-                        location: 'middle'
+                //加入购物车
+                addCart(ite) {
+                    var data = {
+                        product_id: ite.id,
+                        buy_num: 1,
+                        live_id: api.pageParam.live_id
+                    };
+                    requstPost('cart/add', data, function success(ret) {
+                        if (ret.code == 0) {
+                            api.toast({
+                                msg: ret.message,
+                                duration: 3000,
+                                location: 'middle'
+                            });
+
+                        }
+                    }, function fail(err) {
+
+                    })
+                },
+                //获取商品列表
+                getLists() {
+                    if (!this.more) {
+                        return
+                    }
+                    var _this = this;
+                    var data = {
+                        live_id: api.pageParam.live_id,
+                        page: _this.page,
+                        page_size: 20
+                    };
+                    requstPost('live/product', data, function success(ret) {
+                        if (ret.code == 0) {
+                            _this.page += 1
+                            _this.lists = _this.lists.concat(ret.data)
+                            if (ret.data.length < 20) {
+                                _this.more = false
+                            }
+                        } else {
+                            api.toast({
+                                msg: ret.message,
+                                duration: 3000,
+                                location: 'middle'
+                            });
+                        }
+                    }, function fail(err) {
+                        console.log(JSON.stringify(err))
+                    })
+                },
+                getMore() {
+                    var _this = this
+                    api.addEventListener({
+                        name: 'scrolltobottom',
+                        extra: {
+                            threshold: 50 //设置距离底部多少距离时触发，默认值为0，数字类型
+                        }
+                    }, function(ret, err) {
+                        console.log('加载更多');
+                        if (_this.more) {
+                            _this.getLists()
+                        }
                     });
-
-                  }
-                },function fail(err){
-
-                })
-              },
-              //获取商品列表
-            getLists(){
-              if (!this.more) {
-                return
-              }
-              var _this = this;
-              var data = {
-                live_id:api.pageParam.live_id,
-                page:_this.page,
-                page_size:20
-              };
-              requstPost('live/product',data,function success(ret){
-                console.log(JSON.stringify(ret))
-                if (ret.code == 0) {
-                  _this.page += 1
-                  _this.lists = _this.lists.concat(ret.data)
-                  if (ret.data.length < 20) {
-                    _this.more = false
-                  }
-                }else{
-                  api.toast({
-                      msg: ret.message,
-                      duration: 3000,
-                      location: 'middle'
-                  });
-                }
-              },function fail(err){
-                 console.log(JSON.stringify(err))
-              })
-            },
-
-
+                },
             }
         })
 

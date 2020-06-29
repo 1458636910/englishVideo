@@ -75,8 +75,8 @@
             });
         }, 350)
         requstPost('live/detail', data, function success(ret) {
-            api.hideProgress();
             if (ret.code == 0) {
+              api.hideProgress();
                 openPullLive(ret.data.live_play_url)
             } else {
                 api.hideProgress();
@@ -153,6 +153,7 @@
     }
 
     function openPullLive(live_play_url) {
+      console.log(live_play_url+'播流地址')
         alivcLivePlayer.initPlayer({
           rect:{
             x:0,

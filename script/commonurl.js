@@ -1,8 +1,8 @@
-var url = 'http://ym.s.li4.cn/api/'    //测试地址
-var img_url = 'http://ym.s.li4.cn/'    //个别图片后台没有自动匹配AP,需要自行添加
+var url = 'http://ym.s.li4.cn/api/' //测试地址
+var img_url = 'http://ym.s.li4.cn/' //个别图片后台没有自动匹配AP,需要自行添加
 
-var socketUrl = 'ws://ym.s.li4.cn:1936'   //聊天的地址，全局设置
-var shareurl = 'http://ym.s.li4.cn/register/'   //前台分享的链接地址
+var socketUrl = 'ws://ym.s.li4.cn:1936' //聊天的地址，全局设置
+var shareurl = 'http://ym.s.li4.cn/register/' //前台分享的链接地址
 
 
 //提醒用户设置权限 ，不然个别会提醒：请插入SD卡
@@ -38,6 +38,7 @@ function reqPermission(one_per, callback) {
         console.log(JSON.stringify(ret));
     });
 }
+
 function hasPermission(one_per) {
     var perms = new Array();
     if (one_per) {
@@ -65,7 +66,7 @@ function confirmPer(perm) {
     if (!has || !has[0] || !has[0].granted) {
         api.confirm({
             title: '',
-            msg: "Place allow use of this device’"+perm,
+            msg: "Place allow use of this device’" + perm,
             buttons: ['Setting', 'Cancel']
         }, function(ret, err) {
             if (1 == ret.buttonIndex) {
@@ -78,23 +79,24 @@ function confirmPer(perm) {
 }
 
 
-function loadImg(obj){
-  // javascript:this.src=item.img
-  if (obj.alt) {
-    obj.src = obj.alt
-  }else {
-    obj.src = '../image/errorimg.png'
-  }
+function loadImg(obj) {
+    // javascript:this.src=item.img
+    if (obj.alt) {
+        obj.src = obj.alt
+    } else {
+        obj.src = '../image/errorimg.png'
+    }
 
-  // alert(obj.src)
+    // alert(obj.src)
 }
+
 function formatDate(now) {
-  var month=now.getMonth()+1;  //取得日期中的月份，其中0表示1月，11表示12月
-  var date=now.getDate();      //返回日期月份中的天数（1到31）
-  var hour=now.getHours();     //返回日期中的小时数（0到23）
-  var minute=now.getMinutes(); //返回日期中的分钟数（0到59）
-  var second=now.getSeconds(); //返回日期中的秒数（0到59）
-  return month+"/"+date+" "+hour+":"+minute+":"+second;
+    var month = now.getMonth() + 1; //取得日期中的月份，其中0表示1月，11表示12月
+    var date = now.getDate(); //返回日期月份中的天数（1到31）
+    var hour = now.getHours(); //返回日期中的小时数（0到23）
+    var minute = now.getMinutes(); //返回日期中的分钟数（0到59）
+    var second = now.getSeconds(); //返回日期中的秒数（0到59）
+    return month + "/" + date + " " + hour + ":" + minute + ":" + second;
 }
 
 //--------------移动端点击延迟事件-------------//
@@ -106,335 +108,358 @@ if ('addEventListener' in document) {
 
 //--------------ios input失效处理-------------//
 FastClick.prototype.focus = function(targetElement) {
- var length;
- if (api.systemType == 'ios') {
-   var deviceIsIOS = true;
- }else {
-   var deviceIsIOS = false;
- }
-// Issue #160: on iOS 7, some input elements (e.g. date datetime month) throw a vague TypeError on setSelectionRange. These elements don't have an integer value for the selectionStart and selectionEnd properties, but unfortunately that can't be used for detection because accessing the properties also throws a TypeError. Just check the type instead. Filed as Apple bug #15122724.
- if (deviceIsIOS && targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time' && targetElement.type !== 'month') {
-  length = targetElement.value.length;
-     targetElement.focus();
-  targetElement.setSelectionRange(length, length);
- } else {
-  targetElement.focus();
- }
-}
-//--------------ios input失效处理-------------//
-//--------------移动端点击延迟事件-------------//
-
-function goPaypalUrl(e){
-  var systemType = api.systemType;
-  if (systemType == 'ios') {
-    api.openApp({
-      iosUrl: e, //打开微信的，其中weixin为微信的URL Scheme
-    });
-  }else {
-    console.log("paypal支付地址",e)
-    api.openWin({
-        name: 'paypal_win',
-        url: 'widget://html/common/paypal_win.html',
-        pageParam: {
-            url:e
+        var length;
+        if (api.systemType == 'ios') {
+            var deviceIsIOS = true;
+        } else {
+            var deviceIsIOS = false;
         }
-    });
+        // Issue #160: on iOS 7, some input elements (e.g. date datetime month) throw a vague TypeError on setSelectionRange. These elements don't have an integer value for the selectionStart and selectionEnd properties, but unfortunately that can't be used for detection because accessing the properties also throws a TypeError. Just check the type instead. Filed as Apple bug #15122724.
+        if (deviceIsIOS && targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time' && targetElement.type !== 'month') {
+            length = targetElement.value.length;
+            targetElement.focus();
+            targetElement.setSelectionRange(length, length);
+        } else {
+            targetElement.focus();
+        }
+    }
+    //--------------ios input失效处理-------------//
+    //--------------移动端点击延迟事件-------------//
 
-    // api.openApp({
-    //     androidPkg: 'android.intent.action.VIEW',
-    //     mimeType: 'text/html',
-    //     uri: e
-    // },function(ret,err){
-    //   console.log(JSON.stringify(ret));
-    // });
-  }
+function goPaypalUrl(e) {
+    var systemType = api.systemType;
+    if (systemType == 'ios') {
+        api.openApp({
+            iosUrl: e, //打开微信的，其中weixin为微信的URL Scheme
+        });
+    } else {
+        console.log("paypal支付地址", e)
+        api.openWin({
+            name: 'paypal_win',
+            url: 'widget://html/common/paypal_win.html',
+            pageParam: {
+                url: e
+            }
+        });
+
+        // api.openApp({
+        //     androidPkg: 'android.intent.action.VIEW',
+        //     mimeType: 'text/html',
+        //     uri: e
+        // },function(ret,err){
+        //   console.log(JSON.stringify(ret));
+        // });
+    }
 }
 
 //显示loading
-function pubshowloading(title,etxt){
-  var tit;
-  var txt;
-  if (tit) {
-    tit = title
-  }else {
-    tit = '';
-  }
-  if (etxt) {
-    txt = etxt
-  }else {
-    txt = '';
-  }
-  api.showProgress({
-      style: 'default',
-      animationType: 'fade',
-      title: tit,
-      text: txt,
-      modal: true
-  });
+function pubshowloading(title, etxt) {
+    var tit;
+    var txt;
+    if (tit) {
+        tit = title
+    } else {
+        tit = '';
+    }
+    if (etxt) {
+        txt = etxt
+    } else {
+        txt = '';
+    }
+    setTimeout(function(){
+      api.showProgress({
+          style: 'default',
+          animationType: 'fade',
+          title: tit,
+          text: txt,
+          modal: true
+      });
+    },500)
 }
 //关闭loading
-function pubhideloading(){
-  api.hideProgress();
+function pubhideloading() {
+    api.hideProgress();
 }
 
 //打印调试数据
-function datadebug(e){
-  // api.alert({
-  //     title: '调试数据',
-  //     msg: e,
-  // }, function(ret, err){
-  //     if( ret ){
-  //         //  alert( JSON.stringify( ret ) );
-  //     }else{
-  //         //  alert( JSON.stringify( err ) );
-  //     }
-  // });
+function datadebug(e) {
+    // api.alert({
+    //     title: '调试数据',
+    //     msg: e,
+    // }, function(ret, err){
+    //     if( ret ){
+    //         //  alert( JSON.stringify( ret ) );
+    //     }else{
+    //         //  alert( JSON.stringify( err ) );
+    //     }
+    // });
 
 }
-function requstPost(apiUrl,data,success,fail){
-  var token;
+
+function requstPost(apiUrl, data, success, fail) {
+    var token;
     if ($api.getStorage('token')) {
         token = $api.getStorage('token');
     } else {
         token = "";
     }
-    // data.token = token;
-    console.log(token);
+    // console.log(token);
     api.ajax({
-        url: url+apiUrl,
+        url: url + apiUrl,
         method: 'post',
-        headers:{
-          token:token
-        },
-        data: {
-            values:data
-        }
-    },function(ret, err){
-
-      api.refreshHeaderLoadDone();
-      api.hideProgress();
-      if (ret) {
-        //ret
-        if (ret.code == -1) {
-          //登陆失效
-          api.toast({
-              msg: 'Login is invalid',
-              duration: 3000,
-              location: 'middle'
-          });
-          $api.clearStorage();
-          setTimeout(()=>{
-            api.openWin({
-                name: 'login_win',
-                url: 'widget://html/login_win.html',
-                pageParam: {
-                    name: 'test'
-                }
-            });
-          },2000)
-          console.log('ret接口地址:'+apiUrl+'请求数据:'+JSON.stringify(data)+'---返回结果:'+JSON.stringify(ret));
-        }else if(ret.code == 0){
-          success(ret)
-          console.log('ret接口地址:'+apiUrl+'请求数据:'+JSON.stringify(data)+'---返回结果:'+JSON.stringify(ret));
-        }else {
-          if(apiUrl == 'store' || apiUrl == 'cart'||apiUrl=='live'||apiUrl=='anchor/all'||apiUrl=='video'||apiUrl=='video/category'||apiUrl=='product/recommend'||apiUrl=='news/category'||apiUrl=='news'){
-
-          }else {
-            api.toast({
-                msg: ret.message||ret.msg,
-                duration: 3000,
-                location: 'middle'
-            });
-          }
-
-          success(ret)
-          console.log('ret接口地址:'+apiUrl+'请求数据:'+JSON.stringify(data)+'---返回结果:'+JSON.stringify(ret));
-        }
-      }else {
-        var tips = err.msg=='网络请求超时，请稍后重试'?'Network request timed out, please try again later.':''
-        //err
-          api.toast({
-              msg: err.message||tips,
-              duration: 3000,
-              location: 'middle'
-          });
-        console.log('err接口地址:'+apiUrl+'请求数据:'+JSON.stringify(data)+'::::返回结果'+JSON.stringify(err));
-        fail(err);
-      }
-
-    });
-}
-function requstGet(apiUrl,data,success,fail){
-  var token;
-    if ($api.getStorage('token')) {
-        token = $api.getStorage('token');
-    } else {
-        token = "";
-    }
-    api.ajax({
-        url: url+apiUrl,
-        method: 'get',
-        cache:true,
-        headers:{
-          token:token
+        headers: {
+            token: token
         },
         data: {
             values: data
         }
-    },function(ret, err){
-      api.hideProgress();
-      api.refreshHeaderLoadDone();
+    }, function(ret, err) {
 
-      if (ret) {
-        //ret
-        if (ret.code == -1) {
-          //登陆失效
-          api.toast({
-              msg: 'Login is invalid',
-              duration: 3000,
-              location: 'middle'
-          });
-          $api.clearStorage();
-          // $api.clearStorage();
-          setTimeout(()=>{
-            api.openWin({
-                name: 'login_win',
-                url: 'widget://html/login_win.html',
-                pageParam: {
-                    name: 'test'
+        api.refreshHeaderLoadDone();
+        api.hideProgress();
+        if (ret) {
+            //ret
+            if (ret.code == -1) {
+                //登陆失效
+                api.toast({
+                    msg: 'Login is invalid',
+                    duration: 3000,
+                    location: 'middle'
+                });
+                $api.clearStorage();
+                setTimeout(() => {
+                    api.openWin({
+                        name: 'login_win',
+                        url: 'widget://html/login_win.html',
+                        pageParam: {
+                            name: 'test'
+                        }
+                    });
+                }, 2000)
+                // console.log('ret接口地址:' + apiUrl + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
+            } else if (ret.code == 0) {
+                success(ret)
+                console.log('ret接口地址:' + apiUrl + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
+            } else {
+                if (apiUrl == 'store' || apiUrl == 'cart' || apiUrl == 'live' || apiUrl == 'anchor/all' || apiUrl == 'video' || apiUrl == 'video/category' || apiUrl == 'product/recommend' || apiUrl == 'news/category' || apiUrl == 'news') {
+
+                } else {
+                    api.toast({
+                        msg: ret.message || ret.msg,
+                        duration: 3000,
+                        location: 'middle'
+                    });
                 }
+
+                success(ret)
+                console.log('ret接口地址:' + apiUrl + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
+            }
+        } else {
+            var tips = ''
+            if (err.msg == '网络请求超时，请稍后重试') {
+                tips = 'Network request timed out, please try again later.'
+            } else if (err.msg == '连接错误，请检查网络或者请求配置是否正确') {
+                tips = 'connection error'
+            } else {
+                tips = err.msg
+            }
+                //err
+            api.toast({
+                msg: err.message || tips,
+                duration: 3000,
+                location: 'middle'
             });
-          },2000)
-          console.log('ret接口地址:'+apiUrl+'请求数据:'+JSON.stringify(data)+'---返回结果:'+JSON.stringify(ret));
-        }else if(ret.code == 0){
-          success(ret)
-          console.log('ret接口地址:'+apiUrl+'请求数据:'+JSON.stringify(data)+'---返回结果:'+JSON.stringify(ret));
-        }else {
-          api.toast({
-              msg: ret.message||ret.msg,
-              duration: 3000,
-              location: 'middle'
-          });
-          console.log('ret接口地址:'+apiUrl+'请求数据:'+JSON.stringify(data)+'---返回结果:'+JSON.stringify(ret));
+            console.log('err接口地址:' + apiUrl + '请求数据:' + JSON.stringify(data) + '::::返回结果' + JSON.stringify(err));
+            fail(err);
         }
-      }else {
-        //err
-        var tips = err.msg=='网络请求超时，请稍后重试'?'Network request timed out, please try again later.':''
-        api.toast({
-            msg: err.message||tips,
-            duration: 3000,
-            location: 'middle'
-        });
-        console.log('err接口地址:'+apiUrl+'请求数据:'+JSON.stringify(data)+'::::返回结果'+JSON.stringify(err));
-        fail(err);
-      }
+
+    });
+}
+
+function requstGet(apiUrl, data, success, fail) {
+    var token;
+    if ($api.getStorage('token')) {
+        token = $api.getStorage('token');
+    } else {
+        token = "";
+    }
+    api.ajax({
+        url: url + apiUrl,
+        method: 'get',
+        cache: true,
+        headers: {
+            token: token
+        },
+        data: {
+            values: data
+        }
+    }, function(ret, err) {
+        api.hideProgress();
+        api.refreshHeaderLoadDone();
+
+        if (ret) {
+            //ret
+            if (ret.code == -1) {
+                //登陆失效
+                api.toast({
+                    msg: 'Login is invalid',
+                    duration: 3000,
+                    location: 'middle'
+                });
+                $api.clearStorage();
+                // $api.clearStorage();
+                setTimeout(() => {
+                    api.openWin({
+                        name: 'login_win',
+                        url: 'widget://html/login_win.html',
+                        pageParam: {
+                            name: 'test'
+                        }
+                    });
+                }, 2000)
+                console.log('ret接口地址:' + apiUrl + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
+            } else if (ret.code == 0) {
+                success(ret)
+                console.log('ret接口地址:' + apiUrl + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
+            } else {
+                api.toast({
+                    msg: ret.message || ret.msg,
+                    duration: 3000,
+                    location: 'middle'
+                });
+                console.log('ret接口地址:' + apiUrl + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
+            }
+        } else {
+            //err
+            var tips = ''
+            if (err.msg == '网络请求超时，请稍后重试') {
+                tips = 'Network request timed out, please try again later.'
+            } else if (err.msg == '连接错误，请检查网络或者请求配置是否正确') {
+                tips = 'connection error'
+            } else {
+                tips = err.msg
+            }
+            api.toast({
+                msg: err.message || tips,
+                duration: 3000,
+                location: 'middle'
+            });
+            console.log('err接口地址:' + apiUrl + '请求数据:' + JSON.stringify(data) + '::::返回结果' + JSON.stringify(err));
+            fail(err);
+        }
     });
 }
 
 
 
-function requstUpload(data,success,fail){
-  var token;
+function requstUpload(data, success, fail) {
+    var token;
     if ($api.getStorage('token')) {
         token = $api.getStorage('token');
     } else {
         token = "";
     }
     data.token = token;
-    console.log(token+'==========='+data)
     api.ajax({
-        url: url+'upload',
+        url: url + 'upload',
         method: 'post',
-        cache:true,
-        headers:{
-          token:token
+        cache: true,
+        headers: {
+            token: token
         },
         data: {
             files: {
-              file:data
-              // 'file[]': '/var/mobile/Containers/Data/Application/9E5DDCA3-9D17-413E-B643-8772A2934F56/Library/Caches/APICloud/Cache/getPicture/19DA1C4A-AF21-46CD-849C-E1C856BB3952-20109-00000AFE3471B3DF.jpg',
-              // 'file[]': '/var/mobile/Containers/Data/Application/9E5DDCA3-9D17-413E-B643-8772A2934F56/Library/Caches/APICloud/Cache/getPicture/19DA1C4A-AF21-46CD-849C-E1C856BB3952-20109-00000AFE3471B3DF.jpg',
+                file: data
             }
         }
-    },function(ret, err){
-      api.hideProgress();
-      if (ret) {
-        //ret
-        if (ret.code == -1) {
-          //登陆失效
-          api.toast({
-              msg: 'Login is invalid',
-              duration: 3000,
-              location: 'middle'
-          });
-          // $api.clearStorage();
-          setTimeout(()=>{
-            api.openWin({
-                name: 'login_win',
-                url: 'widget://html/login_win.html',
-                pageParam: {
-                    name: 'test'
-                }
+    }, function(ret, err) {
+        if (ret) {
+            api.hideProgress();
+            //ret
+            if (ret.code == -1) {
+                //登陆失效
+                api.toast({
+                    msg: 'Login is invalid',
+                    duration: 3000,
+                    location: 'middle'
+                });
+                // $api.clearStorage();
+                setTimeout(() => {
+                    api.openWin({
+                        name: 'login_win',
+                        url: 'widget://html/login_win.html',
+                        pageParam: {
+                            name: 'test'
+                        }
+                    });
+                }, 2000)
+                console.log('ret接口地址:' + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
+            } else if (ret.code == 0) {
+                success(ret)
+                console.log('ret接口地址:' + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
+            } else {
+                api.toast({
+                    msg: ret.message,
+                    duration: 3000,
+                    location: 'middle'
+                });
+                console.log('ret接口地址:' + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
+            }
+        } else {
+            api.hideProgress();
+            var tips = ''
+            if (err.msg == '网络请求超时，请稍后重试') {
+                tips = 'Network request timed out, please try again later.'
+            } else if (err.msg == '连接错误，请检查网络或者请求配置是否正确') {
+                tips = 'connection error'
+            } else {
+                tips = err.msg
+            }
+            //err
+            api.toast({
+                msg: err.message || tips,
+                duration: 3000,
+                location: 'middle'
             });
-          },2000)
-          console.log('ret接口地址:'+'请求数据:'+JSON.stringify(data)+'---返回结果:'+JSON.stringify(ret));
-        }else if(ret.code == 0){
-          success(ret)
-          console.log('ret接口地址:'+'请求数据:'+JSON.stringify(data)+'---返回结果:'+JSON.stringify(ret));
-        }else {
-          api.toast({
-              msg: ret.message,
-              duration: 3000,
-              location: 'middle'
-          });
-          console.log('ret接口地址:'+'请求数据:'+JSON.stringify(data)+'---返回结果:'+JSON.stringify(ret));
+            console.log('err接口地址:' + '请求数据:' + JSON.stringify(data) + '::::返回结果' + JSON.stringify(err));
+            fail(err);
         }
-      }else {
-        //err
-        api.toast({
-            msg: err.msg,
-            duration: 3000,
-            location: 'middle'
-        });
-        console.log('err接口地址:'+'请求数据:'+JSON.stringify(data)+'::::返回结果'+JSON.stringify(err));
-        fail(err);
-      }
     });
 }
 
 ///判断是否登录
-function userIslogin(){
-  var userlogin = $api.getStorage('islogin');
-  console.log('登录状态'+userlogin);
+function userIslogin() {
+    var userlogin = $api.getStorage('islogin');
+    console.log('登录状态' + userlogin);
 
     api.confirm({
         title: 'Please log in first',
         msg: '',
         buttons: ['Sure', 'Cancel']
-    }, function(ret, err){
-        if( ret ){
-          if (ret.buttonIndex == 1) {
-            api.openWin({
-                name: 'login_win',
-                url: 'widget://html/login_win.html',
-                pageParam: {
-                    name: 'test'
-                }
-            });
-          }else {
-            api.execScript({
-                name: 'douyin_win',
-                // frameName: 'frmName',
-                script: 'startPlay();'
-            });
-            api.execScript({
-                name: 'live_win',
-                // frameName: 'frmName',
-                script: 'playLive();'
-            });
-          }
+    }, function(ret, err) {
+        if (ret) {
+            if (ret.buttonIndex == 1) {
+                api.openWin({
+                    name: 'login_win',
+                    url: 'widget://html/login_win.html',
+                    pageParam: {
+                        name: 'test'
+                    }
+                });
+            } else {
+                api.execScript({
+                    name: 'douyin_win',
+                    // frameName: 'frmName',
+                    script: 'startPlay();'
+                });
+                api.execScript({
+                    name: 'live_win',
+                    // frameName: 'frmName',
+                    script: 'playLive();'
+                });
+            }
             //  alert( JSON.stringify( ret ) );
-        }else{
+        } else {
             //  alert( JSON.stringify( err ) );
         }
     });
@@ -442,21 +467,19 @@ function userIslogin(){
 }
 
 //图片缓存
-function catchImg(e){
-  var listData = e;
-  var _this = this;
-  for (i in listData) {
-      api.imageCache({
-          url: listData[i].image_url,
-          tag: i
-      }, function(ret, err) {
-        // console.log(JSON.stringify(ret));
-          listData[ret.tag].image_url = ret.url;
-      });
-  }
+function catchImg(e) {
+    var listData = e;
+    var _this = this;
+    for (i in listData) {
+        api.imageCache({
+            url: listData[i].image_url,
+            tag: i
+        }, function(ret, err) {
+            // console.log(JSON.stringify(ret));
+            listData[ret.tag].image_url = ret.url;
+        });
+    }
 }
-
-
 
 
 

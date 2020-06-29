@@ -138,14 +138,13 @@
     }
     //开始推流
     function startPushFn(e) {
-        console.log(';;;;;;;;;;;;;;;;' + e)
         alivcLivePusher.startPush({
             url: e
         }, function(ret) {
             if (ret.status) {
                 console.log('推流成功')
             } else {
-                console.log(JSON.stringify(ret))
+                console.log('推流失败')
             }
         })
     }

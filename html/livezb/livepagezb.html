@@ -370,13 +370,18 @@
                 }
             },
             created() {
+              var _this = this;
+              api.addEventListener({
+                  name: 'changechooseGoodsNum'
+              }, function(ret, err){
+                // console.log("重新获取选择的数量")
+                _this.getDetail()
+              });
               //接收id
               this.live_id = api.pageParam.live_id
 
               this.chatTop = $api.dom('#chatlists').offsetTop
 
-              // alert($api.dom('#chatlists').offsetTop)
-                console.log($api.dom('footer').offsetHeight);
                 this.getDetail()
             },
             methods: {
@@ -393,6 +398,7 @@
                 var data = {
                   live_id:api.pageParam.live_id
                 };
+                console.log("获取基本的信息")
                 requstPost('anchor/liveDetail',data,function success(ret){
                   if (ret.code == 0) {
                     _this.fav_list = ret.data.fav_list

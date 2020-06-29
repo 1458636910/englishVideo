@@ -448,7 +448,7 @@
                 }
             },
             created() {
-              console.log($api.getStorage('isIos')+'pppppppppppppp')
+              // console.log($api.getStorage('isIos')+'pppppppppppppp')
                 this.isIos = $api.getStorage('isIos');
                 var headHeight = api.winWidth / 100 * 12;
                 this.heaGht = $api.dom('header').offsetHeight
@@ -594,6 +594,27 @@
                 openLiveBtn() {
                     var _this = this;
                     var arcMenu = api.require('arcMenu');
+                    var _item = [];
+                    if(this.isIos==1){
+                      _item = [{
+                          w: 70,
+                          h: 70,
+                          img: 'widget://res/livebtn/video.png',
+                          imgLight: 'widget://res/livebtn/video.png'
+                      }]
+                    }else{
+                      _item = [{
+                          w: 70,
+                          h: 70,
+                          img: 'widget://res/livebtn/video.png',
+                          imgLight: 'widget://res/livebtn/video.png'
+                      }, {
+                          w: 70,
+                          h: 70,
+                          img: 'widget://res/livebtn/live.png',
+                          imgLight: 'widget://res/livebtn/live.png'
+                      }]
+                    }
                     arcMenu.open({
                         type: 'arc', //straight
                         mainMenu: {
@@ -604,17 +625,7 @@
                             img: 'widget://res/livebtn/open.png',
                             imgLight: 'widget://res/livebtn/open.png'
                         },
-                        items: [{
-                            w: 70,
-                            h: 70,
-                            img: 'widget://res/livebtn/video.png',
-                            imgLight: 'widget://res/livebtn/video.png'
-                        }, {
-                            w: 70,
-                            h: 70,
-                            img: 'widget://res/livebtn/live.png',
-                            imgLight: 'widget://res/livebtn/live.png'
-                        }],
+                        items: _item,
                         startAngle: 270,
                         wholeAngle: 90,
                         mmRotation: false,

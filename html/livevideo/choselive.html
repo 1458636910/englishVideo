@@ -231,10 +231,6 @@
                 sureTime(value) { //存储当前选中的时间
                     this.showtime = value.toLocaleString();
                     var now = new Date();
-                    // console.log(value.toLocaleString())
-                    // console.log("选中的时间戳"+value.getTime())
-                    console.log("跟当前的时间差" + (value.getTime() - now.getTime()))
-
                     this.Timestamp = value.getTime() / 1000; //传递给后台的直接就是时间差，单位是毫秒
                     this.showTimepicker = false;
                 },
@@ -282,7 +278,6 @@
                     };
                     requstPost('live/push', data, function success(ret) {
                         if (ret.code == 0) {
-                            console.log(JSON.stringify(ret))
                                 //开启直播
                             api.openWin({
                                 name: 'livezb_win',
@@ -313,7 +308,6 @@
                 },
 
                 getPicqj(sourceType) {
-                    // console.log("------------"+this.confirmPer('camera'))
                     if (!confirmPer('camera')||!confirmPer('storage')) {
                         return;
                     }
