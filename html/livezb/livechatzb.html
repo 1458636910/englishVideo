@@ -117,271 +117,271 @@
                 return {
                     num: 0,
                     isPause: false,
-                    lists:[],
-                    live_id:'',
-                    websocket_url:'',
-                    client_id:'',
-                    sid:'',//socketid
+                    lists: [],
+                    live_id: '',
+                    websocket_url: '',
+                    client_id: '',
+                    sid: '', //socketid
                 }
             },
             mounted: function() {
 
             },
             created() {
-              this.live_id = api.pageParam.live_id
-              this.websocket_url = api.pageParam.websocket_url
-              this.getInitSocket()
-              this.eventAdd()
-              this.addTouchDown()
-              this.addTouchUp()
+                this.live_id = api.pageParam.live_id
+                this.websocket_url = api.pageParam.websocket_url
+                this.getInitSocket()
+                this.eventAdd()
+                this.addTouchDown()
+                this.addTouchUp()
                 setInterval(() => {
-                  return
+                    return
                     this.num += 1
-                      // return
+                        // return
                     if (!this.isPause) {
-                      api.pageDown({
-                          bottom: true
-                      }, function(ret, err) {
-                          if (!ret.scrolled) {
-                              //已经滚动到底部
-                              // console.log('到底了')
+                        api.pageDown({
+                            bottom: true
+                        }, function(ret, err) {
+                            if (!ret.scrolled) {
+                                //已经滚动到底部
+                                // console.log('到底了')
                                 console.log($api.dom('#chatBom').offsetTop);
-                          } else {
+                            } else {
 
-                          }
-                      });
+                            }
+                        });
 
                     } else {
-                      //暂停
+                        //暂停
 
                     }
                 }, 1000)
             },
             methods: {
-              //初始化socket
-              getInitSocket(){
-                var _this = this;
-                // _this.client_id = $api.getStorage('client_id');
-                // _this.bindlive_id()
-                var demo = api.require('myWebSocket');
+                //初始化socket
+                getInitSocket() {
+                    var _this = this;
+                    _this.client_id = $api.getStorage('client_id');
+                    _this.bindlive_id()
+                    var demo = api.require('myWebSocket');
                     demo.open({
-                        pingInterval:60,
-                        url : _this.websocket_url
+                        pingInterval: 60,
+                        url: _this.websocket_url
                     }, function(ret, err) {
-                      console.log(JSON.stringify(ret));
-                      if (ret.status) {
-                        demo.bindEvent( function(rett,errr) {
-                                 var type = rett.type;
-                                 var str =rett.data;
+                        console.log(JSON.stringify(ret));
+                        if (ret.status) {
+                            demo.bindEvent(function(rett, errr) {
+                                var type = rett.type;
+                                var str = rett.data;
 
-                                 switch (type){
-                                     case 'opened':
-                                          //登录...
-                                          console.log("连接成功");
-                                          break;
-                                     case 'receive':
-                                         var message = JSON.parse(str);
-                                         console.log("接收消息："+str);
-                                         var data = JSON.parse(str);
-                                         if (data.op == 'init') {
-                                           _this.client_id = data.client_id
-                                           _this.bindlive_id()
-                                         }
-                                         if (data.op == 'message') {
-                                           // alert(1)
-                                           _this.addLists(data.data.nickname,data.data.avatar_url,data.data.message)
-                                         }
-                                          break;
-                                       case 'error':
-                                         //do something ...
-                                          console.log("连接发生错误");
-                                          //打印关闭的log
-                                          console.log(str)
-                                          break;
-                                     case 'closed':
-                                         //do something ...
-                                          console.log("连接已断开");
-                                          //打印关闭的log
-                                          console.log(str)
-                                          break;
-                                 }
-                          });
-                      }else {
-                        if (err.code == 2) {
-                          demo.close(function(ret, err) {
-                              _this.getInitSocket()
-                          });
+                                switch (type) {
+                                    case 'opened':
+                                        //登录...
+                                        console.log("连接成功");
+                                        break;
+                                    case 'receive':
+                                        var message = JSON.parse(str);
+                                        console.log("接收消息：" + str);
+                                        var data = JSON.parse(str);
+                                        if (data.op == 'init') {
+                                            _this.client_id = data.client_id
+                                            _this.bindlive_id()
+                                        }
+                                        if (data.op == 'message') {
+                                            // alert(1)
+                                            _this.addLists(data.data.nickname, data.data.avatar_url, data.data.message)
+                                        }
+                                        break;
+                                    case 'error':
+                                        //do something ...
+                                        console.log("连接发生错误");
+                                        //打印关闭的log
+                                        console.log(str)
+                                        break;
+                                    case 'closed':
+                                        //do something ...
+                                        console.log("连接已断开");
+                                        //打印关闭的log
+                                        console.log(str)
+                                        break;
+                                }
+                            });
+                        } else {
+                            if (err.code == 2) {
+                                demo.close(function(ret, err) {
+                                    _this.getInitSocket()
+                                });
+                            }
                         }
-                      }
                         console.log(JSON.stringify(ret) + "  " + JSON.stringify(err));
                     });
-                return
-                // var _this = this;
-                // var str = this.websocket_url;
-                // var socketManager = api.require('socketManager');
-                //     socketManager.createSocket({
-                //       type:'udp',
-                //       udpMode:'multicast',
-                //         host: '47.105.172.53',
-                //         port: 1936
-                //     }, function(ret, err) {
-                //         if (ret) {
-                //           if (ret.state == 101) {
-                //             //创建成功
-                //             _this.sid = ret.sid
-                //           }else if (ret.state == 102) {
-                //             //链接成功
-                //           }else if (ret.state == 103) {
-                //             //收到数据
-                //
-                //           }else if (ret.state == 201) {
-                //             //创建失败
-                //           }else if (ret.state == 202) {
-                //             //链接失败
-                //           }else if (ret.state == 203) {
-                //             //异常断开
-                //           }else if (ret.state == 204) {
-                //             //正常断开
-                //           }else if (ret.state == 205) {
-                //             //未知错误断开
-                //           }
-                //             console.log(JSON.stringify(ret));
-                //         } else {
-                //             console.log(JSON.stringify(err));
-                //         }
-                //     });
-                // console.log(str.split(':')[1]);
-                // return
-                var _this = this;
-                ws = new WebSocket(this.websocket_url);
-                ws.onmessage = function(e){
-                    // json数据转换成js对象
-                    console.log(JSON.stringify(e));
-                    if(!e.hasOwnProperty('data')){
+                    return
+                    // var _this = this;
+                    // var str = this.websocket_url;
+                    // var socketManager = api.require('socketManager');
+                    //     socketManager.createSocket({
+                    //       type:'udp',
+                    //       udpMode:'multicast',
+                    //         host: '47.105.172.53',
+                    //         port: 1936
+                    //     }, function(ret, err) {
+                    //         if (ret) {
+                    //           if (ret.state == 101) {
+                    //             //创建成功
+                    //             _this.sid = ret.sid
+                    //           }else if (ret.state == 102) {
+                    //             //链接成功
+                    //           }else if (ret.state == 103) {
+                    //             //收到数据
+                    //
+                    //           }else if (ret.state == 201) {
+                    //             //创建失败
+                    //           }else if (ret.state == 202) {
+                    //             //链接失败
+                    //           }else if (ret.state == 203) {
+                    //             //异常断开
+                    //           }else if (ret.state == 204) {
+                    //             //正常断开
+                    //           }else if (ret.state == 205) {
+                    //             //未知错误断开
+                    //           }
+                    //             console.log(JSON.stringify(ret));
+                    //         } else {
+                    //             console.log(JSON.stringify(err));
+                    //         }
+                    //     });
+                    // console.log(str.split(':')[1]);
+                    // return
+                    var _this = this;
+                    ws = new WebSocket(this.websocket_url);
+                    ws.onmessage = function(e) {
+                        // json数据转换成js对象
+                        console.log(JSON.stringify(e));
+                        if (!e.hasOwnProperty('data')) {
 
-                      return
-                    }
-                    var data = eval("("+e.data+")");
-                    var type = data.op || '';
-                    if (data.op == 'init') {
-                      _this.client_id = data.client_id
-                      _this.bindlive_id()
-                    }
-                    if (data.op == 'message') {
-                      _this.addLists(data.data.nickname,data.data.avatar_url,data.data.message)
-                    }
-                };
-              },
-              //收到socket消息 追加列表
-              addLists(nickname,avatar_url,message){
-                var obj = {
-                  name:nickname,
-                  headimg:avatar_url,
-                  msg:message
-                }
-                this.lists.push(obj)
-                this.isPause = false
-                  api.pageDown({
-                      bottom: true
-                  }, function(ret, err) {
-                      if (!ret.scrolled) {
-                          //已经滚动到底部
-                          // console.log('到底了')
-                            console.log($api.dom('#chatBom').offsetTop);
-                      } else {
-
-                      }
-                  });
-              },
-              //关闭聊天
-              closeChat(){
-                var _this = this;
-                // var socketManager = api.require('socketManager');
-                // socketManager.closeSocket({
-                //     sid: _this.sid
-                // }, function(ret, err) {
-                //     if (ret.status) {
-                //         // alert(JSON.stringify(ret));
-                //     } else {
-                //         // alert(JSON.stringify(err));
-                //     }
-                // });
-                console.log(111111);
-                // ws.onclose = function(params) {
-                //   console.log("client：关闭连接");
-                // };
-              },
-              //绑定直播
-              bindlive_id(){
-                var _this = this;
-                var data = {
-                  client_id:_this.client_id,
-                  live_id:_this.live_id
-                };
-                requstPost('chat/bindLiveGroup',data,function success(ret){
-
-                },function fail(err){
-
-                })
-              },
-              eventAdd(){
-                var _this = this;
-                api.addEventListener({
-                    name: 'livechatzbText'
-                }, function(ret, err){
-                    if( ret ){
-                      if (ret.value.msg) {
-
-                        _this.sendText(ret.value.msg)
-                      }
-                        //  alert( JSON.stringify( ret ) );
-                    }else{
-                        //  alert( JSON.stringify( err ) );
-                    }
-                });
-              },
-              sendText(e){
-                var demo = api.require('myWebSocket');
-                    demo.send({
-                        msg : e
-                    }, function(ret, err) {
-                        console.log('发送消息'+JSON.stringify(ret) + "  " + JSON.stringify(err));
-                    });
-                var _this = this;
-                var data = {
-                  message:e,
-                  live_id:_this.live_id
-                };
-                requstPost('chat/sendLiveGroupMessage',data,function success(ret){
-                  if (ret.code == 0) {
+                            return
+                        }
+                        var data = eval("(" + e.data + ")");
+                        var type = data.op || '';
+                        if (data.op == 'init') {
+                            _this.client_id = data.client_id
+                            _this.bindlive_id()
+                        }
+                        if (data.op == 'message') {
+                            _this.addLists(data.data.nickname, data.data.avatar_url, data.data.message)
+                        }
+                    };
+                },
+                //收到socket消息 追加列表
+                addLists(nickname, avatar_url, message) {
                     var obj = {
-                      name:$api.getStorage('nickname'),
-                      headimg:$api.getStorage('headimg'),
-                      msg:e
+                        name: nickname,
+                        headimg: avatar_url,
+                        msg: message
                     }
-                    // _this.lists.push(obj)
-                    _this.isPause = false
-                      api.pageDown({
-                          bottom: true
-                      }, function(ret, err) {
-                          if (!ret.scrolled) {
-                              //已经滚动到底部
-                              // console.log('到底了')
-                                console.log($api.dom('#chatBom').offsetTop);
-                          } else {
+                    this.lists.push(obj)
+                    this.isPause = false
+                    api.pageDown({
+                        bottom: true
+                    }, function(ret, err) {
+                        if (!ret.scrolled) {
+                            //已经滚动到底部
+                            // console.log('到底了')
+                            console.log($api.dom('#chatBom').offsetTop);
+                        } else {
 
-                          }
-                      });
-                  }
-                },function fail(err){
+                        }
+                    });
+                },
+                //关闭聊天
+                closeChat() {
+                    var _this = this;
+                    // var socketManager = api.require('socketManager');
+                    // socketManager.closeSocket({
+                    //     sid: _this.sid
+                    // }, function(ret, err) {
+                    //     if (ret.status) {
+                    //         // alert(JSON.stringify(ret));
+                    //     } else {
+                    //         // alert(JSON.stringify(err));
+                    //     }
+                    // });
+                    console.log(111111);
+                    // ws.onclose = function(params) {
+                    //   console.log("client：关闭连接");
+                    // };
+                },
+                //绑定直播
+                bindlive_id() {
+                    var _this = this;
+                    var data = {
+                        client_id: _this.client_id,
+                        live_id: _this.live_id
+                    };
+                    requstPost('chat/bindLiveGroup', data, function success(ret) {
 
-                })
+                    }, function fail(err) {
+
+                    })
+                },
+                eventAdd() {
+                    var _this = this;
+                    api.addEventListener({
+                        name: 'livechatzbText'
+                    }, function(ret, err) {
+                        if (ret) {
+                            if (ret.value.msg) {
+
+                                _this.sendText(ret.value.msg)
+                            }
+                            //  alert( JSON.stringify( ret ) );
+                        } else {
+                            //  alert( JSON.stringify( err ) );
+                        }
+                    });
+                },
+                sendText(e) {
+                    var demo = api.require('myWebSocket');
+                    demo.send({
+                        msg: e
+                    }, function(ret, err) {
+                        console.log('发送消息' + JSON.stringify(ret) + "  " + JSON.stringify(err));
+                    });
+                    var _this = this;
+                    var data = {
+                        message: e,
+                        live_id: _this.live_id
+                    };
+                    requstPost('chat/sendLiveGroupMessage', data, function success(ret) {
+                        if (ret.code == 0) {
+                            var obj = {
+                                    name: $api.getStorage('nickname'),
+                                    headimg: $api.getStorage('headimg'),
+                                    msg: e
+                                }
+                                // _this.lists.push(obj)
+                            _this.isPause = false
+                            api.pageDown({
+                                bottom: true
+                            }, function(ret, err) {
+                                if (!ret.scrolled) {
+                                    //已经滚动到底部
+                                    // console.log('到底了')
+                                    console.log($api.dom('#chatBom').offsetTop);
+                                } else {
+
+                                }
+                            });
+                        }
+                    }, function fail(err) {
+
+                    })
 
 
-              },
+                },
                 //监听手势事件
                 addTouchDown() {
-                  var _this = this;
+                    var _this = this;
                     api.addEventListener({
                         name: 'swipedown'
                     }, function(ret, err) {
@@ -389,8 +389,8 @@
                         _this.isPause = true
                     });
                 },
-                addTouchUp(){
-                  var _this = this;
+                addTouchUp() {
+                    var _this = this;
                     api.addEventListener({
                         name: 'swipeup'
                     }, function(ret, err) {
