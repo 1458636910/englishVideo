@@ -86,7 +86,7 @@
 
     function openPushLive(e, name, authkey) {
         openpage(name, authkey)
-        if (!confirmPer('camera') || !confirmPer('storage')) {
+        if (!confirmPer('camera') || !confirmPer('storage')||!confirmPer('microphone')) {
             return;
         }
         alivcLivePusher.initPusher({
