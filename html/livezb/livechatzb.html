@@ -164,6 +164,43 @@
                     _this.client_id = $api.getStorage('client_id');
                     _this.bindlive_id()
                     var demo = api.require('myWebSocket');
+                    demo.bindEvent(function(rett, errr) {
+                        var type = rett.type;
+                        var str = rett.data;
+
+                        switch (type) {
+                            case 'opened':
+                                //登录...
+                                console.log("连接成功");
+                                break;
+                            case 'receive':
+                                var message = JSON.parse(str);
+                                console.log("接收消息：" + str);
+                                var data = JSON.parse(str);
+                                if (data.op == 'init') {
+                                    _this.client_id = data.client_id
+                                    _this.bindlive_id()
+                                }
+                                if (data.op == 'message') {
+                                    // alert(1)
+                                    _this.addLists(data.data.nickname, data.data.avatar_url, data.data.message)
+                                }
+                                break;
+                            case 'error':
+                                //do something ...
+                                console.log("连接发生错误");
+                                //打印关闭的log
+                                console.log(str)
+                                break;
+                            case 'closed':
+                                //do something ...
+                                console.log("连接已断开");
+                                //打印关闭的log
+                                console.log(str)
+                                break;
+                        }
+                    });
+                    return;
                     demo.open({
                         pingInterval: 60,
                         url: _this.websocket_url
