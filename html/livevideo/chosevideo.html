@@ -367,29 +367,31 @@
                 },
                 //上传封面图片
                 upImg() {
-                    pubshowloading()
                     var _this = this;
-                    if (_this.headimg) {
-                        if (_this.imgurl) {
-                            _this.upVideo()
-                        } else {
+                    if (_this.headimg) {   //封面图
+                        // if (_this.imgurl) {  //上传后的封面图地址
+                        //     _this.upVideo()
+                        // } else {
                             var data = _this.headimg;
+                            pubshowloading()
                             requstUpload(data, function success(ret) {
                                 _this.imgurl = ret.data.src
                                 _this.upVideo()
                             }, function fail(err) {
 
                             })
-                        }
+                        // }
                     } else {
-                        _this.upVideo()
+                      api.alert({
+                          title: '',
+                          msg:'Please select the image',
+                          buttons: ['Sure']
+                      });
                     }
-
                 },
                 upVideo() {
-                    pubshowloading()
                     var _this = this;
-                    if (_this.videourl) {
+                    if (_this.videourl) {  //上传后的视频地址
                         _this.subMit()
                     } else {
                         var data = _this.video
@@ -429,12 +431,9 @@
                                 if (rett.code == 0) {
                                     api.closeWin();
                                 }
-                                //  alert( JSON.stringify( ret ) );
                             } else {
-                                //  alert( JSON.stringify( err ) );
                             }
                         });
-
                     }, function fail(err) {
 
                     })

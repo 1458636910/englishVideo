@@ -167,6 +167,7 @@ function pubshowloading(title, etxt) {
         txt = '';
     }
     setTimeout(function(){
+      console.log(";;;")
       api.showProgress({
           style: 'default',
           animationType: 'fade',
@@ -174,7 +175,7 @@ function pubshowloading(title, etxt) {
           text: txt,
           modal: true
       });
-    },500)
+    },300)
 }
 //关闭loading
 function pubhideloading() {
@@ -256,7 +257,7 @@ function requstPost(apiUrl, data, success, fail) {
             }
         } else {
             var tips = ''
-            if (err.msg == '网络请求超时，请稍后重试') {
+            if (err.msg == '网络请求超时，请稍后重试'||err.msg == '服务器返回数据格式错误') {
                 tips = 'Network request timed out, please try again later.'
             } else if (err.msg == '连接错误，请检查网络或者请求配置是否正确') {
                 tips = 'connection error'
@@ -332,7 +333,7 @@ function requstGet(apiUrl, data, success, fail) {
         } else {
             //err
             var tips = ''
-            if (err.msg == '网络请求超时，请稍后重试') {
+            if (err.msg == '网络请求超时，请稍后重试'||err.msg == '服务器返回数据格式错误') {
                 tips = 'Network request timed out, please try again later.'
             } else if (err.msg == '连接错误，请检查网络或者请求配置是否正确') {
                 tips = 'connection error'
@@ -359,15 +360,18 @@ function requstUpload(data, success, fail) {
     } else {
         token = "";
     }
-    data.token = token;
     api.ajax({
         url: url + 'upload',
         method: 'post',
-        cache: true,
+        cache: false,
+        timeout: 1800,
         headers: {
             token: token
         },
         data: {
+            values:{
+              token:token
+            },
             files: {
                 file: data
             }
@@ -408,7 +412,7 @@ function requstUpload(data, success, fail) {
         } else {
             api.hideProgress();
             var tips = ''
-            if (err.msg == '网络请求超时，请稍后重试') {
+            if (err.msg == '网络请求超时，请稍后重试'||err.msg == '服务器返回数据格式错误') {
                 tips = 'Network request timed out, please try again later.'
             } else if (err.msg == '连接错误，请检查网络或者请求配置是否正确') {
                 tips = 'connection error'
