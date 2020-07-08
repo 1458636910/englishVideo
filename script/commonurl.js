@@ -34,7 +34,7 @@ function reqPermission(one_per, callback) {
         for (var i in list) {
             str += list[i].name + '=' + list[i].granted + '\n';
         }
-        apialert(str);
+        // api.alert(str);
         console.log(JSON.stringify(ret));
     });
 }
@@ -66,7 +66,7 @@ function confirmPer(perm) {
     if (!has || !has[0] || !has[0].granted) {
         api.confirm({
             title: '',
-            msg: "Place allow use of this device’" + perm,
+            msg: "Place allow " + perm + ' access',
             buttons: ['Setting', 'Cancel']
         }, function(ret, err) {
             if (1 == ret.buttonIndex) {
@@ -166,16 +166,16 @@ function pubshowloading(title, etxt) {
     } else {
         txt = '';
     }
-    setTimeout(function(){
-      console.log(";;;")
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: tit,
-          text: txt,
-          modal: true
-      });
-    },300)
+    // setTimeout(function(){
+    console.log(";;;")
+    api.showProgress({
+        style: 'default',
+        animationType: 'fade',
+        title: tit,
+        text: txt,
+        modal: true
+    });
+    // },300)
 }
 //关闭loading
 function pubhideloading() {
@@ -229,15 +229,15 @@ function requstPost(apiUrl, data, success, fail) {
                 });
                 $api.clearStorage();
                 setTimeout(() => {
-                    api.openWin({
-                        name: 'login_win',
-                        url: 'widget://html/login_win.html',
-                        pageParam: {
-                            name: 'test'
-                        }
-                    });
-                }, 2000)
-                // console.log('ret接口地址:' + apiUrl + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
+                        api.openWin({
+                            name: 'login_win',
+                            url: 'widget://html/login_win.html',
+                            pageParam: {
+                                name: 'test'
+                            }
+                        });
+                    }, 2000)
+                    // console.log('ret接口地址:' + apiUrl + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
             } else if (ret.code == 0) {
                 success(ret)
                 console.log('ret接口地址:' + apiUrl + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
@@ -245,8 +245,16 @@ function requstPost(apiUrl, data, success, fail) {
                 if (apiUrl == 'store' || apiUrl == 'cart' || apiUrl == 'live' || apiUrl == 'anchor/all' || apiUrl == 'video' || apiUrl == 'video/category' || apiUrl == 'product/recommend' || apiUrl == 'news/category' || apiUrl == 'news') {
 
                 } else {
+                    var tips = ''
+                    if (err.msg == '网络请求超时，请稍后重试' || err.msg == '服务器返回数据格式错误') {
+                        tips = 'Network request timed out, please try again later.'
+                    } else if (err.msg == '连接错误，请检查网络或者请求配置是否正确') {
+                        tips = 'connection error'
+                    } else {
+                        tips = err.msg
+                    }
                     api.toast({
-                        msg: ret.message || ret.msg,
+                        msg: ret.message || tips,
                         duration: 3000,
                         location: 'middle'
                     });
@@ -257,14 +265,14 @@ function requstPost(apiUrl, data, success, fail) {
             }
         } else {
             var tips = ''
-            if (err.msg == '网络请求超时，请稍后重试'||err.msg == '服务器返回数据格式错误') {
+            if (err.msg == '网络请求超时，请稍后重试' || err.msg == '服务器返回数据格式错误') {
                 tips = 'Network request timed out, please try again later.'
             } else if (err.msg == '连接错误，请检查网络或者请求配置是否正确') {
                 tips = 'connection error'
             } else {
                 tips = err.msg
             }
-                //err
+            //err
             api.toast({
                 msg: err.message || tips,
                 duration: 3000,
@@ -323,8 +331,16 @@ function requstGet(apiUrl, data, success, fail) {
                 success(ret)
                 console.log('ret接口地址:' + apiUrl + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
             } else {
+                var tips = ''
+                if (err.msg == '网络请求超时，请稍后重试' || err.msg == '服务器返回数据格式错误') {
+                    tips = 'Network request timed out, please try again later.'
+                } else if (err.msg == '连接错误，请检查网络或者请求配置是否正确') {
+                    tips = 'connection error'
+                } else {
+                    tips = err.msg
+                }
                 api.toast({
-                    msg: ret.message || ret.msg,
+                    msg: ret.message || tips,
                     duration: 3000,
                     location: 'middle'
                 });
@@ -333,7 +349,7 @@ function requstGet(apiUrl, data, success, fail) {
         } else {
             //err
             var tips = ''
-            if (err.msg == '网络请求超时，请稍后重试'||err.msg == '服务器返回数据格式错误') {
+            if (err.msg == '网络请求超时，请稍后重试' || err.msg == '服务器返回数据格式错误') {
                 tips = 'Network request timed out, please try again later.'
             } else if (err.msg == '连接错误，请检查网络或者请求配置是否正确') {
                 tips = 'connection error'
@@ -369,8 +385,8 @@ function requstUpload(data, success, fail) {
             token: token
         },
         data: {
-            values:{
-              token:token
+            values: {
+                token: token
             },
             files: {
                 file: data
@@ -402,8 +418,16 @@ function requstUpload(data, success, fail) {
                 success(ret)
                 console.log('ret接口地址:' + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
             } else {
+                var tips = ''
+                if (err.msg == '网络请求超时，请稍后重试' || err.msg == '服务器返回数据格式错误') {
+                    tips = 'Network request timed out, please try again later.'
+                } else if (err.msg == '连接错误，请检查网络或者请求配置是否正确') {
+                    tips = 'connection error'
+                } else {
+                    tips = err.msg
+                }
                 api.toast({
-                    msg: ret.message,
+                    msg: ret.message || tips,
                     duration: 3000,
                     location: 'middle'
                 });
@@ -412,7 +436,7 @@ function requstUpload(data, success, fail) {
         } else {
             api.hideProgress();
             var tips = ''
-            if (err.msg == '网络请求超时，请稍后重试'||err.msg == '服务器返回数据格式错误') {
+            if (err.msg == '网络请求超时，请稍后重试' || err.msg == '服务器返回数据格式错误') {
                 tips = 'Network request timed out, please try again later.'
             } else if (err.msg == '连接错误，请检查网络或者请求配置是否正确') {
                 tips = 'connection error'

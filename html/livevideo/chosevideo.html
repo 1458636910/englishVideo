@@ -391,18 +391,26 @@
                 },
                 upVideo() {
                     var _this = this;
-                    if (_this.videourl) {  //上传后的视频地址
-                        _this.subMit()
-                    } else {
+                    // if (_this.videourl) {  //上传后的视频地址
+                    //     _this.subMit()
+                    // } else {
                         var data = _this.video
-                        pubshowloading()
-                        requstUpload(data, function success(ret) {
-                            _this.videourl = ret.data.src
-                            _this.subMit()
-                        }, function fail(err) {
+                        if(data){
+                          pubshowloading()
+                          requstUpload(data, function success(ret) {
+                              _this.videourl = ret.data.src
+                              _this.subMit()
+                          }, function fail(err) {
 
-                        })
-                    }
+                          })
+                        }else{
+                          api.alert({
+                              title: '',
+                              msg:'Please select the video',
+                              buttons: ['Sure']
+                          });
+                        }
+                    // }
                 },
                 //发布
                 subMit() {

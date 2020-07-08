@@ -330,8 +330,7 @@
                   requstPost('user/orderRefund',data,function success(ret){
                     if (ret.code == 0) {
                       api.toast({
-                          title: ret.message,
-                          msg: '',
+                          msg: ret.message,
                       }, function(ret, err){
                         api.closeWin();
                         api.sendEvent({

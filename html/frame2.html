@@ -1151,14 +1151,14 @@
                     if ((ite.start_time - parseInt((new Date()).getTime()) / 1000) > 0) {
                       if($api.getStorage('isIos')==1){  //ios不存在是否付费的情况
                         api.toast({
-                            msg: 'Whoops! It hasn’t started yet.',
+                            msg: 'Live Stream has not started yet.',
                             duration: 3000,
                             location: 'bottom'
                         });
                       }else{
                         if (ite.price > 0 && ite.payed == 1) { //价格大于0  同时还没有支付的情况
                             api.confirm({
-                                title: 'Whoops! It hasn’t started yet.',
+                                title: 'Live Stream has not started yet.',
                                 msg: 'You can choose to pay in advance',
                                 buttons: ['Sure', 'Cancel']
                             }, function(ret, err) {
@@ -1179,7 +1179,7 @@
                             });
                         } else {
                             api.toast({
-                                msg: 'Whoops! It hasn’t started yet.',
+                                msg: 'Live Stream has not started yet.',
                                 duration: 3000,
                                 location: 'bottom'
                             });

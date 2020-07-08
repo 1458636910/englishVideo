@@ -613,6 +613,14 @@
                     });
                 },
                 phonelogin() {
+                  if(!this.termChoose){
+                    api.toast({
+                        msg: 'Please agree to the terms',
+                        duration: 3000,
+                        location: 'middle'
+                    });
+                    return
+                  }
                     if (api.connectionType == 'none') {
                         api.toast({
                             msg: 'Network Error',
