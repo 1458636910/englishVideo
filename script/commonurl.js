@@ -167,7 +167,6 @@ function pubshowloading(title, etxt) {
         txt = '';
     }
     // setTimeout(function(){
-    console.log(";;;")
     api.showProgress({
         style: 'default',
         animationType: 'fade',

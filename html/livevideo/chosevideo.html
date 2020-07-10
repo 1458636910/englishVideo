@@ -334,6 +334,7 @@
                                 var imgurl = ret.data
                                 _this.video = imgurl
                                 _this.hadVideo = 'Added'
+                                _this.upVideo(imgurl)
                             }
                         });
                     } else if (sourceType == 2) {
@@ -356,14 +357,15 @@
                                 var imgurl = ret.data
                                 _this.video = imgurl
                                 _this.hadVideo = 'Added'
-
+                                _this.upVideo(imgurl)
                             }
                         });
 
                     }
                 },
                 startLive() {
-                    this.upImg()
+                    // this.upImg()
+                    this.subMit()
                 },
                 //上传封面图片
                 upImg() {
@@ -373,12 +375,31 @@
                         //     _this.upVideo()
                         // } else {
                             var data = _this.headimg;
-                            pubshowloading()
+                            // pubshowloading()
+                            api.showProgress({
+                              style: 'default',
+                              animationType: 'fade',
+                              title: '',
+                              text: '',
+                              modal: true
+                            })
                             requstUpload(data, function success(ret) {
-                                _this.imgurl = ret.data.src
-                                _this.upVideo()
+                               if(ret){
+                                 _this.imgurl = ret.data.src
+                                //  _this.upVideo()
+                               }else{
+                                 api.toast({
+                                     msg: ret.msg,
+                                     duration: 3000,
+                                     location: 'middle'
+                                 });
+                               }
                             }, function fail(err) {
-
+                              api.toast({
+                                  msg: err.msg,
+                                  duration: 3000,
+                                  location: 'middle'
+                              });
                             })
                         // }
                     } else {
@@ -390,18 +411,39 @@
                     }
                 },
                 upVideo() {
+                  api.showProgress({
+                    style: 'default',
+                    animationType: 'fade',
+                    title: '',
+                    text: '',
+                    modal: true
+                  })
                     var _this = this;
                     // if (_this.videourl) {  //上传后的视频地址
                     //     _this.subMit()
                     // } else {
                         var data = _this.video
                         if(data){
-                          pubshowloading()
+                            console.log('上传视频'+this.video)
                           requstUpload(data, function success(ret) {
+                            if(ret){
                               _this.videourl = ret.data.src
-                              _this.subMit()
+                              console.log('上传视频结束')
+                              // _this.subMit()
+                            }else{
+                              api.toast({
+                                  msg: ret.msg,
+                                  duration: 3000,
+                                  location: 'middle'
+                              });
+                            }
                           }, function fail(err) {
-
+                            api.toast({
+                                msg: err.msg,
+                                duration: 3000,
+                                location: 'middle'
+                            });
+                               console.log('上传视频报错')
                           })
                         }else{
                           api.alert({
@@ -414,7 +456,14 @@
                 },
                 //发布
                 subMit() {
-                    pubshowloading()
+                  console.log('提交发布')
+                  api.showProgress({
+                    style: 'default',
+                    animationType: 'fade',
+                    title: '',
+                    text: '',
+                    modal: true
+                  })
                         // alert()
                     var _this = this;
                     var categories = '';
@@ -430,6 +479,8 @@
                         categories: categories
                     };
                     requstPost('video/push', data, function success(rett) {
+                      console.log('发布成功')
+                      if(rett){
                         api.alert({
                             title: '',
                             msg: rett.message,
@@ -442,7 +493,13 @@
                             } else {
                             }
                         });
+                      }
                     }, function fail(err) {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 3000,
+                            location: 'middle'
+                        });
 
                     })
                 },
@@ -482,6 +539,7 @@
                             if (ret.data) {
                                 var imgurl = ret.data
                                 _this.headimg = imgurl
+                                _this.upImg(imgurl)
                             }
                         });
                     } else if (sourceType == 2) { // 从相机中选择
@@ -501,6 +559,7 @@
 
                                 var imgurl = ret.data
                                 _this.headimg = imgurl
+                                _this.upImg(imgurl)
                                 console.log(ret.data);
 
                             } else {
