@@ -658,6 +658,7 @@
                     followmore: true,
                     time: '200000',
                     refreshCount: 0, //从0开始累加，每次刷新+1，保证dom的最新
+                    currentid:'',
                 }
             },
             created() {
@@ -669,10 +670,53 @@
                 this.getBanner()
                 this.getanchors()
                 this.getMore()
-                    //获取直播列表
-                    // this.getallLiveLists()
+                  //获取直播列表
+                  // this.getallLiveLists()
+                  this.listenerUpdate()   //屏蔽或者是举报之后，就返回重新刷新数据
+
             },
             methods: {
+              listenerUpdate(){
+                var _this = this;
+                api.addEventListener({
+                    name: 'updataLists'
+                }, function(ret, err){
+                    if( ret ){
+                        //直播
+                        console.log(_this.liveactive)
+                        if (_this.liveactive == 1) {
+                          var livelist = _this.livelist;
+                          for(var i=0;i<livelist.length;i++){
+                            if(livelist[i].id==_this.currentid){
+                              livelist.splice(i,1)
+                            }
+                          }
+                            // //所有的
+                            // _this.alllivelist = []
+                            // _this.alllivepage = 1
+                            // _this.alllivemore = true
+                            // _this.livelist = []
+                            // // console.log("1111111111111"+_this.alllivelist)
+                            // _this.getallLiveLists()
+                        } else if (_this.liveactive == 2) {
+                          var followlivelist  =_this.followlivelist;
+                          for(var i=0;i<followlivelist.length;i++){
+                            if(followlivelist[i].id==_this.currentid){
+                              followlivelist.splice(i,1)
+                            }
+                          }
+                            // //关注的
+                            // _this.livelist = []
+                            // _this.followlivelist = []
+                            // _this.followlivepage = 1
+                            // _this.followmore = true
+                            // _this.getallLiveLists1()
+                        }
+                    }else{
+
+                    }
+                });
+              },
                 //生成id
                 countId(id, time) {
                     return 'count' + "_" + this.refreshCount + "_" + id
@@ -848,7 +892,12 @@
                             //直播
                             if (_this.liveactive == 1) {
                                 // 所有直播
-                                _this.getallLiveLists()
+                                console.log(_this.alllivemore+'////////////////////')
+                                if(_this.alllivemore){
+                                  _this.getallLiveLists()
+                                }else{
+                                  return;
+                                }
                             } else {
                                 //关注直播
                                 _this.getallLiveLists1()
@@ -1127,6 +1176,10 @@
                                 _this.followmore = true
                                 _this.getallLiveLists1()
                             }
+                        }else if(_this.active==2){
+                          _this.getCates()
+                        }else if(_this.active){
+                           _this.getCatesnews()
                         }
                         // alert(_this.liveactive)
                     });
@@ -1147,6 +1200,7 @@
                 },
                 //查看直播
                 golive(ite) {
+                  this.currentid = ite.id   //存储以便于删除
                     //判断直播是否开始
                     if ((ite.start_time - parseInt((new Date()).getTime()) / 1000) > 0) {
                       if($api.getStorage('isIos')==1){  //ios不存在是否付费的情况

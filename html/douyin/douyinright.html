@@ -92,6 +92,11 @@
         .fav {
             color: red;
         }
+
+        .giftsimg img {
+            width: 25px;
+            transform: translateY(3px);
+        }
     </style>
 </head>
 
@@ -112,6 +117,12 @@
                 <div @click="showPl()">
                     <i class="iconfont">&#xe615;</i>
                     <p>{{talk_count}}</p>
+                </div>
+                <div @click="goreport()">
+                    <i class="iconfont">&#xe764;</i>
+                </div>
+                <div class="giftsimg" @click="fnShield()">
+                    <img src="../../image/shield.png" alt="">
                 </div>
                 <!-- <div @click="goshare()">
                     <i class="iconfont">&#xe627;</i>
@@ -203,79 +214,147 @@
                 this.upData()
             },
             methods: {
+                //屏蔽
+                fnShield() {
+                    if ($api.getStorage('islogin') != 'true') {
+                        api.execScript({
+                            name: 'live_win',
+                            // frameName: 'frmName',
+                            script: 'pauseLive();'
+                        });
+                        userIslogin()
+                        return
+                    }
+                    var parameter = {
+                        video_id: api.pageParam.videoid,
+                        type:1,
+                    }
+                    requstPost('video/pushReport', parameter, function success(ret) {
+                        if (ret.code == 0) {
+                          api.alert({
+                              title: ret.message,
+                              msg: '',
+                              buttons: ['Sure']
+                          }, function(ret, err) {
+                              if (ret) {
+                                  api.sendEvent({
+                                      name: 'updataHomeList',
+                                  });
+                                  setTimeout(function(){
+                                    api.closeToWin({
+                                        name: 'root'
+                                    });
+                                  },1000)
+                              } else {}
+                          });
+                        }else{
+                          api.toast({
+                              msg: ret.message,
+                              duration: 2000,
+                              location: 'bottom'
+                          });
+                        }
+                    }, function fail(err) {
+                        api.toast({
+                            msg: err.msg||err.message,
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+                    })
+                },
+                //举报
+                goreport() {
+                    if ($api.getStorage('islogin') != 'true') {
+                        api.execScript({
+                            name: 'live_win',
+                            // frameName: 'frmName',
+                            script: 'pauseLive();'
+                        });
+                        userIslogin()
+                        return
+                    }
+                    api.openWin({
+                        name: 'report_win',
+                        url: '../live/report_win.html',
+                        pageParam: {
+                            videoid: api.pageParam.videoid,
+                            type:'video'
+                        }
+                    });
+                },
                 goshare() {
-                   var _this = this;
+                    var _this = this;
                     var facebook = api.require('facebook');
                     facebook.isInstalled(function(ret, err) {
-                      console.log(ret)
+                        console.log(ret)
                         if (ret.installed) {
-                          _this.sharefacebook()
+                            _this.sharefacebook()
                         } else {
-                          api.toast({
-                              msg: 'Facebook is not installed on the current device',
-                              duration: 3000,
-                              location: 'middle'
-                          });
+                            api.toast({
+                                msg: 'Facebook is not installed on the current device',
+                                duration: 3000,
+                                location: 'middle'
+                            });
                         }
                     });
 
                 },
-                sharefacebook(){
-                  facebook.refreshToken(function(ret) {
-                      if (ret.status) {
-                          api.alert({
-                              msg: '刷新成功'
-                          });
-                      } else {
-                          alert('刷新失败');
-                      }
-                  });
-                  return
-                  var facebook = api.require('facebook');
-                  facebook.getCurrentToken(function(ret) {
-                      if (ret.isLogin) {
-                          api.alert({
-                              msg: JSON.stringify(ret)
-                          });
-                      } else {
-                          alert('尚未登录');
-                      }
-                  });
-                  return
+                sharefacebook() {
+                    facebook.refreshToken(function(ret) {
+                        if (ret.status) {
+                            api.alert({
+                                msg: '刷新成功'
+                            });
+                        } else {
+                            alert('刷新失败');
+                        }
+                    });
+                    return
+                    var facebook = api.require('facebook');
+                    facebook.getCurrentToken(function(ret) {
+                        if (ret.isLogin) {
+                            api.alert({
+                                msg: JSON.stringify(ret)
+                            });
+                        } else {
+                            alert('尚未登录');
+                        }
+                    });
+                    return
 
-                  var facebook = api.require('facebook');
-                  facebook.login({
-                      appId: ''
-                  }, function(ret, err) {
-                      if (ret.status) {
-                          api.alert({
-                              msg: JSON.stringify(ret)
-                          });
-                      } else {
-                          api.alert({
-                              msg: JSON.stringify(err)
-                          });
-                      }
-                  });
-                  return
-                  facebook.shareLinked({
-                      url: 'http://www.apicloud.com/index?uzchannel=6',
-                      imgUrl: 'http://p6.sinaimg.cn/2823006341/180/51101340154713',
-                      description: 'app 跨平台开发工具',
-                      title: 'APICloud',
-                      quote: 'very good'
-                  }, function(ret, err) {
-                      if (ret.status) {
+                    var facebook = api.require('facebook');
+                    facebook.login({
+                        appId: ''
+                    }, function(ret, err) {
+                        if (ret.status) {
+                            api.alert({
+                                msg: JSON.stringify(ret)
+                            });
+                        } else {
+                            api.alert({
+                                msg: JSON.stringify(err)
+                            });
+                        }
+                    });
+                    return
+                    facebook.shareLinked({
+                        url: 'http://www.apicloud.com/index?uzchannel=6',
+                        imgUrl: 'http://p6.sinaimg.cn/2823006341/180/51101340154713',
+                        description: 'app 跨平台开发工具',
+                        title: 'APICloud',
+                        quote: 'very good'
+                    }, function(ret, err) {
+                        if (ret.status) {
 
-                          api.alert({
-                              msg: JSON.stringify(ret)
-                          });
-                      } else {
-                          api.alert({
-                              msg: JSON.stringify(err)
-                          });
-                      }
-                  });
+                            api.alert({
+                                msg: JSON.stringify(ret)
+                            });
+                        } else {
+                            api.alert({
+                                msg: JSON.stringify(err)
+                            });
+                        }
+                    });
                 },
                 upData() {
                     var _this = this

@@ -265,6 +265,13 @@
         // isMoney()
         // openPullLive()
         getLists()
+        api.addEventListener({
+            name: 'closepl'
+        }, function(ret, err){
+             api.closeFrame({
+                 name: 'douyinpl'
+             });
+        });
     };
     //获取抖音列表
     function getLists(){
@@ -402,7 +409,7 @@
                         demo.play()
                         isPause = false
                     }
-                    
+
                 }
                 if (ret.evenType == 'onDoubleTap') {
                     //双击事件
@@ -775,7 +782,7 @@
                     }else{
                         isMoney()
                     }
-                   
+
                 }
                 //  alert( JSON.stringify( ret ) );
             } else {

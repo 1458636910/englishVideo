@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-    <meta name="format-detection" content="telephone=no,email=no"/>
+    <meta name="format-detection" content="telephone=no,email=no" />
     <title>title</title>
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
@@ -17,42 +17,44 @@
             /*padding-top: 3vw;*/
             box-sizing: border-box;
         }
-        [v-cloak]{
-          /*display: none;*/
-        }
-        .list{
-          padding: 3vw;
-          border-bottom: 1px solid #f5f5f5;
-          color: #7F7F7F;
-          display: flex;
-          align-items: center;
-        }
-        .chose{
-          width: 20px;
-          height: 20px;
-          border: 1px solid #7F7F7F;
-          box-sizing: border-box;
-          border-radius: 50%;
-          margin-right: 3vw;
-        }
-        .active{
-          background-image: url('../../image/chose.png');
-          background-size: 100%;
-          border: 1px solid #e86a7f;
+
+        [v-cloak] {
+            /*display: none;*/
         }
 
+        .list {
+            padding: 3vw;
+            border-bottom: 1px solid #f5f5f5;
+            color: #7F7F7F;
+            display: flex;
+            align-items: center;
+        }
 
+        .chose {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #7F7F7F;
+            box-sizing: border-box;
+            border-radius: 50%;
+            margin-right: 3vw;
+        }
+
+        .active {
+            background-image: url('../../image/chose.png');
+            background-size: 100%;
+            border: 1px solid #e86a7f;
+        }
     </style>
 </head>
 
 <body>
     <div id="app" v-cloak>
-      <div class="lists">
-        <div class="list" v-for="(item,index) in lists" @click="chose(item,index)">
-          <span class="chose" :class="active == index?'active':''"></span>
-          <span>{{item.content}}</span>
+        <div class="lists">
+            <div class="list" v-for="(item,index) in lists" @click="chose(item,index)">
+                <span class="chose" :class="active == index?'active':''"></span>
+                <span>{{item.content}}</span>
+            </div>
         </div>
-      </div>
 
     </div>
 
@@ -62,96 +64,222 @@
 <script src="../../script/vue.min.js"></script>
 <script src="../../script/commonurl.js"></script>
 <script type="text/javascript">
-var app;
+    var app;
     apiready = function() {
         app = new Vue({
             el: '#app',
             data() {
                 return {
-                  live_id:'',
-                  active:-1,
-                  lists:[],
-                  report_id:'',
+                    live_id: '',
+                    active: -1,
+                    lists: [],
+                    report_id: '',
+                    videoid: '',
+                    reason:'',
                 }
             },
-            mounted:function () {
+            mounted: function() {
                 this.addIschose()
             },
             created() {
-              this.live_id = api.pageParam.live_id
-              this.getData()
+                if (api.pageParam.type == 'video') {
+                    this.videoid = api.pageParam.videoid
+                } else {
+                    this.live_id = api.pageParam.live_id
+                }
+
+                this.getData()
             },
             methods: {
-              getData(){
-                var _this = this;
-                var data = {
+                getData() {
+                    var _this = this;
+                    var data = {
 
-                };
-                requstPost('live/reportSubjects',data,function success(ret){
-                  if (ret.code == 0) {
-                    for (var i = 0; i < ret.data.length; i++) {
-                      ret.data[i].chose = false
+                    };
+                    var url;
+                    if(api.pageParam.type=='video'){
+                      url = 'video/reportSubjects'
+                    }else{
+                      url = 'live/reportSubjects'
                     }
-                    _this.lists = ret.data
-                  }
-                },function fail(err){
+                    requstPost(url, data, function success(ret) {
+                        if (ret.code == 0) {
+                            for (var i = 0; i < ret.data.length; i++) {
+                                ret.data[i].chose = false
+                            }
+                            _this.lists = ret.data
+                        }
+                    }, function fail(err) {
 
-                })
-              },
+                    })
+                },
 
                 //追加是否选中属性
-                addIschose(){
-                  //为lists添加ischose（是否选中）字段，初始值为false
-                  var _this=this;
-                      //为lists添加ischose（是否选中）字段，初始值为false
-                  this.lists.map(function (item) {
-                      _this.$set(item, 'chose', false);
-                  })
-                  //要像上面这样写双向绑定才能起效，下面的写法是有问题的，双向绑定不起效的！
-                  //this.productList.map(function (item) {item.select=true})
+                addIschose() {
+                    //为lists添加ischose（是否选中）字段，初始值为false
+                    var _this = this;
+                    //为lists添加ischose（是否选中）字段，初始值为false
+                    this.lists.map(function(item) {
+                            _this.$set(item, 'chose', false);
+                        })
+                        //要像上面这样写双向绑定才能起效，下面的写法是有问题的，双向绑定不起效的！
+                        //this.productList.map(function (item) {item.select=true})
                 },
-              chose(ite,ind){
-                this.report_id = ite.id
-                this.active = ind
-                ite.chose = !ite.chose
-              },
-              subMit(){
-                if (this.report_id == '') {
-                  return
+                chose(ite, ind) {
+                    this.report_id = ite.id
+                    this.active = ind
+                    ite.chose = !ite.chose
+                    this.reason = ite.content
+                },
+                subMit() {
+                    if (this.report_id == '') {
+                        return
+                    }
+                    var _this = this;
+                    if(api.pageParam.type=='uid'){
+                      var parameter = {
+                        uid:api.pageParam.uid,
+                        reason:this.reason
+                      }
+                      requstPost('user/report', parameter, function success(ret) {
+                          if (ret.code == 0) {
+                              _this.active = -1;
+                              _this.report_id = '';
+                              api.alert({
+                                  title: 'Your report has been submitted successfully.',
+                                  msg: '',
+                                  buttons: ['Sure']
+                              }, function(ret, err) {
+                                  if (ret) {
+                                      setTimeout(function(){
+                                        api.closeWin();
+                                      },1000)
+                                  } else {}
+                              });
+                          }
+                      }, function fail(err) {})
+                    }else if (api.pageParam.type == 'video') {   //举报视频
+                      if(api.pageParam.pltype==2){   //举报视频的评论
+                        var data = {
+                            video_id: api.pageParam.videoid,
+                            report_subject_id: _this.report_id,
+                            type:2
+                        };
+                        requstPost('video/talkReport', data, function success(ret) {
+                            if (ret.code == 0) {
+                                _this.active = -1;
+                                _this.report_id = '';
+                                // alert(ret.message)
+                                api.alert({
+                                    title: 'Your report has been submitted successfully.',
+                                    msg: '',
+                                    buttons: ['Sure']
+                                }, function(ret, err) {
+                                    if (ret) {
+                                        api.sendEvent({
+                                            name: 'closepl',
+                                        });
+                                        setTimeout(function(){
+                                          api.closeToWin({
+                                              name: 'douyin_win'
+                                          });
+                                        },1000)
+                                    } else {}
+                                });
+                            }
+                        }, function fail(err) {})
+                      }else{   //举报视频
+                        var data = {
+                            video_id: api.pageParam.videoid,
+                            report_subject_id: _this.report_id
+                        };
+                        requstPost('video/pushReport', data, function success(ret) {
+                            if (ret.code == 0) {
+                                _this.active = -1;
+                                _this.report_id = '';
+                                // alert(ret.message)
+                                api.alert({
+                                    title: 'Your report has been submitted successfully.',
+                                    msg: '',
+                                    buttons: ['Sure']
+                                }, function(ret, err) {
+                                    if (ret) {
+                                        api.sendEvent({
+                                            name: 'updataHomeList',
+                                        });
+                                        setTimeout(function(){
+                                          api.closeToWin({
+                                              name: 'root'
+                                          });
+                                        },1000)
+                                    } else {}
+                                });
+                            }
+                        }, function fail(err) {})
+                      }
+                    } else {  //举报直播
+                      if(api.pageParam.pltype==1){   //举报评论
+                        var data = {
+                            live_id: api.pageParam.live_id,
+                            report_subject_id: _this.report_id,
+                            type:1
+                        };
+                        requstPost('video/talkReport', data, function success(ret) {
+                            if (ret.code == 0) {
+                                _this.active = -1;
+                                _this.report_id = '';
+                                // alert(ret.message)
+                                api.alert({
+                                    title: 'Your report has been submitted successfully.',
+                                    msg: '',
+                                    buttons: ['Sure']
+                                }, function(ret, err) {
+                                    if (ret) {
+                                        api.sendEvent({
+                                            name: 'uddatechatList',
+                                        });
+                                        setTimeout(function(){
+                                          api.closeWin();
+                                          //
+                                          // api.closeToWin({
+                                          //     name: 'livepagezb'
+                                          // });
+                                        },1000)
+                                    } else {}
+                                });
+                            }
+                        }, function fail(err) {})
+                      }else{
+                        var data = {
+                            live_id: api.pageParam.live_id,
+                            report_subject_id: _this.report_id
+                        };
+                        requstPost('live/pushReport', data, function success(ret) {
+                            if (ret.code == 0) {
+                                _this.active = -1;
+                                _this.report_id = '';
+                                // alert(ret.message)
+                                api.alert({
+                                    title: 'Your report has been submitted successfully.',
+                                    msg: '',
+                                    buttons: ['Sure']
+                                }, function(ret, err) {
+                                    if (ret) {
+                                      api.sendEvent({
+                                          name: 'updataLists',
+                                      });
+                                      setTimeout(function(){
+                                        api.closeToWin({
+                                            name: 'root'
+                                        });
+                                      },1000)
+                                    } else {}
+                                });
+                            }
+                        }, function fail(err) {})
+                      }
+                    }
                 }
-                var _this = this;
-                var data = {
-                  live_id:api.pageParam.live_id,
-                  report_subject_id:_this.report_id
-                };
-                requstPost('live/pushReport',data,function success(ret){
-                  if (ret.code == 0) {
-                    _this.active = -1;
-                    _this.report_id = '';
-                    // alert(ret.message)
-                    api.alert({
-                        title: 'Your report has been submitted successfully.',
-                        msg: '',
-                        buttons:['Sure']
-                    }, function(ret, err){
-                        if( ret ){
-                          api.closeWin();
-
-                            //  alert( JSON.stringify( ret ) );
-                        }else{
-                            //  alert( JSON.stringify( err ) );
-                        }
-                    });
-
-                    // alert('Your report has been submitted successfully.')
-                  }
-                },function fail(err){
-
-                })
-
-              }
-
-
             }
         })
 

@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-  <html>
-  <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-      <title>title</title>
-      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
-      <link rel="stylesheet" type="text/css" href="../css/iconfont.css"/>
-      <link rel="stylesheet" type="text/css" href="../css/vant.css"/>
-      <style>
-          body{
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/vant.css" />
+    <style>
+        body {
             min-height: 100vh;
             background: #FAFAFA
-          }
-          #app{
+        }
+
+        #app {
             padding-top: 5vw;
-          }
-          .search{
+        }
+
+        .search {
             width: 94vw;
             height: 12vw;
             line-height: 12vw;
@@ -29,32 +32,38 @@
             color: #999999;
             display: flex;
             align-items: center;
-          }
-          .search .iconfont{
+        }
+
+        .search .iconfont {
             color: #F96480;
             font-size: 20px;
             font-weight: 700;
             margin-right: 3vw;
-          }
-          .cate{
+        }
+
+        .cate {
             padding: 3vw 0;
-          }
-          .catesBox{
+        }
+
+        .catesBox {
             width: 100%;
             overflow: scroll;
             margin-top: 3vw;
             box-sizing: border-box;
             padding-left: 3vw;
-          }
-          .cates{
+        }
+
+        .cates {
             width: max-content;
             display: flex;
-          }
-          .swiper-container,
-          .swiper-slide{
+        }
+
+        .swiper-container,
+        .swiper-slide {
             width: max-content;
-          }
-          .catelist{
+        }
+
+        .catelist {
             width: 35vw;
             position: relative;
             border-radius: 5px;
@@ -65,13 +74,15 @@
             background: #999999;
             margin-right: 3vw;
             color: white;
-          }
-          .catelist img{
+        }
+
+        .catelist img {
             width: 35vw;
             height: 20vw;
-              border-radius: 5px;
-          }
-          .catelist .mask{
+            border-radius: 5px;
+        }
+
+        .catelist .mask {
             position: absolute;
             top: 0;
             right: 0;
@@ -81,41 +92,48 @@
             display: flex;
             align-items: center;
             justify-content: center;
-          }
-          .catelist span{
+        }
+
+        .catelist span {
             /*margin: auto;*/
             max-width: 80%;
-              /*position: absolute;*/
-              /*left: 0;*/
-              /*right: 0;*/
+            /*position: absolute;*/
+            /*left: 0;*/
+            /*right: 0;*/
             word-break: break-all;
             text-align: center;
-          }
-          .banner{
+        }
+
+        .banner {
             width: 100vw;
             height: 30vw;
-          }
-          *{
-             -webkit-overflow-scrolling: touch;
-          }
-          .nav{
+        }
+
+        * {
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav {
             display: flex;
             justify-content: center;
             align-items: center;
             margin-top: 3vw;
-          }
-          .nav span{
+        }
+
+        .nav span {
             margin: 0 3vw;
             font-size: 20px;
             color: #696767;
             transition: all .3s;
-          }
-          .nav .active{
+        }
+
+        .nav .active {
             color: #F96480;
             position: relative;
             transition: all .3s;
-          }
-          .nav .active::after{
+        }
+
+        .nav .active::after {
             content: '';
             display: block;
             position: absolute;
@@ -126,16 +144,18 @@
             width: 50%;
             height: 2px;
             background: #F96480;
-          }
-          .lists{
+        }
+
+        .lists {
             padding-bottom: 5vw;
-          }
-          .img{
+        }
+
+        .img {
             width: 94vw;
             height: 45vw;
             overflow: hidden;
             /*background: #999999;*/
-            margin:3vw auto 0;
+            margin: 3vw auto 0;
             position: relative;
             border-radius: 5px;
             /*background-image: url('http://nailvision.tao.li4.cn/upload/image/20200204/5554768fb854378bc10c2eee17c63cc4.jpg');
@@ -143,8 +163,9 @@
             background-position: center;
             background-size: 100% 100%;
             filter:blur(2px);*/
-          }
-          .img img{
+        }
+
+        .img img {
             max-width: 100%;
             max-height: 100%;
             margin: auto;
@@ -159,8 +180,9 @@
             right: 0;
             top: 0;
             bottom: 0;
-          }
-          .img .imgBlur{
+        }
+
+        .img .imgBlur {
             position: absolute;
             left: 0;
             right: 0;
@@ -168,162 +190,175 @@
             top: 0;
             width: 100%;
             height: 100%;
-            filter:blur(2px);
+            filter: blur(2px);
             z-index: 3
-          }
-          .img span{
+        }
+
+        .img span {
             position: absolute;
             left: 3vw;
             top: 3vw;
             color: white;
             z-index: 5;
-          }
-          .img span .iconfont{
+        }
+
+        .img span .iconfont {
             color: white;
-          }
-          .info{
+        }
+
+        .info {
             width: 94vw;
             margin: auto;
             display: flex;
             align-items: center;
             padding: 2vw 0;
-          }
-          .head{
+        }
+
+        .head {
             width: 12vw;
             height: 12vw;
             border-radius: 50%;
             background: #f5f5f5;
             margin-right: 2vw;
-          }
-          .head img{
+        }
+
+        .head img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-          }
-          .name{
+        }
+
+        .name {
             width: 75vw;
             color: #374663;
-          }
-          .name p:nth-child(2){
+        }
+
+        .name p:nth-child(2) {
             color: #98A2AF;
-            overflow: hidden; text-overflow: ellipsis;
+            overflow: hidden;
+            text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
-          }
-          .name p:nth-child(1){
-            overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .name p:nth-child(1) {
+            overflow: hidden;
+            text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
-          }
-          .demo{
+        }
+
+        .demo {
             width: 94vw;
             height: 45vw;
             border-radius: 5px;
             background: #dadada;
             margin: auto;
             margin-top: 3vw;
-          }
-          .demoinfo{
+        }
+
+        .demoinfo {
             width: 94vw;
             height: 12vw;
             background: #dadada;
-            margin:2vw auto;
-          }
-      </style>
-  </head>
-  <body>
+            margin: 2vw auto;
+        }
+    </style>
+</head>
+
+<body>
     <div id="app" v-cloak>
-      <div class="search" onclick="gosearch()" tapmode>
-        <i class="iconfont">&#xe612;</i>
-        <span>Search video...</span>
-      </div>
-      <!--  -->
-      <div class="cate">
-        <p style="padding-left:3vw;">Categories</p>
-
-        <div class="catesBox">
-          <div class="cates">
-            <div class="catelist gjp" v-if="catelist.length == 0 && cateload"></div>
-            <div class="catelist gjp" v-if="catelist.length == 0 && cateload"></div>
-            <div class="catelist gjp" v-if="catelist.length == 0 && cateload"></div>
-            <div class="catelist" @click="gocateGory(item)" v-for="(item,index) in catelist">
-              <img :src="item.thumb" alt="">
-              <div class="mask">
-                <span>{{item.title}}</span>
-              </div>
-            </div>
-          </div>
+        <div class="search" onclick="gosearch()" tapmode>
+            <i class="iconfont">&#xe612;</i>
+            <span>Search video...</span>
         </div>
-      </div>
-      <!--  -->
-      <div class="nav">
-        <span @click="changeActive(1)" :class="active==1?'active':''">Recommended</span>
-        <span @click="changeActive(2)" :class="active==2?'active':''">Following</span>
-      </div>
-      <!-- 推荐列表 -->
-      <div class="lists" v-show="active == 1">
-        <div class="gjp demo" v-if="comonlist.length == 0 && comismore"></div>
-        <div class="gjp demoinfo" v-if="comonlist.length == 0 && comismore"></div>
-          <div class="gjp demo" v-if="comonlist.length == 0 && comismore"></div>
-          <div class="gjp demoinfo" v-if="comonlist.length == 0 && comismore"></div>
-          <div class="empty" v-if="comonlist.length == 0">
-            <img src="../image/empty.png" alt="">
-          </div>
-        <div class="list" v-for="(item,index) in comonlist" @click="godouyin(item)">
-          <div class="img" >
-            <img class="imgBlur" :src="item.imageUrl" alt="">
-            <img v-lazy="item.imageUrl" alt="">
-            <span>
+        <!--  -->
+        <div class="cate">
+            <p style="padding-left:3vw;">Categories</p>
+
+            <div class="catesBox">
+                <div class="cates">
+                    <div class="catelist gjp" v-if="catelist.length == 0 && cateload"></div>
+                    <div class="catelist gjp" v-if="catelist.length == 0 && cateload"></div>
+                    <div class="catelist gjp" v-if="catelist.length == 0 && cateload"></div>
+                    <div class="catelist" @click="gocateGory(item)" v-for="(item,index) in catelist">
+                        <img :src="item.thumb" alt="">
+                        <div class="mask">
+                            <span>{{item.title}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  -->
+        <div class="nav">
+            <span @click="changeActive(1)" :class="active==1?'active':''">Recommended</span>
+            <span @click="changeActive(2)" :class="active==2?'active':''">Following</span>
+        </div>
+        <!-- 推荐列表 -->
+        <div class="lists" v-show="active == 1">
+            <div class="gjp demo" v-if="comonlist.length == 0 && comismore"></div>
+            <div class="gjp demoinfo" v-if="comonlist.length == 0 && comismore"></div>
+            <div class="gjp demo" v-if="comonlist.length == 0 && comismore"></div>
+            <div class="gjp demoinfo" v-if="comonlist.length == 0 && comismore"></div>
+            <div class="empty" v-if="comonlist.length == 0">
+                <img src="../image/empty.png" alt="">
+            </div>
+            <div class="list" v-for="(item,index) in comonlist" @click="godouyin(item)">
+                <div class="img">
+                    <img class="imgBlur" :src="item.imageUrl" alt="">
+                    <img v-lazy="item.imageUrl" alt="">
+                    <span>
               <i class="iconfont">&#xe629;</i>
               {{item.look_count}}
             </span>
-          </div>
-          <div class="info">
-            <div class="head">
-              <img v-lazy="item.avatar_url" alt="">
+                </div>
+                <div class="info">
+                    <div class="head">
+                        <img v-lazy="item.avatar_url" alt="">
+                    </div>
+                    <div class="name">
+                        <p>{{item.full_name}}</p>
+                        <p>{{item.title}}</p>
+                    </div>
+                </div>
             </div>
-            <div class="name">
-              <p>{{item.full_name}}</p>
-              <p>{{item.title}}</p>
-            </div>
-          </div>
         </div>
-      </div>
-      <!-- 关注列表 -->
+        <!-- 关注列表 -->
 
-      <div class="lists" v-show="active == 2">
-        <div class="gjp demo" v-if="comonlist.length == 0 && folismore"></div>
-        <div class="gjp demoinfo" v-if="comonlist.length == 0 && folismore"></div>
-          <div class="gjp demo" v-if="comonlist.length == 0 && folismore"></div>
-          <div class="gjp demoinfo" v-if="comonlist.length == 0 && folismore"></div>
-          <div class="empty" v-if="followlist.length == 0">
-            <img src="../image/empty.png" alt="">
-          </div>
-        <div class="list"  v-for="(item,index) in followlist" @click="godouyin(item)">
-          <div class="img" >
-            <img class="imgBlur" :src="item.imageUrl" alt="">
-            <img v-lazy="item.imageUrl" alt="" onerror="javascript:this.src='../image/errorimg.png'">
-            <!-- <img onload="loadImg(this)"  src="../image/index.svg" :alt="item.imageUrl" onerror="javascript:this.src='../image/errorimg.png'"> -->
-            <span>
+        <div class="lists" v-show="active == 2">
+            <div class="gjp demo" v-if="comonlist.length == 0 && folismore"></div>
+            <div class="gjp demoinfo" v-if="comonlist.length == 0 && folismore"></div>
+            <div class="gjp demo" v-if="comonlist.length == 0 && folismore"></div>
+            <div class="gjp demoinfo" v-if="comonlist.length == 0 && folismore"></div>
+            <div class="empty" v-if="followlist.length == 0">
+                <img src="../image/empty.png" alt="">
+            </div>
+            <div class="list" v-for="(item,index) in followlist" @click="godouyin(item)">
+                <div class="img">
+                    <img class="imgBlur" :src="item.imageUrl" alt="">
+                    <img v-lazy="item.imageUrl" alt="" onerror="javascript:this.src='../image/errorimg.png'">
+                    <!-- <img onload="loadImg(this)"  src="../image/index.svg" :alt="item.imageUrl" onerror="javascript:this.src='../image/errorimg.png'"> -->
+                    <span>
               <i class="iconfont">&#xe629;</i>
               {{item.look_count}}
             </span>
-          </div>
-          <div class="info">
-            <div class="head">
-              <img :src="item.avatar_url" alt="">
+                </div>
+                <div class="info">
+                    <div class="head">
+                        <img :src="item.avatar_url" alt="">
+                    </div>
+                    <div class="name">
+                        <p>{{item.full_name}}</p>
+                        <p>{{item.title}}</p>
+                    </div>
+                </div>
             </div>
-            <div class="name">
-              <p>{{item.full_name}}</p>
-              <p>{{item.title}}</p>
-            </div>
-          </div>
         </div>
-      </div>
-      <!-- 模版 -->
-      <!-- <div class="lists">
+        <!-- 模版 -->
+        <!-- <div class="lists">
         <div class="list">
           <div class="img">
             <img src="../image/1.png" alt="">
@@ -343,180 +378,199 @@
           </div>
         </div>
       </div> -->
-      <!--  -->
+        <!--  -->
 
     </div>
-  </body>
-  <script type="text/javascript" src="../script/api.js"></script>
-  <script type="text/javascript" src="../script/fastclick.js"></script>
-  <script type="text/javascript" src="../script/lazyload.js"></script>
-  <script type="text/javascript" src="../script/commonurl.js"></script>
-  <script type="text/javascript" src="../script/vue.min.js"></script>
-  <script type="text/javascript" src="../script/vant.js"></script>
-  <script type="text/javascript">
-
-  var app;
-      apiready = function(){
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/fastclick.js"></script>
+<script type="text/javascript" src="../script/lazyload.js"></script>
+<script type="text/javascript" src="../script/commonurl.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/vant.js"></script>
+<script type="text/javascript">
+    var app;
+    apiready = function() {
         Vue.use(VueLazyload, {
-              preLoad: 1.3,
-              error: '../image/errorimg.png',
-              loading: '../image/loading.svg',
-              attempt: 1
-            })
-          app = new Vue({
-              el: '#app',
-              data(){
-                return{
-                  active:1,
-                  catelist:[],
-                  catePage:1,
-                  cateload:true,
-                  list:[],
-                  comonlist:[],//推荐列表
-                  followlist:[],//关注列表
-                  compage:1,
-                  folpage:1,
-                  folismore:true,
-                  comismore:true,
-                  container: null,
+            preLoad: 1.3,
+            error: '../image/errorimg.png',
+            loading: '../image/loading.svg',
+            attempt: 1
+        })
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    active: 1,
+                    catelist: [],
+                    catePage: 1,
+                    cateload: true,
+                    list: [],
+                    comonlist: [], //推荐列表
+                    followlist: [], //关注列表
+                    compage: 1,
+                    folpage: 1,
+                    folismore: true,
+                    comismore: true,
+                    container: null,
                 }
-              },
-              created(){
-                api.refreshHeaderLoading();
-                setTimeout(()=>{
-                  api.refreshHeaderLoadDone();
-                },300)
-                this.refresh()
-                //图片缓存
-                // catchImg(this.list)
-                this.getCates()
-                //获取推荐列表
-                // this.getLists()
-                this.getMore()
-              },
-              methods:{
-
-            //查看doyin
-            godouyin(ite){
-              api.openWin({
-                  name: 'douyin_win',
-                  url: './douyin/douyin_win.html',
-                  pageParam: {
-                    // id: ite.id,
-                      id: ite.id,
-                      url:''
-                  },
-                  softInputMode:'pan',
-                  // slidBackEnabled:false
-              });
             },
-                changeActive(e){
-                  if ($api.getStorage('islogin') == 'true') {
-                    this.active = e
-                    if(e == 2){
-                      if (this.followlist.length == 0 && this.folismore) {
-                        //获取关注列表
-                        this.getLists1()
+            created() {
+                api.refreshHeaderLoading();
+                setTimeout(() => {
+                    api.refreshHeaderLoadDone();
+                }, 300)
+                this.refresh()
+                    //图片缓存
+                    // catchImg(this.list)
+                this.getCates()
+                    //获取推荐列表
+                    // this.getLists()
+                this.getMore()
+
+                this.getAddlisten() //监听首页数据发生变化
+            },
+            methods: {
+                getAddlisten() {
+                    var _this = this;
+                    api.addEventListener({
+                        name: 'updataHomeList'
+                    }, function(ret, err) {
+                      if (_this.active == 1) {
+                          _this.compage = 1;
+                          _this.comonlist = [];
+                          _this.comismore = true
+                          _this.getLists()
+                      } else {
+                          _this.folpage = 1;
+                          _this.followlist = [];
+                          _this.folismore = true
+                          _this.getLists1()
                       }
+                    });
+
+                },
+                //查看doyin
+                godouyin(ite) {
+                    api.openWin({
+                        name: 'douyin_win',
+                        url: './douyin/douyin_win.html',
+                        pageParam: {
+                            // id: ite.id,
+                            id: ite.id,
+                            url: ''
+                        },
+                        softInputMode: 'pan',
+                        // slidBackEnabled:false
+                    });
+                },
+                changeActive(e) {
+                    if ($api.getStorage('islogin') == 'true') {
+                        this.active = e
+                        if (e == 2) {
+                            if (this.followlist.length == 0 && this.folismore) {
+                                //获取关注列表
+                                this.getLists1()
+                            }
+                        }
+                    } else {
+                        userIslogin()
+                        this.active = 1
                     }
-                  }else {
-                    userIslogin()
-                    this.active = 1
-                  }
 
                 },
                 //获取推荐列表
-                  getLists(){
+                getLists() {
                     var _this = this;
                     var data = {
-                      focus:0,
-                      page:_this.compage,
-                      category_id:'',
-                      page_size:20,
+                        focus: 0,
+                        page: _this.compage,
+                        category_id: '',
+                        page_size: 20,
                     };
-                    requstPost('video',data,function success(ret){
-                      api.refreshHeaderLoadDone();
-                      // alert(JSON.stringify(ret))
-                      if (ret.code == 0) {
-                        _this.page += 1
-                        _this.comonlist = _this.comonlist.concat(ret.data.list)
-                        var listData = ret.data.list;
-                        for (i in listData) {
-                            api.imageCache({
-                                url: listData[i].imageUrl,
-                                tag: i
-                            }, function(ret, err) {
-                              // console.log(JSON.stringify(ret));
-                                listData[ret.tag].imageUrl = ret.url;
-                            });
-                            api.imageCache({
-                                url: listData[i].avatar_url,
-                                tag: i
-                            }, function(ret, err) {
-                              // console.log(JSON.stringify(ret));
-                                listData[ret.tag].avatar_url = ret.url;
-                            });
-                        }
-                        if (ret.data.list.length < 20) {
-                          _this.comismore = false
-                        }
-                      }else {
-                        _this.comismore = false
-                      }
-                      // return
-
-                    },function fail(err){
-                      api.refreshHeaderLoadDone();
-
-                    })
-                  },
-                  //获取关注列表
-
-                    getLists1(){
-                      var _this = this;
-                      var data = {
-                        focus:1,
-                        page:_this.folpage,
-                        category_id:'',
-                        page_size:20,
-                      };
-                      requstPost('video',data,function success(ret){
+                    requstPost('video', data, function success(ret) {
                         api.refreshHeaderLoadDone();
                         // alert(JSON.stringify(ret))
                         if (ret.code == 0) {
-                          _this.page += 1
-                          _this.followlist = _this.followlist.concat(ret.data.list)
-                          var listData = ret.data.list;
-                          for (i in listData) {
-                              api.imageCache({
-                                  url: listData[i].imageUrl,
-                                  tag: i
-                              }, function(ret, err) {
-                                // console.log(JSON.stringify(ret));
-                                  listData[ret.tag].imageUrl = ret.url;
-                              });
-                              api.imageCache({
-                                  url: listData[i].avatar_url,
-                                  tag: i
-                              }, function(ret, err) {
-                                // console.log(JSON.stringify(ret));
-                                  listData[ret.tag].avatar_url = ret.url;
-                              });
-                          }
-                          if (ret.data.list.length < 20) {
-                            _this.folismore = false
-                          }
-                        }else {
-                          _this.folismore = false
+                            _this.page += 1
+                            _this.comonlist = _this.comonlist.concat(ret.data.list)
+                            var listData = ret.data.list;
+                            for (i in listData) {
+                                api.imageCache({
+                                    url: listData[i].imageUrl,
+                                    tag: i
+                                }, function(ret, err) {
+                                    // console.log(JSON.stringify(ret));
+                                    listData[ret.tag].imageUrl = ret.url;
+                                });
+                                api.imageCache({
+                                    url: listData[i].avatar_url,
+                                    tag: i
+                                }, function(ret, err) {
+                                    // console.log(JSON.stringify(ret));
+                                    listData[ret.tag].avatar_url = ret.url;
+                                });
+                            }
+                            if (ret.data.list.length < 20) {
+                                _this.comismore = false
+                            }
+                        } else {
+                            _this.comismore = false
                         }
+                        // return
 
-                      },function fail(err){
+                    }, function fail(err) {
                         api.refreshHeaderLoadDone();
 
-                      })
-                    },
-                  //监听滚动到底
-                  getMore() {
+                    })
+                },
+                //获取关注列表
+
+                getLists1() {
+                    var _this = this;
+                    var data = {
+                        focus: 1,
+                        page: _this.folpage,
+                        category_id: '',
+                        page_size: 20,
+                    };
+                    requstPost('video', data, function success(ret) {
+                        api.refreshHeaderLoadDone();
+                        // alert(JSON.stringify(ret))
+                        if (ret.code == 0) {
+                            _this.page += 1
+                            _this.followlist = _this.followlist.concat(ret.data.list)
+                            var listData = ret.data.list;
+                            for (i in listData) {
+                                api.imageCache({
+                                    url: listData[i].imageUrl,
+                                    tag: i
+                                }, function(ret, err) {
+                                    // console.log(JSON.stringify(ret));
+                                    listData[ret.tag].imageUrl = ret.url;
+                                });
+                                api.imageCache({
+                                    url: listData[i].avatar_url,
+                                    tag: i
+                                }, function(ret, err) {
+                                    // console.log(JSON.stringify(ret));
+                                    listData[ret.tag].avatar_url = ret.url;
+                                });
+                            }
+                            if (ret.data.list.length < 20) {
+                                _this.folismore = false
+                            }
+                        } else {
+                            _this.folismore = false
+                        }
+
+                    }, function fail(err) {
+                        api.refreshHeaderLoadDone();
+
+                    })
+                },
+                //监听滚动到底
+                getMore() {
                     var _this = this
                     api.addEventListener({
                         name: 'scrolltobottom',
@@ -524,112 +578,116 @@
                             threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
                         }
                     }, function(ret, err) {
-                      console.log('加载更多');
-                      if (_this.active == 1) {
-                        if (_this.comismore) {
-                          _this.getLists()
+                        console.log('加载更多');
+                        if (_this.active == 1) {
+                            if (_this.comismore) {
+                                _this.getLists()
+                            }
+                        } else {
+                            if (_this.folismore) {
+                                _this.getLists1()
+                            }
                         }
-                      }else {
-                        if (_this.folismore) {
-                          _this.getLists1()
-                        }
-                      }
 
                     });
 
-                  },
-                //获取视频分类
-                getCates(){
-                  var _this = this;
-                  var data = {};
-                  requstPost('video/category',data,function success(ret){
-                    // alert(JSON.stringify(ret))
-                    if (ret.code == 0) {
-                      _this.catelist = ret.data
-                      var listData = ret.data;
-                      for (i in listData) {
-                          api.imageCache({
-                              url: listData[i].thumb,
-                              tag: i
-                          }, function(ret, err) {
-                            // console.log(JSON.stringify(ret));
-                              listData[ret.tag].thumb = ret.url;
-                          });
-                      }
-                    }else {
-                      _this.cateload = false
-                    }
-                    api.refreshHeaderLoadDone();
-
-
-                  },function fail(err){
-                    api.refreshHeaderLoadDone();
-                    // alert(JSON.stringify(err))
-                  })
                 },
-                refresh(){
-                  var _this = this
-                  api.setRefreshHeaderInfo({
-                      visible: true,
-                      loadingImg: 'widget://image/loading_more1.png',
-                      bgColor: 'rgba(0,0,0,0)',
-                      textColor: '#000',
-                      textDown: 'Drop Down',
-                      textUp: 'Release',
-                      textLoading:'Loading...',
-                      showTime:false,
-                      textTime:'',
-                  }, function(ret, err) {
-                    _this.getCates()
-                    if (_this.active == 1) {
-                      _this.compage = 1;
-                      _this.comonlist = [];
-                      _this.comismore = true
-                      _this.getLists()
-                    }else {
-                      _this.folpage = 1;
-                      _this.followlist = [];
-                      _this.folismore = true
-                      _this.getLists1()
-                    }
-                      // setTimeout(() => {
-                      //     api.refreshHeaderLoadDone();
-                      // }, 2000)
-                  });
+                //获取视频分类
+                getCates() {
+                    var _this = this;
+                    var data = {};
+                    requstPost('video/category', data, function success(ret) {
+                        // alert(JSON.stringify(ret))
+                        if (ret.code == 0) {
+                            _this.catelist = ret.data
+                            var listData = ret.data;
+                            for (i in listData) {
+                                api.imageCache({
+                                    url: listData[i].thumb,
+                                    tag: i
+                                }, function(ret, err) {
+                                    // console.log(JSON.stringify(ret));
+                                    listData[ret.tag].thumb = ret.url;
+                                });
+                            }
+                        } else {
+                            _this.cateload = false
+                        }
+                        api.refreshHeaderLoadDone();
+
+
+                    }, function fail(err) {
+                        api.refreshHeaderLoadDone();
+                        // alert(JSON.stringify(err))
+                    })
+                },
+                refresh() {
+                    var _this = this
+                    api.setRefreshHeaderInfo({
+                        visible: true,
+                        loadingImg: 'widget://image/loading_more1.png',
+                        bgColor: 'rgba(0,0,0,0)',
+                        textColor: '#000',
+                        textDown: 'Drop Down',
+                        textUp: 'Release',
+                        textLoading: 'Loading...',
+                        showTime: false,
+                        textTime: '',
+                    }, function(ret, err) {
+                        _this.getCates()
+                        console.log(_this.active)
+                        if (_this.active == 1) {
+                            _this.compage = 1;
+                            _this.comonlist = [];
+                            _this.comismore = true
+                            _this.getLists()
+                        } else {
+                            _this.folpage = 1;
+                            _this.followlist = [];
+                            _this.folismore = true
+                            _this.getLists1()
+                        }
+                        // setTimeout(() => {
+                        //     api.refreshHeaderLoadDone();
+                        // }, 2000)
+                    });
                 },
                 //查看类别列表
-                gocateGory(ite){
-                  api.openWin({
-                      name: 'category_win',
-                      url: './common/category_win.html',
-                      pageParam: {
-                          name: ite.title,
-                          type:ite.id
-                      }
-                  });
+                gocateGory(ite) {
+                    api.openWin({
+                        name: 'category_win',
+                        url: './common/category_win.html',
+                        pageParam: {
+                            name: ite.title,
+                            type: ite.id
+                        }
+                    });
 
                 }
 
 
-              }
-            })
+            }
+        })
 
-      };
-      function goTop(){
+    };
+
+    function goTop() {
         api.pageUp({
-          top:true
-        },function( ret, err ){
+            top: true
+        }, function(ret, err) {
 
         });
-      }
-      function gosearch(){
+    }
+
+    function gosearch() {
         api.openWin({
             name: 'search_win',
             url: './common/search_win.html',
             pageParam: {
-                type: 1,//首页视频类型
+                type: 1, //首页视频类型
             }
         });
-      }
-  </script>
-  </html>
+    }
+</script>
+
+</html>

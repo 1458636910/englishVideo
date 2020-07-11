@@ -123,6 +123,14 @@
           </span>
         </div>
       </div>
+      <!-- <div class="lists" tapmode="hover" onclick="reportProgress()">
+        <div class="list">
+          <span>Report progress</span>
+          <span>
+            <i class="iconfont">&#xe61f;</i>
+          </span>
+        </div>
+      </div> -->
       <div class="lists" tapmode="hover" onclick="gohelp()">
         <div class="list">
           <span>Help</span>
@@ -211,6 +219,15 @@ var app;
               name: 'test'
           },
           slidBackType:'edge'
+      });
+    }
+    function reportProgress(){
+      api.openWin({
+          name: 'reportProgress_win',
+          url: './user/reportProgress_win.html',
+          pageParam: {
+              name: 'test'
+          }
       });
     }
     //修改密码

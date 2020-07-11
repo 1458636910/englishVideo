@@ -129,7 +129,7 @@
             </div>
 
             <div class="pls">
-                <div class="pl" v-for="(item,index) in lists" @click="delatepl(item,index)">
+                <div class="pl" v-for="(item,index) in lists" @click="fn_report(item,index)">
                     <div class="listbox">
                       <div class="plhead">
                           <img :src="item.avatar_url" alt="">
@@ -189,7 +189,27 @@
                 this.getPls()
             },
             methods: {
-
+              //举报别人的评论
+              fn_report(){
+                if ($api.getStorage('islogin') != 'true') {
+                    api.execScript({
+                        name: 'live_win',
+                        // frameName: 'frmName',
+                        script: 'pauseLive();'
+                    });
+                    userIslogin()
+                    return
+                }
+                api.openWin({
+                    name: 'report_win',
+                    url: '../live/report_win.html',
+                    pageParam: {
+                        videoid: api.pageParam.id,
+                        type:'video',
+                        pltype:2,
+                    }
+                });
+              },
                 //监听滚动到底
                 getMore() {
                     var _this = this

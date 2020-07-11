@@ -88,11 +88,11 @@
                     <p>Awesome,Love It</p>
                 </div>
             </div> -->
-            <div class="chatlist" v-for="(item,index) in lists">
-                <div class="head">
+            <div class="chatlist" v-for="(item,index) in lists" @click="fn_report(item,index)">
+                <div class="head" v-if="item.status==1">
                     <img :src="item.headimg" alt="">
                 </div>
-                <div class="nameBox">
+                <div class="nameBox"  v-if="item.status==1">
                     <p>{{item.name}}</p>
                     <p>{{item.msg}}</p>
                 </div>
@@ -122,6 +122,7 @@
                     websocket_url: '',
                     client_id: '',
                     sid: '', //socketid
+                    reportitem:{},
                 }
             },
             mounted: function() {
@@ -156,8 +157,42 @@
 
                     }
                 }, 1000)
+                var _this  = this;
+                api.addEventListener({
+                    name: 'uddatechatList'
+                }, function(ret, err){
+                    var lists = _this.lists;
+                    var reportitem = _this.reportitem;
+                    for(var i=0;i<lists.length;i++){
+                      if(lists[i].msg===reportitem.msg){
+                        lists.splice(i,1)
+                      }
+                    }
+                });
             },
             methods: {
+              //举报评论
+              fn_report(item,index){
+                this.reportitem = item;
+                if ($api.getStorage('islogin') != 'true') {
+                    api.execScript({
+                        name: 'live_win',
+                        // frameName: 'frmName',
+                        script: 'pauseLive();'
+                    });
+                    userIslogin()
+                    return
+                }
+                api.openWin({
+                    name: 'report_win',
+                    url: '../live/report_win.html',
+                    pageParam: {
+                        live_id: api.pageParam.live_id,
+                        pltype:1,
+                        uid:item.user_id   //没用，本来是要去举报用户的
+                    }
+                });
+              },
                 //初始化socket
                 getInitSocket() {
                     var _this = this;
@@ -183,7 +218,7 @@
                                 }
                                 if (data.op == 'message') {
                                     // alert(1)
-                                    _this.addLists(data.data.nickname, data.data.avatar_url, data.data.message)
+                                    _this.addLists(data.data.nickname, data.data.avatar_url, data.data.message,data.data.status)
                                 }
                                 break;
                             case 'error':
@@ -226,7 +261,7 @@
                                         }
                                         if (data.op == 'message') {
                                             // alert(1)
-                                            _this.addLists(data.data.nickname, data.data.avatar_url, data.data.message)
+                                            _this.addLists(data.data.nickname, data.data.avatar_url, data.data.message,data.data.status)
                                         }
                                         break;
                                     case 'error':
@@ -305,16 +340,17 @@
                             _this.bindlive_id()
                         }
                         if (data.op == 'message') {
-                            _this.addLists(data.data.nickname, data.data.avatar_url, data.data.message)
+                            _this.addLists(data.data.nickname, data.data.avatar_url, data.data.message,data.data.status)
                         }
                     };
                 },
                 //收到socket消息 追加列表
-                addLists(nickname, avatar_url, message) {
+                addLists(nickname, avatar_url, message,status) {
                     var obj = {
                         name: nickname,
                         headimg: avatar_url,
-                        msg: message
+                        msg: message,
+                        status:status
                     }
                     this.lists.push(obj)
                     this.isPause = false
