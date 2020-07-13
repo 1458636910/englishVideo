@@ -137,6 +137,12 @@
             display: flex;
             justify-content: space-around;
             margin-top: 5vw;
+            border: 1px solid #0b0b0a;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            text-align: center;
+            line-height: 45px;
         }
 
         .sanUp::before {
@@ -327,7 +333,7 @@
 			height: 35px;
 		}
     .appleicon{
-      width: 15vw;
+      width: 30px;
       height: auto;
     }
     </style>
@@ -376,7 +382,7 @@
       			<div class="wechatimg" v-if="showapple">
       				<span class="apple" @click="applelogin()"><img src="../image/apple.png" alt="apple"></span>
       		  </div> -->
-            <div class="sanfang" v-if="showapple">
+            <div class="sanfang" >
                 <p class="sanUp"><i></i><span>or</span><i></i></p>
                 <div class="sanBtn">
                     <span @click="applelogin()">
