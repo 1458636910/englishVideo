@@ -382,7 +382,7 @@
       			<div class="wechatimg" v-if="showapple">
       				<span class="apple" @click="applelogin()"><img src="../image/apple.png" alt="apple"></span>
       		  </div> -->
-            <div class="sanfang" >
+            <div class="sanfang" v-if="showapple">
                 <p class="sanUp"><i></i><span>or</span><i></i></p>
                 <div class="sanBtn">
                     <span @click="applelogin()">
