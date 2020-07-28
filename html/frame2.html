@@ -466,10 +466,10 @@
                     <i class="iconfont">&#xe629;</i>
                     {{item.look_count}}
                   </span>
-                        <div v-if="(item.start_time - parseInt((new Date()).getTime()) / 1000)>0" class="countdownTime">countdown:
+                        <!-- <div v-if="(item.start_time - parseInt((new Date()).getTime()) / 1000)>0" class="countdownTime">countdown:
                             <div :id="countId(item.id,item.start_time)" class="countnumbox"></div>
-                            {{fn_countDown(item.start_time,item.id)}}
-                        </div>
+                            {{fn_countDown(item.start_time,item.id)>0?fn_countDown(item.start_time,item.id):''}}
+                        </div> -->
                     </div>
                     <div class="livebom">
                         <div class="livehead">
