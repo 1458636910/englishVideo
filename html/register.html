@@ -420,6 +420,12 @@
                     api.closeWin();
                   },2000)
                 },function fail(err){
+                  api.toast({
+                      msg: err.message,
+                      duration: 3000,
+                      location: 'bottom'
+                  });
+
                   // alert(JSON.stringify(err))
                 })
 
