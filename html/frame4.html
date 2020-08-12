@@ -472,6 +472,7 @@
                 } else {
                     this.islogin = false
                 }
+                  this.refresh()
             },
             methods: {
                 contactus() {
@@ -900,7 +901,23 @@
                             name: 'test'
                         }
                     });
-                }
+                },
+                refresh() {
+                    var _this = this
+                    api.setRefreshHeaderInfo({
+                        visible: true,
+                        loadingImg: 'widget://image/loading_more1.png',
+                        bgColor: 'rgba(0,0,0,0)',
+                        textColor: '#000',
+                        textDown: 'Drop Down',
+                        textUp: 'Release',
+                        textLoading: 'Loading...',
+                        showTime: false,
+                        textTime: '',
+                    }, function(ret, err) {
+                        _this.getuserinfo()
+                    });
+                },
 
 
 
