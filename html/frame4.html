@@ -457,10 +457,10 @@
                     is_sign:'',  //是否可以继续领钻石
                     isIos:0,
                     status:1,
+                    iosId:'',
                 }
             },
             created() {
-              // console.log($api.getStorage('isIos')+'pppppppppppppp')
                 this.isIos = $api.getStorage('isIos');
                 var headHeight = api.winWidth / 100 * 12;
                 this.heaGht = $api.dom('header').offsetHeight
@@ -559,7 +559,6 @@
                     })
                 },
                 getuserinfo() {
-                    console.log("个人中心的获取用户信息;;;;;;;;")
                     var _this = this;
                     var data = {};
                     requstGet('user', data, function success(ret) {
@@ -589,16 +588,24 @@
 
                         _this.userType = ret.data.is_anchor
                             // _this.userType = 1
+                            // console.log("================="+_this.userType+_this.btnShow)
                         if (api.systemType == 'android') {
                             _this.isandroid = true
                         } else {
                             _this.isandroid = false
+                            //如果是主播身份，判断按钮是否打开，没有就打开，打开就返回
                             if (_this.userType == 1) {
                                 if (_this.btnShow) {
 
                                 } else {
                                     _this.openLiveBtn()
                                 }
+                            }else{   //如果非主播身份，关闭按钮
+                              // console.log("关闭苹果按钮"+_this.iosId)
+                              var arcMenu = api.require('arcMenu');
+                              arcMenu.close({id:_this.iosId})
+                              _this.btnShow = false
+
                             }
                         }
                     }, function fail(err) {})
@@ -646,7 +653,9 @@
                         fixedOn: api.frameName
                     }, function(ret, err) {
                         _this.btnShow = true
+                        _this.iosId = ret.id
                         if (ret) {
+
                             if (ret.index == 1) {
                                 //直播
                                 if (_this.islogin) {
@@ -687,7 +696,6 @@
                 },
 
                 upDataInfo() {
-                  console.log("============upDataInfo")
                     var _this = this
                     api.addEventListener({
                         name: 'viewappear'
@@ -718,7 +726,6 @@
                             // alert(JSON.stringify(err));
                         }
                     });
-                    console.log(111);
                 },
                 golive() {
                     if (this.islogin) {
