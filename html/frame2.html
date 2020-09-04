@@ -376,6 +376,15 @@
         .countnumbox>span {
             background: transparent!important;
         }
+        .emptybox{
+          text-align: center;
+          width: 100%;
+        }
+        .emptybox>img{
+          margin: 0 auto;
+          width: 60%;
+        }
+
     </style>
 </head>
 
@@ -458,14 +467,11 @@
                 </div>
               </div>
             </div> -->
-                <div class="livelist" v-for="(item,index) in livelist" @click="golive(item)">
+                <div class="livelist" v-if="livelist.length>0" v-for="(item,index) in livelist" @click="golive(item)">
                     <img class="liveimg" :src="item.thumb" alt="">
                     <div class="livetop">
                         <span :class="item.live_status == 1?'':'replay'">{{item.live_status == 1?'Live':'Replay'}}</span>
-                        <span>
-                    <i class="iconfont">&#xe629;</i>
-                    {{item.look_count}}
-                  </span>
+                        <span><i class="iconfont">&#xe629;</i>{{item.look_count}}</span>
                         <!-- <div v-if="(item.start_time - parseInt((new Date()).getTime()) / 1000)>0" class="countdownTime">countdown:
                             <div :id="countId(item.id,item.start_time)" class="countnumbox"></div>
                             {{fn_countDown(item.start_time,item.id)>0?fn_countDown(item.start_time,item.id):''}}
@@ -481,6 +487,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="emptybox" v-if="livelist.length==0"><img src="../image/empty.png" alt=""></div>
             </div>
         </div>
         <!-- video -->
@@ -511,10 +518,7 @@
                                 <img class="liveimg" :src="ite.imageUrl" alt="">
                                 <div class="livetop">
                                     <span style="display:none">Live</span>
-                                    <span>
-                    <i class="iconfont">&#xe629;</i>
-                    {{ite.look_count}}
-                  </span>
+                                    <span><i class="iconfont">&#xe629;</i>{{ite.look_count}}</span>
                                 </div>
                                 <div class="livebom">
                                     <div class="scnum">
@@ -524,6 +528,7 @@
                             </div>
                             <p class="videoName">{{ite.title}}</p>
                         </div>
+                        <div class="emptybox" v-if="item.list.length==0"><img src="../image/empty.png" alt=""></div>
                     </div>
                 </van-tab>
             </van-tabs>
@@ -573,13 +578,11 @@
                                 <p>{{ite.title}}</p>
                                 <div class="newsbom">
                                     <span class="active">{{ite.author}}</span>
-                                    <span>
-                      <i class="iconfont">&#xe629;</i>
-                      {{ite.look_count}}
-                    </span>
+                                    <span><i class="iconfont">&#xe629;</i>{{ite.look_count}}</span>
                                 </div>
                             </div>
                         </div>
+                        <div class="emptybox" v-if="item.list.length==0"><img src="../image/empty.png" alt=""></div>
                     </div>
                 </van-tab>
             </van-tabs>

@@ -196,27 +196,27 @@ var app;
                   var data = {
                     live_id:api.pageParam.live_id
                   };
+                    pubshowloading()
                   requstPost('order/live',data,function success(ret){
                     if (ret.code == 0) {
-                      goPaypalUrl(ret.data.pay_url)
-
-                    }else if(ret.code == 1){
+                      setTimeout(()=>{
+                        goPaypalUrl(ret.data.pay_url)
+                        api.closeFrame();
+                      },500)
+                    }else if(ret.code==1){
                       api.execScript({
                           name: 'live_win',
-                          // frameName: 'frmName',
                           script: 'playLive();'
                       });
+                    }else{
+
                     }
                   },function fail(err){
 
                   })
-
                 }else if (this.type == 'gifts') {
                   //送礼物
                 }
-
-
-                api.closeFrame();
               }
 
 

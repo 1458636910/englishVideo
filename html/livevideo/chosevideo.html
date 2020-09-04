@@ -200,6 +200,13 @@
                     <input v-model="price" type="text" name="" value="" placeholder="">
                 </div>
             </div>
+            <div class="list" tapmode onclick="goaddshop()">
+                <span>Add Products</span>
+                <div class="ipt">
+                    <span style="height:8vw;line-height:8vw;">{{hasShop}}</span>
+                    <i class="iconfont">&#xe61f;</i>
+                </div>
+            </div>
             <div class="list" tapmode @click="choseVideos()">
                 <span>Upload Video</span>
                 <div class="ipt">
@@ -252,7 +259,8 @@
                     videourl: '', //上传后的地址
                     price: 0,
                     hadVideo: '', //是否选择了视频
-                    isIos: 0
+                    isIos: 0,
+                    hasShop:'',  //是否选择了商品
                 }
             },
             created() {
@@ -363,6 +371,14 @@
 
                     }
                 },
+                addShopId(e) {
+                    this.shopId = JSON.parse(e);
+                    if (this.shopId.length > 0) {
+                        this.hasShop = 'Added'
+                    } else {
+                        this.hasShop = ''
+                    }
+                },
                 startLive() {
                     // this.upImg()
                     this.subMit()
@@ -466,6 +482,7 @@
                   })
                         // alert()
                     var _this = this;
+                    var productsid = this.shopId.join(',');
                     var categories = '';
                     // for (var i = 0; i < _this.choseArry.length; i++) {
                     //   categories += _this.choseArry[i]+','
@@ -476,7 +493,8 @@
                         thumb: _this.imgurl,
                         price: _this.price,
                         video_src: _this.videourl,
-                        categories: categories
+                        categories: categories,
+                        products:productsid
                     };
                     requstPost('video/push', data, function success(rett) {
                       console.log('发布成功')

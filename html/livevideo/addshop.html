@@ -338,6 +338,11 @@
                         frameName: 'choselive',
                         script: 'app.addShopId("' + JSON.stringify(this.choseArry) + '");'
                     });
+                    api.execScript({
+                        name: 'chosevideo_win',
+                        frameName: 'chosevideo',
+                        script: 'app.addShopId("' + JSON.stringify(this.choseArry) + '");'
+                    });
                     api.closeWin();
 
 

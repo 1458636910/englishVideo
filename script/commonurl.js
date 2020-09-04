@@ -127,6 +127,7 @@ FastClick.prototype.focus = function(targetElement) {
     //--------------移动端点击延迟事件-------------//
 
 function goPaypalUrl(e) {
+  console.log("/01666666666666666666666")
     var systemType = api.systemType;
     if (systemType == 'ios') {
         api.openApp({
@@ -203,7 +204,7 @@ function requstPost(apiUrl, data, success, fail) {
     } else {
         token = "";
     }
-    // console.log(token);
+    console.log(token);
     api.ajax({
         url: url + apiUrl,
         method: 'post',
@@ -214,8 +215,6 @@ function requstPost(apiUrl, data, success, fail) {
             values: data
         }
     }, function(ret, err) {
-console.log(JSON.stringify(ret)+'//////////////////')
-console.log(JSON.stringify(err)+"..................")
         api.refreshHeaderLoadDone();
         api.hideProgress();
         if (ret) {

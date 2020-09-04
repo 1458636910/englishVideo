@@ -171,6 +171,13 @@
         .price {
             color: #F96480;
             margin-top: 3vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .originPrice{
+          text-decoration: line-through;
+          color: #999999
         }
         /**/
 
@@ -262,7 +269,7 @@
                     </div>
                     <div class="info">
                         <p class="infoTit">{{item.title}}</p>
-                        <p class="price">￡{{item.sale_price}}</p>
+                        <p class="price"><span>￡{{item.sale_price}}</span> <span class="originPrice">￡{{item.sale_price}}</span></p>
                     </div>
                 </div>
             </div>

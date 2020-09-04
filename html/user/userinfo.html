@@ -199,14 +199,14 @@
                     <input type="text" name="" value="" v-model="paypal">
                 </div>
             </div>
-            <div class="list">
+            <!-- <div class="list">
                 <div class="listl">
                     Contact Number
                 </div>
                 <div class="listr">
                     <input disabled type="text" name="" value="" v-model="mobile">
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="btn" @click="setUserInfo()">
             Confirm The Changes
@@ -272,6 +272,7 @@
                   email:_this.email,
                   paypal:_this.paypal
                 };
+                console.log(JSON.stringify(data))
                 requstPost('user/profile',data,function success(ret){
                   if (ret.code == 0) {
                     api.toast({

@@ -150,8 +150,15 @@
             padding-bottom: 5vw;
         }
 
+        .videoListbox {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
         .img {
-            width: 94vw;
+            width: 48vw;
             height: 45vw;
             overflow: hidden;
             /*background: #999999;*/
@@ -207,7 +214,7 @@
         }
 
         .info {
-            width: 94vw;
+            width: 48vw;
             margin: auto;
             display: flex;
             align-items: center;
@@ -229,7 +236,7 @@
         }
 
         .name {
-            width: 75vw;
+            width: 36vw;
             color: #374663;
         }
 
@@ -251,7 +258,7 @@
         }
 
         .demo {
-            width: 94vw;
+            width: 48vw;
             height: 45vw;
             border-radius: 5px;
             background: #dadada;
@@ -260,7 +267,7 @@
         }
 
         .demoinfo {
-            width: 94vw;
+            width: 48vw;
             height: 12vw;
             background: #dadada;
             margin: 2vw auto;
@@ -299,62 +306,73 @@
         </div>
         <!-- 推荐列表 -->
         <div class="lists" v-show="active == 1">
-            <div class="gjp demo" v-if="comonlist.length == 0 && comismore"></div>
+            <!-- <div class="gjp demo" v-if="comonlist.length == 0 && comismore"></div>
             <div class="gjp demoinfo" v-if="comonlist.length == 0 && comismore"></div>
             <div class="gjp demo" v-if="comonlist.length == 0 && comismore"></div>
-            <div class="gjp demoinfo" v-if="comonlist.length == 0 && comismore"></div>
+            <div class="gjp demoinfo" v-if="comonlist.length == 0 && comismore"></div> -->
+
+            <div class="videoListbox">
+                <div class="list" v-for="(item,index) in comonlist" @click="godouyin(item)">
+                    <div class="img">
+                        <img class="imgBlur" :src="item.imageUrl" alt="">
+                        <img v-lazy="item.imageUrl" alt="">
+                        <span><i class="iconfont">&#xe629;</i>{{item.look_count}}</span>
+                    </div>
+                    <div class="info">
+                        <div class="head">
+                            <img v-lazy="item.avatar_url" alt="">
+                        </div>
+                        <div class="name">
+                            <p>{{item.full_name}}</p>
+                            <p>{{item.title}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="comonlist.length == 0 && comismore">
+                    <div class="gjp demo"></div>
+                    <div class="gjp demoinfo"></div>
+                </div>
+                <div v-if="comonlist.length == 0 && comismore">
+                    <div class="gjp demo"></div>
+                    <div class="gjp demoinfo"></div>
+                </div>
+            </div>
             <div class="empty" v-if="comonlist.length == 0">
                 <img src="../image/empty.png" alt="">
-            </div>
-            <div class="list" v-for="(item,index) in comonlist" @click="godouyin(item)">
-                <div class="img">
-                    <img class="imgBlur" :src="item.imageUrl" alt="">
-                    <img v-lazy="item.imageUrl" alt="">
-                    <span>
-              <i class="iconfont">&#xe629;</i>
-              {{item.look_count}}
-            </span>
-                </div>
-                <div class="info">
-                    <div class="head">
-                        <img v-lazy="item.avatar_url" alt="">
-                    </div>
-                    <div class="name">
-                        <p>{{item.full_name}}</p>
-                        <p>{{item.title}}</p>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- 关注列表 -->
 
         <div class="lists" v-show="active == 2">
-            <div class="gjp demo" v-if="comonlist.length == 0 && folismore"></div>
-            <div class="gjp demoinfo" v-if="comonlist.length == 0 && folismore"></div>
-            <div class="gjp demo" v-if="comonlist.length == 0 && folismore"></div>
-            <div class="gjp demoinfo" v-if="comonlist.length == 0 && folismore"></div>
+            <div class="videoListbox">
+                <div class="list" v-for="(item,index) in followlist" @click="godouyin(item)">
+                    <div class="img">
+                        <img class="imgBlur" :src="item.imageUrl" alt="">
+                        <img v-lazy="item.imageUrl" alt="" onerror="javascript:this.src='../image/errorimg.png'">
+                        <!-- <img onload="loadImg(this)"  src="../image/index.svg" :alt="item.imageUrl" onerror="javascript:this.src='../image/errorimg.png'"> -->
+                        <span><i class="iconfont">&#xe629;</i>{{item.look_count}}</span>
+                    </div>
+                    <div class="info">
+                        <div class="head">
+                            <img :src="item.avatar_url" alt="">
+                        </div>
+                        <div class="name">
+                            <p>{{item.full_name}}</p>
+                            <p>{{item.title}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="comonlist.length == 0 && folismore">
+                    <div class="gjp demo"></div>
+                    <div class="gjp demoinfo"></div>
+                </div>
+                <div v-if="comonlist.length == 0 && folismore">
+                    <div class="gjp demo"></div>
+                    <div class="gjp demoinfo"></div>
+                </div>
+            </div>
             <div class="empty" v-if="followlist.length == 0">
                 <img src="../image/empty.png" alt="">
-            </div>
-            <div class="list" v-for="(item,index) in followlist" @click="godouyin(item)">
-                <div class="img">
-                    <img class="imgBlur" :src="item.imageUrl" alt="">
-                    <img v-lazy="item.imageUrl" alt="" onerror="javascript:this.src='../image/errorimg.png'">
-                    <!-- <img onload="loadImg(this)"  src="../image/index.svg" :alt="item.imageUrl" onerror="javascript:this.src='../image/errorimg.png'"> -->
-                    <span>
-              <i class="iconfont">&#xe629;</i>
-              {{item.look_count}}
-            </span>
-                </div>
-                <div class="info">
-                    <div class="head">
-                        <img :src="item.avatar_url" alt="">
-                    </div>
-                    <div class="name">
-                        <p>{{item.full_name}}</p>
-                        <p>{{item.title}}</p>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- 模版 -->
@@ -436,17 +454,17 @@
                     api.addEventListener({
                         name: 'updataHomeList'
                     }, function(ret, err) {
-                      if (_this.active == 1) {
-                          _this.compage = 1;
-                          _this.comonlist = [];
-                          _this.comismore = true
-                          _this.getLists()
-                      } else {
-                          _this.folpage = 1;
-                          _this.followlist = [];
-                          _this.folismore = true
-                          _this.getLists1()
-                      }
+                        if (_this.active == 1) {
+                            _this.compage = 1;
+                            _this.comonlist = [];
+                            _this.comismore = true
+                            _this.getLists()
+                        } else {
+                            _this.folpage = 1;
+                            _this.followlist = [];
+                            _this.folismore = true
+                            _this.getLists1()
+                        }
                     });
 
                 },
