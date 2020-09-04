@@ -246,6 +246,7 @@
     var videoid = '';//当前视频id
     var focus_anchor_status = 0;//是否关注
     var fav_video_status = 0;//是否点赞
+    var product_count = 0 ; //商品的数量
     apiready = function() {
         demo = api.require('UIScrollPlayer');
         // var header = $api.byId('header');
@@ -305,6 +306,7 @@
              videoid = ret.data.list[0].id;//视频id
              focus_anchor_status = ret.data.list[0].focus_anchor_status;//是否关注
              fav_video_status = ret.data.list[0].fav_video_status;//是否点赞
+             product_count = ret.data.list[0].product_count;
              if($api.getStorage('isIos')!=1){    //安卓付费
                  if(Number(ret.data.list[0].price) > 0){
                    if (Number(ret.data.list[0].pay_order_status) == 0) {
@@ -427,6 +429,11 @@
                     videoIndex = ret.index
                     money = videos[ret.index].price
                     videoid = videos[ret.index].id
+                    product_count = videos[ret.index].product_count
+                    api.sendEvent({
+                        name: 'closeShop',
+                        extra: {}
+                    });
                     setInfo(ret.index)
                     if (ismore) {
                       if (ret.index == videos.length - 5) {
@@ -589,10 +596,12 @@
       fav_video_status = videos[e].fav_video_status
       anchor_id = videos[e].anchor_id
       videoid = videos[e].id
+      product_count = videos[e].product_count
       api.execScript({
           // name: 'winName',
           frameName: 'douyinbom',
-          script: 'app.setInfo("'+full_name+'","'+videotitle+'");'
+          // script: 'app.setInfo("'+full_name+'","'+videotitle+'","'+product_count'","'+videoid'");'
+          script:'app.setInfo("'+full_name+'","'+videotitle+'","'+product_count+'","'+videoid+'");'
       });
       api.execScript({
           // name: 'winName',
@@ -652,12 +661,24 @@
             rect: {
                 x: 0,
                 y: $api.dom('#footer').offsetTop-130,
+                // y: $api.dom('#footer').offsetTop,
                 w: api.winWidth * 87 / 100,
                 h: api.winHeight - $api.dom('#footer').offsetTop+130
+                // h: api.winHeight - $api.dom('#footer').offsetTop
             },
             pageParam: {
               name:full_name,
-              videotitle:videotitle
+              videotitle:videotitle,
+              videoid:api.pageParam.id,
+              avatar_url:avatar_url,
+              fav_count:fav_count,
+              talk_count:talk_count,
+              share_count:share_count,
+              focus_anchor_status:focus_anchor_status,
+              fav_video_status:fav_video_status,
+              anchor_id:anchor_id,
+              height:$api.dom('#footer').offsetTop-130,
+              product_count:product_count
             },
             bounces: false,
             bgColor: 'rgba(0,0,0,0)',

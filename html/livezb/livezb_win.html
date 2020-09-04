@@ -64,15 +64,120 @@
         //接收直播id1
         live_id = api.pageParam.live_id
         getDetail()
-
+        //监听网络情况
+        api.addEventListener({
+            name: 'offline'
+        }, function(ret, err) {
+          api.toast({
+              msg: 'Network connection failed',
+              duration: 3000,
+              location: 'middle'
+          });
+          pauseLive()
+        });
+        api.addEventListener({
+            name: 'online'
+        }, function(ret, err) {
+          api.toast({
+              msg: 'Connected to the network',
+              duration: 3000,
+              location: 'middle'
+          });
+          playLive()
+        });
+        //点击返回键
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+          api.confirm({
+              title: 'End live stream',
+              msg: '',
+              buttons: ['Cancel', 'End']
+          }, function(ret, err) {
+              if (ret) {
+                  if (ret.buttonIndex == 2) {
+                    fncloseLive()
+                  }
+              }
+          })
+        });
+        //监听应用在前后台的切换
+        api.addEventListener({
+            name: 'pause'
+        }, function() {
+            //应用进入后台  暂停直播
+            pauseLive()
+        });
+        api.addEventListener({
+            name: 'resume'
+        }, function() {
+          var live_play_url = $api.getStorage('live_play_url');
+             playLive()
+            //应用回到前台
+            alivcLivePusher.startPreview({
+                rect: {
+                    x: 0,
+                    y: $api.dom('header').offsetHeight,
+                    w: api.winWidth,
+                    h: $api.dom('#main').offsetHeight
+                }
+            }, function(ret) {
+                //自动对焦
+                alivcLivePusher.setAutoFocus({
+                    isAutoFocus: true
+                });
+                //禁止屏幕休眠
+                api.setKeepScreenOn({
+                    keepOn: true
+                });
+                //开始推流
+                setTimeout(() => {
+                    startPushFn(live_play_url)
+                }, 3000)
+                // openpage(name, authkey)
+            })
+        });
     };
+    //开始直播
+    function playLive() {
+        alivcLivePlayer.play()
+    }
+    //暂停直播
+    function pauseLive() {
+        alivcLivePlayer.pause()
+    }
 
+    //停止直播
+    function stopLive(){
+        alivcLivePusher.stopPush()
+    }
+
+    function fncloseLive(){
+      var alivcLivePusher = api.require('alivcLivePusher');
+      stopLive()
+      requstPost('Anchor/closeLive', {live_id:api.pageParam.live_id}, function success(ret) {
+          if (ret.code == 0) {
+            api.closeToWin({
+                name: 'root'
+            });
+          } else {
+              api.toast({
+                  msg: ret.message,
+                  duration: 2000,
+                  location: 'bottom'
+              });
+            }
+      }, function fail(err) {
+
+      })
+    }
     function getDetail() {
         var data = {
             live_id: api.pageParam.live_id
         };
         requstPost('anchor/liveDetail', data, function success(ret) {
             if (ret.code == 0) {
+              $api.setStorage('live_play_url',ret.data.live_play_url)
                 openPushLive(ret.data.live_play_url, ret.data.name, ret.data.authKey)
             }
         }, function fail(err) {
@@ -85,6 +190,9 @@
     }
 
     function openPushLive(e, name, authkey) {
+      console.log(e+';;;;;;;;;;;;;;;;;;;;;;;;;')
+        var live_play_url = $api.getStorage('live_play_url');
+
         openpage(name, authkey)
         if (!confirmPer('camera') || !confirmPer('storage')||!confirmPer('microphone')) {
             return;
@@ -131,7 +239,7 @@
 
                 //开始推流
                 setTimeout(() => {
-                    startPushFn(e)
+                    startPushFn(live_play_url)
                 }, 3000)
                 openpage(name, authkey)
             })
@@ -139,9 +247,11 @@
     }
     //开始推流
     function startPushFn(e) {
+      console.log(e+'推流地址：//////////////////////////')
         alivcLivePusher.startPush({
             url: e
         }, function(ret) {
+          console.log(JSON.stringify(ret))
             if (ret.status) {
                 console.log('推流成功')
             } else {

@@ -188,11 +188,13 @@
 
               },
               golive(ite){
+                console.log(JSON.stringify(ite)+';;;;;;;;;;;;;;;;;;;;')
                 api.openWin({
                     name: 'live_win',
                     url: '../../live/live_win.html',
                     pageParam: {
-                        live_id: ite.id
+                        live_id: ite.id,
+                        anchor_id: ite.anchor_id, //作者id
                     },
                     slidBackEnabled:false
                 });

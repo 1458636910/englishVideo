@@ -520,6 +520,7 @@
             padding: 3vw;
             display: flex;
             flex-wrap: wrap;
+            justify-content: space-between;
         }
 
         .videoName {
@@ -536,7 +537,8 @@
         }
 
         .videolist {
-            margin-right: 3vw;
+            width: 45vw;
+            margin-right: 1.5vw;
             margin-bottom: 3vw;
         }
 
@@ -666,12 +668,12 @@
             </div>
             <!-- nav -->
             <div class="navs" id="navsBtn">
-                <span @click="changeNav(1)" :class="navactive==1?'active':''">Live</span>
                 <span @click="changeNav(2)" :class="navactive==2?'active':''">Video</span>
+                <span @click="changeNav(1)" :class="navactive==1?'active':''">Live</span>
             </div>
             <div class="navs navs1" id="navs" v-if="isTop">
-                <span @click="changeNav(1)" :class="navactive==1?'active':''">Live</span>
                 <span @click="changeNav(2)" :class="navactive==2?'active':''">Video</span>
+                <span @click="changeNav(1)" :class="navactive==1?'active':''">Live</span>
             </div>
             <!-- home -->
             <div class="" v-if="navactive == 1">
@@ -707,7 +709,6 @@
             </div>
             <!-- video -->
             <div class="products" v-if="navactive == 2">
-
                 <div class="empty" v-if="videolist.length == 0">
                     <img src="../../image/empty.png" alt="">
                 </div>
@@ -758,7 +759,7 @@
             data() {
                 return {
                     slideActive: 0,
-                    navactive: 1,
+                    navactive: 2,
                     pronav: 1,
                     activesj: 2,
                     isTop: false,
@@ -776,7 +777,7 @@
                     videopage: 1,
                     videomore: true,
                     status: 1,
-                    uid:'',
+                    uid: '',
                 }
             },
             created() {
@@ -803,14 +804,14 @@
                         buttons: ['report']
                     }, function(ret, err) {
                         if (ret) {
-                          api.openWin({
-                              name: 'report_win',
-                              url: '../live/report_win.html',
-                              pageParam: {
-                                  uid: _this.uid,
-                                  type:'uid'
-                              }
-                          });
+                            api.openWin({
+                                name: 'report_win',
+                                url: '../live/report_win.html',
+                                pageParam: {
+                                    uid: _this.uid,
+                                    type: 'uid'
+                                }
+                            });
                         }
                     });
                 },
@@ -952,6 +953,7 @@
                         page: _this.livepage,
                         page_size: 20
                     };
+                    console.log(JSON.stringify(data)+'、、、、、、、、、、、、、、、、、、、')
                     requstPost('anchor/homeLive', data, function success(ret) {
                         if (ret.code == 0) {
                             if (ret.data.length < 20) {
@@ -993,12 +995,12 @@
                     };
                     requstPost('anchor/home', data, function success(ret) {
                         if (ret.code == 0) {
-                            if(ret.data.status==0){
-                              api.openWin({
-                                  name: 'emptyPage_win',
-                                  url: '../common/emptyPage_win.html',
-                              });
-                              return;
+                            if (ret.data.status == 0) {
+                                api.openWin({
+                                    name: 'emptyPage_win',
+                                    url: '../common/emptyPage_win.html',
+                                });
+                                return;
                             }
                             _this.anchor_avatar = ret.data.anchor_avatar
                             _this.anchor_name = ret.data.anchor_name

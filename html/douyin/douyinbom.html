@@ -119,12 +119,12 @@
 
 <body>
     <div id="app" v-cloak>
-        <div class="main">
+        <div class="main" id="main">
             <div></div>
             <div class="shopBtnBox">
                 <div class="shopBtn" @click="openShop()">
                     <i class="iconfont">&#xe7ed;</i>
-                    <span>Products 8 </span>
+                    <span>Products {{product_count}} </span>
                     <i class="iconfont" v-if="!showShop">&#xe65a;</i>
                     <i class="iconfont" v-if="showShop">&#xe60f;</i>
                 </div>
@@ -146,7 +146,7 @@
         </div>
         <footer id="footer">
             <div class="footer">
-                <h3>{{full_name}}</h3>
+                <h3 @click="goanchor()">{{full_name}}</h3>
                 <p class="count">{{videotitle}}</p>
                 <div class="progressBox">
 
@@ -174,28 +174,72 @@
                     videotitle: '',
                     full_name: '',
                     showShop: false,
+                    goperson: false,
+                    video_id:'',
                 }
             },
             created() {
                 this.videotitle = api.pageParam.videotitle
                 this.full_name = api.pageParam.name
-
+                this.product_count = api.pageParam.product_count
+                this.video_id = api.pageParam.videoid
+                this.upData()
+                var _this = this;
+                api.addEventListener({
+                    name: 'closeShop'
+                }, function(ret, err){
+                   _this.showShop = false
+                    api.closeFrame({
+                        name: 'videoshop'
+                    });
+                });
             },
             methods: {
+                upData() {
+                    var _this = this
+                    api.addEventListener({
+                        name: 'viewappear'
+                    }, function(ret, err) {
+                        if (_this.goperson) {
+                            api.execScript({
+                                name: 'douyin_win',
+                                // frameName: 'frmName',
+                                script: 'startPlay();'
+                            });
+                        }
+                    });
+                },
+                //查看主播
+                goanchor() {
+                    api.execScript({
+                        name: 'douyin_win',
+                        // frameName: 'frmName',
+                        script: 'pausePlay();'
+                    });
+                    this.goperson = true
+
+                    api.openWin({
+                        name: 'person_win',
+                        url: '../person/person_win.html',
+                        pageParam: {
+                            id: api.pageParam.anchor_id
+                        }
+                    });
+
+                },
                 //打开购物车
                 goliveCart() {
                     if ($api.getStorage('islogin') != 'true') {
                         api.execScript({
-                            name: 'live_win',
-                            // frameName: 'frmName',
-                            script: 'pauseLive();'
+                            name: 'douyin_win',
+                            script: 'pausePlay();'
                         });
                         userIslogin()
                         return
                     }
                     api.openFrame({
-                        name: 'livecart',
-                        url: '../live/livecart.html',
+                        name: 'videocart',
+                        url: './videocart.html',
                         rect: {
                             x: 0,
                             y: 0,
@@ -203,7 +247,7 @@
                             h: api.winHeight
                         },
                         pageParam: {
-                            live_id: api.pageParam.live_id
+                            video_id: this.video_id
                         },
                         bounces: false,
                         bgColor: 'rgba(0,0,0,0)',
@@ -219,18 +263,19 @@
                 //打开商品橱窗
                 openShop() {
                     this.showShop = !this.showShop
+                    console.log(this.showShop)
                     if (this.showShop) {
                         api.openFrame({
-                            name: 'liveshop',
-                            url: '../live/liveshop.html',
+                            name: 'videoshop',
+                            url: './videoshop.html',
                             rect: {
                                 x: 0,
-                                y: $api.dom('#chatlists').offsetTop,
+                                y: api.pageParam.height+40,
                                 w: api.winWidth,
-                                h: api.winHeight - $api.dom('#chatlists').offsetTop
+                                h: api.winHeight-$api.dom('#chatlists').offsetTop
                             },
                             pageParam: {
-                                name: 'test'
+                                video_id:this.video_id
                             },
                             bounces: false,
                             bgColor: 'rgba(0,0,0,0)',
@@ -239,7 +284,7 @@
                         });
                     } else {
                         api.setFrameAttr({
-                            name: 'liveshop',
+                            name: 'videoshop',
                             bounces: false,
                             bgColor: 'rgba(0,0,0,0)',
                             vScrollBarEnabled: true,
@@ -247,17 +292,20 @@
                             hidden: true
                         });
 
-                        // api.closeFrame({
-                        //     name: 'liveshop'
-                        // });
+                        api.closeFrame({
+                            name: 'videoshop'
+                        });
 
                     }
 
                 },
-                setInfo(tit, count) {
+                setInfo(tit, count,product_count,video_id) {
                     this.full_name = tit
                     this.videotitle = count
+                    this.product_count = product_count
+                    this.video_id = video_id
                 },
+
                 sendPl() {
                     api.execScript({
                         name: 'douyin_win',

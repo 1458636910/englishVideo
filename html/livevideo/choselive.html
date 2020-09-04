@@ -132,10 +132,10 @@
             </div>
         </div>
         <div class="lists">
-          <div class="list">
+          <!-- <div class="list">
             <span>Precast</span>
             <van-switch v-model="switchBthzd" size="30px" active-color="#FA607D"/>
-          </div>
+          </div> -->
             <div class="list" v-if="isIos!=1&&!switchBthzd">
                 <span>Price</span>
                 <div class="ipt">
@@ -262,10 +262,10 @@
                 },
                 //点击直播
                 startLive() {
-                  if(this.switchBthzd){
-                    this.goPrecast()
-                    return;
-                  }
+                  // if(this.switchBthzd){
+                  //   this.goPrecast()
+                  //   return;
+                  // }
                     var _this = this;
                     if (!_this.headimg) {
                         api.alert({

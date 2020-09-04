@@ -478,6 +478,7 @@ var app;
                     buy_num:0,//非购物车购买数量
                     old_sale_price:0,
                     live_id:'',
+                    video_id:'',
                     business_name:'',
                     product:{},
                     order_total:0,//订单总价
@@ -513,7 +514,13 @@ var app;
               this.buy_num = api.pageParam.buy_num
               if (api.pageParam.type == 'buy') {
                 //非购物车
-                this.live_id = api.pageParam.live_id
+                this.isVideo = api.pageParam.isVideo;
+                //判断是从市扶贫过来还是直播过来的
+                if(api.pageParam.isVideo==1){
+                  this.video_id = api.pageParam.video_id
+                }else{
+                  this.live_id = api.pageParam.live_id
+                }
                 this.getBuyDetail()
                 this.addListenShip()
                 this.addListenCoupon()
@@ -674,9 +681,13 @@ var app;
                 var data = {
                   product_id:_this.product_id,
                   buy_num:_this.buy_num,
-                  live_id:_this.live_id,
                   address_id:_this.dressId
                 };
+                if(this.isVideo==1){
+                  data.video_id = _this.video_id
+                }else{
+                  data.live_id = _this.live_id
+                }
                 requstPost('buy/orderDetail',data,function success(ret){
                   // alert(JSON.stringify(ret))
                   if (ret.code == 0) {

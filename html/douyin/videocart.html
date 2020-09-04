@@ -575,8 +575,8 @@
                 getCartList() {
                     var _this = this;
                     var data = {
-                        live_id: api.pageParam.live_id,
-                        type:1,
+                        video_id: api.pageParam.video_id,
+                        type:2
                     };
                     requstPost('cart', data, function success(ret) {
                         // alert(JSON.stringify(ret.data))
@@ -771,7 +771,7 @@
                     }
                     api.openFrame({
                         name: 'liveplaceorder',
-                        url: './liveplaceorder.html',
+                        url: '../live/liveplaceorder.html',
                         rect: {
                             x: 0,
                             y: 0,

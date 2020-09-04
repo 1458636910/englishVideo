@@ -623,6 +623,9 @@
                         userIslogin()
                         return
                     }
+                    this.goOptions()
+                    return;
+                    //后续流程是二期需要规格的时候再开放
                     api.openFrame({
                         name: 'chooseSize',
                         url: '../chooseSize.html',
@@ -646,12 +649,12 @@
                 },
                 //操作添加购物车或者是立即购买
                 goOptions() {
-                    api.toast({
-                        msg: this.buyType,
-                        duration: 3000,
-                        location: 'middle'
-                    });
-                    return;
+                    // api.toast({
+                    //     msg: this.buyType,
+                    //     duration: 3000,
+                    //     location: 'middle'
+                    // });
+                    // return;
                     if (this.buyType == 'addcart') {
                         this.addCart()
                     } else {

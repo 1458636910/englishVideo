@@ -480,13 +480,10 @@
                     text: '',
                     modal: true
                   })
-                        // alert()
                     var _this = this;
                     var productsid = this.shopId.join(',');
                     var categories = '';
-                    // for (var i = 0; i < _this.choseArry.length; i++) {
-                    //   categories += _this.choseArry[i]+','
-                    // }
+
                     var categories = _this.choseArry.join(',')
                     var data = {
                         title: _this.textCount,
@@ -494,7 +491,7 @@
                         price: _this.price,
                         video_src: _this.videourl,
                         categories: categories,
-                        products:productsid
+                        products:productsid   //二期修改内容，视频需要选择商品
                     };
                     requstPost('video/push', data, function success(rett) {
                       console.log('发布成功')

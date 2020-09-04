@@ -185,12 +185,13 @@
             </div>
             <div class="list">
                 <div class="listl">
-                    E-mail
+                    Contact Number
                 </div>
                 <div class="listr">
-                    <input type="text" name="" value="" v-model="email">
+                    <input type="number" name="" value="" v-model="mobile">
                 </div>
             </div>
+
             <div class="list">
                 <div class="listl">
                     Paypal
@@ -201,10 +202,10 @@
             </div>
             <div class="list">
                 <div class="listl">
-                    Contact Number
+                    E-mail
                 </div>
                 <div class="listr">
-                    <input type="number" name="" value="" v-model="mobile">
+                    <input type="text" name="" value="" v-model="email">
                 </div>
             </div>
         </div>
@@ -270,7 +271,8 @@
                   province:_this.province,
                   city:_this.citys,
                   email:_this.email,
-                  paypal:_this.paypal
+                  paypal:_this.paypal,
+                  mobile:this.mobile,
                 };
                 console.log(JSON.stringify(data))
                 requstPost('user/profile',data,function success(ret){

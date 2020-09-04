@@ -220,7 +220,7 @@
                 }
                 api.openFrame({
                     name: 'liveplaceorder',
-                    url: './liveplaceorder.html',
+                    url: '../live/liveplaceorder.html',
                     rect: {
                         x: 0,
                         y: 0,
@@ -231,7 +231,8 @@
                       type:'buy',
                       product_id:ite.id,
                       buy_num:1,
-                      live_id:api.pageParam.live_id
+                      video_id:api.pageParam.video_id,
+                      isVideo:1,  //从视频传递过去的
                     },
                     bounces:false,
                     bgColor: 'rgba(0,0,0,0)',
@@ -258,8 +259,8 @@
                 var data = {
                   product_id:ite.id,
                   buy_num:1,
-                  live_id:api.pageParam.live_id,
-                  type:1,   //直播1 视频2 默认0
+                  video_id:api.pageParam.video_id,
+                  type:2, //直播1 视频2 默认0
                 };
                 requstPost('cart/add',data,function success(ret){
                   if (ret.code == 0) {
@@ -296,13 +297,14 @@
                 }
                 var _this = this;
                 var data = {
-                  live_id:api.pageParam.live_id,
+                  video_id:api.pageParam.video_id,
                   page:_this.page,
                   page_size:20
                 };
-                requstPost('live/product',data,function success(ret){
+                requstPost('VIDEO/product',data,function success(ret){
                   if (ret.code == 0) {
                     _this.page += 1
+                    console.log(ret.data+';;;;;;;;;;;;;;;;;;;;')
                     _this.lists = _this.lists.concat(ret.data)
                     if (ret.data.length < 20) {
                       _this.more = false

@@ -311,7 +311,7 @@
             </div>
             <div class="nav" v-show="userType == 1">
                 <div tapmode onclick="goPosts()">
-                    <p>{{post_count}}</p>
+                    <p>{{live_count}}</p>
                     <span>Posts</span>
                 </div>
                 <div tapmode onclick="gofavour()">
@@ -458,6 +458,7 @@
                     isIos:0,
                     status:1,
                     iosId:'',
+                    live_count:0,
                 }
             },
             created() {
@@ -473,6 +474,10 @@
                     this.islogin = false
                 }
                   this.refresh()
+                  api.sendEvent({
+                      name: 'anchorLeft',
+                      extra: {}
+                  });
             },
             methods: {
                 contactus() {
@@ -570,6 +575,7 @@
                         _this.fav_count = ret.data.fav_count
                         _this.foc_count = ret.data.foc_count
                         _this.post_count = ret.data.post_count
+                        _this.live_count = ret.data.live_count
                         _this.fans_count = ret.data.fans_count
                         _this.is_sign = ret.data.is_sign==1?false:true;  //1已经领过了，0可以领取
                         $api.setStorage('headimg', ret.data.avatar_url);
