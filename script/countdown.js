@@ -91,7 +91,13 @@ function countdown(o) {
         /**
          * 返回倒计时字符串
          * */
-        var t = d + 'Day' + h + ':' + m + ':' + s;
+           var t;
+         if(d==0){
+           t = h + ':' + m + ':' + s;
+         }else {
+           t = d + 'Day' + h + ':' + m + ':' + s;
+         }
+
         /**
          * 将倒计时写入el节点
          * */

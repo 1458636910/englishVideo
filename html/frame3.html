@@ -46,6 +46,7 @@
         .listshop{
           display: flex;
           justify-content: space-between;
+          margin-top: 3vw;
         }
         .listl{
           width: 25vw;
@@ -57,6 +58,15 @@
           flex: 1;
           display: flex;
           align-items: center;
+        }
+        .listr .size{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .listr .size>span{
+          font-size: 14px;
+          color: #999999;
         }
         .listl img{
           width: 100%;
@@ -322,7 +332,8 @@
               <div class="listr">
                 <div class="info">
                   <p class="name">{{ite.title}}</p>
-                  <p style="text-align:right;">
+                  <p class="size">
+                    <span><span>S White</span></span>
                     <span @click.stop="delateCart(item,index,ite,ind)">
                       <i class="iconfont" style="font-size:20px; color:#999999;">&#xe611;</i>
                     </span>

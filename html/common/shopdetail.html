@@ -4,13 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-    <meta name="format-detection" content="telephone=no,email=no"/>
+    <meta name="format-detection" content="telephone=no,email=no" />
     <title>title</title>
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/vant.css" />
     <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
     <style>
         body {}
+
         #app {
             background: white;
             min-height: 100vh;
@@ -18,352 +19,410 @@
             box-sizing: border-box;
             padding-bottom: 30vw;
         }
-        [v-cloak]{
-          display: none;
+
+        [v-cloak] {
+            display: none;
         }
-        .lists{
-          padding: 3vw;
+
+        .lists {
+            padding: 3vw;
         }
-        .list{
-          margin-bottom: 3vw;
+
+        .list {
+            margin-bottom: 3vw;
         }
-        .list .tit{
-          color: black;
-          margin-bottom: 3vw;
+
+        .list .tit {
+            color: black;
+            margin-bottom: 3vw;
         }
-        .list p{
-          color: #999999;
+
+        .list p {
+            color: #999999;
         }
-        #header{
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          z-index: 900;
+
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 900;
         }
-        #back,#back1{
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-          text-align: center;
-          line-height: 30px;
-          color: white;
-          background: rgba(0, 0, 0, 0.3);
-          position: absolute;
-          left: 3vw;
+
+        #back,
+        #back1 {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            background: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            left: 3vw;
         }
-        #back1{
-          opacity: 0;
-          background: white;
-          color: black;
-          border: none;
+
+        #back1 {
+            opacity: 0;
+            background: white;
+            color: black;
+            border: none;
         }
-        .headBox{
-          padding: 0 3vw;
-          height: 12vw;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
+
+        .headBox {
+            padding: 0 3vw;
+            height: 12vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .wrap{
-        }
+
+        .wrap {}
         /**/
+
         .banner {
-          width: 100vw;
-          height: 100vw;
-          margin:0 auto;
-          /*border-radius: 5px;*/
-          overflow: hidden;
-          font-size: 0;
-      }
-
-      .swiper-container,
-      .swiper-slide {
-          border-radius: 5px;
-          width: 100%;
-          height: 100%;
-      }
-
-      .banner img {
-        display: block;
-          width: 100vw;
-          height: 100%;
-          object-fit: cover;
-      }
-
-      .swiper-pagination {
-          /*text-align: right;*/
-      }
-
-      .van-swipe__indicators {
-          left: auto;
-          right: 0;
-      }
-
-      .van-swipe__indicator {
-          width: 0;
-          border-radius: 0;
-          height: 3px;
-          background: #252525;
-      }
-
-      .van-swipe__indicator--active {
-          background: white;
-      }
-        /**/
-        .wrap{
-          background: #FAF8F8;
+            width: 100vw;
+            height: 100vw;
+            margin: 0 auto;
+            /*border-radius: 5px;*/
+            overflow: hidden;
+            font-size: 0;
         }
-        .topBox{
-          padding: 3vw;
-          background: white;
-          border-radius: 10px;
-          /*margin-top: -20px;*/
-          margin-bottom: 5vw;
+
+        .swiper-container,
+        .swiper-slide {
+            border-radius: 5px;
+            width: 100%;
+            height: 100%;
         }
-        .topBox span{
-          min-width: 20vw;
-          margin-right: 3vw;
-          color: #999999;
-          font-size: 14px;
+
+        .banner img {
+            display: block;
+            width: 100vw;
+            height: 100%;
+            object-fit: cover;
         }
-        .price span:nth-child(1){
-          color: #FB0B39;
-          font-weight: 700;
-          font-size: 18px;
+
+        .swiper-pagination {
+            /*text-align: right;*/
         }
-        .price span:nth-child(2){
-          text-decoration: line-through;
+
+        .van-swipe__indicators {
+            left: auto;
+            right: 0;
         }
-        .name{
-          margin-top: 3vw;
-          font-size: 18px;
+
+        .van-swipe__indicator {
+            width: 0;
+            border-radius: 0;
+            height: 3px;
+            background: #252525;
+        }
+
+        .van-swipe__indicator--active {
+            background: white;
         }
         /**/
-        .num{
-          display: flex;
-          justify-content: space-between;
-          padding: 3vw;
-          border-radius: 10px;
-          background: white;
+
+        .wrap {
+            background: #FAF8F8;
         }
-        .nums{
-          display: flex;
-          align-items: center;
-          color: #999999;
+
+        .topBox {
+            padding: 3vw;
+            background: white;
+            border-radius: 10px;
+            /*margin-top: -20px;*/
+            margin-bottom: 5vw;
         }
-        .nums span{
-          width: 30px;
-          height: 30px;
-          text-align: center;
-          line-height: 30px;
-          border: 1px solid #d4d4d4;
+
+        .topBox span {
+            min-width: 20vw;
+            margin-right: 3vw;
+            color: #999999;
+            font-size: 14px;
         }
-        .nums span:nth-child(2){
-          min-width: 30px;
-          width: auto;
+
+        .price span:nth-child(1) {
+            color: #FB0B39;
+            font-weight: 700;
+            font-size: 18px;
         }
-        /**/
-        .pls{
-          background: white;
+
+        .price span:nth-child(2) {
+            text-decoration: line-through;
         }
-        .pltit{
-          display: flex;
-          padding: 3vw;
-          justify-content: space-between;
-          border-bottom: 1px solid #f5f5f5;
-          background: white;
-          margin-top: 5vw;
-          border-top-left-radius: 10px;
-          border-top-right-radius: 10px;
-        }
-        .person{
-          display: flex;
-          align-items: center;
-        }
-        .person .name{
-          margin-top: 0;
-          color: black;
-        }
-        .head{
-          width: 12vw;
-          height: 12vw;
-          border-radius: 50%;
-          margin-right: 3vw;
-        }
-        .head img{
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 50%;
-        }
-        .count{
-          margin: 3vw 0;
-          line-height: 20px;
-        }
-        .imgs{
-          display: flex;
-          flex-wrap: wrap;
-        }
-        .img{
-          width: 30vw;
-          height: 30vw;
-          margin-right: 2vw;
-          margin-bottom: 2vw;
-        }
-        .img:nth-child(3n+3){
-          margin-right: 0;
-        }
-        .img img{
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 5px;
+
+        .name {
+            margin-top: 3vw;
+            font-size: 18px;
         }
         /**/
-        .shopName .lists{
-          padding: 3vw;
-          background: white;
-          margin-top: 5vw;
-          border-radius: 10px;
+
+        .num {
+            display: flex;
+            justify-content: space-between;
+            padding: 3vw;
+            border-radius: 10px;
+            background: white;
         }
-        .shopName .list{
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding-bottom: 3vw;
-          margin-bottom: 3vw;
+
+        .nums {
+            display: flex;
+            align-items: center;
+            color: #999999;
         }
-        .shopName .left{
-          width: 60vw;
-          display: flex;
-          align-items: center;
+
+        .nums span {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            border: 1px solid #d4d4d4;
         }
-        .shopName .img{
-          width: 15vw;
-          height: 15vw;
-          border-radius: 50%;
-          background: #FA607D;
-          margin-right: 3vw;
-        }
-        .shopName .shopname{
-          max-width: 42vw;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          height: 13vw;
-          color: #999999;
-          font-size: 13px;
-          padding: 5px 0;
-          box-sizing: border-box;
-        }
-        .shopName .name{
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 1;
-          -webkit-box-orient: vertical;
-          color: #4F4F4F;
-          font-size: 16px;
-          margin-top: 0;
-        }
-        .shopName .img img{
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 50%;
-        }
-        .shopName .right span{
-          width: 30vw;
-          height: 8vw;
-          text-align: center;
-          line-height: 8vw;
-          border-radius: 4vw;
-          border: 1px solid #FA607D;
-          color: #FA607D;
-        }
-        .shopName .right span:active{
-          background: #f5f5f5;
-          color: #999999;
-          border: 1px solid #f5f5f5;
+
+        .nums span:nth-child(2) {
+            min-width: 30px;
+            width: auto;
         }
         /**/
-        .fwbtit{
-          padding: 3vw;
+
+        .pls {
+            background: white;
         }
-        .fwb img{
-          max-width: 100%;
-          margin: auto;
+
+        .pltit {
+            display: flex;
+            padding: 3vw;
+            justify-content: space-between;
+            border-bottom: 1px solid #f5f5f5;
+            background: white;
+            margin-top: 5vw;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .person {
+            display: flex;
+            align-items: center;
+        }
+
+        .person .name {
+            margin-top: 0;
+            color: black;
+        }
+
+        .head {
+            width: 12vw;
+            height: 12vw;
+            border-radius: 50%;
+            margin-right: 3vw;
+        }
+
+        .head img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .count {
+            margin: 3vw 0;
+            line-height: 20px;
+        }
+
+        .imgs {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .img {
+            width: 30vw;
+            height: 30vw;
+            margin-right: 2vw;
+            margin-bottom: 2vw;
+        }
+
+        .img:nth-child(3n+3) {
+            margin-right: 0;
+        }
+
+        .img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
         }
         /**/
-        #footer{
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
+
+        .shopName .lists {
+            padding: 3vw;
+            background: white;
+            margin-top: 5vw;
+            border-radius: 10px;
         }
-        .footer{
-          display: flex;
-          align-items: center;
-          background: white;
+
+        .shopName .list {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 3vw;
+            margin-bottom: 3vw;
         }
-        .footer div{
-          text-align: center;
-          height: 12vw;
+
+        .shopName .left {
+            width: 60vw;
+            display: flex;
+            align-items: center;
         }
-        .left{
-          width: 35vw;
-          display: flex;
+
+        .shopName .img {
+            width: 15vw;
+            height: 15vw;
+            border-radius: 50%;
+            background: #FA607D;
+            margin-right: 3vw;
         }
-        .btn{
-          line-height: 12vw;
-          font-weight: 700;
+
+        .shopName .shopname {
+            max-width: 42vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 13vw;
+            color: #999999;
+            font-size: 13px;
+            padding: 5px 0;
+            box-sizing: border-box;
         }
-        .footer .left div{
-          flex: 1;
-          display: flex;
-          flex-direction: column;
+
+        .shopName .name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            color: #4F4F4F;
+            font-size: 16px;
+            margin-top: 0;
         }
-        .left div .iconfont{
-          font-size: 25px;
-          color: #999999;
+
+        .shopName .img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
-        .left div .favo{
-          color: #F9617F;
+
+        .shopName .right span {
+            width: 30vw;
+            height: 8vw;
+            text-align: center;
+            line-height: 8vw;
+            border-radius: 4vw;
+            border: 1px solid #FA607D;
+            color: #FA607D;
         }
-        .btn1{
-          background: #FFDDE4;
-          color: #F9617F;
+
+        .shopName .right span:active {
+            background: #f5f5f5;
+            color: #999999;
+            border: 1px solid #f5f5f5;
         }
-        .btn2{
-          background: #F9617F;
-          color: white;
+        /**/
+
+        .fwbtit {
+            padding: 3vw;
         }
-        .left span{
-          font-size: 12px;
-          color: #999999;
+
+        .fwb img {
+            max-width: 100%;
+            margin: auto;
         }
-        #footer{
-          background: white;
+        /**/
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
         }
-        .btnBox{
-          flex: 1;
-          display: flex;
-          align-items: center;
-          position: relative;
+
+        .footer {
+            display: flex;
+            align-items: center;
+            background: white;
         }
-        .btnBox .btn{
-          flex: 1;
+
+        .footer div {
+            text-align: center;
+            height: 12vw;
         }
-        .btnMask{
-          line-height: 12vw;
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          z-index: 300;
-          background:rgba(245,245,245,.8);
+
+        .left {
+            width: 35vw;
+            display: flex;
+        }
+
+        .btn {
+            line-height: 12vw;
+            font-weight: 700;
+        }
+
+        .footer .left div {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .left div .iconfont {
+            font-size: 25px;
+            color: #999999;
+        }
+
+        .left div .favo {
+            color: #F9617F;
+        }
+
+        .btn1 {
+            background: #FFDDE4;
+            color: #F9617F;
+        }
+
+        .btn2 {
+            background: #F9617F;
+            color: white;
+        }
+
+        .left span {
+            font-size: 12px;
+            color: #999999;
+        }
+
+        #footer {
+            background: white;
+        }
+
+        .btnBox {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .btnBox .btn {
+            flex: 1;
+        }
+
+        .btnMask {
+            line-height: 12vw;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 300;
+            background: rgba(245, 245, 245, .8);
         }
     </style>
 </head>
@@ -373,130 +432,130 @@
 
         <header id="header">
             <div class="headBox">
-              <span id="back"  tapmode onclick="goback()">
+                <span id="back" tapmode onclick="goback()">
                 <i class="iconfont">&#xe608;</i>
               </span>
-              <span id="back1" tapmode onclick="goback()">
+                <span id="back1" tapmode onclick="goback()">
                 <i class="iconfont">&#xe608;</i>
               </span>
-              <span id="titname" style="opacity:0"></span>
-              <span> </span>
+                <span id="titname" style="opacity:0"></span>
+                <span> </span>
             </div>
         </header>
         <div class="wrap">
-          <div class="banner">
-            <van-swipe class="swiper-container" :autoplay="3000">
-                <van-swipe-item class="swiper-slide" v-for="(item,index) in banner">
-                    <img v-lazy="item?item:'../../image/errorimg.png'" alt="" onerror="javascript:this.src='../../image/errorimg.png'">
-                </van-swipe-item>
-            </van-swipe>
-          </div>
-          <!--  -->
-          <div class="topBox">
-            <p class="price">
-              <span>￡{{sale_price}}</span>
-              <span>￡{{original_price}}</span>
-            </p>
-            <p>
-              <span>
+            <div class="banner">
+                <van-swipe class="swiper-container" :autoplay="3000">
+                    <van-swipe-item class="swiper-slide" v-for="(item,index) in banner">
+                        <img v-lazy="item?item:'../../image/errorimg.png'" alt="" onerror="javascript:this.src='../../image/errorimg.png'">
+                    </van-swipe-item>
+                </van-swipe>
+            </div>
+            <!--  -->
+            <div class="topBox">
+                <p class="price">
+                    <span>￡{{sale_price}}</span>
+                    <span>￡{{original_price}}</span>
+                </p>
+                <p>
+                    <span>
                 Sold:{{sale_count}}
               </span>
-              <span>
+                    <span>
                 Postage:￡{{express_price}}
               </span>
-            </p>
-            <p class="name">{{title}}</p>
-          </div>
-          <!--  -->
-          <div class="num">
-            <div>Quantity:</div>
-            <div class="nums">
-              <span @click="downNum()">-</span>
-              <span>{{buyNum}}</span>
-              <span @click="addNum()">+</span>
+                </p>
+                <p class="name">{{title}}</p>
             </div>
-          </div>
-          <!--  -->
-          <div class="pls">
-            <div class="pltit" @click="goAllpl()">
-              <div>
-                Reviews({{talk_count}})
-              </div>
-              <div>
-                <span>All</span>
-                <i class="iconfont">&#xe62d;</i>
-              </div>
+            <!--  -->
+            <div class="num">
+                <div>Quantity:</div>
+                <div class="nums">
+                    <span @click="downNum()">-</span>
+                    <span>{{buyNum}}</span>
+                    <span @click="addNum()">+</span>
+                </div>
             </div>
-            <div class="lists">
-                <div class="list" v-for="(item,index) in talks">
-                  <div class="person">
-                    <div class="head">
-                      <img :src="item.avatar_url" alt="">
+            <!--  -->
+            <div class="pls">
+                <div class="pltit" @click="goAllpl()">
+                    <div>
+                        Reviews({{talk_count}})
                     </div>
-                    <p class="name">{{item.nickname}}</p>
-                  </div>
-                  <p class="count">{{item.content}}</p>
-                  <div class="imgs">
-                    <div class="img" @click="seeBigImg(item,ind)" v-for="(ite,ind) in item.thumbs">
-                      <img v-lazy="ite" alt="">
+                    <div>
+                        <span>All</span>
+                        <i class="iconfont">&#xe62d;</i>
                     </div>
-                  </div>
+                </div>
+                <div class="lists">
+                    <div class="list" v-for="(item,index) in talks">
+                        <div class="person">
+                            <div class="head">
+                                <img :src="item.avatar_url" alt="">
+                            </div>
+                            <p class="name">{{item.nickname}}</p>
+                        </div>
+                        <p class="count">{{item.content}}</p>
+                        <div class="imgs">
+                            <div class="img" @click="seeBigImg(item,ind)" v-for="(ite,ind) in item.thumbs">
+                                <img v-lazy="ite" alt="">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-          </div>
-          <!--  -->
-          <div class="shopName">
-            <div class="lists">
-              <div class="list">
-                <div class="left">
-                  <div class="img">
-                    <img :src="logo" alt="">
-                  </div>
-                  <div class="shopname">
-                    <p class="name">{{business_name}}</p>
-                    <p>Followers:{{fans_count}}</p>
-                  </div>
+            <!--  -->
+            <div class="shopName">
+                <div class="lists">
+                    <div class="list">
+                        <div class="left">
+                            <div class="img">
+                                <img :src="logo" alt="">
+                            </div>
+                            <div class="shopname">
+                                <p class="name">{{business_name}}</p>
+                                <p>Followers:{{fans_count}}</p>
+                            </div>
+                        </div>
+                        <div class="right" @click="goHome()">
+                            <span>VISIT SHOP</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="right" @click="goHome()">
-                  <span>VISIT SHOP</span>
-                </div>
-              </div>
             </div>
-          </div>
-          <!--  -->
-          <div class="fwbBox">
-            <p class="fwbtit">Product Desciption</p>
-            <div class="fwb" v-html="count">
+            <!--  -->
+            <div class="fwbBox">
+                <p class="fwbtit">Product Desciption</p>
+                <div class="fwb" v-html="count">
 
+                </div>
             </div>
-          </div>
 
         </div>
         <footer id="footer">
-          <div class="footer">
-            <div class="left">
-              <div @click="gochat()">
-                <i class="iconfont">&#xe62e;</i>
-                <span>Message</span>
-              </div>
-              <div @click="gofav()">
-                <i class="iconfont" v-if="collect_status == 0">&#xe616;</i>
-                <i v-if="collect_status ==1"  class="iconfont favo">&#xe642;</i>
-                <span :class="collect_status==1?'favo':''">Favourite</span>
-              </div>
+            <div class="footer">
+                <div class="left">
+                    <div @click="gochat()">
+                        <i class="iconfont">&#xe62e;</i>
+                        <span>Message</span>
+                    </div>
+                    <div @click="gofav()">
+                        <i class="iconfont" v-if="collect_status == 0">&#xe616;</i>
+                        <i v-if="collect_status ==1" class="iconfont favo">&#xe642;</i>
+                        <span :class="collect_status==1?'favo':''">Favourite</span>
+                    </div>
+                </div>
+                <div class="btnBox">
+                    <div class="btnMask" v-if="stock <= 0" @click="nostock()">
+                        Inventory shortage
+                    </div>
+                    <div class="btn btn1" @click="fn_chooseSize('addcart')">
+                        Add to Cart
+                    </div>
+                    <div class="btn btn2" @click="fn_chooseSize('buyNow')">
+                        Buy Now
+                    </div>
+                </div>
             </div>
-            <div class="btnBox">
-              <div class="btnMask" v-if="stock <= 0" @click="nostock()">
-                Inventory shortage
-              </div>
-              <div class="btn btn1" @click="addCart()">
-                Add to Cart
-              </div>
-              <div class="btn btn2" @click="buyNow()">
-                Buy Now
-              </div>
-            </div>
-          </div>
         </footer>
     </div>
 
@@ -510,155 +569,205 @@
 <script src="../../script/commonurl.js"></script>
 <script type="text/javascript">
     apiready = function() {
-      Vue.use(VueLazyload, {
-            preLoad: 1.3,
-            error: '../../image/errorimg.png',
-            loading: '../../image/loading.svg',
-            attempt: 1
-          })
-    // $api.fixStatusBar($api.dom('header'));
-    $api.fixTabBar($api.byId('footer'));
+        Vue.use(VueLazyload, {
+                preLoad: 1.3,
+                error: '../../image/errorimg.png',
+                loading: '../../image/loading.svg',
+                attempt: 1
+            })
+            // $api.fixStatusBar($api.dom('header'));
+        $api.fixTabBar($api.byId('footer'));
         var app = new Vue({
             el: '#app',
             data() {
                 return {
-                  count:'',//详情
-                  original_price:'',//原价
-                  sale_price:0,//销售价
-                  express_price:0,//运费
-                  sale_count:0,//销量
-                  title:'',//名称
-                  talk_count:'',//评论数量
-                  stock:1,//库存
-                  logo:'',//logo
-                  business_name:'',//店铺名字
-                  fans_count:0,//粉丝数量
-                  collect_status:0,//1为已收藏
-                  talks:[],//评论列表
-                  banner:[],
-                  buyNum:1,
-                  store_id:'',
+                    count: '', //详情
+                    original_price: '', //原价
+                    sale_price: 0, //销售价
+                    express_price: 0, //运费
+                    sale_count: 0, //销量
+                    title: '', //名称
+                    talk_count: '', //评论数量
+                    stock: 1, //库存
+                    logo: '', //logo
+                    business_name: '', //店铺名字
+                    fans_count: 0, //粉丝数量
+                    collect_status: 0, //1为已收藏
+                    talks: [], //评论列表
+                    banner: [],
+                    buyNum: 1,
+                    store_id: '',
+                    buyType: '', //addcart点击了加入购物车   buynow点击了立即购买
                 }
             },
             created() {
-              // this.getscroll()
-              this.getDatas()
+                // this.getscroll()
+                var _this = this;
+                this.getDatas()
+                api.addEventListener({
+                    name: 'chooseSize'
+                }, function(ret, err) {
+                    console.log(JSON.stringify(ret))
+                    _this.goOptions()
+                });
             },
             methods: {
-              //加入购物车
-              addCart(){
-                var _this = this;
-                var data = {
-                  product_id:api.pageParam.id,
-                  buy_num:_this.buyNum,
-                  live_id:'',
-                };
-                requstPost('cart/add',data,function success(ret){
-                  if (ret.code == 0) {
+                //打开选择规格
+                fn_chooseSize(str) {
+                    this.buyType = str
+                    if ($api.getStorage('islogin') != 'true') {
+                        api.execScript({
+                            name: 'live_win',
+                            script: 'pauseLive();'
+                        });
+                        userIslogin()
+                        return
+                    }
+                    api.openFrame({
+                        name: 'chooseSize',
+                        url: '../chooseSize.html',
+                        rect: {
+                            x: 0,
+                            y: 0,
+                            w: api.winWidth,
+                            h: api.winHeight
+                        },
+                        pageParam: {},
+                        bounces: false,
+                        bgColor: 'rgba(0,0,0,0)',
+                        vScrollBarEnabled: true,
+                        hScrollBarEnabled: true,
+                        animation: {
+                            type: "push",
+                            subType: "from_bottom",
+                            duration: 300
+                        }
+                    });
+                },
+                //操作添加购物车或者是立即购买
+                goOptions() {
                     api.toast({
-                        msg: ret.message,
+                        msg: this.buyType,
                         duration: 3000,
                         location: 'middle'
                     });
-                  }
-                },function fail(err){
-
-                })
-              },
-              //减少
-              downNum(){
-                if (this.buyNum == 1) {
-                  return
-                }
-                this.buyNum -= 1
-              },
-              //增加
-              addNum(){
-                if (this.buyNum >= this.stock) {
-                  api.alert({
-                      title: 'Out of stock quantity',
-                      msg: '',
-                      buttons:['Sure']
-                  }, function(ret, err){
-                      if( ret ){
-                      }else{
-                      }
-                  });
-
-                  return
-                }
-                this.buyNum += 1
-              },
-              //收藏商品
-              gofav(){
-                var _this = this;
-                var data = {
-                  product_id:api.pageParam.id
-                };
-                requstPost('product/favorite',data,function success(ret){
-                  _this.collect_status = ret.data.fav_status
-                },function fail(err){
-
-                })
-              },
-              //库存不足提醒
-              nostock(){
-                api.alert({
-                    title: 'Inventory shortage',
-                    msg: '',
-                    buttons:['Sure']
-                }, function(ret, err){
-                    if( ret ){
-                    }else{
+                    return;
+                    if (this.buyType == 'addcart') {
+                        this.addCart()
+                    } else {
+                        this.buyNow()
                     }
-                });
-              },
-              //获取详情数据
-              getDatas(){
-                var _this = this;
-                var data = {
-                  id:api.pageParam.id
-                };
-                requstGet('product/detail',data,function success(ret){
-                  var listData = ret.data.product.thumbs;
-                  for (i in listData) {
-                      api.imageCache({
-                          url: listData[i],
-                          tag: i
-                      }, function(ret, err) {
-                        // console.log(JSON.stringify(ret));
-                          listData[ret.tag] = ret.url;
-                      });
-                  }
-                  var product = ret.data.product
-                  _this.banner = product.thumbs
-                  _this.store_id = product.store_id
-                  _this.original_price = product.original_price
-                  _this.title = product.title
-                  _this.talk_count = product.talk_count
-                  _this.stock = product.stock
-                  _this.count = product.detail
-                  _this.sale_price = product.sale_price
-                  _this.sale_count = product.sale_count
-                  _this.logo = product.logo
-                  _this.business_name = product.business_name
-                  _this.fans_count = product.fans_count
-                  _this.collect_status = product.collect_status
-                  _this.express_price = product.express_price
-                  _this.talks = ret.data.talks
-                  api.imageCache({
-                      url: product.logo
-                  }, function(ret, err) {
-                    // console.log(JSON.stringify(ret));
-                      product.logo = ret.url;
-                      _this.logo = ret.url
-                  });
-                },function fail(err){
+                },
+                //之心加入购物车的请求
+                addCart() {
+                    var _this = this;
+                    var data = {
+                        product_id: api.pageParam.id,
+                        buy_num: _this.buyNum,
+                        live_id: '',
+                    };
+                    requstPost('cart/add', data, function success(ret) {
+                        if (ret.code == 0) {
+                            api.toast({
+                                msg: ret.message,
+                                duration: 3000,
+                                location: 'middle'
+                            });
+                        }
+                    }, function fail(err) {
 
-                })
-              },
-              //查看大图
-              seeBigImg(ite,ind){
+                    })
+                },
+                //减少
+                downNum() {
+                    if (this.buyNum == 1) {
+                        return
+                    }
+                    this.buyNum -= 1
+                },
+                //增加
+                addNum() {
+                    if (this.buyNum >= this.stock) {
+                        api.alert({
+                            title: 'Out of stock quantity',
+                            msg: '',
+                            buttons: ['Sure']
+                        }, function(ret, err) {
+                            if (ret) {} else {}
+                        });
+
+                        return
+                    }
+                    this.buyNum += 1
+                },
+                //收藏商品
+                gofav() {
+                    var _this = this;
+                    var data = {
+                        product_id: api.pageParam.id
+                    };
+                    requstPost('product/favorite', data, function success(ret) {
+                        _this.collect_status = ret.data.fav_status
+                    }, function fail(err) {
+
+                    })
+                },
+                //库存不足提醒
+                nostock() {
+                    api.alert({
+                        title: 'Inventory shortage',
+                        msg: '',
+                        buttons: ['Sure']
+                    }, function(ret, err) {
+                        if (ret) {} else {}
+                    });
+                },
+                //获取详情数据
+                getDatas() {
+                    var _this = this;
+                    var data = {
+                        id: api.pageParam.id
+                    };
+                    requstGet('product/detail', data, function success(ret) {
+                        var listData = ret.data.product.thumbs;
+                        for (i in listData) {
+                            api.imageCache({
+                                url: listData[i],
+                                tag: i
+                            }, function(ret, err) {
+                                // console.log(JSON.stringify(ret));
+                                listData[ret.tag] = ret.url;
+                            });
+                        }
+                        var product = ret.data.product
+                        _this.banner = product.thumbs
+                        _this.store_id = product.store_id
+                        _this.original_price = product.original_price
+                        _this.title = product.title
+                        _this.talk_count = product.talk_count
+                        _this.stock = product.stock
+                        _this.count = product.detail
+                        _this.sale_price = product.sale_price
+                        _this.sale_count = product.sale_count
+                        _this.logo = product.logo
+                        _this.business_name = product.business_name
+                        _this.fans_count = product.fans_count
+                        _this.collect_status = product.collect_status
+                        _this.express_price = product.express_price
+                        _this.talks = ret.data.talks
+                        api.imageCache({
+                            url: product.logo
+                        }, function(ret, err) {
+                            // console.log(JSON.stringify(ret));
+                            product.logo = ret.url;
+                            _this.logo = ret.url
+                        });
+                    }, function fail(err) {
+
+                    })
+                },
+                //查看大图
+                seeBigImg(ite, ind) {
 
                     // alert(e)
                     // alert(JSON.stringify(this.imgs))
@@ -676,13 +785,13 @@
                         activeIndex: ind,
                         placeholderImg: 'widget://res/img/apicloud.png',
                         bgColor: '#000',
-                        atime:.3
+                        atime: .3
                     }, function(ret, err) {
                         if (ret) {
                             if (ret.eventType == 'click') {
                                 photoBrowser.close()
                             } else if (ret.eventType == 'longPress') {
-                              return
+                                return
                                 api.actionSheet({
                                     title: '',
                                     cancelTitle: 'Cancel',
@@ -728,116 +837,116 @@
 
                         } else {
                             photoBrowser.close()
-                            // alert(JSON.stringify(err));
+                                // alert(JSON.stringify(err));
                         }
                     });
-              },
-              //前往下单
-              buyNow(){
-                if (this.buyNum > this.stock) {
-                  api.alert({
-                      title: 'Inventory shortage',
-                      msg: '',
-                      buttons:['Sure']
-                  }, function(ret, err){
-                      if( ret ){
-                          //  alert( JSON.stringify( ret ) );
-                      }else{
-                          //  alert( JSON.stringify( err ) );
-                      }
-                  });
+                },
+                //前往下单
+                buyNow() {
+                    if (this.buyNum > this.stock) {
+                        api.alert({
+                            title: 'Inventory shortage',
+                            msg: '',
+                            buttons: ['Sure']
+                        }, function(ret, err) {
+                            if (ret) {
+                                //  alert( JSON.stringify( ret ) );
+                            } else {
+                                //  alert( JSON.stringify( err ) );
+                            }
+                        });
 
-                  return
-                }
-                var _this = this;
-                api.openWin({
-                    name: 'placeorder_win',
-                    url: './placeorder_win.html',
-                    pageParam: {
-                        type: 'buy',
-                        product_id:api.pageParam.id,
-                        buy_num:_this.buyNum,
+                        return
                     }
-                });
-
-              },
-              //前往聊天
-              gochat(){
-                var _this = this;
-                var data = {
-                  product_id:api.pageParam.id
-                };
-                pubshowloading()
-                requstPost('chat/createFromProduct',data,function success(ret){
-                  if (ret.code == 0) {
+                    var _this = this;
                     api.openWin({
-                        name: 'chat_win',
-                        url: '../chat_win.html',
+                        name: 'placeorder_win',
+                        url: './placeorder_win.html',
                         pageParam: {
-                            name: _this.business_name,
-                            chat_group_id:ret.data.chat_group_id
+                            type: 'buy',
+                            product_id: api.pageParam.id,
+                            buy_num: _this.buyNum,
                         }
                     });
-                  }
-                },function fail(err){
 
-                })
+                },
+                //前往聊天
+                gochat() {
+                    var _this = this;
+                    var data = {
+                        product_id: api.pageParam.id
+                    };
+                    pubshowloading()
+                    requstPost('chat/createFromProduct', data, function success(ret) {
+                        if (ret.code == 0) {
+                            api.openWin({
+                                name: 'chat_win',
+                                url: '../chat_win.html',
+                                pageParam: {
+                                    name: _this.business_name,
+                                    chat_group_id: ret.data.chat_group_id
+                                }
+                            });
+                        }
+                    }, function fail(err) {
 
-              },
-              //
-              goHome(){
-                var _this = this;
-                api.openWin({
-                    name: 'shophome_win',
-                    url: './shophome_win.html',
-                    pageParam: {
-                        id: _this.store_id
-                    }
-                });
+                    })
 
-              },
-              goAllpl(){
-                api.openWin({
-                    name: 'pl_win',
-                    url: './pl_win.html',
-                    pageParam: {
-                        id: api.pageParam.id
-                    }
-                });
+                },
+                //
+                goHome() {
+                    var _this = this;
+                    api.openWin({
+                        name: 'shophome_win',
+                        url: './shophome_win.html',
+                        pageParam: {
+                            id: _this.store_id
+                        }
+                    });
 
-              },
-              getscroll(){
-                var scroll = new auiScroll({
-                    listen:true,
-                    distance:200 //判断到达底部的距离，isToBottom为true
-                },function(ret){
-                    if(ret.isToBottom){
-                        // document.getElementById("demo").textContent = "已到达底部";
-                        console.log("已到达底部");
-                          // $api.css($api.dom('header'), 'background:rgba(255,255,255,'+1+')');
-                          // $api.css($api.byId('titname'), 'opacity:'+1);
-                    }else{
-                      var opa = ret.scrollTop / 100;
-                      var opa1 = 1-opa;
-                      console.log(opa1);
-                      if (opa >=1) {
-                        opa1 = 1
-                      }
-                      $api.css($api.dom('header'), 'background:rgba(255,255,255,'+opa+')');
-                      $api.css($api.byId('titname'), 'opacity:'+opa);
-                      $api.css($api.byId('back'), 'opacity:'+opa1);
-                      $api.css($api.byId('back1'), 'opacity:'+opa);
-                      console.log("滚动高度："+ret.scrollTop);
-                      if (ret.scrollTop >= 50) {
-                        $api.css($api.dom('header'), 'background:rgba(255,255,255,'+1+')');
-                        $api.css($api.byId('back1'), 'opacity:'+1);
-                        $api.css($api.byId('back'), 'opacity:'+0);
-                      }
-                        // document.getElementById("demo").textContent = "滚动高度："+ret.scrollTop;
-                    }
+                },
+                goAllpl() {
+                    api.openWin({
+                        name: 'pl_win',
+                        url: './pl_win.html',
+                        pageParam: {
+                            id: api.pageParam.id
+                        }
+                    });
 
-                });
-              },
+                },
+                getscroll() {
+                    var scroll = new auiScroll({
+                        listen: true,
+                        distance: 200 //判断到达底部的距离，isToBottom为true
+                    }, function(ret) {
+                        if (ret.isToBottom) {
+                            // document.getElementById("demo").textContent = "已到达底部";
+                            console.log("已到达底部");
+                            // $api.css($api.dom('header'), 'background:rgba(255,255,255,'+1+')');
+                            // $api.css($api.byId('titname'), 'opacity:'+1);
+                        } else {
+                            var opa = ret.scrollTop / 100;
+                            var opa1 = 1 - opa;
+                            console.log(opa1);
+                            if (opa >= 1) {
+                                opa1 = 1
+                            }
+                            $api.css($api.dom('header'), 'background:rgba(255,255,255,' + opa + ')');
+                            $api.css($api.byId('titname'), 'opacity:' + opa);
+                            $api.css($api.byId('back'), 'opacity:' + opa1);
+                            $api.css($api.byId('back1'), 'opacity:' + opa);
+                            console.log("滚动高度：" + ret.scrollTop);
+                            if (ret.scrollTop >= 50) {
+                                $api.css($api.dom('header'), 'background:rgba(255,255,255,' + 1 + ')');
+                                $api.css($api.byId('back1'), 'opacity:' + 1);
+                                $api.css($api.byId('back'), 'opacity:' + 0);
+                            }
+                            // document.getElementById("demo").textContent = "滚动高度："+ret.scrollTop;
+                        }
+
+                    });
+                },
 
 
             }
@@ -845,8 +954,8 @@
 
     };
 
-    function goback(){
-      api.closeWin();
+    function goback() {
+        api.closeWin();
     }
 </script>
 

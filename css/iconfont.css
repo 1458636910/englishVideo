@@ -18,6 +18,9 @@
 .iconxiangjifanzhuan:before {
   content: "\e6de";
 }
+.iconnaozhong:before {
+  content: "\e624";
+}
 
 .iconfanzhuanxiangji:before {
   content: "\e605";
@@ -182,4 +185,3 @@
 .icondingwei-xianxing:before {
   content: "\e62c";
 }
-

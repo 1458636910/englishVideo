@@ -112,8 +112,8 @@
                 <h3>￡{{item.sale_price}}</h3>
                 <p>{{item.title}}</p>
                 <div class="btns">
-                  <span @click="addCart(item)">Add to cart</span>
-                  <span @click="buyNow(item)">Buy Now</span>
+                  <span @click="fn_chooseSize(item,'addcart')">Add to cart</span>
+                  <span @click="fn_chooseSize(item,'buynow')">Buy Now</span>
                 </div>
               </div>
             </div>
@@ -138,18 +138,73 @@
                 return {
                   page:1,
                   lists:[],
-                  more:true
+                  more:true,
+                  buyType:'', //addcart点击了加入购物车   buynow点击了立即购买
+                  currentItem:'',  //当前点击的是哪个商品item
                 }
             },
             mounted: function() {
 
             },
             created() {
-              console.log(1);
+              var _this = this;
               this.getLists()
               // this.getMore()
+              api.addEventListener({
+                  name: 'chooseSize'
+              }, function(ret, err) {
+                  _this.goOptions()
+              });
             },
             methods: {
+              //操作添加购物车或者是立即购买
+              goOptions() {
+                  api.toast({
+                      msg: this.buyType,
+                      duration: 3000,
+                      location: 'middle'
+                  });
+                  return;
+                  if (this.buyType == 'addcart') {
+                      this.addCart()
+                  } else {
+                      this.buyNow()
+                  }
+              },
+              //打开选择规格
+              fn_chooseSize(item,str) {
+                  this.buyType = str;
+                  this.currentItem = item;
+                  if ($api.getStorage('islogin') != 'true') {
+                      api.execScript({
+                          name: 'live_win',
+                          script: 'pauseLive();'
+                      });
+                      userIslogin()
+                      return
+                  }
+                  api.openFrame({
+                      name: 'chooseSize',
+                      url: '../chooseSize.html',
+                      rect: {
+                          x: 0,
+                          y: 0,
+                          w: api.winWidth,
+                          h: api.winHeight
+                      },
+                      pageParam: {},
+                      bounces: false,
+                      bgColor: 'rgba(0,0,0,0)',
+                      vScrollBarEnabled: true,
+                      hScrollBarEnabled: true,
+                      animation: {
+                          type: "push",
+                          subType: "from_bottom",
+                          duration: 300
+                      }
+                  });
+              },
+              // 立即购买
               buyNow(ite){
                 if ($api.getStorage('islogin') != 'true') {
                   api.execScript({

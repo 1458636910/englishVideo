@@ -226,6 +226,9 @@
         .livetop span.replay:nth-child(1) {
             background: #818B9C;
         }
+        .Precast{
+          background: linear-gradient(to right, #fd852d , #fd852d)!important;
+        }
 
         .livebom {
             width: 100%;
@@ -469,7 +472,10 @@
             </div> -->
                 <div class="livelist" v-if="livelist.length>0" v-for="(item,index) in livelist" @click="golive(item)">
                     <img class="liveimg" :src="item.thumb" alt="">
-                    <div class="livetop">
+                    <div class="livetop" v-if="(item.start_time - parseInt((new Date()).getTime()) / 1000)>0">
+                        <span class="replay Precast"><i class="iconfont">&#xe629;</i>8-24 10:22</span>
+                    </div>
+                    <div class="livetop" v-else>
                         <span :class="item.live_status == 1?'':'replay'">{{item.live_status == 1?'Live':'Replay'}}</span>
                         <span><i class="iconfont">&#xe629;</i>{{item.look_count}}</span>
                         <!-- <div v-if="(item.start_time - parseInt((new Date()).getTime()) / 1000)>0" class="countdownTime">countdown:
@@ -1207,11 +1213,13 @@
                     //判断直播是否开始
                     if ((ite.start_time - parseInt((new Date()).getTime()) / 1000) > 0) {
                       if($api.getStorage('isIos')==1){  //ios不存在是否付费的情况
-                        api.toast({
-                            msg: 'Live Stream has not started yet.',
-                            duration: 3000,
-                            location: 'bottom'
-                        });
+                        this.goPrecast(ite)
+                        return;
+                        // api.toast({
+                        //     msg: 'Live Stream has not started yet.',
+                        //     duration: 3000,
+                        //     location: 'bottom'
+                        // });
                       }else{
                         if (ite.price > 0 && ite.payed == 1) { //价格大于0  同时还没有支付的情况
                             api.confirm({
@@ -1235,11 +1243,13 @@
                                 }
                             });
                         } else {
-                            api.toast({
-                                msg: 'Live Stream has not started yet.',
-                                duration: 3000,
-                                location: 'bottom'
-                            });
+                          this.goPrecast(ite)
+                          return;
+                            // api.toast({
+                            //     msg: 'Live Stream has not started yet.',
+                            //     duration: 3000,
+                            //     location: 'bottom'
+                            // });
                         }
                       }
                     } else {
@@ -1253,6 +1263,18 @@
                             slidBackEnabled: false
                         });
                     }
+                },
+                //如果还没开始到预播界面去
+                goPrecast(ite){
+                  api.openWin({
+                      name: 'precast_win',
+                      url: './common/precast_win.html',
+                      bgColor:'#333333',
+                      bounces:false,
+                      pageParam: {
+                          ite:ite
+                      }
+                  });
                 },
                 gonewsdetail(ite) {
                     api.openWin({

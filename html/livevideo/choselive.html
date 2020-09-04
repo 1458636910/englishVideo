@@ -132,27 +132,32 @@
             </div>
         </div>
         <div class="lists">
-            <div class="list" v-if="isIos!=1">
+          <div class="list">
+            <span>Precast</span>
+            <van-switch v-model="switchBthzd" size="30px" active-color="#FA607D"/>
+          </div>
+            <div class="list" v-if="isIos!=1&&!switchBthzd">
                 <span>Price</span>
                 <div class="ipt">
                     <span></span>
                     <input v-model="price" type="text" name="" value="" placeholder="Ex：5.00">
                 </div>
             </div>
-            <div class="list" tapmode onclick="goaddshop()">
+            <div class="list" tapmode onclick="goaddshop()" v-if="!switchBthzd">
                 <span>Add Products</span>
                 <div class="ipt">
                     <span style="height:8vw;line-height:8vw;">{{hasShop}}</span>
                     <i class="iconfont">&#xe61f;</i>
                 </div>
             </div>
-            <!-- <div class="list" tapmode @click="chooseTime()">
+
+            <div class="list" tapmode @click="chooseTime()" v-if="switchBthzd">
                 <span>Live time</span>
                 <div class="ipt">
                     <span style="height:8vw;">{{showtime}}</span>
                     <i class="iconfont">&#xe61f;</i>
                 </div>
-            </div> -->
+            </div>
         </div>
         <footer id="footer" @click="startLive()">
             <div>
@@ -202,6 +207,7 @@
                     showtime: '', //显示的时间
                     Timestamp: '', //时间戳格式
                     isIos:0,
+                    switchBthzd:false,
                 }
             },
             created() {
@@ -245,7 +251,21 @@
                         this.hasShop = ''
                     }
                 },
+                //选择了预播
+                goPrecast(){
+                  api.toast({
+                      msg: '您选择了预播',
+                      duration: 2000,
+                      location: 'bottom'
+                  });
+
+                },
+                //点击直播
                 startLive() {
+                  if(this.switchBthzd){
+                    this.goPrecast()
+                    return;
+                  }
                     var _this = this;
                     if (!_this.headimg) {
                         api.alert({

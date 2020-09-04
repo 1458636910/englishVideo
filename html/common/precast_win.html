@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>预播的界面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <style>
+        body {
+            height: 100vh;
+            background: url(../../image/livebg3.png) no-repeat;
+            background-size: 100% 100%;
+            overflow: hidden;
+        }
+
+        #header {
+            background: transparent;
+            align-items: center;
+            height: 10vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            /*position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 500;*/
+        }
+
+        #header .iconfont {
+            /*font-size: 25px;*/
+            color: white;
+        }
+
+        #footer {
+            /*height: 20px;*/
+        }
+
+        .flex-con {
+            overflow: auto;
+            height: auto;
+        }
+
+        #title {
+            max-width: 80vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        #main {
+            width: 90vw;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #main>.title {
+            font-size: 40px;
+            font-weight: bold;
+            color: transparent;
+            -webkit-text-fill-color: #ffffff;
+            /*文字的填充色*/
+            -webkit-text-stroke: 1.2px #fd5a49;
+            font-family: monospace;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .headimgbox {
+            margin: 0 auto;
+            width: 65vw;
+            height: 65vw;
+            border-radius: 20px;
+            box-sizing: border-box;
+            overflow: hidden;
+            border: 5px solid white;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .headimgbox>img {
+            width: 100%;
+            height: auto;
+        }
+
+        .headimgbox>.fixedtime {
+            background: linear-gradient(to right, #fd852d, #fd852d);
+            position: absolute;
+            top: 20px;
+            left: 0;
+            display: inline-block;
+            display: flex;
+            align-items: center;
+            color: white;
+            box-sizing: border-box;
+            padding: 7px 10px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .fixedtime>img {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+
+        .countdownBox {
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 30px 0;
+            color: white;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .countdownBox>span {
+            display: inline-block;
+            border-radius: 10px;
+            border: 2px solid white;
+            margin: 0 3px;
+            box-sizing: border-box;
+            padding: 5px;
+        }
+
+        .goLive {
+            display: inline-block;
+            width: 70vw;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            color: #4d1e1c;
+            border: 2px solid #4d1e1c;
+            border-radius: 30px;
+            background: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .goLive .btn {
+            background: #fc625b;
+            border-radius: 30px;
+            display: inline-block;
+            box-sizing: border-box;
+            padding: 5px 20px;
+            margin-right: 10px;
+        }
+
+        .goLive:active {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <header id="header" style=" padding: 0 12px;">
+            <label onclick="goBack()" style="flex:1;"><i class="icon iconfont back">&#xe608;</i></label>
+            <div id="title" style="text-align:center; font-size:1.1rem;"></div>
+            <div style="flex:1; text-align:right; position:relative;">
+                <!-- <span onclick="changeInfo()">编辑</span> -->
+            </div>
+        </header>
+        <div id="main" class="flex-con">
+            <div class="title">NAIL LIVE PREVIEW COUNTDOWN</div>
+            <div class="headimgbox">
+                <div class="fixedtime"><img src="../../image/naozhong.png" alt="">8-24 10:22</div>
+                <img src="../../image/img7.jpg" alt="">
+            </div>
+            <div class="countdownBox">
+              <!-- <span>08</span>: <span>09</span>: <span>09</span> -->
+              <span :id="countId(ite.id,ite.start_time)">{{fn_countDown(ite.start_time,ite.id)}}</span></div>
+            <div class="goLive"><span class="btn"><img src="../../image/play.png" alt=""></span>Click to go the studio</div>
+        </div>
+        <footer id="footer"></footer>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/fastclick.js"></script>
+<script src="../../script/vue.min.js"></script>
+<script src="../../script/commonurl.js"></script>
+<script type="text/javascript" src="../../script/countdown.js"></script>
+<script type="text/javascript">
+    var app;
+    apiready = function() {
+        // var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar($api.dom('header'));
+        $api.fixTabBar($api.byId('footer'));
+        // openpage()
+        app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    ite: '',
+                }
+            },
+            created() {
+                 this.ite = api.pageParam.ite;
+            },
+            methods: {
+              //生成id
+              countId(id, time) {
+                  return 'precast' + "_" + id
+              },
+              //调用倒计时方法
+              fn_countDown(time, id) {
+                  var _el = 'precast' + "_" + id;
+                  var ds = new countdown({
+                      el: _el,
+                      ed: time
+                  });
+              },
+            }
+        })
+    };
+
+    function openpage() {
+
+        api.openFrame({
+            name: 'precast',
+            url: 'precast.html',
+            rect: {
+                x: 0,
+                y: $api.dom('header').offsetHeight,
+                w: api.winWidth,
+                h: api.winHeight - $api.dom('header').offsetHeight,
+                // h: api.winHeight -  $api.dom('header').offsetHeight+1,
+            },
+            pageParam: {
+                id: api.pageParam.id
+            },
+            allowEdit: true,
+            bounces: true,
+            bgColor: '#fff',
+            vScrollBarEnabled: false,
+            hScrollBarEnabled: true
+        });
+    }
+
+    function goBack() {
+        api.closeWin()
+    }
+</script>
+
+</html>
