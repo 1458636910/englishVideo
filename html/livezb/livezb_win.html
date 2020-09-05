@@ -190,7 +190,6 @@
     }
 
     function openPushLive(e, name, authkey) {
-      console.log(e+';;;;;;;;;;;;;;;;;;;;;;;;;')
         var live_play_url = $api.getStorage('live_play_url');
 
         openpage(name, authkey)
@@ -198,7 +197,7 @@
             return;
         }
         alivcLivePusher.initPusher({
-            resolution: '720P',
+            resolution: '540P',
             initialVideoBitrate: 800,
             targetVideoBitrate: 800,
             minVideoBitrate: 400,

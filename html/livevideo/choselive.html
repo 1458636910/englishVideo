@@ -136,14 +136,14 @@
             <span>Precast</span>
             <van-switch v-model="switchBthzd" size="30px" active-color="#FA607D"/>
           </div> -->
-            <div class="list" v-if="isIos!=1&&!switchBthzd">
+            <div class="list" v-if="isIos!=1">
                 <span>Price</span>
                 <div class="ipt">
                     <span></span>
                     <input v-model="price" type="text" name="" value="" placeholder="Ex：5.00">
                 </div>
             </div>
-            <div class="list" tapmode onclick="goaddshop()" v-if="!switchBthzd">
+            <div class="list" tapmode onclick="goaddshop()">
                 <span>Add Products</span>
                 <div class="ipt">
                     <span style="height:8vw;line-height:8vw;">{{hasShop}}</span>
