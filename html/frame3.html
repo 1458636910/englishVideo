@@ -425,7 +425,8 @@ var app;
                   termChoose:false,
                   lists1:[],
                   choseArry:[],
-                  allPrice:0.00
+                  allPrice:0.00,
+                  goodsLength:0,
                 }
             },
             mounted:function () {
@@ -579,6 +580,8 @@ var app;
                   if (ret.code == 0) {
                     for (var i = 0; i < ret.data.length; i++) {
                       var obj = ret.data[i].carts;
+                      console.log(obj.length+';;;;;;;;;;;;;;;;;;')
+                      _this.goodsLength += obj.length
                       for (var j = 0; j < obj.length; j++) {
                         obj[j].ischose = false
                       }
@@ -768,12 +771,16 @@ var app;
                 ite.ischose = !ite.ischose
                 if(ite.ischose){
                   _this.choseArry.push(ite.cart_id)
-                  for (var i = 0; i < _this.lists.length; i++) {
-                    var obj = _this.lists[i].carts;
-                    _this.allChose = obj.every(function(itemd){
-                      return itemd.ischose == true;
-                    })
+                  console.log(_this.choseArry.length+'============'+this.goodsLength)
+                  if(_this.choseArry.length==this.goodsLength){
+                    _this.allChose = true
                   }
+                  // for (var i = 0; i < _this.lists.length; i++) {
+                  //   var obj = _this.lists[i].carts;
+                  //   _this.allChose = obj.every(function(itemd){
+                  //     return itemd.ischose == true;
+                  //   })
+                  // }
                 }else {
                   // var Idindex = _this.choseArry.indexOf(ite.cart_id)
                   // _this.choseArry.splice(Idindex,1)

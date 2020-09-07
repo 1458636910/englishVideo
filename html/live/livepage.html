@@ -797,32 +797,41 @@
                         live_id: api.pageParam.live_id,
                         type: 1,
                     }
-                    requstPost('live/pushReport', parameter, function success(ret) {
-                        if (ret.code == 0) {
-                            api.alert({
-                                title: ret.message,
-                                msg: '',
-                                buttons: ['Sure']
-                            }, function(ret, err) {
-                                if (ret) {
-                                    api.sendEvent({
-                                        name: 'updataLists',
-                                    });
-                                    setTimeout(function() {
-                                        api.closeToWin({
-                                            name: 'root'
-                                        });
-                                    }, 1000)
-                                } else {}
-                            });
+                    api.confirm({
+                        title: 'Confirm blocking?',
+                        msg: '',
+                        buttons: ['Sure', 'Cancel']
+                    }, function(ret, err){
+                        if( ret ){
+                          requstPost('live/pushReport', parameter, function success(ret) {
+                              if (ret.code == 0) {
+                                  api.alert({
+                                      title: ret.message,
+                                      msg: '',
+                                      buttons: ['Sure']
+                                  }, function(ret, err) {
+                                      if (ret) {
+                                          api.sendEvent({
+                                              name: 'updataLists',
+                                          });
+                                          setTimeout(function() {
+                                              api.closeToWin({
+                                                  name: 'root'
+                                              });
+                                          }, 1000)
+                                      } else {}
+                                  });
+                              }
+                          }, function fail(err) {
+                              api.toast({
+                                  msg: ret.msg,
+                                  duration: 2000,
+                                  location: 'bottom'
+                              });
+                          })
+                        }else{
                         }
-                    }, function fail(err) {
-                        api.toast({
-                            msg: ret.msg,
-                            duration: 2000,
-                            location: 'bottom'
-                        });
-                    })
+                    });
                 },
                 //举报
                 goreport() {

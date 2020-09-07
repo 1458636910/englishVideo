@@ -142,7 +142,8 @@
             <span>{{item.receiver}}</span>
             <span>{{item.cellphone_number}}</span>
           </p>
-          <p class="dress">{{item.country}}{{item.province}}{{item.city}}{{item.address}}</p>
+          <p class="dress">{{item.country}} {{item.address}}</p>
+          <p class="dress">{{item.email}}</p>
           <div class="listbom">
             <span @click="defaultDress(item)">
               <span class="cercil" :class="item.is_default == 1?'active':''"></span>

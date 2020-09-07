@@ -116,6 +116,10 @@
           <span>Contact Number</span>
           <input v-model="phone" type="tel" name="" value="" placeholder="">
         </li>
+        <li>
+          <span>E-mail</span>
+          <input v-model="Email"  name="" value="" placeholder="">
+        </li>
         <li @click="choseDress()">
           <span>Country</span>
           <input v-model="dress" type="text" name="" value="" placeholder="" disabled>
@@ -181,7 +185,8 @@ var app;
                   isEdit:false,
                   address_id:'',
                   dress:'',
-                  code:''
+                  code:'',
+                  Email:'',
 
                 }
             },
@@ -197,7 +202,7 @@ var app;
                 this.city = obj.city
                 this.code = obj.postcode
                 this.detail = obj.address
-                this.dress = obj.country+obj.province+obj.city
+                this.dress = obj.country
                 if (obj.is_default == 1) {
                   this.switchBthzd = true
                 }else {
@@ -245,7 +250,8 @@ var app;
                   city:_this.city,
                   address:_this.detail,
                   is_default:is_default,
-                  postcode:_this.code
+                  postcode:_this.code,
+                  email:_this.Email
                 };
                 requstPost('address/post',data,function success(ret){
                   api.toast({

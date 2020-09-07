@@ -229,38 +229,50 @@
                         video_id: api.pageParam.videoid,
                         type:1,
                     }
-                    requstPost('video/pushReport', parameter, function success(ret) {
-                        if (ret.code == 0) {
-                          api.alert({
-                              title: ret.message,
-                              msg: '',
-                              buttons: ['Sure']
-                          }, function(ret, err) {
-                              if (ret) {
-                                  api.sendEvent({
-                                      name: 'updataHomeList',
-                                  });
-                                  setTimeout(function(){
-                                    api.closeToWin({
-                                        name: 'root'
-                                    });
-                                  },1000)
-                              } else {}
-                          });
+                    api.confirm({
+                        title: 'Confirm blocking?',
+                        msg: '',
+                        buttons: ['Sure', 'Cancel']
+                    }, function(ret, err){
+                        if( ret ){
+                          requstPost('video/pushReport', parameter, function success(ret) {
+                              if (ret.code == 0) {
+                                api.alert({
+                                    title: ret.message,
+                                    msg: '',
+                                    buttons: ['Sure']
+                                }, function(ret, err) {
+                                    if (ret) {
+                                        api.sendEvent({
+                                            name: 'updataHomeList',
+                                        });
+                                        setTimeout(function(){
+                                          api.closeToWin({
+                                              name: 'root'
+                                          });
+                                        },1000)
+                                    } else {}
+                                });
+                              }else{
+                                api.toast({
+                                    msg: ret.message,
+                                    duration: 2000,
+                                    location: 'bottom'
+                                });
+                              }
+                          }, function fail(err) {
+                              api.toast({
+                                  msg: err.msg||err.message,
+                                  duration: 2000,
+                                  location: 'bottom'
+                              });
+                          })
                         }else{
-                          api.toast({
-                              msg: ret.message,
-                              duration: 2000,
-                              location: 'bottom'
-                          });
+
                         }
-                    }, function fail(err) {
-                        api.toast({
-                            msg: err.msg||err.message,
-                            duration: 2000,
-                            location: 'bottom'
-                        });
-                    })
+                    });
+
+
                 },
                 //举报
                 goreport() {

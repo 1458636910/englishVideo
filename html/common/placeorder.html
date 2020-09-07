@@ -284,7 +284,7 @@
             <div class="ship" @click="choseship()">
                 <span>Shipping</span>
                 <div>
-                    <span>{{postage}}</span>
+                    <span>￡{{postage}}</span>
                     <i class="iconfont">&#xe62d;</i>
                 </div>
             </div>
@@ -614,11 +614,45 @@
                                 _this.dressName = getserdress.receiver
                                 _this.dressPhone = getserdress.cellphone_number
                                 _this.dressCount = getserdress.country + ' ' + getserdress.province + ' ' + getserdress.city + ' ' + getserdress.address
+                                for(var i=0;i<_this.store_carts.length;i++){
+                                  _this.getLists(_this.store_carts[i].store_id,_this.receiver_country,_this.order_total)
+                                }
+                            }else{
+                              return;
                             }
                         }
                     }, function fail(err) {
 
                     })
+                },
+                //根据条件获取邮寄方式
+                getLists(store_id,receiver_country,order_total){
+                  var _this = this;
+                  var data = {
+                    store_id:store_id,
+                    receiver_country:receiver_country,
+                    buyer_consume_fee:order_total
+                  };
+                  requstPost('store/express',data,function success(ret){
+                    if (ret.code == 0) {
+                      if(_this.type == 'buy'){
+                        _this.postage  = ret.data[0].postage
+                        _this.postage_type = ret.data[0].type
+
+                      }else{
+                        for(var i=0;i<_this.store_carts.length;i++){
+                          if(_this.store_carts[i].store_id==store_id){
+                            _this.store_carts[i].postage = ret.data[0].postage
+                            _this.store_carts[i].postage_type = ret.data[0].type
+                            _this.postage_total += Number(_this.store_carts[i].postage)
+                          }
+                        }
+                        _this.store_carts = _this.store_carts;
+                      }
+                    }
+                  },function fail(err){
+
+                  })
                 },
                 //非购物车获取详情
                 getBuyDetail() {
@@ -661,6 +695,7 @@
                                 _this.dressName = getserdress.receiver
                                 _this.dressPhone = getserdress.cellphone_number
                                 _this.dressCount = getserdress.country + ' ' + getserdress.province + ' ' + getserdress.city + ' ' + getserdress.address
+                                _this.getLists(_this.store_id,_this.receiver_country,_this.old_sale_price)
                             }
 
                             // alert(JSON.stringify(ret))
@@ -681,15 +716,23 @@
                 },
                 //改变地址
                 dressChange(id, name, phone, dress, country) {
+                  var _this  = this;
                     this.dressId = id
                     this.dressName = name
                     this.dressPhone = phone
                     this.dressCount = dress
                     this.receiver_country = country
                     if (this.type == 'buy') {
+                      this.getLists(_this.store_carts[0].store_id,_this.receiver_country,_this.old_sale_price)
                         this.getBuyDetail()
                     } else if (this.type == 'cart') {
                         // this.getCartDetail()
+
+                        // var store_index = '';
+                        // for(var i=0;i<this.store_carts.length;i++){
+                        //   if(this.store_carts[i].store_id==)
+                        // }
+                        this.getLists(_this.store_carts[0].store_id,_this.receiver_country,_this.order_total)
                         this.store_carts = this.store_carts1
                         this.submitObj = this.submitObj1
                         this.submitObj.address_id = id
