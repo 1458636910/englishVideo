@@ -692,7 +692,6 @@
                 }, function(ret, err){
                     if( ret ){
                         //直播
-                        console.log(_this.liveactive)
                         if (_this.liveactive == 1) {
                           var livelist = _this.livelist;
                           for(var i=0;i<livelist.length;i++){
@@ -705,7 +704,6 @@
                             // _this.alllivepage = 1
                             // _this.alllivemore = true
                             // _this.livelist = []
-                            // // console.log("1111111111111"+_this.alllivelist)
                             // _this.getallLiveLists()
                         } else if (_this.liveactive == 2) {
                           var followlivelist  =_this.followlivelist;
@@ -732,7 +730,6 @@
                 },
                 //调用倒计时方法
                 fn_countDown(time, id) {
-                    console.log(time)
                     var _el = 'count' + "_" + this.refreshCount + "_" + id;
                     var ds = new countdown({
                         el: _el,
@@ -896,12 +893,10 @@
                             threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
                         }
                     }, function(ret, err) {
-                        console.log('加载更多');
                         if (_this.active == 1) {
                             //直播
                             if (_this.liveactive == 1) {
                                 // 所有直播
-                                console.log(_this.alllivemore+'////////////////////')
                                 if(_this.alllivemore){
                                   _this.getallLiveLists()
                                 }else{
@@ -977,14 +972,12 @@
                                 url: listData[i].imageUrl,
                                 tag: i
                             }, function(ret, err) {
-                                // console.log(JSON.stringify(ret));
                                 listData[ret.tag].imageUrl = ret.url;
                             });
                             api.imageCache({
                                 url: listData[i].avatar_url,
                                 tag: i
                             }, function(ret, err) {
-                                // console.log(JSON.stringify(ret));
                                 listData[ret.tag].avatar_url = ret.url;
                             });
                         }
@@ -1018,7 +1011,6 @@
                                     url: listData[i].thumb,
                                     tag: i
                                 }, function(ret, err) {
-                                    // console.log(JSON.stringify(ret));
                                     listData[ret.tag].thumb = ret.url;
                                 });
                             }
@@ -1048,7 +1040,6 @@
                             //         url: listData[i].thumb,
                             //         tag: i
                             //     }, function(ret, err) {
-                            //       // console.log(JSON.stringify(ret));
                             //         listData[ret.tag].thumb = ret.url;
                             //     });
                             // }
@@ -1089,7 +1080,6 @@
                                         url: listData[i].thumbs[0],
                                         tag: i
                                     }, function(ret, err) {
-                                        // console.log(JSON.stringify(ret));
                                         listData[ret.tag].thumbs[0] = ret.url;
                                     });
                                 }
@@ -1140,7 +1130,6 @@
                                     url: listData[i].thumb,
                                     tag: i
                                 }, function(ret, err) {
-                                    // console.log(JSON.stringify(ret));
                                     listData[ret.tag].thumb = ret.url;
                                 });
                             }
