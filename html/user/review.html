@@ -161,7 +161,7 @@
           </div>
         </div>
       </div>
-
+     <div style="opacity:0">{{num}}</div>
     </div>
 
 </body>
@@ -179,6 +179,7 @@ var app;
                   list:[],
                   list1:[],
                   order_id:'',
+                  num:0
                 }
             },
             mounted:function () {
@@ -211,6 +212,7 @@ var app;
               },
               delateImg(ite,ind){
                 ite.imgs.splice(ind,1)
+                this.num+=1
               },
               saveReview(){
                 for (var i = 0; i < this.list.length; i++) {
@@ -218,10 +220,8 @@ var app;
                   this.list1[i].thumbs = this.list[i].thumbs
                 }
                 var _this = this;
-                var data = {
-                  talk_data:JSON.stringify(_this.list1)
-                };
-
+                var data = JSON.stringify(_this.list1)
+                //  return;
                 // alert(JSON.stringify(this.list1))
                 // return
                 requstPost('user/orderTalk',data,function success(ret){
@@ -278,13 +278,14 @@ var app;
                           // 获取拍照数据并处理
                           if (ret.data) {
                             var imgurl = ret.data
-                                // _this.headimg = imgurl
-                                // item.imgs.push(imgurl)
-                                uploadImg(imgurl,function success(rett){
-                                  if (ret.code == 0) {
-                                    item.imgs.push(imgurl)
-                                    item.thumbs += imgurl+','
+                                requstUpload(imgurl,function success(rett){
+                                  if (rett.code == 0) {
+                                    var list = _this.list;
+                                    var List1 = _this.list1;
+                                    item.imgs.push(rett.data.url)
+                                    item.thumbs += rett.data.url+','
                                     item.thumbs = item.thumbs.substring(0, item.thumbs.lastIndexOf(','));
+                                    _this.num+=1
                                   }
                                 },function fail(errr){
 
@@ -308,20 +309,19 @@ var app;
                           if (ret.data) {
 
                               var imgurl = ret.data
-                                  // _this.headimg = imgurl
-                                  // item.imgs.push(imgurl)
-                                  uploadImg(imgurl,function success(rett){
-                                    if (ret.code == 0) {
-                                      item.imgs.push(imgurl)
-                                      item.thumbs += imgurl+','
+                                  requstUpload(imgurl,function success(rett){
+                                    if (rett.code == 0) {
+                                      var list = _this.list;
+                                      var List1 = _this.list1;
+                                      item.imgs.push(rett.data.url)
+                                      item.thumbs += rett.data.url+','
                                       item.thumbs = item.thumbs.substring(0, item.thumbs.lastIndexOf(','));
+                                      _this.num+=1
                                     }
                                   },function fail(errr){
 
                                   })
-                              // alert(JSON.stringify(ret))
                           } else {
-                              // alert(JSON.stringify(err));
                           }
                       });
                   // }
