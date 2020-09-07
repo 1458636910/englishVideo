@@ -87,6 +87,21 @@
           border-radius: 4vw;
           margin-top: 2vw;
         }
+        .btns span:active{
+          opacity: 0.9;
+          animation: qdanimate 2s infinite;
+        }
+        @keyframes qdanimate {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(0.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
         .bom p{
           font-size: 12px;
           overflow: hidden;

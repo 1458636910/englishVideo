@@ -636,9 +636,10 @@
                   requstPost('store/express',data,function success(ret){
                     if (ret.code == 0) {
                       if(_this.type == 'buy'){
+                        _this.buyData.postage  = ret.data[0].postage
                         _this.postage  = ret.data[0].postage
-                        _this.postage_type = ret.data[0].type
-
+                        _this.buyData.postage_type = ret.data[0].type
+                        _this.order_total = (Number(_this.order_total)+Number(_this.buyData.postage)).toFixed(2)
                       }else{
                         for(var i=0;i<_this.store_carts.length;i++){
                           if(_this.store_carts[i].store_id==store_id){
@@ -647,6 +648,7 @@
                             _this.postage_total += Number(_this.store_carts[i].postage)
                           }
                         }
+                        _this.order_total = (Number(_this.order_total)+Number(_this.postage_total)).toFixed(2)
                         _this.store_carts = _this.store_carts;
                       }
                     }
@@ -723,7 +725,7 @@
                     this.dressCount = dress
                     this.receiver_country = country
                     if (this.type == 'buy') {
-                      this.getLists(_this.store_carts[0].store_id,_this.receiver_country,_this.old_sale_price)
+                        this.getLists(_this.store_carts[0].store_id,_this.receiver_country,_this.old_sale_price)
                         this.getBuyDetail()
                     } else if (this.type == 'cart') {
                         // this.getCartDetail()

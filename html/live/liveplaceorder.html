@@ -4,277 +4,316 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-    <meta name="format-detection" content="telephone=no,email=no"/>
+    <meta name="format-detection" content="telephone=no,email=no" />
     <title>title</title>
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
     <link rel="stylesheet" type="text/css" href="../../css/vant.css" />
     <style>
-        body,html {
+        body,
+        html {
             background: none;
         }
 
         #app {
-          background: none;
+            background: none;
             min-height: 100vh;
             padding-top: 30vh;
             box-sizing: border-box;
             /*padding-bottom: 30vw;*/
         }
-        #app.appactive{
-                background: rgba(0,0,0,.1);
-        }
-        [v-cloak]{
-          display: none;
-        }
-        .lists{
-          padding-top: 3vw;
-          flex: 1;
-          overflow: scroll;
-          padding: 3vw;
-          padding-bottom: 20vw;
+
+        #app.appactive {
+            background: rgba(0, 0, 0, .1);
         }
 
+        [v-cloak] {
+            display: none;
+        }
 
-        #footer{
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          width: 100%;
-          height: 12vw;
-          text-align: center;
-          line-height: 12vw;
+        .lists {
+            padding-top: 3vw;
+            flex: 1;
+            overflow: scroll;
+            padding: 3vw;
+            padding-bottom: 20vw;
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 12vw;
+            text-align: center;
+            line-height: 12vw;
             background: #FA607D;
             color: white;
         }
-        #footer div{
-          background: #FA607D;
-          color: white;
-          font-size: 20px;
-          font-weight: 700;
+
+        #footer div {
+            background: #FA607D;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
         }
-        .box{
-          height: 70vh;
-          overflow: scroll;
-          background: white;
-          /*position: relative;*/
-          /*padding-top: 15vw;*/
-          box-sizing: border-box;
-          /*padding-bottom: 30vw;*/
-          border-top-right-radius: 10px;
-          border-top-left-radius: 10px;
-          display: flex;
-          flex-direction: column;
+
+        .box {
+            height: 70vh;
+            overflow: scroll;
+            background: white;
+            /*position: relative;*/
+            /*padding-top: 15vw;*/
+            box-sizing: border-box;
+            /*padding-bottom: 30vw;*/
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+            display: flex;
+            flex-direction: column;
         }
-        .head{
-          /*position: absolute;*/
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 12vw;
-          display: flex;
-          padding: 0 3vw;
-          justify-content: space-between;
-          align-items: center;
-          border-bottom: 1px solid #f5f5f5;
+
+        .head {
+            /*position: absolute;*/
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 12vw;
+            display: flex;
+            padding: 0 3vw;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f5f5f5;
         }
-        #footer{
-          /*position: absolute;*/
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 12vw;
-          line-height: 12vw;
-          color: white;
-          /*background: #FA607D;*/
+
+        #footer {
+            /*position: absolute;*/
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 12vw;
+            line-height: 12vw;
+            color: white;
+            /*background: #FA607D;*/
         }
         /**/
 
-        .listsBox{
+        .listsBox {}
+
+        .shopName {
+            color: #999999;
         }
-        .shopName{
-          color: #999999;
+
+        .shopimg {
+            width: 20vw;
+            height: 20vw;
+            margin-right: 3vw;
         }
-        .shopimg{
-          width: 20vw;
-          height: 20vw;
-          margin-right: 3vw;
+
+        .shopimg img {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
         }
-        .shopimg img{
-          width: 100%;
-          height: 100%;
-          border-radius: 5px;
+
+        .list {
+            display: flex;
+            align-items: center;
+            /*margin-bottom: 3vw;*/
+            border-bottom: 1px solid #f5f5f5;
+            padding: 3vw 0;
         }
-        .list{
-          display: flex;
-          align-items: center;
-          /*margin-bottom: 3vw;*/
-          border-bottom: 1px solid #f5f5f5;
-          padding: 3vw 0;
+
+        .nameBox {
+            width: 70vw;
+            height: 16vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-        .nameBox{
-          width: 70vw;
-          height: 16vw;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-        .name{
-          color: #403e3e;
-          overflow: hidden;
-          text-overflow: ellipsis;
+
+        .name {
+            color: #403e3e;
+            overflow: hidden;
+            text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
         }
-        .price{
-          display: flex;
-          justify-content: space-between;
-          color: #999999;
-          font-size: 14px;
+
+        .price {
+            display: flex;
+            justify-content: space-between;
+            color: #999999;
+            font-size: 14px;
         }
-        .price span:nth-child(1){
-          color: #FA607D;
-          font-size: 16px;
+
+        .price span:nth-child(1) {
+            color: #FA607D;
+            font-size: 16px;
         }
         /**/
-        .ship{
-          display: flex;
-          justify-content: space-between;
-          padding: 3vw 0 3vw;
+
+        .ship {
+            display: flex;
+            justify-content: space-between;
+            padding: 3vw 0 3vw;
             color: #403e3e;
             padding-left: 0;
-          border-bottom: 1px solid #f5f5f5;
+            border-bottom: 1px solid #f5f5f5;
         }
-        .shiplist{
-          padding: 3vw 0;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          border-bottom: 1px solid #f5f5f5;
+
+        .shiplist {
+            padding: 3vw 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #f5f5f5;
         }
-        .chose{
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          border: 1px solid #757575;
+
+        .chose {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #757575;
         }
-        .shipl{
-          flex: 1;
+
+        .shipl {
+            flex: 1;
         }
-        .tit{
-          padding-bottom: 3vw;
+
+        .tit {
+            padding-bottom: 3vw;
             color: #403e3e;
         }
-        .shipl p:nth-child(2){
-          color: #999999;
-        }
-        .chose.active{
-          border: 1px solid #e86a7f;
-          background-image: url(../../image/chose.png);
-          background-size: 100%;
-        }
-        .shipl span{
-          color: #ff5d78;
-          /*font-weight: 700;*/
-        }
-        /**/
-        .notes{
-          padding: 3vw 0;
-          position: relative;
-        }
-        .notes p{
-          margin-bottom: 3vw;
-        }
-        .notes textarea{
-          width: 100%;
-          height: 30vw;
-          border: 1px solid #f5f5f5;
-          resize: none;
-          padding-bottom: 5vw;
-          outline: none;
-        }
-        .notes span{
-          position: absolute;
-          right: 3vw;
-          bottom: 5vw;
-          font-size: 12px;
-          color: #999999;
-        }
-        /**/
-        .dress{
-          color: #999999;
-          border-bottom: 1px solid #f5f5f5;
-        }
-        .dress p:nth-child(1){
-          color: #403e3e;
-        }
-        .dress p{
-          margin-bottom: 3vw;
-        }
-        /**/
-        .payth{
-          border-bottom: 1px solid #f5f5f5;
-          padding-bottom: 3vw;
-        }
-        .payth p{
-          padding: 3vw 0;
-        }
-        .paypal{
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-        .paypal img{
-          max-height: 20px;
-        }
-        /**/
-        .coupons{
-          padding: 3vw 0;
-          display: flex;
-          justify-content: space-between;
-          border-bottom: 1px solid #f5f5f5;
-        }
-        .bomTotals div{
-          display: flex;
-          justify-content: space-between;
-          padding: 3vw 0;
-          color: #3a3939;
-          border-bottom: 1px solid #f5f5f5;
-        }
-        .bomTotals div:last-child{
-          color: black;
-          border-bottom: 0;
+
+        .shipl p:nth-child(2) {
+            color: #999999;
         }
 
-        .diamonlist{
-          display: flex;
-          justify-content: space-between;
-          padding: 3vw 0;
-        }
-        /**/
-        .chose{
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          background: #f5f5f5;
-        }
-        .chose img{
-          width: 100%;
-          /*display: none;*/
-        }
-        .choseTerms{
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          height: 12vw;
-          border-bottom: 1px solid #f5f5f5;
-        }
-        .choseTerms span:nth-child(1){
-          text-decoration: underline;
+        .chose.active {
+            border: 1px solid #e86a7f;
+            background-image: url(../../image/chose.png);
+            background-size: 100%;
         }
 
+        .shipl span {
+            color: #ff5d78;
+            /*font-weight: 700;*/
+        }
+        /**/
+
+        .notes {
+            padding: 3vw 0;
+            position: relative;
+        }
+
+        .notes p {
+            margin-bottom: 3vw;
+        }
+
+        .notes textarea {
+            width: 100%;
+            height: 30vw;
+            border: 1px solid #f5f5f5;
+            resize: none;
+            padding-bottom: 5vw;
+            outline: none;
+        }
+
+        .notes span {
+            position: absolute;
+            right: 3vw;
+            bottom: 5vw;
+            font-size: 12px;
+            color: #999999;
+        }
+        /**/
+
+        .dress {
+            color: #999999;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .dress p:nth-child(1) {
+            color: #403e3e;
+        }
+
+        .dress p {
+            margin-bottom: 3vw;
+        }
+        /**/
+
+        .payth {
+            border-bottom: 1px solid #f5f5f5;
+            padding-bottom: 3vw;
+        }
+
+        .payth p {
+            padding: 3vw 0;
+        }
+
+        .paypal {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .paypal img {
+            max-height: 20px;
+        }
+        /**/
+
+        .coupons {
+            padding: 3vw 0;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .bomTotals div {
+            display: flex;
+            justify-content: space-between;
+            padding: 3vw 0;
+            color: #3a3939;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .bomTotals div:last-child {
+            color: black;
+            border-bottom: 0;
+        }
+
+        .diamonlist {
+            display: flex;
+            justify-content: space-between;
+            padding: 3vw 0;
+        }
+        /**/
+
+        .chose {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #f5f5f5;
+        }
+
+        .chose img {
+            width: 100%;
+            /*display: none;*/
+        }
+
+        .choseTerms {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 12vw;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .choseTerms span:nth-child(1) {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -282,145 +321,151 @@
     <div id="app" v-cloak :class="active?'appactive':''">
 
         <div class="box">
-          <div class="head">
-            <span></span>
-            <span>Place Order</span>
-            <span tapmode onclick="closeShop()">
+            <div class="head">
+                <span></span>
+                <span>Place Order</span>
+                <span tapmode onclick="closeShop()">
               <i class="iconfont">&#xe603;</i>
             </span>
-          </div>
-
-
-        <div class="lists">
-          <div class="dress" @click="godressList()">
-            <div v-if="dressId">
-              <p>Ship to</p>
-              <p>{{dressCount}}</p>
-              <p>{{dressPhone}}</p>
             </div>
-            <p v-if="dressId == ''">Delivery Address</p>
-          </div>
 
-          <!-- 非购物车 -->
-        <div v-if="type == 'buy'">
-          <div class="listsBox">
+
             <div class="lists">
-              <p class="shopName">{{business_name}}</p>
-              <div class="list">
-                <div class="shopimg">
-                  <img :src="product.thumb" alt="">
+                <div class="dress" @click="godressList()">
+                    <div v-if="dressId">
+                        <p>Ship to</p>
+                        <p>{{dressCount}}</p>
+                        <p>{{dressPhone}}</p>
+                    </div>
+                    <p v-if="dressId == ''">Delivery Address</p>
                 </div>
-                <div class="nameBox">
-                  <p class="name">{{product.title}}</p>
-                  <p class="price">
-                    <span>￡{{product.sale_price}} (Inc. ￡{{taxs}} tax)</span>
-                    <span>x{{buy_num}}</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="ship" @click="choseship()">
-            <span>Shipping</span>
-            <div>
-              <span>{{postage}}</span>
-              <i class="iconfont">&#xe62d;</i>
-            </div>
-          </div>
-          <div class="coupons" @click="addcoupon()">
-            <span>Add coupons</span>
-            <span>
+
+                <!-- 非购物车 -->
+                <div v-if="type == 'buy'">
+                    <div class="listsBox">
+                        <div class="lists">
+                            <p class="shopName">{{business_name}}</p>
+                            <div class="list">
+                                <div class="shopimg">
+                                    <img :src="product.thumb" alt="">
+                                </div>
+                                <div class="nameBox">
+                                    <p class="name">{{product.title}}</p>
+                                    <p class="price">
+                                        <span>￡{{product.sale_price}} (Inc. ￡{{taxs}} tax)</span>
+                                        <span>x{{buy_num}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ship" @click="choseship()">
+                        <span>Shipping</span>
+                        <div>
+                            <span>￡{{postage}}</span>
+                            <i class="iconfont">&#xe62d;</i>
+                        </div>
+                    </div>
+                    <div class="coupons" @click="addcoupon()">
+                        <span>Add coupons</span>
+                        <span>
               <span v-if="couponprice">-￡{{couponprice}}</span>
-              <i class="iconfont">&#xe62d;</i>
-            </span>
-          </div>
-          <div class="choseTerms" v-if="terms_status == 1">
-            <span @click="goterms()">I agree Term & Conditions</span>
-            <span class="chose" @click="agreeterms()">
+                        <i class="iconfont">&#xe62d;</i>
+                        </span>
+                    </div>
+                    <div class="choseTerms" v-if="terms_status == 1">
+                        <span @click="goterms()">I agree Term & Conditions</span>
+                        <span class="chose" @click="agreeterms()">
             <!-- <span class="chose" :class="item.ischose?'showimg':''"> -->
               <img v-if="agree_status == 1" src="../../image/chose.png" alt="">
             </span>
-          </div>
-          <div class="notes">
-            <p>Order Notes</p>
-            <div class="textAre">
-              <textarea v-model="notes" name="name"></textarea>
-              <span>{{500-notes.length}} character(s) remaining</span>
-            </div>
-          </div>
-        </div>
-        <!-- 购物车 -->
-        <div v-if="type == 'cart'">
-          <div v-for="(item,index) in store_carts">
-            <div class="listsBox">
-              <div class="lists">
-                <p class="shopName">{{item.business_name}}</p>
-                <div class="list" v-for="(ite,ind) in item.carts">
-                  <div class="shopimg">
-                    <img :src="ite.thumb" alt="">
-                  </div>
-                  <div class="nameBox">
-                    <p class="name">{{ite.title}}</p>
-                    <p class="price">
-                      <span>￡{{ite.sale_price}}</span>
-                      <span>x{{ite.buy_num}}</span>
-                    </p>
-                  </div>
+                    </div>
+                    <div class="notes">
+                        <p>Order Notes</p>
+                        <div class="textAre">
+                            <textarea v-model="notes" name="name"></textarea>
+                            <span>{{500-notes.length}} character(s) remaining</span>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-            <div class="ship" @click="choseship(item,index)">
-              <span>Shipping</span>
+                <!-- 购物车 -->
+                <div v-if="type == 'cart'">
+                    <div v-for="(item,index) in store_carts">
+                        <div class="listsBox">
+                            <div class="lists">
+                                <p class="shopName">{{item.business_name}}</p>
+                                <div class="list" v-for="(ite,ind) in item.carts">
+                                    <div class="shopimg">
+                                        <img :src="ite.thumb" alt="">
+                                    </div>
+                                    <div class="nameBox">
+                                        <p class="name">{{ite.title}}</p>
+                                        <p class="price">
+                                            <span>￡{{ite.sale_price}}</span>
+                                            <span>x{{ite.buy_num}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ship" @click="choseship(item,index)">
+                            <span>Shipping</span>
 
-              <div>
-                <span v-if="item.postage_type != 0">￡{{item.postage}}</span>
-                <i class="iconfont">&#xe62d;</i>
-              </div>
-            </div>
-            <div class="coupons" @click="addcoupon(item,index)">
-              <span>Add coupons</span>
-              <span>
+                            <div>
+                                <span v-if="item.postage_type != 0">￡{{item.postage}}</span>
+                                <i class="iconfont">&#xe62d;</i>
+                            </div>
+                        </div>
+                        <div class="coupons" @click="addcoupon(item,index)">
+                            <span>Add coupons</span>
+                            <span>
                 <span v-if="item.coupon_id != 0">
                   <!-- Chosen -->
                   -￡{{item.coupon_discount_money}}
                 </span>
-                <i class="iconfont">&#xe62d;</i>
-              </span>
-            </div>
-            <div class="notes">
-              <p>Order Notes</p>
-              <div class="textAre">
-                <textarea v-model="item.order_notes" name="name"></textarea>
-                <span>{{500-item.order_notes.length}} character(s) remaining</span>
-              </div>
-            </div>
-          </div>
-        </div>
+                            <i class="iconfont">&#xe62d;</i>
+                            </span>
+                        </div>
+                        <div class="notes">
+                            <p>Order Notes</p>
+                            <div class="textAre">
+                                <textarea v-model="item.order_notes" name="name"></textarea>
+                                <span>{{500-item.order_notes.length}} character(s) remaining</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
-        <div class="diamon" v-if="ishowDiamon">
-          <p>Diamond deduction</p>
-          <div class="diamonlist">
-            <span>
+                <div class="diamon" v-if="ishowDiamon">
+                    <p>Diamond deduction</p>
+                    <div class="diamonlist">
+                        <span>
               💎
               {{jewel_exchange_money}}
             </span>
-            <div @click="checkDiamon()">
-              <van-switch v-model="checked" active-color="#FA607D" inactive-color="#f5f5f5" size="24px" />
-            </div>
-          </div>
-        </div>
+                        <div @click="checkDiamon()">
+                            <van-switch v-model="checked" active-color="#FA607D" inactive-color="#f5f5f5" size="24px" />
+                        </div>
+                    </div>
+                </div>
 
 
-          <div class="payth">
-            <p>Pay with</p>
-            <div class="paypal">
-              <img src="../../image/Paypal.png" alt="">
-              <div class="chose active"></div>
-            </div>
-          </div>
-          <div class="bomTotals">
-            <!-- <div>
+                <div class="payth">
+                    <p>Pay with</p>
+                    <div class="paypal">
+                        <img src="../../image/Paypal.png" alt="">
+                        <div class="chose active"></div>
+                    </div>
+                </div>
+                <div class="bomTotals"  v-if="type == 'cart'">
+                    <div>
+                        <span>Shipping</span>
+                        <span>￡{{postage_total}}</span>
+                    </div>
+                </div>
+                <div class="bomTotals">
+                    <!-- <div>
               <span>Subtotal(1 item)</span>
               <span>$399.00</span>
             </div>
@@ -428,18 +473,19 @@
                 <span>Shipping</span>
                 <span>$4.00</span>
               </div> -->
-                <div>
-                  <span>Order Total</span>
-                  <span>￡{{order_total}}</span>
+                    <div>
+                        <span>Order Total</span>
+                        <span>￡{{order_total}}</span>
+                    </div>
                 </div>
-          </div>
+
+            </div>
+            <footer id="footer" @click="orderPay()">
+                <div>
+                    Confirm and Pay
+                </div>
+            </footer>
         </div>
-        <footer id="footer" @click="orderPay()">
-          <div>
-            Confirm and Pay
-          </div>
-        </footer>
-      </div>
 
     </div>
 
@@ -450,379 +496,515 @@
 <script src="../../script/vant.js"></script>
 <script src="../../script/commonurl.js"></script>
 <script type="text/javascript">
-var app;
+    var app;
     apiready = function() {
-      $api.fixTabBar($api.byId('footer'))
-      $api.fixTabBar($api.byId('footerl'))
-    $api.fixTabBar($api.byId('footerr'))
+        $api.fixTabBar($api.byId('footer'))
+        $api.fixTabBar($api.byId('footerl'))
+        $api.fixTabBar($api.byId('footerr'))
         app = new Vue({
             el: '#app',
             data() {
                 return {
-                  active:false,
-                    shipactive:0,
-                    notes:'',
-                    couponid:'',
-                    couponprice:'',
-                    postage:'',
-                    postage_type:'',//邮寄方式
-                    dressId:'',
-                    dressName:'',
-                    dressPhone:'',
-                    dressCount:'',
-                    receiver_country:'',//收货人所在国家
+                    active: false,
+                    shipactive: 0,
+                    notes: '',
+                    couponid: '',
+                    couponprice: '',
+                    postage: '',
+                    postage_type: '', //邮寄方式
+                    dressId: '',
+                    dressName: '',
+                    dressPhone: '',
+                    dressCount: '',
+                    receiver_country: '', //收货人所在国家
                     //
-                    type:'',
-                    product_id:'',//非购物车下单
-                    store_id:'',
-                    buy_num:0,//非购物车购买数量
-                    old_sale_price:0,
-                    live_id:'',
-                    video_id:'',
-                    business_name:'',
-                    product:{},
-                    order_total:0,//订单总价
-                    buyData:null,
-                    terms:'',
-                    agree_status:0,
-                    terms_status:0,
+                    type: '',
+                    product_id: '', //非购物车下单
+                    store_id: '',
+                    buy_num: 0, //非购物车购买数量
+                    old_sale_price: 0,
+                    live_id: '',
+                    video_id: '',
+                    business_name: '',
+                    product: {},
+                    order_total: 0, //订单总价
+                    buyData: null,
+                    terms: '',
+                    agree_status: 0,
+                    terms_status: 0,
 
-                                      cart_ids:'',//购物车的id
-                                      store_carts:[],//购物车详情
-                                      postage_total:0,
-                                      submitObj:null,
-                                      submitObj1:null,//选择地址后重新赋值
-                                      store_carts1:[],
+                    cart_ids: '', //购物车的id
+                    store_carts: [], //购物车详情
+                    postage_total: 0,
+                    submitObj: null,
+                    submitObj1: null, //选择地址后重新赋值
+                    store_carts1: [],
 
-                                      checked:false,
-                                      ishowDiamon:false,
-                                      jewel_exchange_money:0,
-                                      allmoney:0,
-                                      taxs:'',
+                    checked: false,
+                    ishowDiamon: false,
+                    jewel_exchange_money: 0,
+                    allmoney: 0,
+                    taxs: '',
                 }
             },
-            mounted:function () {
-                setTimeout(()=>{
-                  this.active = true
-                },500)
+            mounted: function() {
+                setTimeout(() => {
+                    this.active = true
+                }, 500)
             },
             created() {
-              //type
+                //type
 
-              this.type = api.pageParam.type
-              this.product_id = api.pageParam.product_id
-              this.buy_num = api.pageParam.buy_num
-              if (api.pageParam.type == 'buy') {
-                //非购物车
-                this.isVideo = api.pageParam.isVideo;
-                //判断是从市扶贫过来还是直播过来的
-                if(api.pageParam.isVideo==1){
-                  this.video_id = api.pageParam.video_id
-                }else{
-                  this.live_id = api.pageParam.live_id
+                this.type = api.pageParam.type
+                this.product_id = api.pageParam.product_id
+                this.buy_num = api.pageParam.buy_num
+                if (api.pageParam.type == 'buy') {
+                    //非购物车
+                    this.isVideo = api.pageParam.isVideo;
+                    //判断是从市扶贫过来还是直播过来的
+                    if (api.pageParam.isVideo == 1) {
+                        this.video_id = api.pageParam.video_id
+                    } else {
+                        this.live_id = api.pageParam.live_id
+                    }
+                    this.getBuyDetail()
+                    this.addListenShip()
+                    this.addListenCoupon()
+                } else if (api.pageParam.type == 'cart') {
+                    //购物车
+                    this.cart_ids = api.pageParam.cart_ids
+                    this.getCartDetail()
+                    this.addListenShipCart()
+                    this.addListenCouponCart()
                 }
-                this.getBuyDetail()
-                this.addListenShip()
-                this.addListenCoupon()
-              }else if (api.pageParam.type == 'cart') {
-                //购物车
-                this.cart_ids = api.pageParam.cart_ids
-                this.getCartDetail()
-                this.addListenShipCart()
-                this.addListenCouponCart()
-              }
             },
             methods: {
-              agreeterms(){
-                if (this.agree_status == 1) {
-                  this.agree_status = 0
-                }else {
-                  this.agree_status = 1
-                }
-              },
-              goterms(){
-                var _this = this;
-                api.openWin({
-                    name: 'buyterms_win',
-                    url: '../common/buyterms_win.html',
-                    pageParam: {
-                        terms: _this.terms
+                agreeterms() {
+                    if (this.agree_status == 1) {
+                        this.agree_status = 0
+                    } else {
+                        this.agree_status = 1
                     }
-                });
-
-              },
-              //计算总价
-              jsAllmoney(){
-                for (var i = 0; i < this.store_carts.length; i++) {
-                  var obj = this.store_carts[i];
-                  this.order_total = Number(obj.order_total) + Number(obj.postage) - Number(obj.coupon_discount_money)
-                }
-                if (this.submitObj.is_use_jewel == 1) {
-                  //使用钻石
-                  this.order_total = this.order_total - this.submitObj.jewel_exchange_money
-                }
-                this.submitObj.order_total = this.order_total
-              },
-
-                checkDiamon(){
-                  if (this.checked) {
-                    if (this.allmoney - this.jewel_exchange_money > 0) {
-                      this.submitObj.is_use_jewel = 1
-                      this.order_total = this.allmoney - this.jewel_exchange_money
-                    }else {
-                      this.checked = false
-                      this.submitObj.is_use_jewel = 0
-                    }
-
-                  }else {
-                  this.submitObj.is_use_jewel = 0
-                    this.order_total = this.allmoney
-                  }
                 },
-              orderPay(){
-                if (this.type == 'buy') {
-                  this.buyPayFn()
-                }else {
-                  //购物车
-                  this.buyCartPayFn()
-                }
-              },
-              buyCartPayFn(){
-                var _this = this;
-                _this.submitObj.store_carts = _this.store_carts;
-                if (_this.checked) {
-                  _this.submitObj.is_use_jewel = 1
-                }else {
-                  _this.submitObj.is_use_jewel = 0
-                }
-                var submitData = JSON.stringify(_this.submitObj);
-                var data = {
-                  order_data:submitData
-                };
-                pubshowloading()
-                requstPost('order/store',data,function success(ret){
-                  if (ret.code == 0) {
-                    goPaypalUrl(ret.data.pay_url)
-                    api.closeFrame();
-                  }
-                },function fail(err){
+                goterms() {
+                    var _this = this;
+                    api.openWin({
+                        name: 'buyterms_win',
+                        url: '../common/buyterms_win.html',
+                        pageParam: {
+                            terms: _this.terms
+                        }
+                    });
 
-                })
-                // alert(JSON.stringify(this.store_carts))
-              },
-              buyPayFn(){
-                if (this.terms_status == 1 && this.agree_status == 0) {
-                  api.alert({
-                      title: 'Please agree to terms and conditions',
-                      msg: '',
-                      buttons:['Sure']
-                  });
-                  return
-                }
-                var _this = this;
-                _this.buyData.order_notes = _this.notes;
-                if (_this.checked) {
-                  _this.buyData.is_use_jewel = 1
-                }else {
-                  _this.buyData.is_use_jewel = 0
-                }
-                var submitData = JSON.stringify(_this.buyData);
-                var data = {
-                  order_data:submitData
-                };
-                // alert(submitData)
-                pubshowloading()
-                requstPost('order/store',data,function success(ret){
-                  if (ret.code == 0) {
-                    goPaypalUrl(ret.data.pay_url)
-                    api.closeFrame();
-                  }
-                },function fail(err){
-
-                })
-                // alert(this.postage_type)
-                // alert(this.couponid)
-              },
-              //购物车获取详情
-              getCartDetail(){
-                var _this = this;
-                var data = {
-                  cart_ids:_this.cart_ids
-                };
-                requstPost('buy/cartDetail',data,function success(ret){
-                  if (ret.code == 0) {
-                    if (ret.data.can_use_jewel != 0) {
-                      _this.ishowDiamon = true
-                      _this.jewel_exchange_money = ret.data.jewel_exchange_money
+                },
+                //计算总价
+                jsAllmoney() {
+                    for (var i = 0; i < this.store_carts.length; i++) {
+                        var obj = this.store_carts[i];
+                        this.order_total = Number(obj.order_total) + Number(obj.postage) - Number(obj.coupon_discount_money)
                     }
-                    _this.submitObj = ret.data
-                    _this.submitObj1 = JSON.parse(JSON.stringify(ret.data))
-                    _this.postage_total = ret.data.postage_total
-                    _this.store_carts = ret.data.store_carts
-                    _this.store_carts1 = JSON.parse(JSON.stringify(ret.data.store_carts))
-                    _this.order_total = ret.data.order_total
-                    _this.allmoney = ret.data.order_total
-                    if (ret.data.address_id != 0) {
-                      var getserdress = ret.data.address
-                      _this.receiver_country = getserdress.country
-                      _this.dressId = getserdress.id
-                      _this.dressName = getserdress.receiver
-                      _this.dressPhone = getserdress.cellphone_number
-                      _this.dressCount = getserdress.country +' '+getserdress.province+' '+getserdress.city+' '+getserdress.address
+                    if (this.submitObj.is_use_jewel == 1) {
+                        //使用钻石
+                        this.order_total = this.order_total - this.submitObj.jewel_exchange_money
                     }
-                  }
-                },function fail(err){
+                    this.submitObj.order_total = this.order_total
+                },
 
-                })
-              },
-              //非购物车获取详情
-              getBuyDetail(){
-                var _this = this;
-                var data = {
-                  product_id:_this.product_id,
-                  buy_num:_this.buy_num,
-                  address_id:_this.dressId
-                };
-                if(this.isVideo==1){
-                  data.video_id = _this.video_id
-                }else{
-                  data.live_id = _this.live_id
-                }
-                requstPost('buy/orderDetail',data,function success(ret){
-                  // alert(JSON.stringify(ret))
-                  if (ret.code == 0) {
-                      _this.terms_status = ret.data.terms_status
-                      _this.terms = ret.data.terms_content
-                      _this.agree_status = ret.data.agree_status
-                      _this.taxs = ret.data.tax
-                    if (ret.data.can_use_jewel != 0) {
-                      _this.ishowDiamon = true
-                      _this.jewel_exchange_money = ret.data.jewel_exchange_money
+                checkDiamon() {
+                    if (this.checked) {
+                        if (this.allmoney - this.jewel_exchange_money > 0) {
+                            this.submitObj.is_use_jewel = 1
+                            this.order_total = this.allmoney - this.jewel_exchange_money
+                        } else {
+                            this.checked = false
+                            this.submitObj.is_use_jewel = 0
+                        }
+
+                    } else {
+                        this.submitObj.is_use_jewel = 0
+                        this.order_total = this.allmoney
                     }
-                      _this.buyData = ret.data;
-                    _this.business_name = ret.data.store.business_name
-                    _this.store_id = ret.data.store.id
-                    _this.product = ret.data.product
-                    if (ret.data.postage_type != 0) {
-                      _this.postage = ret.data.postage
-                      _this.postage_type = ret.data.postage_type
+                },
+                orderPay() {
+                    if (this.type == 'buy') {
+                        this.buyPayFn()
+                    } else {
+                        //购物车
+                        this.buyCartPayFn()
                     }
-                    if (ret.data.coupon_id != 0) {
-                      _this.couponid = ret.data.coupon_id
-                      _this.couponprice = ret.data.coupon_id
+                },
+                buyCartPayFn() {
+                    var _this = this;
+                    _this.submitObj.store_carts = _this.store_carts;
+                    if (_this.checked) {
+                        _this.submitObj.is_use_jewel = 1
+                    } else {
+                        _this.submitObj.is_use_jewel = 0
                     }
-                    _this.order_total = ret.data.order_total
-                    _this.allmoney = ret.data.order_total
-                    _this.old_sale_price = ret.data.old_sale_price
-                    if (ret.data.address_id != 0) {
-                      var getserdress = ret.data.address
-                      _this.receiver_country = getserdress.country
-                      _this.dressId = getserdress.id
-                      _this.dressName = getserdress.receiver
-                      _this.dressPhone = getserdress.cellphone_number
-                      _this.dressCount = getserdress.country +' '+getserdress.province+' '+getserdress.city+' '+getserdress.address
+                    var submitData = JSON.stringify(_this.submitObj);
+                    var data = {
+                        order_data: submitData
+                    };
+                    pubshowloading()
+                    requstPost('order/store', data, function success(ret) {
+                            if (ret.code == 0) {
+                                goPaypalUrl(ret.data.pay_url)
+                                api.closeFrame();
+                            }
+                        }, function fail(err) {
+
+                        })
+                        // alert(JSON.stringify(this.store_carts))
+                },
+                buyPayFn() {
+                    if (this.terms_status == 1 && this.agree_status == 0) {
+                        api.alert({
+                            title: 'Please agree to terms and conditions',
+                            msg: '',
+                            buttons: ['Sure']
+                        });
+                        return
                     }
-
-                    // alert(JSON.stringify(ret))
-                  }
-                },function fail(err){
-
-                })
-              },
-              //选择地址
-              godressList(){
-                var topHeight = api.winHeight*30/100;
-                api.openWin({
-                    name: 'dresslist_win',
-                    url: '../user/dresslist_win.html',
-                    rect: {
-                        x: 0,
-                        y: 0,
-                        w: api.winWidth,
-                        h: api.winHeight
-                    },
-                    pageParam: {
-                      type:'livebuy'
-                    },
-                    bounces:false,
-                    bgColor: 'rgba(0,0,0,0)',
-                    vScrollBarEnabled: true,
-                    hScrollBarEnabled: true,
-                    animation:{
-                      type:"push",
-                      subType:"from_bottom",
-                      duration:300
+                    var _this = this;
+                    _this.buyData.order_notes = _this.notes;
+                    if (_this.checked) {
+                        _this.buyData.is_use_jewel = 1
+                    } else {
+                        _this.buyData.is_use_jewel = 0
                     }
-                });
-              },
-              //接收地址
-              dressChange(id,name,phone,dress,country){
-                this.dressId = id
-                this.dressName = name
-                this.dressPhone = phone
-                this.dressCount = dress
-                this.receiver_country = country
-                if (api.pageParam.type == 'buy') {
-                  this.getBuyDetail()
-                }else {
-                  this.store_carts = this.store_carts1
-                  this.submitObj = this.submitObj1
-                  this.submitObj.address_id = id
+                    var submitData = JSON.stringify(_this.buyData);
+                    var data = {
+                        order_data: submitData
+                    };
+                    // alert(submitData)
+                    pubshowloading()
+                    requstPost('order/store', data, function success(ret) {
+                            if (ret.code == 0) {
+                                goPaypalUrl(ret.data.pay_url)
+                                api.closeFrame();
+                            }
+                        }, function fail(err) {
 
-                }
+                        })
+                        // alert(this.postage_type)
+                        // alert(this.couponid)
+                },
+                //购物车获取详情
+                getCartDetail() {
+                    var _this = this;
+                    var data = {
+                        cart_ids: _this.cart_ids
+                    };
+                    requstPost('buy/cartDetail', data, function success(ret) {
+                        if (ret.code == 0) {
+                            if (ret.data.can_use_jewel != 0) {
+                                _this.ishowDiamon = true
+                                _this.jewel_exchange_money = ret.data.jewel_exchange_money
+                            }
+                            _this.submitObj = ret.data
+                            _this.submitObj1 = JSON.parse(JSON.stringify(ret.data))
+                            _this.postage_total = ret.data.postage_total
+                            _this.store_carts = ret.data.store_carts
+                            _this.store_carts1 = JSON.parse(JSON.stringify(ret.data.store_carts))
+                            _this.order_total = ret.data.order_total
+                            _this.allmoney = ret.data.order_total
+                            if (ret.data.address_id != 0) {
+                                var getserdress = ret.data.address
+                                _this.receiver_country = getserdress.country
+                                _this.dressId = getserdress.id
+                                _this.dressName = getserdress.receiver
+                                _this.dressPhone = getserdress.cellphone_number
+                                _this.dressCount = getserdress.country + ' ' + getserdress.province + ' ' + getserdress.city + ' ' + getserdress.address
+                                for(var i=0;i<_this.store_carts.length;i++){
+                                  _this.getLists(_this.store_carts[i].store_id,_this.receiver_country,_this.order_total)
+                                }
+                            }else{
+                              return;
+                            }
+                        }
+                    }, function fail(err) {
 
-              },
-
-              //选择邮寄方式
-              choseship(item,index){
-                if (this.receiver_country == '') {
-                  api.alert({
-                      title: 'Please select a harvest address first',
-                      msg: '',
-                      buttons:['Sure']
-                  }, function(ret, err){
-                      if( ret ){
-                          //  alert( JSON.stringify( ret ) );
+                    })
+                },
+                //根据条件获取邮寄方式
+                getLists(store_id,receiver_country,order_total){
+                  var _this = this;
+                  var data = {
+                    store_id:store_id,
+                    receiver_country:receiver_country,
+                    buyer_consume_fee:order_total
+                  };
+                  requstPost('store/express',data,function success(ret){
+                    if (ret.code == 0) {
+                      if(_this.type == 'buy'){
+                        _this.buyData.postage  = ret.data[0].postage
+                        _this.postage  = ret.data[0].postage
+                        _this.buyData.postage_type = ret.data[0].type
+                        _this.order_total = (Number(_this.order_total)+Number(_this.buyData.postage)).toFixed(2)
                       }else{
-                          //  alert( JSON.stringify( err ) );
+                        for(var i=0;i<_this.store_carts.length;i++){
+                          if(_this.store_carts[i].store_id==store_id){
+                            _this.store_carts[i].postage = ret.data[0].postage
+                            _this.store_carts[i].postage_type = ret.data[0].type
+                            _this.postage_total += Number(_this.store_carts[i].postage)
+                          }
+                        }
+                        _this.order_total = (Number(_this.order_total)+Number(_this.postage_total)).toFixed(2)
+                        _this.store_carts = _this.store_carts;
                       }
-                  });
+                    }
+                  },function fail(err){
 
-                  return
-                }
-                var _this = this;
+                  })
+                },
+                //非购物车获取详情
+                getBuyDetail() {
+                    var _this = this;
+                    var data = {
+                        product_id: _this.product_id,
+                        buy_num: _this.buy_num,
+                        address_id: _this.dressId
+                    };
+                    if (this.isVideo == 1) {
+                        data.video_id = _this.video_id
+                    } else {
+                        data.live_id = _this.live_id
+                    }
+                    requstPost('buy/orderDetail', data, function success(ret) {
+                        // alert(JSON.stringify(ret))
+                        if (ret.code == 0) {
+                            _this.terms_status = ret.data.terms_status
+                            _this.terms = ret.data.terms_content
+                            _this.agree_status = ret.data.agree_status
+                            _this.taxs = ret.data.tax
+                            if (ret.data.can_use_jewel != 0) {
+                                _this.ishowDiamon = true
+                                _this.jewel_exchange_money = ret.data.jewel_exchange_money
+                            }
+                            _this.buyData = ret.data;
+                            _this.business_name = ret.data.store.business_name
+                            _this.store_id = ret.data.store.id
+                            _this.product = ret.data.product
+                            if (ret.data.postage_type != 0) {
+                                _this.postage = ret.data.postage
+                                _this.postage_type = ret.data.postage_type
+                            }
+                            if (ret.data.coupon_id != 0) {
+                                _this.couponid = ret.data.coupon_id
+                                _this.couponprice = ret.data.coupon_id
+                            }
+                            _this.order_total = ret.data.order_total
+                            _this.allmoney = ret.data.order_total
+                            _this.old_sale_price = ret.data.old_sale_price
+                            if (ret.data.address_id != 0) {
+                                var getserdress = ret.data.address
+                                _this.receiver_country = getserdress.country
+                                _this.dressId = getserdress.id
+                                _this.dressName = getserdress.receiver
+                                _this.dressPhone = getserdress.cellphone_number
+                                _this.dressCount = getserdress.country + ' ' + getserdress.province + ' ' + getserdress.city + ' ' + getserdress.address
+                                 _this.getLists(_this.store_id,_this.receiver_country,_this.old_sale_price)
+                            }
+
+                            // alert(JSON.stringify(ret))
+                        }
+                    }, function fail(err) {
+
+                    })
+                },
+                //选择地址
+                godressList() {
+                    var topHeight = api.winHeight * 30 / 100;
+                    api.openWin({
+                        name: 'dresslist_win',
+                        url: '../user/dresslist_win.html',
+                        rect: {
+                            x: 0,
+                            y: 0,
+                            w: api.winWidth,
+                            h: api.winHeight
+                        },
+                        pageParam: {
+                            type: 'livebuy'
+                        },
+                        bounces: false,
+                        bgColor: 'rgba(0,0,0,0)',
+                        vScrollBarEnabled: true,
+                        hScrollBarEnabled: true,
+                        animation: {
+                            type: "push",
+                            subType: "from_bottom",
+                            duration: 300
+                        }
+                    });
+                },
+                //接收地址
+                dressChange(id, name, phone, dress, country) {
+                    this.dressId = id
+                    this.dressName = name
+                    this.dressPhone = phone
+                    this.dressCount = dress
+                    this.receiver_country = country
+                    if (api.pageParam.type == 'buy') {
+                        this.getLists(_this.store_carts[0].store_id,_this.receiver_country,_this.old_sale_price)
+                        this.getBuyDetail()
+                    } else {
+                      this.getLists(_this.store_carts[0].store_id,_this.receiver_country,_this.order_total)
+                        this.store_carts = this.store_carts1
+                        this.submitObj = this.submitObj1
+                        this.submitObj.address_id = id
+
+                    }
+
+                },
+
+                //选择邮寄方式
+                choseship(item, index) {
+                    if (this.receiver_country == '') {
+                        api.alert({
+                            title: 'Please select a harvest address first',
+                            msg: '',
+                            buttons: ['Sure']
+                        }, function(ret, err) {
+                            if (ret) {
+                                //  alert( JSON.stringify( ret ) );
+                            } else {
+                                //  alert( JSON.stringify( err ) );
+                            }
+                        });
+
+                        return
+                    }
+                    var _this = this;
 
 
-                if (api.pageParam.type == 'buy') {
-                  // alert(_this.store_id)
-                  api.openFrame({
-                      name: 'liveship',
-                      url: './liveship.html',
-                      rect: {
-                          x: 0,
-                          y: 0,
-                          w: api.winWidth,
-                          h: api.winHeight
-                      },
-                      pageParam: {
-                        type:'buy',
-                          store_id: _this.store_id,//商家id
-                          receiver_country:_this.receiver_country,
-                          buyer_consume_fee:_this.old_sale_price,//消费金额
-                          storeInd:0,//当前点击的商家下标，以便于选择邮寄方式后更新信息
-                      },
-                      bounces:false,
-                      bgColor: 'rgba(0,0,0,0)',
-                      vScrollBarEnabled: true,
-                      hScrollBarEnabled: true,
-                      animation:{
-                        type:"push",
-                        subType:"from_bottom",
-                        duration:300
-                      }
-                  });
-                  return
-                }else {
+                    if (api.pageParam.type == 'buy') {
+                        // alert(_this.store_id)
+                        api.openFrame({
+                            name: 'liveship',
+                            url: './liveship.html',
+                            rect: {
+                                x: 0,
+                                y: 0,
+                                w: api.winWidth,
+                                h: api.winHeight
+                            },
+                            pageParam: {
+                                type: 'buy',
+                                store_id: _this.store_id, //商家id
+                                receiver_country: _this.receiver_country,
+                                buyer_consume_fee: _this.old_sale_price, //消费金额
+                                storeInd: 0, //当前点击的商家下标，以便于选择邮寄方式后更新信息
+                            },
+                            bounces: false,
+                            bgColor: 'rgba(0,0,0,0)',
+                            vScrollBarEnabled: true,
+                            hScrollBarEnabled: true,
+                            animation: {
+                                type: "push",
+                                subType: "from_bottom",
+                                duration: 300
+                            }
+                        });
+                        return
+                    } else {
+                        api.openFrame({
+                            name: 'liveship',
+                            url: './liveship.html',
+                            rect: {
+                                x: 0,
+                                y: 0,
+                                w: api.winWidth,
+                                h: api.winHeight
+                            },
+                            pageParam: {
+                                type: 'cart',
+                                store_id: item.store_id, //商家id
+                                receiver_country: _this.receiver_country,
+                                buyer_consume_fee: item.order_total, //消费金额
+                                storeInd: index, //当前点击的商家下标，以便于选择邮寄方式后更新信息
+                            },
+                            bounces: false,
+                            bgColor: 'rgba(0,0,0,0)',
+                            vScrollBarEnabled: true,
+                            hScrollBarEnabled: true,
+                            animation: {
+                                type: "push",
+                                subType: "from_bottom",
+                                duration: 300
+                            }
+                        });
+                        return
+                    }
+                    return
+                    var money = 0;
+                    for (var i = 0; i < item.carts.length; i++) {
+                        money += Number(item.carts[i].buy_num) * Number(item.carts[i].sale_price)
+                    }
+                    api.openWin({
+                        name: 'placeship_win',
+                        url: './placeship_win.html',
+                        pageParam: {
+                            type: 'cart',
+                            store_id: item.store_id, //商家id
+                            receiver_country: _this.receiver_country,
+                            buyer_consume_fee: money, //消费金额
+                            storeInd: index, //当前点击的商家下标，以便于选择邮寄方式后更新信息
+                        }
+                    });
+                },
+                //选择邮寄方式
+                goliveship() {
+                    if (this.receiver_country == '') {
+                        api.alert({
+                            title: 'Please select a harvest address first',
+                            msg: '',
+                            buttons: ['Sure']
+                        }, function(ret, err) {
+                            if (ret) {
+                                //  alert( JSON.stringify( ret ) );
+                            } else {
+                                //  alert( JSON.stringify( err ) );
+                            }
+                        });
+
+                        return
+                    }
+                    var _this = this;
+
+
+                    if (api.pageParam.type == 'buy') {
+                        // alert(_this.store_id)
+                        api.openFrame({
+                            name: 'liveship',
+                            url: './liveship.html',
+                            rect: {
+                                x: 0,
+                                y: 0,
+                                w: api.winWidth,
+                                h: api.winHeight
+                            },
+                            pageParam: {
+                                type: 'buy',
+                                store_id: _this.store_id, //商家id
+                                receiver_country: _this.receiver_country,
+                                buyer_consume_fee: _this.old_sale_price, //消费金额
+                                storeInd: 0, //当前点击的商家下标，以便于选择邮寄方式后更新信息
+                            },
+                            bounces: false,
+                            bgColor: 'rgba(0,0,0,0)',
+                            vScrollBarEnabled: true,
+                            hScrollBarEnabled: true,
+                            animation: {
+                                type: "push",
+                                subType: "from_bottom",
+                                duration: 300
+                            }
+                        });
+                        return
+                    } else {
+
+                    }
                     api.openFrame({
                         name: 'liveship',
                         url: './liveship.html',
@@ -833,297 +1015,201 @@ var app;
                             h: api.winHeight
                         },
                         pageParam: {
-                          type:'cart',
-                            store_id: item.store_id,//商家id
-                            receiver_country:_this.receiver_country,
-                            buyer_consume_fee:item.order_total,//消费金额
-                            storeInd:index,//当前点击的商家下标，以便于选择邮寄方式后更新信息
+                            id: 5,
+                            ind: 0
                         },
-                        bounces:false,
+                        bounces: false,
                         bgColor: 'rgba(0,0,0,0)',
                         vScrollBarEnabled: true,
                         hScrollBarEnabled: true,
-                        animation:{
-                          type:"push",
-                          subType:"from_bottom",
-                          duration:300
+                        animation: {
+                            type: "push",
+                            subType: "from_bottom",
+                            duration: 300
                         }
                     });
-                    return
+                },
+                //监听购物车
+                addListenShipCart() {
+                    var _this = this;
+                    api.addEventListener({
+                        name: 'liveshipCart'
+                    }, function(ret, err) {
+                        if (ret) {
+                            // _this.postage_type = ret.value.type
+                            // _this.postage = ret.value.shipPrice
+                            var ind = ret.value.storeInd;
+                            _this.store_carts[ind].postage_type = ret.value.type
+                            _this.store_carts[ind].postage = ret.value.shipPrice
+                            for (var i = 0; i < _this.store_carts.length; i++) {
+                                // _this.store_carts[i]
+                            }
+                            _this.jsAllmoney()
+                                // _this.order_total = Number(_this.allmoney) + Number(ret.value.shipPrice)
+                                //  alert( JSON.stringify( ret ) );
+                        } else {
+                            //  alert( JSON.stringify( err ) );
+                        }
+                    });
+                },
+                //监听邮寄方式的选择
+                addListenShip() {
+                    var _this = this;
+                    api.addEventListener({
+                        name: 'liveshipBuy'
+                    }, function(ret, err) {
+                        if (ret) {
+                            _this.postage_type = ret.value.type
+                            _this.postage = ret.value.shipPrice
+                            _this.buyData.postage_type = ret.value.type
+                            _this.buyData.postage = ret.value.shipPrice
+                            _this.order_total = Number(_this.allmoney) + Number(ret.value.shipPrice)
+                                //  alert( JSON.stringify( ret ) );
+                        } else {
+                            //  alert( JSON.stringify( err ) );
+                        }
+                    });
+
+                },
+                //接收邮寄方式
+                chengeShip(type, price, ind) {
+                    if (this.type == 'buy') {
+                        this.postage_type = id
+                        this.postage = price
+
+                        this.buyData.postage_type = id
+                        this.buyData.postage = price
+                        alert(price)
+                    } else {
+                        //购物车
+                        this.lists[ind].shipType = id
+                        alert(id)
+                        alert(price)
+                        alert(ind)
+                    }
+                },
+                addListenCouponCart() {
+                    var _this = this;
+                    api.addEventListener({
+                        name: 'liveCouponCart'
+                    }, function(ret, err) {
+                        if (ret) {
+
+                            // _this.couponid = ret.value.couponid
+                            // _this.couponprice = ret.value.cutprice
+
+                            // _this.order_total = _this.order_total - ret.value.cutprice
+                            var ind = ret.value.storeInd;
+                            _this.store_carts[ind].coupon_id = ret.value.couponid
+                            this.store_carts[ind].coupon_discount_money = ret.value.cutprice
+                            _this.order_total -= ret.value.cutprice
+                            _this.jsAllmoney()
+                                //  alert( JSON.stringify( ret ) );
+                        } else {
+                            //  alert( JSON.stringify( err ) );
+                        }
+                    });
+                },
+                addListenCoupon() {
+                    var _this = this;
+                    api.addEventListener({
+                        name: 'liveCouponBuy'
+                    }, function(ret, err) {
+                        if (ret) {
+
+                            _this.couponid = ret.value.couponid
+                            _this.couponprice = ret.value.cutprice
+
+                            _this.buyData.coupon_id = ret.value.couponid
+                            _this.order_total = _this.order_total - ret.value.cutprice
+                                //  alert( JSON.stringify( ret ) );
+                        } else {
+                            //  alert( JSON.stringify( err ) );
+                        }
+                    });
+
+                },
+                //接收选择的优惠券
+                chengeCoupon(id, price, ind) {
+                    //ind为当前选择商家的下标
+                    this.couponid = id
+                    this.couponprice = price
+                    console.log(id);
+                    console.log(price);
+                },
+                //前往选择优惠券
+                addcoupon(item, index) {
+                    var _this = this;
+                    var type = '';
+                    var storeInd = 0;
+                    var store_id = '';
+                    var productIds = '';
+                    var allprice = '';
+                    if (item) {
+                        type = 'cart'
+                        storeInd = index
+                        store_id = item.store_id;
+                        var productIdsArry = [];
+                        for (var i = 0; i < item.carts.length; i++) {
+                            productIdsArry.push(item.carts[i].product_id)
+                        }
+                        productIds = productIdsArry.join(',');
+                        allprice = item.order_total;
+                    } else {
+                        type = 'buy'
+                        store_id = _this.store_id;
+                        productIds = _this.product.id
+                        allprice = _this.old_sale_price;
+                    }
+                    api.openFrame({
+                        name: 'livecoupon',
+                        url: './livecoupon.html',
+                        rect: {
+                            x: 0,
+                            y: 0,
+                            w: api.winWidth,
+                            h: api.winHeight
+                        },
+                        pageParam: {
+                            type: type,
+                            store_id: store_id,
+                            storeInd: storeInd,
+                            product_ids: productIds,
+                            buyer_consume_fee: allprice,
+                        },
+                        bounces: false,
+                        bgColor: 'rgba(0,0,0,0)',
+                        vScrollBarEnabled: true,
+                        hScrollBarEnabled: true,
+                        animation: {
+                            type: "push",
+                            subType: "from_bottom",
+                            duration: 300
+                        }
+                    });
+                },
+                sure() {
+                    // api.execScript({
+                    //     name: 'choselive_win',
+                    //     frameName: 'choselive',
+                    //     script: 'app.addShopId("'+JSON.stringify(this.choseArry)+'");'
+                    // });
+                    // api.closeWin();
+                    api.closeFrame();
+
+
+
+                    console.log(JSON.stringify(this.choseArry));
                 }
-                return
-                var money = 0;
-                for (var i = 0; i < item.carts.length; i++) {
-                   money += Number(item.carts[i].buy_num) * Number(item.carts[i].sale_price)
-                }
-                api.openWin({
-                    name: 'placeship_win',
-                    url: './placeship_win.html',
-                    pageParam: {
-                      type:'cart',
-                        store_id: item.store_id,//商家id
-                        receiver_country:_this.receiver_country,
-                        buyer_consume_fee:money,//消费金额
-                        storeInd:index,//当前点击的商家下标，以便于选择邮寄方式后更新信息
-                    }
-                });
-              },
-              //选择邮寄方式
-              goliveship(){
-                if (this.receiver_country == '') {
-                  api.alert({
-                      title: 'Please select a harvest address first',
-                      msg: '',
-                      buttons:['Sure']
-                  }, function(ret, err){
-                      if( ret ){
-                          //  alert( JSON.stringify( ret ) );
-                      }else{
-                          //  alert( JSON.stringify( err ) );
-                      }
-                  });
-
-                  return
-                }
-                var _this = this;
-
-
-                if (api.pageParam.type == 'buy') {
-                  // alert(_this.store_id)
-                  api.openFrame({
-                      name: 'liveship',
-                      url: './liveship.html',
-                      rect: {
-                          x: 0,
-                          y: 0,
-                          w: api.winWidth,
-                          h: api.winHeight
-                      },
-                      pageParam: {
-                        type:'buy',
-                          store_id: _this.store_id,//商家id
-                          receiver_country:_this.receiver_country,
-                          buyer_consume_fee:_this.old_sale_price,//消费金额
-                          storeInd:0,//当前点击的商家下标，以便于选择邮寄方式后更新信息
-                      },
-                      bounces:false,
-                      bgColor: 'rgba(0,0,0,0)',
-                      vScrollBarEnabled: true,
-                      hScrollBarEnabled: true,
-                      animation:{
-                        type:"push",
-                        subType:"from_bottom",
-                        duration:300
-                      }
-                  });
-                  return
-                }else {
-
-                }
-                api.openFrame({
-                    name: 'liveship',
-                    url: './liveship.html',
-                    rect: {
-                        x: 0,
-                        y: 0,
-                        w: api.winWidth,
-                        h: api.winHeight
-                    },
-                    pageParam: {
-                      id:5,
-                      ind:0
-                    },
-                    bounces:false,
-                    bgColor: 'rgba(0,0,0,0)',
-                    vScrollBarEnabled: true,
-                    hScrollBarEnabled: true,
-                    animation:{
-                      type:"push",
-                      subType:"from_bottom",
-                      duration:300
-                    }
-                });
-              },
-              //监听购物车
-              addListenShipCart(){
-                var _this = this;
-                api.addEventListener({
-                    name: 'liveshipCart'
-                }, function(ret, err){
-                    if( ret ){
-                      // _this.postage_type = ret.value.type
-                      // _this.postage = ret.value.shipPrice
-                      var ind = ret.value.storeInd;
-                      _this.store_carts[ind].postage_type = ret.value.type
-                      _this.store_carts[ind].postage = ret.value.shipPrice
-                      for (var i = 0; i < _this.store_carts.length; i++) {
-                        // _this.store_carts[i]
-                      }
-                      _this.jsAllmoney()
-                      // _this.order_total = Number(_this.allmoney) + Number(ret.value.shipPrice)
-                        //  alert( JSON.stringify( ret ) );
-                    }else{
-                        //  alert( JSON.stringify( err ) );
-                    }
-                });
-              },
-              //监听邮寄方式的选择
-              addListenShip(){
-                var _this = this;
-                api.addEventListener({
-                    name: 'liveshipBuy'
-                }, function(ret, err){
-                    if( ret ){
-                      _this.postage_type = ret.value.type
-                      _this.postage = ret.value.shipPrice
-                      _this.buyData.postage_type = ret.value.type
-                      _this.buyData.postage = ret.value.shipPrice
-                      _this.order_total = Number(_this.allmoney) + Number(ret.value.shipPrice)
-                        //  alert( JSON.stringify( ret ) );
-                    }else{
-                        //  alert( JSON.stringify( err ) );
-                    }
-                });
-
-              },
-              //接收邮寄方式
-              chengeShip(type,price,ind){
-                if (this.type == 'buy') {
-                  this.postage_type = id
-                  this.postage = price
-
-                  this.buyData.postage_type = id
-                  this.buyData.postage = price
-                  alert(price)
-                }else {
-                  //购物车
-                  this.lists[ind].shipType = id
-                  alert(id)
-                  alert(price)
-                  alert(ind)
-                }
-              },
-              addListenCouponCart(){
-                var _this = this;
-                api.addEventListener({
-                    name: 'liveCouponCart'
-                }, function(ret, err){
-                    if( ret ){
-
-                      // _this.couponid = ret.value.couponid
-                      // _this.couponprice = ret.value.cutprice
-
-                      // _this.order_total = _this.order_total - ret.value.cutprice
-                      var ind = ret.value.storeInd;
-                      _this.store_carts[ind].coupon_id = ret.value.couponid
-                      this.store_carts[ind].coupon_discount_money = ret.value.cutprice
-                      _this.order_total -= ret.value.cutprice
-                      _this.jsAllmoney()
-                        //  alert( JSON.stringify( ret ) );
-                    }else{
-                        //  alert( JSON.stringify( err ) );
-                    }
-                });
-              },
-              addListenCoupon(){
-                var _this = this;
-                api.addEventListener({
-                    name: 'liveCouponBuy'
-                }, function(ret, err){
-                    if( ret ){
-
-                      _this.couponid = ret.value.couponid
-                      _this.couponprice = ret.value.cutprice
-
-                      _this.buyData.coupon_id = ret.value.couponid
-                      _this.order_total = _this.order_total - ret.value.cutprice
-                        //  alert( JSON.stringify( ret ) );
-                    }else{
-                        //  alert( JSON.stringify( err ) );
-                    }
-                });
-
-              },
-              //接收选择的优惠券
-              chengeCoupon(id,price,ind){
-                //ind为当前选择商家的下标
-                this.couponid = id
-                this.couponprice = price
-                console.log(id);
-                console.log(price);
-              },
-              //前往选择优惠券
-              addcoupon(item,index){
-                var _this = this;
-                var type = '';
-                var storeInd = 0;
-                var store_id = '';
-                var productIds = '';
-                var allprice = '';
-                if (item) {
-                  type = 'cart'
-                  storeInd = index
-                  store_id = item.store_id;
-                  var productIdsArry = [];
-                  for (var i = 0; i < item.carts.length; i++) {
-                    productIdsArry.push(item.carts[i].product_id)
-                  }
-                  productIds = productIdsArry.join(',');
-                  allprice = item.order_total;
-                }else {
-                  type = 'buy'
-                  store_id = _this.store_id;
-                  productIds = _this.product.id
-                  allprice = _this.old_sale_price;
-                }
-                api.openFrame({
-                    name: 'livecoupon',
-                    url: './livecoupon.html',
-                    rect: {
-                        x: 0,
-                        y: 0,
-                        w: api.winWidth,
-                        h: api.winHeight
-                    },
-                    pageParam: {
-                      type:type,
-                        store_id: store_id,
-                        storeInd:storeInd,
-                        product_ids:productIds,
-                        buyer_consume_fee:allprice,
-                    },
-                    bounces:false,
-                    bgColor: 'rgba(0,0,0,0)',
-                    vScrollBarEnabled: true,
-                    hScrollBarEnabled: true,
-                    animation:{
-                      type:"push",
-                      subType:"from_bottom",
-                      duration:300
-                    }
-                });
-              },
-              sure(){
-                // api.execScript({
-                //     name: 'choselive_win',
-                //     frameName: 'choselive',
-                //     script: 'app.addShopId("'+JSON.stringify(this.choseArry)+'");'
-                // });
-                // api.closeWin();
-                api.closeFrame();
-
-
-
-                console.log(JSON.stringify(this.choseArry));
-              }
 
 
             }
         })
 
     };
-    function closeShop(){
-      api.closeFrame();
+
+    function closeShop() {
+        api.closeFrame();
 
     }
 </script>
