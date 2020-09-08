@@ -56,8 +56,6 @@
         //适配iOS 7+，Android 4.4+状态栏
         $api.fixStatusBar($api.dom('header'));
         $api.fixTabBar($api.byId('footer'));
-        console.log($api.dom('header').offsetHeight);
-        console.log($api.dom('#footer').offsetHeight);
         // var title = api.pageParam.name
         // var a = document.getElementById('title');
         // $api.text(a, title);
@@ -246,11 +244,9 @@
     }
     //开始推流
     function startPushFn(e) {
-      console.log(e+'推流地址：//////////////////////////')
         alivcLivePusher.startPush({
             url: e
         }, function(ret) {
-          console.log(JSON.stringify(ret))
             if (ret.status) {
                 console.log('推流成功')
             } else {

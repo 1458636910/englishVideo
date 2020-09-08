@@ -584,16 +584,12 @@
         api.getPrefs({
             key: 'payType'
         }, function(ret, err) {
-            console.log('ret' + JSON.stringify(ret));
-            console.log('err' + JSON.stringify(err));
             if (ret.value == 'live') {
 
             } else if (ret.value == 'video') {
                 api.getPrefs({
                     key: 'payStatus'
                 }, function(ret, err) {
-                    console.log('ret' + JSON.stringify(ret));
-                    console.log('err' + JSON.stringify(err));
                     if (ret.value == 'paying') {
                         api.execScript({
                             name: 'douyin_win',

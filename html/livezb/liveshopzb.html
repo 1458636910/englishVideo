@@ -151,7 +151,6 @@
                 api.addEventListener({
                     name: 'changechooseGoods'
                 }, function(ret, err) {
-                  // console.log("重新获取商品列表")
                     _this.page = 1;
                     _this.lists = [];
                     _this.more = true;
@@ -216,7 +215,6 @@
                             threshold: 50 //设置距离底部多少距离时触发，默认值为0，数字类型
                         }
                     }, function(ret, err) {
-                        console.log('加载更多');
                         if (_this.more) {
                             _this.getLists()
                         }

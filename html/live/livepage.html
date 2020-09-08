@@ -467,7 +467,6 @@
                                   //修改商品：商品的变化需要推送； type  1
                                   //观看人数：有人进入直播间需要推送；  2
                                   //钻石的数量变化 3
-                                  console.log('推送过来的消息type='+extra.type)
                                   if(extra.type==1){
                                      _this.product_count = extra.product_count
                                      api.sendEvent({
@@ -492,12 +491,10 @@
                           var title = ret.title;
                           var content = ret.content;
                           var extra = ret.extra;
-                          console.log('1251行' + "id=" + id + ",title=" + title + ",content=" + content + ",extra=" + extra);
                           if (ret.extra) {
                             //修改商品：商品的变化需要推送； type  1
                             //观看人数：有人进入直播间需要推送；  2
                             //钻石的数量变化 3
-                            console.log('推送过来的消息type='+extra.type)
                             if(extra.type==1){
                                _this.product_count = extra.product_count
                                api.sendEvent({
@@ -832,18 +829,11 @@
                     inputField.setInputFieldListener(function(ret, err) {
                         if (ret) {
                             if (ret.chatViewH < 50) {}
-                            console.log(JSON.stringify(ret));
+                            // console.log(JSON.stringify(ret));
                         } else {
-                            console.log(JSON.stringify(err));
+                            // console.log(JSON.stringify(err));
                         }
                     });
-                    // inputField.becomeFirstResponder(function(ret, err) {
-                    //     if (ret.status) {
-                    //         console.log(JSON.stringify(ret));
-                    //     } else {
-                    //         console.log(JSON.stringify(err));
-                    //     }
-                    // });
                     inputField.open({
                         bgColor: '#ffffff',
                         lineColor: '#999999',
@@ -863,7 +853,6 @@
                     }, function(ret, err) {
                         if (ret) {
                             if (ret.msg != '') {
-                                console.log(ret.msg + 'end');
                                 // _this.sendPl(ret.msg)
                                 inputField.resignFirstResponder();
                                 api.sendEvent({
@@ -882,7 +871,6 @@
                     });
                     inputField.setInputFieldListener(function(ret, err) {
                         if (ret) {
-                            console.log(JSON.stringify(ret));
                             if (ret.chatViewH <= 50) {
                                 inputField.close();
                             }
