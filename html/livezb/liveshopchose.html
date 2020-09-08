@@ -349,9 +349,13 @@
                                     api.closeFrame();
                                     api.sendEvent({
                                         name: 'changechooseGoods',
+
                                     });
                                     api.sendEvent({
                                         name: 'changechooseGoodsNum',
+                                        extra:{
+                                          product_count:_this.choseArry.length
+                                        }
                                     });
                                 } else {
                                 }

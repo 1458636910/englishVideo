@@ -1316,12 +1316,12 @@
                 if (ret && ret.status) {
                     ajpush.bindAliasAndTags(param, function(ret) {
                         var statusCode = ret.statusCode;
-                        console.log('111' + statusCode);
+                        console.log('ajpush.bindAliasAndTags' + statusCode);
                     });
                     ajpush.getRegistrationId(function(ret) {
                         //唯一的该设备的标识
                         registrationId = ret.id;
-                        console.log('id' + registrationId);
+                        console.log('ajpush.getRegistrationId----------' + registrationId);
                         //测试手机的id190e35f7e02b2ba9fbb
                         //在此请求接口，绑定手机唯一标识
                     });
@@ -1338,12 +1338,12 @@
         } else {
             ajpush.bindAliasAndTags(param, function(ret) {
                 var statusCode = ret.statusCode;
-                console.log('111' + statusCode);
+                console.log('ajpush.bindAliasAndTags' + statusCode);
             });
             ajpush.getRegistrationId(function(ret) {
                 //唯一的该设备的标识
                 registrationId = ret.id;
-                console.log('id' + registrationId);
+                console.log('ajpush.getRegistrationId' + registrationId);
                 //测试手机的id190e35f7e02b2ba9fbb
                 //在此请求接口，绑定手机唯一标识
             });
@@ -1366,15 +1366,23 @@
             ajpush.init(function(ret) {
                 if (ret && ret.status == 1) {
                     //success
-                    console.log(JSON.stringify(ret));
                     ajpush.setListener(function(ret) {
                         //消息类型才会触发
-                        console.log(JSON.stringify(ret));
                         var id = ret.id;
                         var title = ret.title;
                         var content = ret.content;
                         var extra = ret.extra;
-                        console.log('1036行' + "id=" + id + ",title=" + title + ",content=" + content + ",extra=" + extra);
+                        //修改商品：商品的变化需要推送； type  1
+                        //观看人数：有人进入直播间需要推送；  2
+                        //钻石的数量变化 3
+                        if(extra.type==1){
+
+                        }else if(extra.type==2){
+
+                        }else if(extra.type==3){
+
+                        }
+                        console.log('1036行' + "id=" + id + ",title=" + title + ",content=" + content + ",extra=" + JSON.stringify(extra));
                         ajpushContent = ret;
 
                         if (ret.extra) {

@@ -75,7 +75,7 @@
         requstPost('live/detail', data, function success(ret) {
             if (ret.code == 0) {
                 api.hideProgress();
-                openPullLive(ret.data.live_play_url)
+                openPullLive(ret.data.live_play_url,ret.data)
             } else {
                 api.hideProgress();
                 api.alert({
@@ -150,7 +150,7 @@
 
     }
 
-    function openPullLive(live_play_url) {
+    function openPullLive(live_play_url,data) {
         alivcLivePlayer.initPlayer({
             rect: {
                 x: 0,
@@ -168,7 +168,7 @@
             api.setKeepScreenOn({
                 keepOn: true
             });
-            openpage()
+            openpage(data)
         })
         alivcLivePlayer.addEventListener(function(ret) {
             var systype = api.systemType;
@@ -219,25 +219,10 @@
     }
     //销毁直播——请求接口
     function closeLive() {
-        requstPost('live/detail', {
-            live_id: api.pageParam.live_id
-        }, function success(ret) {
-            if (ret.code == 0) {
-                alivcLivePlayer.destroy();
-                api.closeWin()
-            } else {
-                api.toast({
-                    msg: ret.message,
-                    duration: 2000,
-                    location: 'bottom'
-                });
-            }
-        }, function fail(err) {
-
-        })
+        alivcLivePlayer.destroy();
+        api.closeWin()
     }
-
-    function openpage() {
+    function openpage(data) {
 
         api.openFrame({
             name: 'livepage',
@@ -257,6 +242,7 @@
             pageParam: {
                 live_id: api.pageParam.live_id,
                 anchor_id: api.pageParam.anchor_id, //作者id
+                data:data,
             }
         });
     }
