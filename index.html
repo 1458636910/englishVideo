@@ -1312,11 +1312,13 @@
                 if (ret && ret.status) {
                     ajpush.bindAliasAndTags(param, function(ret) {
                         var statusCode = ret.statusCode;
+                          alert(statusCode)
                         console.log('ajpush.bindAliasAndTags' + statusCode);
                     });
                     ajpush.getRegistrationId(function(ret) {
                         //唯一的该设备的标识
                         registrationId = ret.id;
+                        alert(registrationId)
                         console.log('ajpush.getRegistrationId----------' + registrationId);
                         //测试手机的id190e35f7e02b2ba9fbb
                         //在此请求接口，绑定手机唯一标识
@@ -1335,11 +1337,13 @@
         } else {
             ajpush.bindAliasAndTags(param, function(ret) {
                 var statusCode = ret.statusCode;
+                alert(statusCode)
                 console.log('ajpush.bindAliasAndTags' + statusCode);
             });
             ajpush.getRegistrationId(function(ret) {
                 //唯一的该设备的标识
                 registrationId = ret.id;
+                alert('ios：'+registrationId)
                 console.log('ajpush.getRegistrationId' + registrationId);
                 //测试手机的id190e35f7e02b2ba9fbb
                 //在此请求接口，绑定手机唯一标识
@@ -1503,7 +1507,6 @@
             });
         } else {
             //ios
-
             //success
             ajpush.setListener(function(ret) {
                 //消息类型才会触发

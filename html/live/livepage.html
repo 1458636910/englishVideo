@@ -467,8 +467,10 @@
                                   //修改商品：商品的变化需要推送； type  1
                                   //观看人数：有人进入直播间需要推送；  2
                                   //钻石的数量变化 3
+                                  console.log("安卓监听推送")
                                   if(extra.type==1){
                                      _this.product_count = extra.product_count
+                                     //更新列表的数量
                                      api.sendEvent({
                                          name: 'anchorChangeNumber',
                                      });
@@ -483,30 +485,31 @@
                           }
                       });
                   } else {
+                    alert('这是Ios系统')
                       //ios
                       //success
                       ajpush.setListener(function(ret) {
+                        alert(JSON.stringify(ret))
                           //消息类型才会触发
                           var id = ret.id;
                           var title = ret.title;
                           var content = ret.content;
                           var extra = ret.extra;
-                          if (ret.extra) {
-                            //修改商品：商品的变化需要推送； type  1
-                            //观看人数：有人进入直播间需要推送；  2
-                            //钻石的数量变化 3
-                            if(extra.type==1){
-                               _this.product_count = extra.product_count
-                               api.sendEvent({
-                                   name: 'anchorChangeNumber',
-                               });
-                            }else if(extra.type==2){
-                              _this.product_count = extra.product_count;
-                              _this.look_count = extra.look_count;
-                            }else if(extra.type==3){
+                          //修改商品：商品的变化需要推送； type  1
+                          //观看人数：有人进入直播间需要推送；  2
+                          //钻石的数量变化 3
+                          alert('ios推送监听'+JSON.stringify(extra))
+                          if(extra.type==1){
+                            console.log("=================="+extra.product_count)
+                             _this.product_count = extra.product_count
+                             api.sendEvent({
+                                 name: 'anchorChangeNumber',
+                             });
+                          }else if(extra.type==2){
+                            _this.product_count = extra.product_count;
+                            _this.look_count = extra.look_count==0?1:extra.look_count;
+                          }else if(extra.type==3){
 
-                            }
-                          } else {
                           }
                       });
                   }
