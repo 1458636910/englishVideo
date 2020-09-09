@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-    <meta name="format-detection" content="telephone=no,email=no"/>
+    <meta name="format-detection" content="telephone=no,email=no" />
     <title>title</title>
     <link rel="stylesheet" type="text/css" href="../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
@@ -12,154 +12,164 @@
     <style>
         body {}
 
-          html,
-          body {
-              height: 100%;
-              background-color: #F3F3F5;
-              /*padding-bottom: 100px;*/
-              box-sizing: border-box;
-          }
+        html,
+        body {
+            height: 100%;
+            background-color: #F3F3F5;
+            /*padding-bottom: 100px;*/
+            box-sizing: border-box;
+        }
 
-          #app {
-              min-height: 100%;
-              /*padding-bottom: 100px;*/
-              /*padding-bottom: 20vw;*/
-              box-sizing: border-box;
-          }
-          .isandroid{
+        #app {
+            min-height: 100%;
+            /*padding-bottom: 100px;*/
+            /*padding-bottom: 20vw;*/
+            box-sizing: border-box;
+        }
+
+        .isandroid {
             padding-bottom: 20vw;
-          }
+        }
 
-          .luyinimg {
-              width: 50vw;
-              height: 50vw;
-              position: fixed;
-              top: 0;
-              bottom: 0;
-              left: 0;
-              right: 0;
-              margin: auto;
-              background: #757575;
-              border-radius: 5px;
-              text-align: center;
-              color: #999999;
-              display: flex;
-              flex-direction: column;
-              justify-content: space-around;
-              z-index: 900;
-          }
+        .luyinimg {
+            width: 50vw;
+            height: 50vw;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            background: #757575;
+            border-radius: 5px;
+            text-align: center;
+            color: #999999;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            z-index: 900;
+        }
 
-          .luyinimg p {
-              color: #c5c5c5;
-              position: absolute;
-              bottom: 20px;
-              left: 0;
-              right: 0;
-              width: 90%;
-              margin: auto;
-              padding: 1vw 0;
-          }
+        .luyinimg p {
+            color: #c5c5c5;
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            width: 90%;
+            margin: auto;
+            padding: 1vw 0;
+        }
 
-          .luyinimg img {
-              max-width: 80%;
-              margin: auto;
-          }
+        .luyinimg img {
+            max-width: 80%;
+            margin: auto;
+        }
 
-          .luyinimg .active {
-              background: #c11616;
-              color: white;
-              border-radius: 5px;
-          }
+        .luyinimg .active {
+            background: #c11616;
+            color: white;
+            border-radius: 5px;
+        }
 
+        [v-cloak] {
+            /*display: none;*/
+        }
 
-          [v-cloak] {
-              /*display: none;*/
-          }
-          .lists{
+        .lists {
             padding: 3vw;
-          }
-          .list{
+        }
+
+        .list {
             display: flex;
             margin-bottom: 5vw;
             align-items: flex-start;
-          }
-          .head{
+        }
+
+        .head {
             width: 15vw;
             height: 15vw;
             border-radius: 50%;
-          }
-          .leftmes .head{
+        }
+
+        .leftmes .head {
             margin-right: 3vw;
-          }
-          .head img{
+        }
+
+        .head img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: 50%;
-          }
-          .time{
+        }
+
+        .time {
             text-align: center;
             padding-bottom: 3vw;
             color: #818080;
-          }
-          .leftmes .count{
+        }
+
+        .leftmes .count {
             border-top-right-radius: 5px;
             border-bottom-right-radius: 5px;
             border-bottom-left-radius: 5px;
-          }
-          .count{
+        }
+
+        .count {
             padding: 3vw;
             box-sizing: border-box;
             max-width: 60vw;
             background: white;
-          }
-          .rightmes{
+        }
+
+        .rightmes {
             justify-content: flex-start;
             flex-direction: row-reverse;
-          }
-          .rightmes .head{
-            margin-left: 3vw;
-          }
+        }
 
-          .rightmes .count{
+        .rightmes .head {
+            margin-left: 3vw;
+        }
+
+        .rightmes .count {
             background: #FF6464;
             color: white;
             border-top-left-radius: 5px;
             border-bottom-right-radius: 5px;
             border-bottom-left-radius: 5px;
-          }
-          .list .count img{
+        }
+
+        .list .count img {
             max-width: 100%;
-          }
-          .countText img{
+        }
+
+        .countText img {
             vertical-align: middle;
-          }
-
-
+        }
     </style>
 </head>
 
 <body>
 
-      <div id="app" v-cloak :class="isandroid?'isandroid':''">
-          <!-- <div class="luyinimg" v-if="isluyinIng">
+    <div id="app" v-cloak :class="isandroid?'isandroid':''">
+        <!-- <div class="luyinimg" v-if="isluyinIng">
               <img v-if="!isactive" src="../image/yuyin.jpg" alt="">
               <img v-if="isactive" src="../image/cxyy.png" alt="" style="width:50%;">
               <p :class="isactive?'active':''">{{isactive?'松开手指，取消发送':'手指上滑，取消发送'}}</p>
           </div> -->
 
-          <div class="lists">
+        <div class="lists">
             <div class="listBox" v-for="(item,index) in lists">
-              <p class="time" v-if="item.sort_time">{{item.create_time}}</p>
-              <div class="list" :class="item.position == 'right'?'rightmes':'leftmes'">
-                <div class="head">
-                  <img :src="item.avatar_url" alt="">
+                <p class="time" v-if="item.sort_time">{{item.create_time}}</p>
+                <div class="list" :class="item.position == 'right'?'rightmes':'leftmes'">
+                    <div class="head">
+                        <img :src="item.avatar_url" alt="">
+                    </div>
+                    <div class="count">
+                        <div class="countText" v-html="emojiGl(item)"></div>
+                        <!-- <img v-if="item.type == 2" :src="item.img" alt=""> -->
+                    </div>
                 </div>
-                <div class="count">
-                  <div class="countText" v-html="emojiGl(item)"></div>
-                  <!-- <img v-if="item.type == 2" :src="item.img" alt=""> -->
-                </div>
-              </div>
             </div>
             <!--  -->
             <!-- <div class="listBox">
@@ -226,10 +236,10 @@
                     </div>
                   </div>
                 </div> -->
-          </div>
+        </div>
+       <div style="height:20px"></div>
 
-
-      </div>
+    </div>
 
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
@@ -242,317 +252,330 @@
             el: '#app',
             data() {
                 return {
-                  isactive: false, //是否处于移出语音状态
-                  yuyinActive: -1,
-                  showIpt: true,
-                  isluyinIng: false,
-                  headheight:'',
-                  isandroid:true,//判断机型
-                  page:1,
-                  more:true,
-                  allpage:1,
-                  room_id:0,//聊天房间ID，用来区分消息来源
-                  lists: [
-                      // {
-                      //     frome: 'me',
-                      //     type: '2',
-                      //     content: '',
-                      //     img: 'http://img5.imgtn.bdimg.com/it/u=3300305952,1328708913&fm=26&gp=0.jpg',
-                      //     headimg: '../image/img7.jpg'
-                      // },
-                      // {
-                      //       frome: 'me',
-                      //       type: '1',
-                      //       content: '你好[微笑][微笑][微笑]',
-                      //       img: 'http://img5.imgtn.bdimg.com/it/u=3300305952,1328708913&fm=26&gp=0.jpg',
-                      //       headimg: '../image/img7.jpg'
-                      // },
-                      // {
-                      //     frome: 'he',
-                      //     type: '2',
-                      //     content: '',
-                      //     img: 'http://img5.imgtn.bdimg.com/it/u=3300305952,1328708913&fm=26&gp=0.jpg',
-                      //     headimg: '../image/img7.jpg'
-                      // },
-                      // {
-                      //       frome: 'he',
-                      //       type: '1',
-                      //       content: '你好[微笑][微笑][微笑]',
-                      //       img: 'http://img5.imgtn.bdimg.com/it/u=3300305952,1328708913&fm=26&gp=0.jpg',
-                      //       headimg: '../image/img7.jpg'
-                      // }
-                  ],
+                    isactive: false, //是否处于移出语音状态
+                    yuyinActive: -1,
+                    showIpt: true,
+                    isluyinIng: false,
+                    headheight: '',
+                    isandroid: true, //判断机型
+                    page: 1,
+                    more: true,
+                    allpage: 1,
+                    room_id: 0, //聊天房间ID，用来区分消息来源
+                    lists: [
+                        // {
+                        //     frome: 'me',
+                        //     type: '2',
+                        //     content: '',
+                        //     img: 'http://img5.imgtn.bdimg.com/it/u=3300305952,1328708913&fm=26&gp=0.jpg',
+                        //     headimg: '../image/img7.jpg'
+                        // },
+                        // {
+                        //       frome: 'me',
+                        //       type: '1',
+                        //       content: '你好[微笑][微笑][微笑]',
+                        //       img: 'http://img5.imgtn.bdimg.com/it/u=3300305952,1328708913&fm=26&gp=0.jpg',
+                        //       headimg: '../image/img7.jpg'
+                        // },
+                        // {
+                        //     frome: 'he',
+                        //     type: '2',
+                        //     content: '',
+                        //     img: 'http://img5.imgtn.bdimg.com/it/u=3300305952,1328708913&fm=26&gp=0.jpg',
+                        //     headimg: '../image/img7.jpg'
+                        // },
+                        // {
+                        //       frome: 'he',
+                        //       type: '1',
+                        //       content: '你好[微笑][微笑][微笑]',
+                        //       img: 'http://img5.imgtn.bdimg.com/it/u=3300305952,1328708913&fm=26&gp=0.jpg',
+                        //       headimg: '../image/img7.jpg'
+                        // }
+                    ],
                 }
             },
             created() {
-                 this.getInitSocket()
-                  api.refreshHeaderLoading();
-                  setTimeout(()=>{
+                this.getInitSocket()
+                api.refreshHeaderLoading();
+                setTimeout(() => {
                     api.refreshHeaderLoadDone();
-                  },100)
+                }, 100)
                 if (api.systemType == 'android') {
-                  this.isandroid = true
-                }else {
-                  this.isandroid = false
+                    this.isandroid = true
+                } else {
+                    this.isandroid = false
+                    this.getLists()
                 }
                 this.headHeight = api.pageParam.headHeight
                 this.writeText()
                 this.refreach()
+
             },
             methods: {
-              //初始化聊天，进行监听
-              getInitSocket(){
-                var _this = this;
-                // _this.client_id = $api.getStorage('client_id');
-                // _this.bindlive_id()
-                var demo = api.require('myWebSocket');
-                demo.bindEvent( function(rett,errr) {
-                         var type = rett.type;
-                         var str =rett.data;
+                //初始化聊天，进行监听
+                getInitSocket() {
+                    var _this = this;
+                    // _this.client_id = $api.getStorage('client_id');
+                    // _this.bindlive_id()
+                    var demo = api.require('myWebSocket');
+                    demo.bindEvent(function(rett, errr) {
+                        var type = rett.type;
+                        var str = rett.data;
 
-                         switch (type){
-                             case 'opened':
-                                  //登录...
-                                  console.log("连接成功");
-                                  break;
-                             case 'receive':
-                                 var message = JSON.parse(str);
-                                 console.log("chat.html接收消息："+str);
-                                 var data = JSON.parse(str);
-                                 if (data.op == 'init') {
-                                  //  _this.client_id = data.client_id
-                                  //  _this.bindlive_id()
-                                 }
-                                 if (data.op == 'message') {
-                                  //  console.log(_this.room_id);
-                                  //  console.log(api.pageParam.chat_group_id);
-                                   if (data.room_id == _this.room_id) {
-                                     var obj = {
-                                       position: data.data.position,
-                                       message_type:0,
-                                       content: data.data.content,
-                                       avatar_url: data.data.avatar_url,
-                                       sort_time:data.data.sort_time,
-                                       create_time:data.data.create_time
-                                     };
-                                     _this.lists.push(obj)
-                                     setTimeout(()=>{
-                                       api.pageDown({
-                                           bottom: true
-                                       }, function(ret, err) {
-                                           if (!ret.scrolled) {
-                                               //已经滚动到底部
-                                               // console.log('到底了')
-                                           } else {
+                        switch (type) {
+                            case 'opened':
+                                //登录...
+                                console.log("连接成功");
+                                break;
+                            case 'receive':
+                                var message = JSON.parse(str);
+                                console.log("chat.html接收消息：" + str);
+                                var data = JSON.parse(str);
+                                if (data.op == 'init') {
+                                    //  _this.client_id = data.client_id
+                                    //  _this.bindlive_id()
+                                }
+                                if (data.op == 'message') {
+                                    //  console.log(_this.room_id);
+                                    //  console.log(api.pageParam.chat_group_id);
+                                    if (data.room_id == _this.room_id) {
+                                        var obj = {
+                                            position: data.data.position,
+                                            message_type: 0,
+                                            content: data.data.content,
+                                            avatar_url: data.data.avatar_url,
+                                            sort_time: data.data.sort_time,
+                                            create_time: data.data.create_time
+                                        };
+                                        _this.lists.push(obj)
+                                        setTimeout(() => {
+                                            api.pageDown({
+                                                bottom: true
+                                            }, function(ret, err) {
+                                                if (!ret.scrolled) {
+                                                    //已经滚动到底部
+                                                    // console.log('到底了')
+                                                } else {
 
-                                           }
-                                       });
-                                     },300)
-                                     _this.showTime()
-                                    //  _this.addLists(data.data.nickname,data.data.avatar_url,data.data.message)
-                                   }
-                                 }
-                                  break;
-                               case 'error':
-                                 //do something ...
-                                  console.log("连接发生错误");
-                                  //打印关闭的log
-                                  console.log(str)
-                                  break;
-                             case 'closed':
-                                 //do something ...
-                                  console.log("连接已断开");
-                                  //打印关闭的log
-                                  console.log(str)
-                                  break;
-                         }
-                  });
-              },
-              //获取消息详情
-              getLists(){
-                var _this = this;
-                var data = {
-                  chat_group_id:api.pageParam.chat_group_id,
-                  page:_this.page,
-                  page_size:20
-                };
-                requstPost('chat/userGroupChatDetail',data,function success(ret){
-                  if (ret.code == 0) {
-                    _this.room_id = ret.data.room_id
-                    _this.page += 1
-                    if (ret.data.list.length < 20) {
-                      _this.more = false
-                    }
-                    _this.lists = ret.data.list.reverse().concat(_this.lists)
-                    _this.showTime()
-                  }else {
-                    _this.more = false
-                  }
-                },function fail(err){
-                  _this.more = false
-                })
-              },
-              //间隔两分钟显示时间
-              showTime(){
-                for (var i = 0; i < this.lists.length; i++) {
-                    if (i == 0) {
-                        // this.lists[i].time = this.lists[i].localTime;
-                    } else {
-                        var timevalue = this.lists[i].sort_time - this.lists[i - 1].sort_time;
-                        if (timevalue > 120) {
-                          // this.lists[i].isshowTime = true
-                            // this.lists[i].mestime = this.lists[i].localTime;
-                        }else {
-                          // this.lists[i].mestime = ''
-                            // this.lists[i].isshowTime = false
-                            var timeStamp = (new Date()).getTime() / 1000;
-                            if (timeStamp - this.lists[i].sort_time > 120) {
-                              this.lists[i].create_time = ''
-                            }else {
-                              this.lists[i].create_time = ''
+                                                }
+                                            });
+                                        }, 300)
+                                        _this.showTime()
+                                            //  _this.addLists(data.data.nickname,data.data.avatar_url,data.data.message)
+                                    }
+                                }
+                                break;
+                            case 'error':
+                                //do something ...
+                                console.log("连接发生错误");
+                                //打印关闭的log
+                                console.log(str)
+                                break;
+                            case 'closed':
+                                //do something ...
+                                console.log("连接已断开");
+                                //打印关闭的log
+                                console.log(str)
+                                break;
+                        }
+                    });
+                },
+                //获取消息详情
+                getLists() {
+                    var _this = this;
+                    var data = {
+                        chat_group_id: api.pageParam.chat_group_id,
+                        page: _this.page,
+                        page_size: 20
+                    };
+                    requstPost('chat/userGroupChatDetail', data, function success(ret) {
+                      setTimeout(() => {
+                          api.pageDown({
+                              bottom: true
+                          }, function(ret, err) {
+                              if (!ret.scrolled) {
+                                  // console.log('到底了')
+                              } else {
+
+                              }
+                          });
+                      }, 300)
+                        if (ret.code == 0) {
+                            _this.room_id = ret.data.room_id
+                            _this.page += 1
+                            if (ret.data.list.length < 20) {
+                                _this.more = false
+                            }
+                            _this.lists = ret.data.list.reverse().concat(_this.lists)
+                            _this.showTime()
+                        } else {
+                            _this.more = false
+                        }
+                    }, function fail(err) {
+                        _this.more = false
+                    })
+                },
+                //间隔两分钟显示时间
+                showTime() {
+                    for (var i = 0; i < this.lists.length; i++) {
+                        if (i == 0) {
+                            // this.lists[i].time = this.lists[i].localTime;
+                        } else {
+                            var timevalue = this.lists[i].sort_time - this.lists[i - 1].sort_time;
+                            if (timevalue > 120) {
+                                // this.lists[i].isshowTime = true
+                                // this.lists[i].mestime = this.lists[i].localTime;
+                            } else {
+                                // this.lists[i].mestime = ''
+                                // this.lists[i].isshowTime = false
+                                var timeStamp = (new Date()).getTime() / 1000;
+                                if (timeStamp - this.lists[i].sort_time > 120) {
+                                    this.lists[i].create_time = ''
+                                } else {
+                                    this.lists[i].create_time = ''
+                                }
                             }
                         }
                     }
-                }
-              },
+                },
 
-              //语音播放
-              bofang(item, index) {
-                  var _this = this
-                  if (_this.yuyinActive == index) {
-                      _this.yuyinActive = -1
-                      api.stopPlay();
-                  }
-                  _this.yuyinActive = index
-                  api.startPlay({
-                      path: item.src
-                  }, function(ret, err) {
-                      if (ret) {
-                          _this.yuyinActive = -1
-                          console.log(JSON.stringify(ret));
-                      } else {
-                          _this.yuyinActive = -1
-                          // alert(JSON.stringify(err));
-                      }
-                  });
-              },
-              refreach() {
-                  var _this = this
-                  api.setRefreshHeaderInfo({
-                      visible: true,
-                      loadingImg: 'widget://image/loading_more1.png',
-                      bgColor: '#F3F3F5',
-                      textColor: '#000',
-                      textDown: 'Drop Down',
-                      textUp: 'Release',
-                      textLoading:'Loading...',
-                      showTime:false,
-                      textTime:'',
-                  }, function(ret, err) {
-                    _this.getLists()
-                      setTimeout(() => {
-                          // _this.lists = _this.lists.concat(_this.lists)
-                          api.refreshHeaderLoadDone();
-                      }, 15000)
+                //语音播放
+                bofang(item, index) {
+                    var _this = this
+                    if (_this.yuyinActive == index) {
+                        _this.yuyinActive = -1
+                        api.stopPlay();
+                    }
+                    _this.yuyinActive = index
+                    api.startPlay({
+                        path: item.src
+                    }, function(ret, err) {
+                        if (ret) {
+                            _this.yuyinActive = -1
+                            console.log(JSON.stringify(ret));
+                        } else {
+                            _this.yuyinActive = -1
+                                // alert(JSON.stringify(err));
+                        }
+                    });
+                },
+                refreach() {
+                    var _this = this
+                    api.setRefreshHeaderInfo({
+                        visible: true,
+                        loadingImg: 'widget://image/loading_more1.png',
+                        bgColor: '#F3F3F5',
+                        textColor: '#000',
+                        textDown: 'Drop Down',
+                        textUp: 'Release',
+                        textLoading: 'Loading...',
+                        showTime: false,
+                        textTime: '',
+                    }, function(ret, err) {
+                        _this.getLists()
+                        setTimeout(() => {
+                            // _this.lists = _this.lists.concat(_this.lists)
+                            api.refreshHeaderLoadDone();
+                        }, 15000)
 
-                  });
-              },
-              getImgs() {
-                  this.imgs = []
-                  for (var i = 0; i < this.lists.length; i++) {
-                      if (this.lists[i].type == 2) {
-                          this.imgs.push(this.lists[i].img)
-                      }
-                  }
-              },
-              //图片预览
-              seeBigImg(e) {
-                  // alert(e)
-                  // alert(JSON.stringify(this.imgs))
-                  // for (var i = 0; i < this.imgs.length; i++) {
-                  //     if (this.imgs[i] == e) {
-                  //         index = i
-                  //     }
-                  // }
-                  var _this = this
-                  var imgarrSee = []
-                  imgarrSee.push(e)
-                  var photoBrowser = api.require('photoBrowser');
-                  photoBrowser.open({
-                      images: imgarrSee,
-                      activeIndex: 0,
-                      placeholderImg: 'widget://res/img/apicloud.png',
-                      bgColor: '#000'
-                  }, function(ret, err) {
+                    });
+                },
+                getImgs() {
+                    this.imgs = []
+                    for (var i = 0; i < this.lists.length; i++) {
+                        if (this.lists[i].type == 2) {
+                            this.imgs.push(this.lists[i].img)
+                        }
+                    }
+                },
+                //图片预览
+                seeBigImg(e) {
+                    // alert(e)
+                    // alert(JSON.stringify(this.imgs))
+                    // for (var i = 0; i < this.imgs.length; i++) {
+                    //     if (this.imgs[i] == e) {
+                    //         index = i
+                    //     }
+                    // }
+                    var _this = this
+                    var imgarrSee = []
+                    imgarrSee.push(e)
+                    var photoBrowser = api.require('photoBrowser');
+                    photoBrowser.open({
+                        images: imgarrSee,
+                        activeIndex: 0,
+                        placeholderImg: 'widget://res/img/apicloud.png',
+                        bgColor: '#000'
+                    }, function(ret, err) {
 
-                      if (ret) {
-                          if (ret.eventType == 'click') {
-                              photoBrowser.close()
-                          } else if (ret.eventType == 'longPress') {
-                              api.actionSheet({
-                                  title: '',
-                                  cancelTitle: 'Cancel',
-                                  buttons: ['Save']
-                              }, function(ret, err) {
-                                  if (ret) {
-                                      if (ret.buttonIndex == 1) {
-                                          api.saveMediaToAlbum({
-                                              path: e
-                                          }, function(ret, err) {
-                                              if (ret) {
-                                                  if (ret.status) {
-                                                      api.toast({
-                                                          msg: 'Saved successfully',
-                                                          duration: 3000,
-                                                          location: 'bottom'
-                                                      });
-                                                  } else {
-                                                      api.toast({
-                                                          msg: 'Save failed',
-                                                          duration: 3000,
-                                                          location: 'bottom'
-                                                      });
-                                                  }
-                                                  //  alert( JSON.stringify( ret ) );
-                                              } else {
-                                                  api.toast({
-                                                      msg: 'Save failed',
-                                                      duration: 3000,
-                                                      location: 'bottom'
-                                                  });
+                        if (ret) {
+                            if (ret.eventType == 'click') {
+                                photoBrowser.close()
+                            } else if (ret.eventType == 'longPress') {
+                                api.actionSheet({
+                                    title: '',
+                                    cancelTitle: 'Cancel',
+                                    buttons: ['Save']
+                                }, function(ret, err) {
+                                    if (ret) {
+                                        if (ret.buttonIndex == 1) {
+                                            api.saveMediaToAlbum({
+                                                path: e
+                                            }, function(ret, err) {
+                                                if (ret) {
+                                                    if (ret.status) {
+                                                        api.toast({
+                                                            msg: 'Saved successfully',
+                                                            duration: 3000,
+                                                            location: 'bottom'
+                                                        });
+                                                    } else {
+                                                        api.toast({
+                                                            msg: 'Save failed',
+                                                            duration: 3000,
+                                                            location: 'bottom'
+                                                        });
+                                                    }
+                                                    //  alert( JSON.stringify( ret ) );
+                                                } else {
+                                                    api.toast({
+                                                        msg: 'Save failed',
+                                                        duration: 3000,
+                                                        location: 'bottom'
+                                                    });
 
-                                                  //  alert( JSON.stringify( err ) );
-                                              }
-                                          });
+                                                    //  alert( JSON.stringify( err ) );
+                                                }
+                                            });
 
-                                      }
+                                        }
 
-                                  }
-                              });
-                          }
+                                    }
+                                });
+                            }
 
 
-                      } else {
-                          // alert(JSON.stringify(err));
-                      }
-                  });
-              },
+                        } else {
+                            // alert(JSON.stringify(err));
+                        }
+                    });
+                },
 
-              //表情过滤
-              emojiGl(ite) {
-                var contents = ite.content
-                  // console.log('过滤的内容' + contents);
-                  // var contstr = contents.slice(0,4)
-                  // if (contstr == 'img[') {
-                  //    imgsrc = contents.slice(4,contents.length-1)
-                  //   //  alert(imgsrc)
-                  //   // alert(socketUrl+imgsrc)
-                  //   var bigimGsrc = socketUrl+imgsrc
-                  //   ite.type = 2
-                  //   ite.img = socketUrl+imgsrc
-                  //   return ''
-                  //   // return '<img src="'+socketUrl+imgsrc+'" alt="" onclick="seeBigimg('+contents+')">'
-                  // }else {
+                //表情过滤
+                emojiGl(ite) {
+                    var contents = ite.content
+                        // console.log('过滤的内容' + contents);
+                        // var contstr = contents.slice(0,4)
+                        // if (contstr == 'img[') {
+                        //    imgsrc = contents.slice(4,contents.length-1)
+                        //   //  alert(imgsrc)
+                        //   // alert(socketUrl+imgsrc)
+                        //   var bigimGsrc = socketUrl+imgsrc
+                        //   ite.type = 2
+                        //   ite.img = socketUrl+imgsrc
+                        //   return ''
+                        //   // return '<img src="'+socketUrl+imgsrc+'" alt="" onclick="seeBigimg('+contents+')">'
+                        // }else {
                     var pattern1 = /\[[\u4e00-\u9fa5]+\]/g;
                     var pattern2 = /\[[\u4e00-\u9fa5]+\]/;
                     var content = contents.match(pattern1);
@@ -574,581 +597,580 @@
                         // alert(content.length);
                     }
                     return str;
-                  // }
-              },
+                    // }
+                },
 
-              //编辑文字
-              writeText() {
-                  var _this = this
-                  var UIChatBox = api.require('UIChatBox');
-                  UIChatBox.open({
-                      placeholder: '',
-                      maxRows: 4,
-                      emotionPath: 'widget://res/emotions/basic',
-                      texts: {
-                          recordBtn: {
-                              normalTitle: 'Keep talking',
-                              activeTitle: 'End of release'
-                          },
-                          sendBtn: {
-                              title: 'Send'
-                          }
-                      },
-                      disableSendMessage: false, //是否禁言
-                      styles: {
-                          inputBar: {
-                              borderColor: '#d9d9d9',
-                              bgColor: '#f2f2f2'
-                          },
-                          inputBox: {
-                              borderColor: '#B3B3B3',
-                              bgColor: '#FFFFFF'
-                          },
-                          // emotionBtn: {
-                          //     normalImg: 'widget://res/biaoqing.png'
-                          // },//表情按钮样式；不传则不显示表情按钮
-                          // extrasBtn: {
-                          //     normalImg: 'widget://res/jiahao.png'
-                          // },//附加选项
-                          keyboardBtn: {
-                              normalImg: 'widget://res/jianpan.png'
-                          },
-                          // speechBtn: {
-                          //     normalImg: 'widget://res/yy.png',
-                          //     activeImg:'widget://res/jianpan.png',
-                          // },//隐藏语音
-                          recordBtn: {
-                              normalBg: '#e8e8e8',
-                              activeBg: '#999999',
-                              color: '#000',
-                              size: 14
-                          },
-                          recordPanelBtn: {
-                              normalImg: 'widget://res/yy.png',
-                              activeImg: 'widget://res/yy.png',
+                //编辑文字
+                writeText() {
+                    var _this = this
+                    var UIChatBox = api.require('UIChatBox');
+                    UIChatBox.open({
+                        placeholder: '',
+                        maxRows: 4,
+                        emotionPath: 'widget://res/emotions/basic',
+                        texts: {
+                            recordBtn: {
+                                normalTitle: 'Keep talking',
+                                activeTitle: 'End of release'
+                            },
+                            sendBtn: {
+                                title: 'Send'
+                            }
+                        },
+                        disableSendMessage: false, //是否禁言
+                        styles: {
+                            inputBar: {
+                                borderColor: '#d9d9d9',
+                                bgColor: '#f2f2f2'
+                            },
+                            inputBox: {
+                                borderColor: '#B3B3B3',
+                                bgColor: '#FFFFFF'
+                            },
+                            // emotionBtn: {
+                            //     normalImg: 'widget://res/biaoqing.png'
+                            // },//表情按钮样式；不传则不显示表情按钮
+                            // extrasBtn: {
+                            //     normalImg: 'widget://res/jiahao.png'
+                            // },//附加选项
+                            keyboardBtn: {
+                                normalImg: 'widget://res/jianpan.png'
+                            },
+                            // speechBtn: {
+                            //     normalImg: 'widget://res/yy.png',
+                            //     activeImg:'widget://res/jianpan.png',
+                            // },//隐藏语音
+                            recordBtn: {
+                                normalBg: '#e8e8e8',
+                                activeBg: '#999999',
+                                color: '#000',
+                                size: 14
+                            },
+                            recordPanelBtn: {
+                                normalImg: 'widget://res/yy.png',
+                                activeImg: 'widget://res/yy.png',
 
-                          },
-                          indicator: {//若不传则不显示该指示器
-                              target: 'emotionPanel',//both（表情和附加功能面板皆显示）emotionPanel（表情面板显示）extrasPanel（附加功能面板显示）
-                              color: '#c4c4c4',
-                              activeColor: '#9e9e9e'
-                          },
-                          sendBtn: {
-                              titleColor: '#000',
-                              bg: '#ffffff',
-                              activeBg: '#46a91e',
-                              titleSize: 14
-                          }
-                      },
-                      // recordType:'recordPanel',
-                      recordType: 'pressRecord',
-                      extras: {
-                          titleSize: 10,
-                          titleColor: '#a3a3a3',
-                          btns: [{
-                              title: 'image',
-                              normalImg: 'widget://res/xc.png',
-                              activeImg: 'widget://res/xc.png'
-                          }]
-                      }
-                  }, function(ret, err) {
-                      if (ret) {
-                          //发送
-                          if (ret.eventType == 'send') {
-                              if (ret.msg != '') {
-                                  var obj = {
-                                          position: 'right',
-                                          message_type:0,
-                                          content: ret.msg,
-                                          avatar_url: $api.getStorage('headimg'),
-                                          sort_time:0,
-                                          create_time:''
-                                      };
-                                      var data = {
-                                        message:ret.msg,
-                                        chat_group_id:api.pageParam.chat_group_id
-                                      };
-                                      requstPost('chat/sendGroupMessage',data,function success(ret){
+                            },
+                            indicator: { //若不传则不显示该指示器
+                                target: 'emotionPanel', //both（表情和附加功能面板皆显示）emotionPanel（表情面板显示）extrasPanel（附加功能面板显示）
+                                color: '#c4c4c4',
+                                activeColor: '#9e9e9e'
+                            },
+                            sendBtn: {
+                                titleColor: '#000',
+                                bg: '#ffffff',
+                                activeBg: '#46a91e',
+                                titleSize: 14
+                            }
+                        },
+                        // recordType:'recordPanel',
+                        recordType: 'pressRecord',
+                        extras: {
+                            titleSize: 10,
+                            titleColor: '#a3a3a3',
+                            btns: [{
+                                title: 'image',
+                                normalImg: 'widget://res/xc.png',
+                                activeImg: 'widget://res/xc.png'
+                            }]
+                        }
+                    }, function(ret, err) {
+                        if (ret) {
+                            //发送
+                            if (ret.eventType == 'send') {
+                                if (ret.msg != '') {
+                                    var obj = {
+                                        position: 'right',
+                                        message_type: 0,
+                                        content: ret.msg,
+                                        avatar_url: $api.getStorage('headimg'),
+                                        sort_time: 0,
+                                        create_time: ''
+                                    };
+                                    var data = {
+                                        message: ret.msg,
+                                        chat_group_id: api.pageParam.chat_group_id
+                                    };
+                                    requstPost('chat/sendGroupMessage', data, function success(ret) {
                                         if (ret.code == 0) {
 
-                                        }else if (ret.code == -3) {
-                                          //离线，进行重连
-                                          api.execScript({
-                                              name: 'root',
-                                              // frameName: 'frmName',
-                                              script: 'socketInitFn();'
-                                          });
+                                        } else if (ret.code == -3) {
+                                            //离线，进行重连
+                                            api.execScript({
+                                                name: 'root',
+                                                // frameName: 'frmName',
+                                                script: 'socketInitFn();'
+                                            });
 
                                         }
-                                      },function fail(err){
+                                    }, function fail(err) {
 
-                                      })
-
-
-                                      // _this.sendSocketMes(1,ret.message)
-                                      // alert($api.getStorage('headimg'))
-                                  // _this.lists.push(obj)  //添加该信息，自己的消息会重复
-                              }
-                          }
-                          //附加按钮
-                          if (ret.eventType == 'clickExtras') {
-                              if (ret.index == 0) {
-                                //选择图片
-                                  _this.choseImg()
-                              }
-                          }
-                          //重置大小
-                          if (ret.eventType == 'show') {
-                          }
-                          setTimeout(() => {
-                              api.pageDown({
-                                  bottom: true
-                              }, function(ret, err) {
-                                  if (!ret.scrolled) {
-                                      //已经滚动到底部
-                                      // console.log('到底了')
-                                  } else {
-
-                                  }
-                              });
-                          }, 300)
-                          console.log('回调' + JSON.stringify(ret));
-                      } else {
-                          // alert(JSON.stringify(err));
-                      }
-                  });
-                  //监听 recordBtn 按钮
-                  var UIChatBox = api.require('UIChatBox');
-                  UIChatBox.addEventListener({
-                      target: 'recordBtn',
-                      name: 'press'
-                  }, function(ret, err) {
-                      if (ret) {
-                          //按下语音
-                          //开始录音
-                          api.startRecord();
-                          _this.isluyinIng = true
-                          setTimeout(() => {
-                              api.pageDown({
-                                  bottom: true
-                              }, function(ret, err) {
-                                  if (!ret.scrolled) {
-                                      //已经滚动到底部
-                                      // console.log('到底了')
-                                  } else {
-
-                                  }
-                              });
-                          }, 300)
-
-                          // var recMp3 = api.require('recMp3');
-                          // recMp3.start(function(ret, err) {
-                          //     if (ret) {
-                          //         if (ret.db != undefined) {
-                          //             // 在这里做ui 处理
-                          //         } else {
-                          //             //打开成功，开始录音
-                          //             console.log('录音开始'+ret.message);
-                          //         }
-                          //
-                          //
-                          //     } else {
-                          //         alert(err.message);
-                          //     }
-                          // });
-                          console.log('按下语音' + JSON.stringify(ret));
-                      } else {
-                          // alert(JSON.stringify(err));
-                      }
-                  });
-                  UIChatBox.addEventListener({
-                      target: 'recordBtn',
-                      name: 'press_cancel'
-                  }, function(ret, err) {
-                      if (ret) {
-                          //松开语音
-                          //录音结束
-                          _this.isluyinIng = false
-                          _this.isactive = false
-                          api.stopRecord(function(ret, err) {
-                              if (ret) {
-                                  var path = ret.path;
-                                  console.log(path)
-                                  var duration = ret.duration;
-                                  if (duration < 1) {
-                                      api.toast({
-                                          msg: '时间太短,请从新录入!',
-                                          duration: 3000,
-                                          location: 'middle'
-                                      });
-                                      return
-                                  }
-                                  var obj = {
-                                      frome: 'me',
-                                      type: '3',
-                                      time: duration,
-                                      src: path,
-                                      content: '',
-                                      img: '',
-                                      headimg: $api.getStorage('headimg')
-                                  }
-                                  _this.lists.push(obj)
-                                  setTimeout(() => {
-                                      api.pageDown({
-                                          bottom: true
-                                      }, function(ret, err) {
-                                          if (!ret.scrolled) {
-                                              //已经滚动到底部
-                                              // console.log('到底了')
-                                          } else {
-
-                                          }
-                                      });
-                                  }, 300)
-                              }
-                          });
+                                    })
 
 
-                          console.log('松开语音' + JSON.stringify(ret));
-                      } else {
-                          // alert(JSON.stringify(err));
-                      }
-                  });
-
-                  UIChatBox.addEventListener({
-                      target: 'recordBtn',
-                      name: 'move_out'
-                  }, function(ret, err) {
-                      if (ret) {
-                          //移除语音
-                          _this.isactive = true
-                          console.log('移出语音' + JSON.stringify(ret));
-                      } else {
-                          // alert(JSON.stringify(err));
-                      }
-                  });
-                  UIChatBox.addEventListener({
-                      target: 'recordBtn',
-                      name: 'move_out_cancel'
-                  }, function(ret, err) {
-                      if (ret) {
-                          //移除松开语音
-                          api.hideProgress();
-                          _this.isluyinIng = false
-                          _this.isactive = false
-                          console.log('移除松开语音' + JSON.stringify(ret));
-                      } else {
-                          // alert(JSON.stringify(err));
-                      }
-                  });
-
-                  UIChatBox.addEventListener({
-                      target: 'recordBtn',
-                      name: 'move_in'
-                  }, function(ret, err) {
-                      if (ret) {
-                          //移除又移入语音
-                          _this.isactive = false
-                          console.log('重回' + JSON.stringify(ret));
-                      } else {
-                          // alert(JSON.stringify(err));
-                      }
-                  });
-
-                  //
-                  //监听 inputBar
-                  var UIChatBox = api.require('UIChatBox');
-                  UIChatBox.addEventListener({
-                      target: 'inputBar',
-                      name: 'move'
-                  }, function(ret, err) {
-                      if (ret) {
-                        console.log(api.systemType);
-                        if (api.systemType == 'ios') {
-                            console.log('变化了' + JSON.stringify(ret));
-                            api.setFrameAttr({
-                                name: 'chat',
-                                bounces: true,
-                                rect: {
-                                    x: 0,
-                                    y: _this.headHeight,
-                                    w: api.winWidth,
-                                    h: api.winHeight - _this.headHeight - ret.inputBarHeight - ret.panelHeight+1
+                                    // _this.sendSocketMes(1,ret.message)
+                                    // alert($api.getStorage('headimg'))
+                                    // _this.lists.push(obj)  //添加该信息，自己的消息会重复
                                 }
-                            })
+                            }
+                            //附加按钮
+                            if (ret.eventType == 'clickExtras') {
+                                if (ret.index == 0) {
+                                    //选择图片
+                                    _this.choseImg()
+                                }
+                            }
+                            //重置大小
+                            if (ret.eventType == 'show') {}
                             setTimeout(() => {
-                                // $('html, body').animate({
-                                //     scrollTop: ($("#bomEmpty").offset().top)*2
-                                // },300);
                                 api.pageDown({
                                     bottom: true
                                 }, function(ret, err) {
                                     if (!ret.scrolled) {
                                         //已经滚动到底部
-                                        console.log('到底了')
+                                        // console.log('到底了')
                                     } else {
 
                                     }
                                 });
                             }, 300)
-                            return
-                            console.log(typeof(ret.panelHeight));
-                            if (ret.panelHeight > 0) {
-                              // return
-                                api.setFrameAttr({
-                                    name: 'chat',
-                                    bounces: true,
-                                    rect: {
-                                        x: 0,
-                                        y: _this.headHeight,
-                                        w: api.winWidth,
-                                        h: api.winHeight - _this.headHeight - ret.inputBarHeight - ret.panelHeight+1
-                                    }
-                                })
-                            } else {
-                              // return
-                                api.setFrameAttr({
-                                    name: 'chat',
-                                    bounces: true,
-                                    rect: {
-                                        x: 0,
-                                        y: _this.headHeight,
-                                        w: api.winWidth,
-                                        h: api.winHeight - _this.headHeight - ret.inputBarHeight+1
-                                    }
-                                })
-                            }
+                            console.log('回调' + JSON.stringify(ret));
+                        } else {
+                            // alert(JSON.stringify(err));
+                        }
+                    });
+                    //监听 recordBtn 按钮
+                    var UIChatBox = api.require('UIChatBox');
+                    UIChatBox.addEventListener({
+                        target: 'recordBtn',
+                        name: 'press'
+                    }, function(ret, err) {
+                        if (ret) {
+                            //按下语音
+                            //开始录音
+                            api.startRecord();
+                            _this.isluyinIng = true
                             setTimeout(() => {
-                                // $('html, body').animate({
-                                //     scrollTop: ($("#bomEmpty").offset().top)*2
-                                // },300);
                                 api.pageDown({
                                     bottom: true
                                 }, function(ret, err) {
                                     if (!ret.scrolled) {
                                         //已经滚动到底部
-                                        console.log('到底了')
+                                        // console.log('到底了')
                                     } else {
 
                                     }
                                 });
-                            }, 500)
-                            if (ret.panelHeight == 0) {
-                              return
-                            }
-                            console.log('键盘' + JSON.stringify(ret));
-                        }else {
-                          setTimeout(() => {
-                              // $('html, body').animate({
-                              //     scrollTop: ($("#bomEmpty").offset().top)*2
-                              // },300);
-                              api.pageDown({
-                                  bottom: true
-                              }, function(ret, err) {
-                                  if (!ret.scrolled) {
-                                      //已经滚动到底部
-                                      console.log('到底了')
-                                  } else {
+                            }, 300)
 
-                                  }
-                              });
-                          }, 300)
+                            // var recMp3 = api.require('recMp3');
+                            // recMp3.start(function(ret, err) {
+                            //     if (ret) {
+                            //         if (ret.db != undefined) {
+                            //             // 在这里做ui 处理
+                            //         } else {
+                            //             //打开成功，开始录音
+                            //             console.log('录音开始'+ret.message);
+                            //         }
+                            //
+                            //
+                            //     } else {
+                            //         alert(err.message);
+                            //     }
+                            // });
+                            console.log('按下语音' + JSON.stringify(ret));
+                        } else {
+                            // alert(JSON.stringify(err));
                         }
-                      } else {
-                          // alert(JSON.stringify(err));
-                      }
-                  });
-
-                  // ////chatbox
-
-
-                  return;
-                  console.log('编辑文字');
-              },
-
-              //选择图片
-              choseImg() {
-                  var _this = this
-                  api.actionSheet({
-                      title: '',
-                      cancelTitle: 'Cancel',
-                      buttons: ['Camera', 'Album']
-                  }, function(ret, err) {
-                      if (ret) {
-                          _this.getPicqj(ret.buttonIndex);
-                      }
-                  });
-              },
-
-              getPicqj(sourceType, e) {
-                if (!confirmPer('camera')||!confirmPer('storage')) {
-                      return;
-                  }
-                // alert(sourceType)
-                  var _this = this;
-                  if (sourceType == 1) { // 拍照
-                    api.requestPermission({
-                        list:['camera'],
-                        code:1
-                    }, function(ret, err){
-
                     });
-                      //获取一张图片
-                      api.getPicture({
-                          sourceType: 'camera',
-                          encodingType: 'png',
-                          mediaValue: 'pic',
-                          destinationType: 'url',
-                          allowEdit: false,
-                          quality: 100,
-                          targetWidth: 800,
-                          targetHeight: 800,
-                          saveToPhotoAlbum: true
-                      }, function(ret, err) {
-                        // alert(JSON.stringify(ret))
-                        // alert(JSON.stringify(err))
-                          // 获取拍照数据并处理
-                          if (ret.data) {
-                              console.log(ret.data);
-                              var obj = {
-                                  frome: 'me',
-                                  type: '2',
-                                  content: '',
-                                  img: ret.data,//base64Data , data
-                                  headimg: '../image/img7.jpg'
-                              }
-                              console.log('base64:'+JSON.stringify(ret));
-                              _this.lists.push(obj)
-                              return
+                    UIChatBox.addEventListener({
+                        target: 'recordBtn',
+                        name: 'press_cancel'
+                    }, function(ret, err) {
+                        if (ret) {
+                            //松开语音
+                            //录音结束
+                            _this.isluyinIng = false
+                            _this.isactive = false
+                            api.stopRecord(function(ret, err) {
+                                if (ret) {
+                                    var path = ret.path;
+                                    console.log(path)
+                                    var duration = ret.duration;
+                                    if (duration < 1) {
+                                        api.toast({
+                                            msg: '时间太短,请从新录入!',
+                                            duration: 3000,
+                                            location: 'middle'
+                                        });
+                                        return
+                                    }
+                                    var obj = {
+                                        frome: 'me',
+                                        type: '3',
+                                        time: duration,
+                                        src: path,
+                                        content: '',
+                                        img: '',
+                                        headimg: $api.getStorage('headimg')
+                                    }
+                                    _this.lists.push(obj)
+                                    setTimeout(() => {
+                                        api.pageDown({
+                                            bottom: true
+                                        }, function(ret, err) {
+                                            if (!ret.scrolled) {
+                                                //已经滚动到底部
+                                                // console.log('到底了')
+                                            } else {
+
+                                            }
+                                        });
+                                    }, 300)
+                                }
+                            });
 
 
-                              setTimeout(() => {
-                                      api.pageDown({
-                                          bottom: true
-                                      }, function(ret, err) {
-                                          if (!ret.scrolled) {
-                                              //已经滚动到底部
-                                              // console.log('到底了')
-                                          } else {
+                            console.log('松开语音' + JSON.stringify(ret));
+                        } else {
+                            // alert(JSON.stringify(err));
+                        }
+                    });
 
-                                          }
-                                      });
-                                  }, 300)
-                                  // _this.imgs.push(ret.data)
-                              // return
-                              // _this.imgLists.push(ret.data)
-                              api.ajax({
-                                  url:'http://chat.tao.li4.cn:9501/upload?type=im_file&path=file',
-                                  method: 'post',
-                                  data: {
-                                      values: {
-                                          // session_key: $api.getStorage('session_key'),
-                                      },
-                                      files: {
-                                          file: ret.data
-                                      }
-                                  }
-                              }, function(ret, err) {
-                                  if (ret) {
+                    UIChatBox.addEventListener({
+                        target: 'recordBtn',
+                        name: 'move_out'
+                    }, function(ret, err) {
+                        if (ret) {
+                            //移除语音
+                            _this.isactive = true
+                            console.log('移出语音' + JSON.stringify(ret));
+                        } else {
+                            // alert(JSON.stringify(err));
+                        }
+                    });
+                    UIChatBox.addEventListener({
+                        target: 'recordBtn',
+                        name: 'move_out_cancel'
+                    }, function(ret, err) {
+                        if (ret) {
+                            //移除松开语音
+                            api.hideProgress();
+                            _this.isluyinIng = false
+                            _this.isactive = false
+                            console.log('移除松开语音' + JSON.stringify(ret));
+                        } else {
+                            // alert(JSON.stringify(err));
+                        }
+                    });
 
-                                      if (ret.code == 0) {
-                                        // _this.lists.push(obj)
-                                        _this.sendSocketMes(2,ret.data.src)
+                    UIChatBox.addEventListener({
+                        target: 'recordBtn',
+                        name: 'move_in'
+                    }, function(ret, err) {
+                        if (ret) {
+                            //移除又移入语音
+                            _this.isactive = false
+                            console.log('重回' + JSON.stringify(ret));
+                        } else {
+                            // alert(JSON.stringify(err));
+                        }
+                    });
 
-                                        // _this.getImgs()
-                                      }
-                                      // alert( JSON.stringify( ret ) );
-                                  } else {
-                                      api.toast({
-                                          msg: err.msg,
-                                          duration: 3000,
-                                          location: 'bottom'
-                                      });
+                    //
+                    //监听 inputBar
+                    var UIChatBox = api.require('UIChatBox');
+                    UIChatBox.addEventListener({
+                        target: 'inputBar',
+                        name: 'move'
+                    }, function(ret, err) {
+                        if (ret) {
+                            console.log(api.systemType);
+                            if (api.systemType == 'ios') {
+                                console.log('变化了' + JSON.stringify(ret));
+                                api.setFrameAttr({
+                                    name: 'chat',
+                                    bounces: true,
+                                    rect: {
+                                        x: 0,
+                                        y: _this.headHeight,
+                                        w: api.winWidth,
+                                        h: api.winHeight - _this.headHeight - ret.inputBarHeight - ret.panelHeight + 1
+                                    }
+                                })
+                                setTimeout(() => {
+                                    // $('html, body').animate({
+                                    //     scrollTop: ($("#bomEmpty").offset().top)*2
+                                    // },300);
+                                    api.pageDown({
+                                        bottom: true
+                                    }, function(ret, err) {
+                                        if (!ret.scrolled) {
+                                            //已经滚动到底部
+                                            console.log('到底了')
+                                        } else {
 
-                                      // alert( JSON.stringify( err ) );
-                                  }
-                              });
-                              // _this.uploadImg(ret.data)
-                          }
-                      });
-                  } else if (sourceType == 2) { // 从相册中选择
-                      var systemType = api.systemType
+                                        }
+                                    });
+                                }, 300)
+                                return
+                                console.log(typeof(ret.panelHeight));
+                                if (ret.panelHeight > 0) {
+                                    // return
+                                    api.setFrameAttr({
+                                        name: 'chat',
+                                        bounces: true,
+                                        rect: {
+                                            x: 0,
+                                            y: _this.headHeight,
+                                            w: api.winWidth,
+                                            h: api.winHeight - _this.headHeight - ret.inputBarHeight - ret.panelHeight + 1
+                                        }
+                                    })
+                                } else {
+                                    // return
+                                    api.setFrameAttr({
+                                        name: 'chat',
+                                        bounces: true,
+                                        rect: {
+                                            x: 0,
+                                            y: _this.headHeight,
+                                            w: api.winWidth,
+                                            h: api.winHeight - _this.headHeight - ret.inputBarHeight + 1
+                                        }
+                                    })
+                                }
+                                setTimeout(() => {
+                                    // $('html, body').animate({
+                                    //     scrollTop: ($("#bomEmpty").offset().top)*2
+                                    // },300);
+                                    api.pageDown({
+                                        bottom: true
+                                    }, function(ret, err) {
+                                        if (!ret.scrolled) {
+                                            //已经滚动到底部
+                                            console.log('到底了')
+                                        } else {
 
-                      // if (systemType =='ios') {
-                      api.getPicture({
-                          sourceType: 'library',
-                          encodingType: 'jpg',
-                          mediaValue: 'pic',
-                          destinationType: 'url',
-                          quality: 100,
-                          targetWidth: 800,
-                          targetHeight: 800
-                      }, function(ret, err) {
-                          if (ret.data) {
+                                        }
+                                    });
+                                }, 500)
+                                if (ret.panelHeight == 0) {
+                                    return
+                                }
+                                console.log('键盘' + JSON.stringify(ret));
+                            } else {
+                                setTimeout(() => {
+                                    // $('html, body').animate({
+                                    //     scrollTop: ($("#bomEmpty").offset().top)*2
+                                    // },300);
+                                    api.pageDown({
+                                        bottom: true
+                                    }, function(ret, err) {
+                                        if (!ret.scrolled) {
+                                            //已经滚动到底部
+                                            console.log('到底了')
+                                        } else {
+
+                                        }
+                                    });
+                                }, 300)
+                            }
+                        } else {
+                            // alert(JSON.stringify(err));
+                        }
+                    });
+
+                    // ////chatbox
+
+
+                    return;
+                    console.log('编辑文字');
+                },
+
+                //选择图片
+                choseImg() {
+                    var _this = this
+                    api.actionSheet({
+                        title: '',
+                        cancelTitle: 'Cancel',
+                        buttons: ['Camera', 'Album']
+                    }, function(ret, err) {
+                        if (ret) {
+                            _this.getPicqj(ret.buttonIndex);
+                        }
+                    });
+                },
+
+                getPicqj(sourceType, e) {
+                    if (!confirmPer('camera') || !confirmPer('storage')) {
+                        return;
+                    }
+                    // alert(sourceType)
+                    var _this = this;
+                    if (sourceType == 1) { // 拍照
+                        api.requestPermission({
+                            list: ['camera'],
+                            code: 1
+                        }, function(ret, err) {
+
+                        });
+                        //获取一张图片
+                        api.getPicture({
+                            sourceType: 'camera',
+                            encodingType: 'png',
+                            mediaValue: 'pic',
+                            destinationType: 'url',
+                            allowEdit: false,
+                            quality: 100,
+                            targetWidth: 800,
+                            targetHeight: 800,
+                            saveToPhotoAlbum: true
+                        }, function(ret, err) {
                             // alert(JSON.stringify(ret))
+                            // alert(JSON.stringify(err))
+                            // 获取拍照数据并处理
+                            if (ret.data) {
+                                console.log(ret.data);
+                                var obj = {
+                                    frome: 'me',
+                                    type: '2',
+                                    content: '',
+                                    img: ret.data, //base64Data , data
+                                    headimg: '../image/img7.jpg'
+                                }
+                                console.log('base64:' + JSON.stringify(ret));
+                                _this.lists.push(obj)
+                                return
 
-                              var obj = {
-                                  frome: 'me',
-                                  type: '2',
-                                  content: '',
-                                  img: ret.data,//base64Data , data
-                                  headimg: '../image/img7.jpg'
-                              }
-                              console.log('base64:'+JSON.stringify(ret));
-                              _this.lists.push(obj)
-                              return
-                              // _this.getImgs()
-                              setTimeout(() => {
-                                      api.pageDown({
-                                          bottom: true
-                                      }, function(ret, err) {
-                                          if (!ret.scrolled) {
-                                              //已经滚动到底部
-                                              // console.log('到底了')
-                                          } else {
 
-                                          }
-                                      });
-                                  }, 300)
-                                  // _this.imgs.push(ret.data)
-                              // return
-                              // _this.uploadImg(ret.data)
-                              // _this.imgList.push(ret.data)
-                              api.ajax({
-                                  url:'http://chat.tao.li4.cn:9501/upload?type=im_file&path=file',
-                                  method: 'post',
-                                  data: {
-                                      values: {
-                                          // session_key: $api.getStorage('session_key'),
-                                      },
-                                      files: {
-                                          file: ret.data
-                                      }
-                                  }
-                              }, function(ret, err) {
-                                  if (ret) {
-                                      if (ret.code == 0) {
-                                        _this.sendSocketMes(2,ret.data.src)
-                                      }
-                                      // alert( JSON.stringify( ret ) );
-                                  } else {
-                                      api.toast({
-                                          msg: err.msg,
-                                          duration: 3000,
-                                          location: 'bottom'
-                                      });
+                                setTimeout(() => {
+                                        api.pageDown({
+                                            bottom: true
+                                        }, function(ret, err) {
+                                            if (!ret.scrolled) {
+                                                //已经滚动到底部
+                                                // console.log('到底了')
+                                            } else {
 
-                                      alert( JSON.stringify( err ) );
-                                  }
-                              });
-                              // alert(JSON.stringify(ret))
-                          } else {
-                              // alert(JSON.stringify(err));
-                          }
-                      });
-                      // }
-                  }
-              },
+                                            }
+                                        });
+                                    }, 300)
+                                    // _this.imgs.push(ret.data)
+                                    // return
+                                    // _this.imgLists.push(ret.data)
+                                api.ajax({
+                                    url: 'http://chat.tao.li4.cn:9501/upload?type=im_file&path=file',
+                                    method: 'post',
+                                    data: {
+                                        values: {
+                                            // session_key: $api.getStorage('session_key'),
+                                        },
+                                        files: {
+                                            file: ret.data
+                                        }
+                                    }
+                                }, function(ret, err) {
+                                    if (ret) {
+
+                                        if (ret.code == 0) {
+                                            // _this.lists.push(obj)
+                                            _this.sendSocketMes(2, ret.data.src)
+
+                                            // _this.getImgs()
+                                        }
+                                        // alert( JSON.stringify( ret ) );
+                                    } else {
+                                        api.toast({
+                                            msg: err.msg,
+                                            duration: 3000,
+                                            location: 'bottom'
+                                        });
+
+                                        // alert( JSON.stringify( err ) );
+                                    }
+                                });
+                                // _this.uploadImg(ret.data)
+                            }
+                        });
+                    } else if (sourceType == 2) { // 从相册中选择
+                        var systemType = api.systemType
+
+                        // if (systemType =='ios') {
+                        api.getPicture({
+                            sourceType: 'library',
+                            encodingType: 'jpg',
+                            mediaValue: 'pic',
+                            destinationType: 'url',
+                            quality: 100,
+                            targetWidth: 800,
+                            targetHeight: 800
+                        }, function(ret, err) {
+                            if (ret.data) {
+                                // alert(JSON.stringify(ret))
+
+                                var obj = {
+                                    frome: 'me',
+                                    type: '2',
+                                    content: '',
+                                    img: ret.data, //base64Data , data
+                                    headimg: '../image/img7.jpg'
+                                }
+                                console.log('base64:' + JSON.stringify(ret));
+                                _this.lists.push(obj)
+                                return
+                                // _this.getImgs()
+                                setTimeout(() => {
+                                        api.pageDown({
+                                            bottom: true
+                                        }, function(ret, err) {
+                                            if (!ret.scrolled) {
+                                                //已经滚动到底部
+                                                // console.log('到底了')
+                                            } else {
+
+                                            }
+                                        });
+                                    }, 300)
+                                    // _this.imgs.push(ret.data)
+                                    // return
+                                    // _this.uploadImg(ret.data)
+                                    // _this.imgList.push(ret.data)
+                                api.ajax({
+                                    url: 'http://chat.tao.li4.cn:9501/upload?type=im_file&path=file',
+                                    method: 'post',
+                                    data: {
+                                        values: {
+                                            // session_key: $api.getStorage('session_key'),
+                                        },
+                                        files: {
+                                            file: ret.data
+                                        }
+                                    }
+                                }, function(ret, err) {
+                                    if (ret) {
+                                        if (ret.code == 0) {
+                                            _this.sendSocketMes(2, ret.data.src)
+                                        }
+                                        // alert( JSON.stringify( ret ) );
+                                    } else {
+                                        api.toast({
+                                            msg: err.msg,
+                                            duration: 3000,
+                                            location: 'bottom'
+                                        });
+
+                                        alert(JSON.stringify(err));
+                                    }
+                                });
+                                // alert(JSON.stringify(ret))
+                            } else {
+                                // alert(JSON.stringify(err));
+                            }
+                        });
+                        // }
+                    }
+                },
 
             }
         })

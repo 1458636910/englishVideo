@@ -671,6 +671,7 @@
                 }
             },
             created() {
+              console.log()
                 api.refreshHeaderLoading();
                 setTimeout(() => {
                     api.refreshHeaderLoadDone();
@@ -700,13 +701,6 @@
                               livelist.splice(i,1)
                             }
                           }
-                            // //所有的
-                            // _this.alllivelist = []
-                            // _this.alllivepage = 1
-                            // _this.alllivemore = true
-                            // _this.livelist = []
-                            // // console.log("1111111111111"+_this.alllivelist)
-                            // _this.getallLiveLists()
                         } else if (_this.liveactive == 2) {
                           var followlivelist  =_this.followlivelist;
                           for(var i=0;i<followlivelist.length;i++){
@@ -714,12 +708,6 @@
                               followlivelist.splice(i,1)
                             }
                           }
-                            // //关注的
-                            // _this.livelist = []
-                            // _this.followlivelist = []
-                            // _this.followlivepage = 1
-                            // _this.followmore = true
-                            // _this.getallLiveLists1()
                         }
                     }else{
 

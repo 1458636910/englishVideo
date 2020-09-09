@@ -485,11 +485,9 @@
                           }
                       });
                   } else {
-                    alert('这是Ios系统')
                       //ios
                       //success
                       ajpush.setListener(function(ret) {
-                        alert(JSON.stringify(ret))
                           //消息类型才会触发
                           var id = ret.id;
                           var title = ret.title;
@@ -498,9 +496,8 @@
                           //修改商品：商品的变化需要推送； type  1
                           //观看人数：有人进入直播间需要推送；  2
                           //钻石的数量变化 3
-                          alert('ios推送监听'+JSON.stringify(extra))
                           if(extra.type==1){
-                            console.log("=================="+extra.product_count)
+                            // console.log("=================="+extra.product_count)
                              _this.product_count = extra.product_count
                              api.sendEvent({
                                  name: 'anchorChangeNumber',
