@@ -235,6 +235,10 @@
                         buttons: ['Sure', 'Cancel']
                     }, function(ret, err){
                         if( ret ){
+                          var index = ret.buttonIndex;
+                          if(index==2){
+                            return;
+                          }
                           requstPost('video/pushReport', parameter, function success(ret) {
                               if (ret.code == 0) {
                                 api.alert({

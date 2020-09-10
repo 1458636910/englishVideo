@@ -28,7 +28,7 @@
           /*display: none;*/
         }
         .lists{
-          padding-top: 3vw;
+          padding-top: 0;
           /*flex: 1;*/
           /*overflow: scroll;*/
           padding-bottom: 20vw;
@@ -117,7 +117,7 @@
           left: 0;
           right: 0;
           width: 100%;
-          height: 24vw;
+          height: 12vw;
           text-align: center;
           line-height: 12vw;
             /*background: #FA607D;*/
@@ -151,7 +151,7 @@
           bottom: 0;
           left: 0;
           right: 0;
-          height: 24vw;
+          height: 12vw;
           line-height: 12vw;
           color: white;
           /*background: #FA607D;*/
@@ -196,7 +196,7 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0 3vw;
+          padding: 0 0 0 3vw;
           font-size: 14px;
           background: white;
         }
@@ -210,8 +210,8 @@
           font-size: 16px;
         }
         #footer .footerr{
-          background: #FA607D;
-          color: white;
+          background: #FA607D!important;
+          color: white!important;
           padding: 0 3vw;
         }
         .chosed{
@@ -293,6 +293,11 @@
            box-sizing: border-box;
            padding-top: 10vh;
          }
+         .whiteSpace{
+           white-space: nowrap;
+           overflow: hidden;
+           text-overflow: ellipsis;
+         }
     </style>
 </head>
 
@@ -309,6 +314,14 @@
             <span tapmode onclick="closeShop()">
               <i class="iconfont">&#xe603;</i>
             </span>
+          </div>
+          <div class="chooseFixed">
+            <div  class="shopNameBoxr">
+              <span @click.stop="agreeTerm()" class="chose" style="margin-right:5px;">
+                <img v-if="termChoose"  src="../image/chose.png" alt="">
+              </span>
+              <span class="iagree">I agree all terms & conditions</span>
+            </div>
           </div>
         <div class="lists">
           <div class="list" v-for="(item,index) in lists" :key='index'>
@@ -358,14 +371,6 @@
         </div>
 
         <footer id="footer">
-          <div class="chooseFixed">
-            <div  class="shopNameBoxr">
-              <span @click.stop="agreeTerm()" class="chose" style="margin-right:5px;">
-                <img v-if="termChoose"  src="../image/chose.png" alt="">
-              </span>
-              <span class="iagree">I agree all terms & conditions</span>
-            </div>
-          </div>
           <div class="footerBox">
             <div class="footerl" id="footerl">
               <div style="display:flex;align-items:center;" @click.stop="choseAllShop()">
@@ -373,14 +378,14 @@
                 <!-- <span class="chose" :class="item.ischose?'showimg':''"> -->
                   <!-- <img v-if="allChose" src="../image/chose.png" alt=""> -->
                 </div>
-                <span>Select All</span>
+                <span class="whiteSpace">Select All</span>
               </div>
-              <div>
+              <div  class="whiteSpace">
                 Total: <i>￡{{allPrice}}</i>
               </div>
-            </div>
-            <div class="footerr" id="footerr" @click.stop="buyNow()">
-              Check Out
+              <div class="footerr" id="footerr" @click.stop="buyNow()">
+                Check Out
+              </div>
             </div>
           </div>
         </footer>

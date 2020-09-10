@@ -304,6 +304,7 @@
 <script type="text/javascript" src="script/vue.min.js"></script>
 <script type="text/javascript" src="script/vant.js"></script>
 <script type="text/javascript" src="script/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/emn178/js-sha256/build/sha256.min.js"></script>
 <script type="text/javascript">
     var NVTabBar;
     var ajpush;
@@ -970,7 +971,46 @@
                 }, function(ret, err) {
                     if (ret) {
                         if (ret.status == 0) {
-                            setDress(ret.result.addressComponent.city)
+                          var appKey = '7a9a2d9ba3c4923a';
+                          var key = 'uC1Y9pA1idHXl5tyjhltyQ1YIjdgNitM'; //注意：暴露appSecret，有被盗用造成损失的风险
+                          var salt = new Date().getTime();
+                          var curtime = Math.round(new Date().getTime() / 1000);
+
+                          var query = ret.result.addressComponent.city;
+                          // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
+                          var from = 'auto';
+                          var to = 'zh-CHS';
+                          var str1 = appKey + query + salt + curtime + key;
+                          var sign = sha256(str1);
+                          api.ajax({
+                              url: 'http://openapi.youdao.com/api',
+                              method: 'post',
+                              dataType: 'jsonp',
+                              data: {
+                                  values: {
+                                    q: query,
+                                    appKey: appKey,
+                                    salt: salt,
+                                    from: from,
+                                    to: to,
+                                    curtime: curtime,
+                                    sign: sign,
+                                    signType: "v3"
+                                  },
+                              }
+                          },function(rett, err){
+                              if (rett) {
+                                  if(api.systemType=='ios'){
+                                      setDress(rett.translation)
+                                  }else{
+                                      setDress(JSON.parse(rett).translation)
+                                  }
+                              } else {
+                                  console.log( JSON.stringify( err ) );
+                              }
+                          });
+
+                            // setDress(ret.result.addressComponent.city)
                                 // setDress(ret.regeocode.addressComponent.city)
                         } else {
                             setDress('error')

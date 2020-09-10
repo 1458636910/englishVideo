@@ -260,7 +260,13 @@ function requstPost(apiUrl, data, success, fail) {
                 tips = 'Network request timed out, please try again later.'
             } else if (err.msg == '连接错误，请检查网络或者请求配置是否正确') {
                 tips = 'connection error'
-            } else {
+            }  else if (err.msg.search('网络无法连接')!=-1) {   //说明匹配到无法连接网络
+                tips = 'connection error'
+            } else if (err.msg.search('请检查网络')!=-1) {   //说明匹配到无法连接网络
+                tips = 'connection error'
+            }else if (err.msg.search('网络')!=-1) {   //说明匹配到无法连接网络
+                tips = 'connection error'
+            }else {
                 tips = err.msg
             }
             //err
@@ -337,7 +343,13 @@ function requstGet(apiUrl, data, success, fail) {
                 tips = 'Network request timed out, please try again later.'
             } else if (err.msg == '连接错误，请检查网络或者请求配置是否正确') {
                 tips = 'connection error'
-            } else {
+            }  else if (err.msg.search('网络无法连接')!=-1) {   //说明匹配到无法连接网络
+                tips = 'connection error'
+            } else if (err.msg.search('请检查网络')!=-1) {   //说明匹配到无法连接网络
+                tips = 'connection error'
+            }else if (err.msg.search('网络')!=-1) {   //说明匹配到无法连接网络
+                tips = 'connection error'
+            }else {
                 tips = err.msg
             }
             api.toast({
@@ -416,7 +428,13 @@ function requstUpload(data, success, fail) {
                 tips = 'Network request timed out, please try again later.'
             } else if (err.msg == '连接错误，请检查网络或者请求配置是否正确') {
                 tips = 'connection error'
-            } else {
+            }  else if (err.msg.search('网络无法连接')!=-1) {   //说明匹配到无法连接网络
+                tips = 'connection error'
+            } else if (err.msg.search('请检查网络')!=-1) {   //说明匹配到无法连接网络
+                tips = 'connection error'
+            }else if (err.msg.search('网络')!=-1) {   //说明匹配到无法连接网络
+                tips = 'connection error'
+            }else {
                 tips = err.msg
             }
             //err

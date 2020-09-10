@@ -438,6 +438,9 @@
                 setTimeout(() => {
                     api.refreshHeaderLoadDone();
                 }, 300)
+                if(api.systemType=='ios'){
+                  this.getLists()
+                }
                 this.refresh()
                     //图片缓存
                     // catchImg(this.list)
