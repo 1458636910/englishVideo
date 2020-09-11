@@ -513,7 +513,7 @@
                         api.refreshHeaderLoadDone();
                         // alert(JSON.stringify(ret))
                         if (ret.code == 0) {
-                            _this.page += 1
+                            _this.compage += 1
                             _this.comonlist = _this.comonlist.concat(ret.data.list)
                             var listData = ret.data.list;
                             for (i in listData) {
@@ -559,7 +559,7 @@
                         api.refreshHeaderLoadDone();
                         // alert(JSON.stringify(ret))
                         if (ret.code == 0) {
-                            _this.page += 1
+                            _this.folpage += 1
                             _this.followlist = _this.followlist.concat(ret.data.list)
                             var listData = ret.data.list;
                             for (i in listData) {
