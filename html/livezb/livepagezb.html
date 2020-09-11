@@ -398,7 +398,7 @@
             methods: {
               ajPushListen() {
                   var _this = this;
-                  var ajpush = api.require('ajpushGooglePlay');
+                  var ajpush = api.require('ajpush');
                   if (api.systemType == 'android') {
                       ajpush.init(function(ret) {
                           if (ret && ret.status == 1) {

@@ -335,7 +335,7 @@
             $api.setStorage('isIos', 1); //初始化存储
             getSysType() //获取权限（ios
             getReadProtol()
-            ajpush = api.require('ajpushGooglePlay');
+            ajpush = api.require('ajpush');
             NVTabBar = api.require('NVTabBar');
             //唯一标识
             var deviceId = api.deviceId;
@@ -1340,7 +1340,7 @@
     //极光推送绑定
     function bindAjpush() {
         var registrationId;
-        var ajpush = api.require('ajpushGooglePlay');
+        var ajpush = api.require('ajpush');
         var param = {
             alias: 'nailvision_' + 1,
             tags: ['tag2']
@@ -1398,7 +1398,7 @@
     //极光推送监听
     function ajPushListen() {
         var _this = this;
-        // var ajpush = api.require('ajpushGooglePlay');
+        // var ajpush = api.require('ajpush');
         if (api.systemType == 'android') {
             ajpush.init(function(ret) {
                 if (ret && ret.status == 1) {
