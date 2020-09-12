@@ -94,19 +94,16 @@
 
 <body>
     <div id="app" v-cloak>
-
+      <div class="empty" v-if="list.length == 0">
+        <img src="../../../image/empty.png" alt="">
+      </div>
         <div class="lists">
             <div class="list" v-for="(item,index) in list" @click="govideo(item)">
                 <div class="imgBox">
                     <img :src="item.thumb" alt="">
                     <div class="top">
-                        <span>
-                <i class="iconfont">&#xe629;</i>
-                {{item.look_count}}
-              </span>
-                        <span class="del" @click.stop="delVideo(item)">
-                <i class="iconfont">&#xe611;</i>
-              </span>
+                        <span><i class="iconfont">&#xe629;</i>{{item.look_count}}</span>
+                        <span class="del" @click.stop="delVideo(item)"><i class="iconfont">&#xe611;</i></span>
                     </div>
                 </div>
                 <div class="bom">
@@ -211,7 +208,7 @@
                     });
                 },
                 getLists() {
-                  console.log(this.more)
+                    console.log(this.more)
                     if (!this.more) {
                         return
                     }
@@ -221,7 +218,7 @@
                         page_size: 20
                     };
                     requstPost('anchor/video', data, function success(ret) {
-                        console.log(";;;;;;;;;"+JSON.stringify(ret))
+                        console.log(";;;;;;;;;" + JSON.stringify(ret))
                         if (ret.code == 0) {
                             if (_this.page == 1) {
                                 _this.list = [];
@@ -232,12 +229,12 @@
                             _this.page += 1
 
                             _this.list = _this.list.concat(ret.data)
-                        }else{
-                          api.toast({
-                              msg: ret.message,
-                              duration: 3000,
-                              location: 'middle'
-                          });
+                        } else {
+                            api.toast({
+                                msg: ret.message,
+                                duration: 3000,
+                                location: 'middle'
+                            });
                         }
                     }, function fail(err) {
 

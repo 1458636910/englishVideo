@@ -12,6 +12,11 @@
         body,
         html {
             background: none;
+
+        }
+        .bodybg{
+          background: url(../../image/liveempty.png) no-repeat;
+          background-size: 100% 100%;
         }
 
         #app {
@@ -275,57 +280,64 @@
             background-position: right;
         }
         /*进度条*/
-        .progressbox{
-          box-sizing: border-box;
-          padding: 5px 0;
-          display: flex;
-          align-items: center;
-        }
-        .progressbox>img{
-          width: 30px;
-          height: 30px;
-        }
-        .progress{
-          flex: 1;
-          display: flex;
-          align-items: center;
-          box-sizing: border-box;
-          padding-left: 5px;
-        }
-        .progress>span{
-          font-size: 16px;
-          color: white;
-          margin: 0 5px;
-        }
-        .trueProgress{
-          flex: 1;
-          height: 5px;
-          background: rgba(255,255,255,0.4);
-          box-sizing: border-box;
-          border-radius: 10px
-        }
-        .innerprogress{
-          width: 30%;
-          height: 100%;
-          background: white;
-          position: relative;
-          border-radius: 10px;
-        }
-        .innerprogress>span{
-          display: inline-block;
-          width: 15px;
-          height: 15px;
-          background: white;
-          border-radius: 50%;
-          position: absolute;
-          right: 0;
-          top: -5px;
-          box-shadow: 0 0 2px 2px white;
-        }
-        .innerprogress>span:active{
-          opacity: 0.8;
+
+        .progressbox {
+            box-sizing: border-box;
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
         }
 
+        .progressbox>img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .progress {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+            padding-left: 5px;
+        }
+
+        .progress>span {
+            font-size: 16px;
+            color: white;
+            margin: 0 5px;
+        }
+
+        .trueProgress {
+            flex: 1;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.4);
+            box-sizing: border-box;
+            border-radius: 10px
+        }
+
+        .innerprogress {
+            width: 30%;
+            height: 100%;
+            background: white;
+            position: relative;
+            border-radius: 10px;
+        }
+
+        .innerprogress>span {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            right: 0;
+            top: -5px;
+            box-shadow: 0 0 2px 2px white;
+        }
+
+        .innerprogress>span:active {
+            opacity: 0.8;
+        }
 
         @-webkit-keyframes heartBlast {
             0% {
@@ -348,11 +360,10 @@
                 opacity: 0;
             }
         }
-
     </style>
 </head>
 
-<body>
+<body id="bodys">
     <div id="app" v-cloak>
         <header id="header">
             <div class="top">
@@ -406,10 +417,13 @@
             <div class="title" id="title">
                 {{title}}
             </div>
-            <div class="title progressbox" >
-                <img @click="changePlayStatus()" :src="playStatus?'../../image/pause.png':'../../image/play.png'" alt="">
-                <div class="progress" @click="changePlayTime($event)"><span>00:00</span><div class="trueProgress"><div class="innerprogress"><span></span></div></div><span>20:00</span></div>
-            </div>
+            <!-- <div class="title progressbox">
+                <img @click="changePlayStatus()" :src="isCompleted?'../../image/again.png':!playStatus?'../../image/play.png':'../../image/pause.png'" alt="">
+                <div class="progress" @click="changePlayTime($event)"><span>{{jstime}}</span>
+                    <div class="trueProgress">
+                        <div class="innerprogress"><span></span></div>
+                    </div><span>20:00</span></div>
+            </div> -->
         </div>
         <footer id="footer">
             <div class="footer">
@@ -438,13 +452,8 @@
                     </span>
                 </div>
             </div>
-
         </footer>
-
     </div>
-
-
-
 
 </body>
 <script type="text/javascript" src="../../script/api.js"></script>
@@ -453,6 +462,7 @@
 <script src="../../script/commonurl.js"></script>
 <script type="text/javascript">
     var app;
+    var timer = null;
     apiready = function() {
 
         $api.fixTabBar($api.byId('footer'));
@@ -478,13 +488,48 @@
                     product_count: 0, //商品数量
                     focus_anchor_status: 0, //主播关注状态,1已关注
                     fav_statusani: 0,
-                    info:'',  //用户信息
-                    playStatus:true,  //播放状态
-
+                    info: '', //用户信息
+                    playStatus: true, //播放状态
+                    viewoLength: 0, //视频的额长度
+                    currentLength: '',
+                    jsnum: 0, //播放的时间
+                    jstime: '00:00:00',
+                    isCompleted:false,  //是否播放完毕
                 }
             },
             created() {
-                 var _this = this;
+                var _this = this;
+                api.addEventListener({
+                    name: 'videoComplete'
+                }, function(ret, err) {
+                  return;  //暂时关闭，后续进度条用到
+                    if (ret) {
+                        var type = ret.value.type; //play  播放  stop停止
+                        var isCompleted = ret.value.isCompleted;  //是否是播放完毕了
+                        if (type == 'play') {
+                            if (timer) {
+                                return;
+                            } else {
+                                _this.startJstime()
+                            }
+                        } else {
+                            //播放完毕了
+                            if(isCompleted){
+                              _this.isCompleted = true;
+                            }
+                            if (timer) {
+                                _this.playStatus = false;
+                                clearInterval(timer)
+                                timer = null;
+                            } else {
+                                return;
+                            }
+                        }
+                    } else {
+                        console.log(JSON.stringify(err));
+                    }
+                });
+
                 this.live_id = api.pageParam.live_id
                 this.chatTop = $api.dom('#chatlists').offsetTop
                 var data = api.pageParam.data
@@ -494,7 +539,7 @@
                 _this.pay_order_status = data.pay_order_status
                 _this.anchor_avatar = data.anchor_avatar
                 _this.anchor_name = data.anchor_name
-                _this.look_count = data.look_count==0?1:data.look_count;
+                _this.look_count = data.look_count == 0 ? 1 : data.look_count;
                 _this.focus_anchor_status = data.focus_anchor_status
                 _this.fav_status = data.fav_live_status
                 _this.collect_status = data.collect_live_status
@@ -503,91 +548,156 @@
                 _this.live_play_url = data.live_play_url
                 _this.websocket_url = data.websocket_url
                 _this.openNewPage()
-                // this.getDetail()
+                    // this.getDetail()
                 var str = socketUrl;
                 //极光推送的监听
                 this.ajPushListen()
+                    //获取视频的长度
+                this.getVideoLength();
+                //设置当前视频位置
+                this.getCurrentLength()
+                    //播放计时
+                this.startJstime()
             },
             methods: {
-              //点击到指定时间
-              changePlayTime(e){
-                console.log(JSON.stringify(e))
-              },
-              //播放或者暂停
-              changePlayStatus(){
-                 this.playStatus = !this.playStatus;
-                 if(this.playStatus){
-                   api.execScript({
-                       name: 'live_win',
-                       script: 'playLive();'
-                   });
-                 }else{
-                   api.execScript({
-                       name: 'live_win',
-                       script: 'pauseLive();'
-                   });
-                 }
-              },
-              ajPushListen() {
-                  var _this = this;
-                  var ajpush = api.require('ajpushGooglePlay');
-                  if (api.systemType == 'android') {
-                      ajpush.init(function(ret) {
-                          if (ret && ret.status == 1) {
-                              //success
-                              ajpush.setListener(function(ret) {
-                                  //消息类型才会触发
-                                  var id = ret.id;
-                                  var title = ret.title;
-                                  var content = ret.content;
-                                  var extra = ret.extra;
-                                  //修改商品：商品的变化需要推送； type  1
-                                  //观看人数：有人进入直播间需要推送；  2
-                                  //钻石的数量变化 3
-                                  console.log("安卓监听推送")
-                                  if(extra.type==1){
-                                     _this.product_count = extra.product_count
-                                     //更新列表的数量
-                                     api.sendEvent({
-                                         name: 'anchorChangeNumber',
-                                     });
-                                  }else if(extra.type==2){
-                                    _this.product_count = extra.product_count;
-                                    _this.look_count = extra.look_count==0?1:extra.look_count;
-                                  }else if(extra.type==3){
+                //开始计时
+                startJstime() {
+                    timer = setInterval(() => {
+                        this.jsnum += 1
+                        var hours = Math.floor(this.jsnum / 3600);
+                        var mintes = Math.floor((this.jsnum - hours * 3600) / 60);
+                        var secend = this.jsnum - hours * 3600 - mintes * 60;
+                        if (hours < 10) {
+                            hours = '0' + hours
+                        }
+                        if (mintes < 10) {
+                            mintes = '0' + mintes
+                        }
+                        if (secend < 10) {
+                            secend = '0' + secend
+                        }
+                        this.jstime = hours + ':' + mintes + ':' + secend
+                    }, 1000)
+                },
+                setVideoLength(time) {
+                    api.execScript({
+                        name: 'live_win',
+                        script: 'seekToLive("' + time + '");'
+                    });
+                },
+                getVideoLength() {
+                    api.execScript({
+                        name: 'live_win',
+                        script: 'getVideoLength();'
+                    });
+                },
+                //点击到指定时间
+                changePlayTime(e) {
+                    console.log(JSON.stringify(e))
+                },
+                //当前播放的位置
+                getCurrentLength(e) {
+                    api.execScript({
+                        name: 'live_win',
+                        script: 'getCurrentLength();'
+                    });
+                },
+                //播放或者暂停
+                changePlayStatus() {
+                    this.playStatus = !this.playStatus;
+                    //如果已经播放完毕需要重播
+                    if(this.isCompleted){
+                      this.isCompleted = !this.isCompleted;
+                      this.jsnum = 0;
+                      this.jstime = '00:00:00'
+                      this.setVideoLength(0)
+                    }
+                    if (this.playStatus) {
+                        api.execScript({
+                            name: 'live_win',
+                            script: 'playLive();'
+                        });
+                    } else {
+                        api.execScript({
+                            name: 'live_win',
+                            script: 'pauseLive();'
+                        });
+                    }
+                },
+                ajPushListen() {
+                    var _this = this;
+                    var ajpush = api.require('ajpushGooglePlay');
+                    if (api.systemType == 'android') {
+                        ajpush.init(function(ret) {
+                            if (ret && ret.status == 1) {
+                                //success
+                                ajpush.setListener(function(ret) {
+                                    //消息类型才会触发
+                                    var id = ret.id;
+                                    var title = ret.title;
+                                    var content = ret.content;
+                                    var extra = ret.extra;
+                                    //修改商品：商品的变化需要推送； type  1
+                                    //观看人数：有人进入直播间需要推送；  2
+                                    //钻石的数量变化 3
+                                    console.log("安卓监听推送")
+                                    if (extra.type == 1) {
+                                        _this.product_count = extra.product_count
+                                            //更新列表的数量
+                                        api.sendEvent({
+                                            name: 'anchorChangeNumber',
+                                        });
+                                    } else if (extra.type == 2) {
+                                        _this.product_count = extra.product_count;
+                                        _this.look_count = extra.look_count == 0 ? 1 : extra.look_count;
+                                    } else if (extra.type == 3) {
 
-                                  }
-                              });
+                                    }else if(extra.type==4){  //主播离开了直播间
+                                      var _body = $api.dom('body');
+                                      if($api.hasCls(_body, 'bodybg')){
+                                        $api.removeCls(_body,'bodybg')
+                                      }else{
+                                        $api.addCls(_body,'bodybg')
+                                      }
+                                    }
+                                });
 
-                          }
-                      });
-                  } else {
-                      //ios
-                      //success
-                      ajpush.setListener(function(ret) {
-                          //消息类型才会触发
-                          var id = ret.id;
-                          var title = ret.title;
-                          var content = ret.content;
-                          var extra = ret.extra;
-                          //修改商品：商品的变化需要推送； type  1
-                          //观看人数：有人进入直播间需要推送；  2
-                          //钻石的数量变化 3
-                          if(extra.type==1){
-                            // console.log("=================="+extra.product_count)
-                             _this.product_count = extra.product_count
-                             api.sendEvent({
-                                 name: 'anchorChangeNumber',
-                             });
-                          }else if(extra.type==2){
-                            _this.product_count = extra.product_count;
-                            _this.look_count = extra.look_count==0?1:extra.look_count;
-                          }else if(extra.type==3){
+                            }
+                        });
+                    } else {
+                        //ios
+                        //success
+                        ajpush.setListener(function(ret) {
+                            //消息类型才会触发
+                            var id = ret.id;
+                            var title = ret.title;
+                            var content = ret.content;
+                            var extra = ret.extra;
+                            //修改商品：商品的变化需要推送； type  1
+                            //观看人数：有人进入直播间需要推送；  2
+                            //钻石的数量变化 3
+                            if (extra.type == 1) {
+                                // console.log("=================="+extra.product_count)
+                                _this.product_count = extra.product_count
+                                api.sendEvent({
+                                    name: 'anchorChangeNumber',
+                                });
+                            } else if (extra.type == 2) {
+                                _this.product_count = extra.product_count;
+                                _this.look_count = extra.look_count == 0 ? 1 : extra.look_count;
+                            } else if (extra.type == 3) {
 
-                          }
-                      });
-                  }
-              },
+                            }else if(extra.type==4){  //主播离开了直播间
+                              var _body = $api.dom('body');
+                              if($api.hasCls(_body, 'bodybg')){
+                                $api.removeCls(_body,'bodybg')
+                              }else{
+                                $api.addCls(_body,'bodybg')
+                              }
+                            }
+                        });
+                    }
+                },
                 //点击到主播个人页面
                 goanchor() {
                     api.openWin({
@@ -621,38 +731,38 @@
 
                     })
                 },
-                openNewPage(){
-                  var _this = this;
-                  api.openFrame({
-                      name: 'livechat',
-                      url: './livechat.html',
-                      rect: {
-                          x: 0,
-                          y: $api.dom('#chatlists').offsetTop - 20,
-                          w: api.winWidth,
-                          h: api.winWidth * 30 / 100
-                      },
-                      pageParam: {
-                          live_id: api.pageParam.live_id,
-                          websocket_url: _this.websocket_url
-                      },
-                      bounces: false,
-                      bgColor: 'rgba(0,0,0,0)',
-                      vScrollBarEnabled: true,
-                      hScrollBarEnabled: true
-                  });
+                openNewPage() {
+                    var _this = this;
+                    api.openFrame({
+                        name: 'livechat',
+                        url: './livechat.html',
+                        rect: {
+                            x: 0,
+                            y: $api.dom('#chatlists').offsetTop - 20,
+                            w: api.winWidth,
+                            h: api.winWidth * 30 / 100
+                        },
+                        pageParam: {
+                            live_id: api.pageParam.live_id,
+                            websocket_url: _this.websocket_url
+                        },
+                        bounces: false,
+                        bgColor: 'rgba(0,0,0,0)',
+                        vScrollBarEnabled: true,
+                        hScrollBarEnabled: true
+                    });
 
-                  if (_this.price > 0) {
-                      if (_this.pay_order_status == 0) {
-                          //支付直播订单
-                          api.execScript({
-                              name: 'live_win',
-                              // frameName: 'frmName',
-                              script: 'setMoney("' + _this.price + '","' + _this.pay_order_status + '");'
-                          });
+                    if (_this.price > 0) {
+                        if (_this.pay_order_status == 0) {
+                            //支付直播订单
+                            api.execScript({
+                                name: 'live_win',
+                                // frameName: 'frmName',
+                                script: 'setMoney("' + _this.price + '","' + _this.pay_order_status + '");'
+                            });
 
-                      }
-                  }
+                        }
+                    }
                 },
                 getDetail() {
                     var _this = this;
@@ -661,13 +771,13 @@
                     };
                     requstPost('live/detail', data, function success(ret) {
                         if (ret.code == 0) {
-                          if(ret.data.status==0){
-                            api.openWin({
-                                name: 'emptyPage_win',
-                                url: '../common/emptyPage_win.html',
-                            });
-                            return;
-                          }
+                            if (ret.data.status == 0) {
+                                api.openWin({
+                                    name: 'emptyPage_win',
+                                    url: '../common/emptyPage_win.html',
+                                });
+                                return;
+                            }
                             _this.anchor_id = ret.data.anchor_id
                             _this.title = ret.data.title
                             _this.price = ret.data.price
@@ -905,8 +1015,7 @@
                     inputField.setInputFieldListener(function(ret, err) {
                         if (ret) {
                             if (ret.chatViewH < 50) {}
-                        } else {
-                        }
+                        } else {}
                     });
                     inputField.open({
                         bgColor: '#ffffff',
@@ -941,16 +1050,14 @@
                                     }
                                 });
                             }
-                        } else {
-                        }
+                        } else {}
                     });
                     inputField.setInputFieldListener(function(ret, err) {
                         if (ret) {
                             if (ret.chatViewH <= 50) {
                                 inputField.close();
                             }
-                        } else {
-                        }
+                        } else {}
                     });
                 },
                 //屏蔽直播视频
@@ -972,40 +1079,39 @@
                         title: 'Confirm blocking?',
                         msg: '',
                         buttons: ['Sure', 'Cancel']
-                    }, function(ret, err){
-                        if( ret ){
-                          var index = ret.buttonIndex;
-                          if(index==2){
-                            return;
-                          }
-                          requstPost('live/pushReport', parameter, function success(ret) {
-                              if (ret.code == 0) {
-                                  api.alert({
-                                      title: ret.message,
-                                      msg: '',
-                                      buttons: ['Sure']
-                                  }, function(ret, err) {
-                                      if (ret) {
-                                          api.sendEvent({
-                                              name: 'updataLists',
-                                          });
-                                          setTimeout(function() {
-                                              api.closeToWin({
-                                                  name: 'root'
-                                              });
-                                          }, 1000)
-                                      } else {}
-                                  });
-                              }
-                          }, function fail(err) {
-                              api.toast({
-                                  msg: ret.msg,
-                                  duration: 2000,
-                                  location: 'bottom'
-                              });
-                          })
-                        }else{
-                        }
+                    }, function(ret, err) {
+                        if (ret) {
+                            var index = ret.buttonIndex;
+                            if (index == 2) {
+                                return;
+                            }
+                            requstPost('live/pushReport', parameter, function success(ret) {
+                                if (ret.code == 0) {
+                                    api.alert({
+                                        title: ret.message,
+                                        msg: '',
+                                        buttons: ['Sure']
+                                    }, function(ret, err) {
+                                        if (ret) {
+                                            api.sendEvent({
+                                                name: 'updataLists',
+                                            });
+                                            setTimeout(function() {
+                                                api.closeToWin({
+                                                    name: 'root'
+                                                });
+                                            }, 1000)
+                                        } else {}
+                                    });
+                                }
+                            }, function fail(err) {
+                                api.toast({
+                                    msg: ret.msg,
+                                    duration: 2000,
+                                    location: 'bottom'
+                                });
+                            })
+                        } else {}
                     });
                 },
                 //举报

@@ -257,8 +257,19 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            box-sizing: border-box;
+            padding: 7px 0;
         }
-
+        .typetips{
+          display: flex;
+          align-items: center;
+          font-size: 17px;
+          font-weight: bold;
+          color: #333333;
+        }
+        .typetips>img{
+          margin-right: 5px;
+        }
         .paypal img {
             max-height: 20px;
         }
@@ -455,8 +466,16 @@
                     <p>Pay with</p>
                     <div class="paypal">
                         <img src="../../image/Paypal.png" alt="">
-                        <div class="chose active"></div>
+                        <div class="chose " :class="paytype==1?'active':''" @click="changePay(1)"></div>
                     </div>
+                    <!-- <div class="paypal">
+                        <div  class="typetips"><img src="../../image/iospay.png" alt="">Pay</div>
+                        <div class="chose" :class="paytype==2?'active':''" @click="changePay(2)"></div>
+                    </div>
+                    <div class="paypal">
+                        <div class="typetips"><img src="../../image/gPay.png" alt="">Pay</div>
+                        <div class="chose" :class="paytype==3?'active':''" @click="changePay(3)"></div>
+                    </div> -->
                 </div>
                 <div class="bomTotals"  v-if="type == 'cart'">
                     <div>
@@ -545,6 +564,7 @@
                     jewel_exchange_money: 0,
                     allmoney: 0,
                     taxs: '',
+                    paytype:1,  //支付方式
                 }
             },
             mounted: function() {
@@ -579,6 +599,10 @@
                 }
             },
             methods: {
+              //切换支付方式
+              changePay(type){
+                  this.paytype = type;
+              },
                 agreeterms() {
                     if (this.agree_status == 1) {
                         this.agree_status = 0
@@ -648,7 +672,8 @@
                     pubshowloading()
                     requstPost('order/store', data, function success(ret) {
                             if (ret.code == 0) {
-                                goPaypalUrl(ret.data.pay_url)
+                              _this.goPay(ret.data.pay_url)
+                                // goPaypalUrl(ret.data.pay_url)
                                 api.closeFrame();
                             }
                         }, function fail(err) {
@@ -680,7 +705,8 @@
                     pubshowloading()
                     requstPost('order/store', data, function success(ret) {
                             if (ret.code == 0) {
-                                goPaypalUrl(ret.data.pay_url)
+                              _this.goPay(ret.data.pay_url)
+                                // goPaypalUrl(ret.data.pay_url)
                                 api.closeFrame();
                             }
                         }, function fail(err) {
@@ -688,6 +714,16 @@
                         })
                         // alert(this.postage_type)
                         // alert(this.couponid)
+                },
+                //去支付
+                goPay(url){   //此时url是paypal返回额支付链接
+                    if(this.paytype==1){
+                      goPaypalUrl(url)
+                    }else if(this.paytype==2){
+
+                    }else if(this.paytype==3){
+
+                    }
                 },
                 //购物车获取详情
                 getCartDetail() {

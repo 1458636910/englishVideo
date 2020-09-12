@@ -365,7 +365,7 @@ function requstGet(apiUrl, data, success, fail) {
 
 
 
-function requstUpload(data, success, fail) {
+function requstUpload(data, success, fail,str) {
     var token;
     if ($api.getStorage('token')) {
         token = $api.getStorage('token');
@@ -377,6 +377,7 @@ function requstUpload(data, success, fail) {
         method: 'post',
         cache: false,
         timeout: 1800,
+        report:str?true:false,   //视频需要进度条，该字段会造成返回数据不一样
         headers: {
             token: token
         },
@@ -414,6 +415,11 @@ function requstUpload(data, success, fail) {
                 success(ret)
                 console.log('ret接口地址:' + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
             } else {
+              //如果上传视频的话需要进度条，返回界面处理逻辑
+                if(str){
+                  success(ret)
+                  return;
+                }
                 api.toast({
                     msg: ret.message,
                     duration: 3000,

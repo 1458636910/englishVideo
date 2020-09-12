@@ -8,7 +8,10 @@
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
     <style>
-        body {}
+        body {
+          background: url(../../image/liveloading.png) no-repeat;
+          background-size: 100% 100%;
+        }
 
         .flex-con {
             overflow: auto;
@@ -41,6 +44,7 @@
     var alivcLivePlayer = null;
     var money = 0;
     var pay_order_status = 0;
+    var viewoLength = 0;
     apiready = function() {
         alivcLivePlayer = api.require('alivcLivePlayer');
         // var header = $api.byId('header');
@@ -163,13 +167,16 @@
         })
         alivcLivePlayer.prepareToPlay({
             url: live_play_url
+            // url:'http://7z2dc9.com1.z0.glb.clouddn.com/apicloud/dc811d2c4d88b409063c7ea2065fe6a0.mp4'
         }, function(ret) {
             //禁止屏幕休眠
             api.setKeepScreenOn({
                 keepOn: true
             });
             openpage(data)
+
         })
+
         alivcLivePlayer.addEventListener(function(ret) {
             var systype = api.systemType;
             if (systype == 'ios') {   //ios首帧显示完毕，防止重复弹框
@@ -187,6 +194,14 @@
                         }
                     }, 3000)
                     api.hideProgress();
+                }else if(ret.eventType=='complete'){
+                  api.sendEvent({
+                      name: 'videoComplete',
+                      extra: {
+                        type:'stop',
+                        isCompleted:true,
+                      }
+                  });
                 }
             } else {
                 if (ret.eventType == 'prepared') {
@@ -204,6 +219,15 @@
                     }, 3000)
                     api.hideProgress();
                 }
+                if(ret.eventType=='completed'){
+                  api.sendEvent({
+                      name: 'videoComplete',
+                      extra: {
+                        type:'stop',
+                        isCompleted:true,
+                      }
+                  });
+                }
             }
         });
         //播放器监听事件
@@ -211,11 +235,42 @@
     }
     //开始直播  播放
     function playLive() {
+        api.sendEvent({
+            name: 'videoComplete',
+            extra: {
+              type:'play'
+            }
+        });
         alivcLivePlayer.play()
     }
     //暂停直播   暂停
     function pauseLive() {
+        api.sendEvent({
+            name: 'videoComplete',
+            extra: {
+              type:'stop'
+            }
+        });
         alivcLivePlayer.pause()
+    }
+    //设置播放的进度
+    function seekToLive(time) {
+      console.log('设置播放的时间s'+time)
+      alivcLivePlayer.seekTo({
+        position:time*1000
+      });
+    }
+    //获取视频的长度
+    function getVideoLength(){
+      alivcLivePlayer.getDuration(function(ret){
+        console.log('当前视频的长度')
+      });
+    }
+    //获取当前播放的位置
+    function getCurrentLength(){
+      alivcLivePlayer.getCurrentPosition(function(ret){
+        console.log('当前播放的位置'+JSON.stringify(ret));
+      });
     }
     //销毁直播——请求接口
     function closeLive() {
