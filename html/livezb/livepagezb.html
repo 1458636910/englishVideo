@@ -613,6 +613,7 @@
 
                 },
                 closeLive() {
+                  var _this = this;
                     api.confirm({
                         title: 'End live stream',
                         msg: '',
@@ -620,7 +621,11 @@
                     }, function(ret, err) {
                         if (ret) {
                             if (ret.buttonIndex == 2) {
-                              console.log("-------------------------")
+                              //后续添加进度条能用到
+                              var parameterc  = {
+                                live_id:api.pageParam.live_id,
+                                jsnum:_this.jsnum,
+                              }
                               //停止推流
                               var alivcLivePusher = api.require('alivcLivePusher');
                               alivcLivePusher.stopPush()

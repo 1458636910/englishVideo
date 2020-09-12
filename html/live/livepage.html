@@ -274,6 +274,58 @@
             animation-timing-function: steps(28);
             background-position: right;
         }
+        /*进度条*/
+        .progressbox{
+          box-sizing: border-box;
+          padding: 5px 0;
+          display: flex;
+          align-items: center;
+        }
+        .progressbox>img{
+          width: 30px;
+          height: 30px;
+        }
+        .progress{
+          flex: 1;
+          display: flex;
+          align-items: center;
+          box-sizing: border-box;
+          padding-left: 5px;
+        }
+        .progress>span{
+          font-size: 16px;
+          color: white;
+          margin: 0 5px;
+        }
+        .trueProgress{
+          flex: 1;
+          height: 5px;
+          background: rgba(255,255,255,0.4);
+          box-sizing: border-box;
+          border-radius: 10px
+        }
+        .innerprogress{
+          width: 30%;
+          height: 100%;
+          background: white;
+          position: relative;
+          border-radius: 10px;
+        }
+        .innerprogress>span{
+          display: inline-block;
+          width: 15px;
+          height: 15px;
+          background: white;
+          border-radius: 50%;
+          position: absolute;
+          right: 0;
+          top: -5px;
+          box-shadow: 0 0 2px 2px white;
+        }
+        .innerprogress>span:active{
+          opacity: 0.8;
+        }
+
 
         @-webkit-keyframes heartBlast {
             0% {
@@ -296,6 +348,7 @@
                 opacity: 0;
             }
         }
+
     </style>
 </head>
 
@@ -352,6 +405,10 @@
             </div>
             <div class="title" id="title">
                 {{title}}
+            </div>
+            <div class="title progressbox" >
+                <img @click="changePlayStatus()" :src="playStatus?'../../image/pause.png':'../../image/play.png'" alt="">
+                <div class="progress" @click="changePlayTime($event)"><span>00:00</span><div class="trueProgress"><div class="innerprogress"><span></span></div></div><span>20:00</span></div>
             </div>
         </div>
         <footer id="footer">
@@ -422,6 +479,7 @@
                     focus_anchor_status: 0, //主播关注状态,1已关注
                     fav_statusani: 0,
                     info:'',  //用户信息
+                    playStatus:true,  //播放状态
 
                 }
             },
@@ -451,6 +509,25 @@
                 this.ajPushListen()
             },
             methods: {
+              //点击到指定时间
+              changePlayTime(e){
+                console.log(JSON.stringify(e))
+              },
+              //播放或者暂停
+              changePlayStatus(){
+                 this.playStatus = !this.playStatus;
+                 if(this.playStatus){
+                   api.execScript({
+                       name: 'live_win',
+                       script: 'playLive();'
+                   });
+                 }else{
+                   api.execScript({
+                       name: 'live_win',
+                       script: 'pauseLive();'
+                   });
+                 }
+              },
               ajPushListen() {
                   var _this = this;
                   var ajpush = api.require('ajpushGooglePlay');
@@ -818,7 +895,6 @@
                     if ($api.getStorage('islogin') != 'true') {
                         api.execScript({
                             name: 'live_win',
-                            // frameName: 'frmName',
                             script: 'pauseLive();'
                         });
                         userIslogin()
@@ -829,9 +905,7 @@
                     inputField.setInputFieldListener(function(ret, err) {
                         if (ret) {
                             if (ret.chatViewH < 50) {}
-                            // console.log(JSON.stringify(ret));
                         } else {
-                            // console.log(JSON.stringify(err));
                         }
                     });
                     inputField.open({
@@ -843,6 +917,12 @@
                         autoFocus: true,
                         maxLines: 5,
                         limitedWordsNumber: 100,
+                        leftBtn: {
+                            bg: '#FB607D',
+                            title: 'Send',
+                            titleColor: '#fff',
+                            bgHighlight: '#e67187',
+                        },
                         sendBtn: {
                             bg: '#FB607D',
                             title: 'Send',
@@ -853,7 +933,6 @@
                     }, function(ret, err) {
                         if (ret) {
                             if (ret.msg != '') {
-                                // _this.sendPl(ret.msg)
                                 inputField.resignFirstResponder();
                                 api.sendEvent({
                                     name: 'livechatText',
@@ -862,11 +941,7 @@
                                     }
                                 });
                             }
-                            // alert(JSON.stringify(ret));
-
-
                         } else {
-                            // alert(JSON.stringify(err));
                         }
                     });
                     inputField.setInputFieldListener(function(ret, err) {
@@ -874,12 +949,9 @@
                             if (ret.chatViewH <= 50) {
                                 inputField.close();
                             }
-                            // alert(JSON.stringify(ret));
                         } else {
-                            // alert(JSON.stringify(err));
                         }
                     });
-
                 },
                 //屏蔽直播视频
                 fnShield() {
