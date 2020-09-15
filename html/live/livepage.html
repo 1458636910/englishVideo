@@ -665,7 +665,11 @@
                     //如果已经播放完毕需要重播
                     if (this.isCompleted) {
                         this.jsnum = 0;
-                        this.jstime = '00:00'
+                        this.jstime = '00:00';
+                        api.execScript({
+                            name: 'live_win',
+                            script: 'openPullLive();'
+                        });
                     }
                     if (this.playStatus) {
                         api.execScript({
