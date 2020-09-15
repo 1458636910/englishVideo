@@ -56,16 +56,47 @@
         }
         .rep{
           padding: 3px 5px;
-          background: #7C8698;
           border-radius: 10px;
           border: 1px solid white;
+          background: linear-gradient(to right, #fd852d , #fd852d);
+          display: flex;
+          align-items: center;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        .rep img{
+          width: 20px;
+          height: 20px;
         }
         .bom{
+          width: 100%;
           position: absolute;
           bottom: 2vw;
-          right: 1vw;
+          left: 0;
           color: white;
           font-size: 12px;
+          display: flex;
+          align-items: center;
+          justify-content:space-between;
+          box-sizing: border-box;
+          padding-right:5px;
+        }
+        .bom img{
+          width: 20px;
+          height: 20px;
+        }
+        .bom>span{
+          display: flex;
+          align-items: center;
+        }
+        .canclebtn{
+          background: #999999;
+          box-sizing: border-box;
+          padding: 5px 5px;
+          border-radius: 5px;
+        }
+        .canclebtn:active{
+          opacity: 0.8;
         }
         .top .del .iconfont{
           font-size: 25px;
@@ -80,26 +111,23 @@
 
 <body>
     <div id="app" v-cloak>
-      <div class="empty" v-if="list.length == 0">
+      <!-- <div class="empty" v-if="list.length == 0">
         <img src="../../../image/empty.png" alt="">
-      </div>
+      </div> -->
       <div class="lists">
-          <div class="list" v-for="(item,index) in [1,2,3]" @click="golive(item)">
-            <img :src="item.thumb" alt="">
+          <div class="list" v-for="(item,index) in [1,2,3]" @click.stop="goPreview(item)">
+            <img src="../../../image/shop.png" alt="">
             <div class="top">
               <div>
-                <span class="rep">Preview</span>
-                <!-- <span>
-                  <i class="iconfont">&#xe629;</i>
-                </span> -->
+                <span class="rep"><img src="../../../image/naozhong.png" alt="">Preview 8-24 10:22</span>
               </div>
-              <span class="del" @click.stop="delLive(item)">
+              <!-- <span class="del" @click.stop="delLive(item)">
                 <i class="iconfont">&#xe611;</i>
-              </span>
+              </span> -->
             </div>
             <div class="bom">
-              <i class="iconfont">&#xe60c;</i>
-              <span>k; 12346346</span>
+              <span><img src="../../../image/eye.png" alt=""><span>1234</span></span>
+              <span class="canclebtn" @click.stop="fn_cancle()">Cancel notice</span>
             </div>
           </div>
       </div>
@@ -130,6 +158,18 @@
               this.getMore()
             },
             methods: {
+              //去预拨界面
+              goPreview(ite){
+                api.openWin({
+                    name: 'precast_win',
+                    url: '../../common/precast_win.html',
+                    bgColor:'#333333',
+                    bounces:false,
+                    pageParam: {
+                        ite:ite
+                    }
+                });
+              },
               //监听滚动到底
               getMore() {
                 var _this = this
@@ -145,37 +185,37 @@
                 });
 
               },
-              //删除直播
-              delLive(ite){
+              //取消预告
+              fn_cancle(ite){
                 var _this = this;
                 api.confirm({
-                    title: 'Delete this live stream',
-                    msg: 'Are you sure you want to delete this live broadcast?',
-                    buttons: ['Delete', 'Cancel']
+                    title: 'Cancel this live stream',
+                    msg: 'Are you sure you want to cancle this live broadcast?',
+                    buttons: ['Sure', 'Cancel']
                 }, function(ret, err){
                     if( ret ){
                       if (ret.buttonIndex == 1) {
-                        //删除
-                        requstPost('anchor/delLive',{id:ite.id},function success(ret){
-                          if (ret.code == 0) {
-                            _this.page = 1
-                            _this.more = true
-                            _this.getLists()
-                             api.toast({
-                                 msg: ret.message,
-                                 duration: 3000,
-                                 location: 'middle'
-                             });
-                          }else{
-                            api.toast({
-                                msg: ret.message,
-                                duration: 3000,
-                                location: 'middle'
-                            });
-                          }
-                        },function fail(err){
-
-                        })
+                        // //删除
+                        // requstPost('anchor/delLive',{id:ite.id},function success(ret){
+                        //   if (ret.code == 0) {
+                        //     _this.page = 1
+                        //     _this.more = true
+                        //     _this.getLists()
+                        //      api.toast({
+                        //          msg: ret.message,
+                        //          duration: 3000,
+                        //          location: 'middle'
+                        //      });
+                        //   }else{
+                        //     api.toast({
+                        //         msg: ret.message,
+                        //         duration: 3000,
+                        //         location: 'middle'
+                        //     });
+                        //   }
+                        // },function fail(err){
+                        //
+                        // })
                       }else if (ret.buttonIndex == 2) {
 
                       }

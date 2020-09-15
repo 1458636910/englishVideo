@@ -285,9 +285,9 @@
         </div>
         <div id="footer" class="border-t">
             <ul class="flex-wrap">
-                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con"></li>
-                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con"></li>
                 <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con active"></li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con"></li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con "></li>
                 <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con"></li>
                 <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con"></li>
             </ul>
@@ -971,12 +971,14 @@
                 }, function(ret, err) {
                     if (ret) {
                         if (ret.status == 0) {
+                          var query = ret.result.addressComponent.city;
+                          setDress(query)
+                          return;
+
                           var appKey = '7a9a2d9ba3c4923a';
                           var key = 'uC1Y9pA1idHXl5tyjhltyQ1YIjdgNitM'; //注意：暴露appSecret，有被盗用造成损失的风险
                           var salt = new Date().getTime();
                           var curtime = Math.round(new Date().getTime() / 1000);
-
-                          var query = ret.result.addressComponent.city;
                           // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
                           var from = 'auto';
                           var to = 'zh-CHS';
@@ -1111,7 +1113,7 @@
             slidBackType: 'edge',
         });
     }
-
+    //初始化设置启动时的底部页面
     function funIniGroup() {
         var eHeaderLis = $api.domAll('header li'),
             frames = [];
@@ -1132,7 +1134,7 @@
                 w: api.winWidth,
                 h: $api.dom('#main').offsetHeight + 1
             },
-            index: 2,
+            index: 0,
             frames: frames
         }, function(ret, err) {
             if (ret.index == 4) {
@@ -1262,11 +1264,11 @@
             $api.removeCls(eFootLis[i], 'active');
             $api.removeCls(eHeaderLis[i], 'active');
         }
-        $api.addCls(eFootLis[2], 'active');
-        $api.addCls(eHeaderLis[2], 'active');
+        $api.addCls(eFootLis[0], 'active');
+        $api.addCls(eHeaderLis[0], 'active');
         api.setFrameGroupIndex({
             name: 'group',
-            index: 2
+            index: 0
         });
     }
 

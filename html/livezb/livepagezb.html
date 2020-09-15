@@ -225,13 +225,15 @@
             align-items: center;
             justify-content: flex-end;
         }
-          .zsNum>.stopbox{
+
+        .zsNum>.stopbox {
             margin-left: 10px;
-          }
-          .stopbox>img{
+        }
+
+        .stopbox>img {
             width: 35px;
             height: 35px;
-          }
+        }
 
         .topr {
             display: flex;
@@ -300,11 +302,12 @@
             </div>
             <div class="zsNum">
                 <div class="zuanshibox">
-                  <img src="" alt="">
-                  <span>💎</span>
-                  <span>{{jewel}}</span>
+                    <img src="" alt="">
+                    <span>💎</span>
+                    <span>{{jewel}}</span>
                 </div>
-                <div class="stopbox" @click="leaveLive"><img src="../../image/livestop.png"></img></div>
+                <div class="stopbox" @click="leaveLive"><img src="../../image/livestop.png"></img>
+                </div>
             </div>
         </header>
 
@@ -393,9 +396,9 @@
                 var _this = this;
                 api.addEventListener({
                     name: 'changechooseGoodsNum'
-                }, function(ret, err){
-                  _this.product_count = ret.value.product_count
-                    // _this.getDetail()
+                }, function(ret, err) {
+                    _this.product_count = ret.value.product_count
+                        // _this.getDetail()
                 });
 
                 //接收id
@@ -404,70 +407,69 @@
                 this.chatTop = $api.dom('#chatlists').offsetTop
 
                 this.getDetail()
-                //极光推送的监听
+                    //极光推送的监听
                 this.ajPushListen()
-                //计时开始
+                    //计时开始
                 _this.startJstime()
             },
             methods: {
-              //暂时离开直播间,请求接口通知后台，该接口需要发送通知，在看直播界面接收通知
-              leaveLive(){
+                //暂时离开直播间,请求接口通知后台，该接口需要发送通知，在看直播界面接收通知
+                leaveLive() {
 
-              },
-              ajPushListen() {
-                  var _this = this;
-                  var ajpush = api.require('ajpushGooglePlay');
-                  if (api.systemType == 'android') {
-                      ajpush.init(function(ret) {
-                          if (ret && ret.status == 1) {
-                              //success
-                              ajpush.setListener(function(ret) {
-                                  //消息类型才会触发
-                                  var id = ret.id;
-                                  var title = ret.title;
-                                  var content = ret.content;
-                                  var extra = ret.extra;
-                                  //修改商品：商品的变化需要推送； type  1
-                                  //观看人数：有人进入直播间需要推送；  2
-                                  //钻石的数量变化 3
-                                  if(extra.type==1){
+                },
+                ajPushListen() {
+                    var _this = this;
+                    var ajpush = api.require('ajpushGooglePlay');
+                    if (api.systemType == 'android') {
+                        ajpush.init(function(ret) {
+                            if (ret && ret.status == 1) {
+                                //success
+                                ajpush.setListener(function(ret) {
+                                    //消息类型才会触发
+                                    var id = ret.id;
+                                    var title = ret.title;
+                                    var content = ret.content;
+                                    var extra = ret.extra;
+                                    //修改商品：商品的变化需要推送； type  1
+                                    //观看人数：有人进入直播间需要推送；  2
+                                    //钻石的数量变化 3
+                                    if (extra.type == 1) {
 
-                                  }else if(extra.type==2){  //更新观看人数和当前的产品数
-                                    _this.product_count = extra.product_count;
-                                    _this.look_count = extra.look_count==0?1:extra.look_count;
-                                  }else if(extra.type==3){
-                                    _this.jewel = extra.product_count
-                                  }
-                              });
-                          }
-                      });
-                  } else {
-                      //ios
-                      //success
-                      ajpush.setListener(function(ret) {
-                          //消息类型才会触发
-                          var id = ret.id;
-                          var title = ret.title;
-                          var content = ret.content;
-                          var extra = ret.extra;
-                          console.log('1251行' + "id=" + id + ",title=" + title + ",content=" + content + ",extra=" + extra);
-                          if (ret.extra) {
-                            //修改商品：商品的变化需要推送； type  1
-                            //观看人数：有人进入直播间需要推送；  2
-                            //钻石的数量变化 3
-                            if(extra.type==1){
-
-                            }else if(extra.type==2){  //更新观看人数和当前的产品数
-                              _this.product_count = extra.product_count;
-                                _this.look_count = extra.look_count==0?1:extra.look_count;
-                            }else if(extra.type==3){
-                               _this.jewel = extra.product_count
+                                    } else if (extra.type == 2) { //更新观看人数和当前的产品数
+                                        _this.product_count = extra.product_count;
+                                        _this.look_count = extra.look_count == 0 ? 1 : extra.look_count;
+                                    } else if (extra.type == 3) {
+                                        _this.jewel = extra.product_count
+                                    }
+                                });
                             }
-                          } else {
-                          }
-                      });
-                  }
-              },
+                        });
+                    } else {
+                        //ios
+                        //success
+                        ajpush.setListener(function(ret) {
+                            //消息类型才会触发
+                            var id = ret.id;
+                            var title = ret.title;
+                            var content = ret.content;
+                            var extra = ret.extra;
+                            console.log('1251行' + "id=" + id + ",title=" + title + ",content=" + content + ",extra=" + extra);
+                            if (ret.extra) {
+                                //修改商品：商品的变化需要推送； type  1
+                                //观看人数：有人进入直播间需要推送；  2
+                                //钻石的数量变化 3
+                                if (extra.type == 1) {
+
+                                } else if (extra.type == 2) { //更新观看人数和当前的产品数
+                                    _this.product_count = extra.product_count;
+                                    _this.look_count = extra.look_count == 0 ? 1 : extra.look_count;
+                                } else if (extra.type == 3) {
+                                    _this.jewel = extra.product_count
+                                }
+                            } else {}
+                        });
+                    }
+                },
                 //切换摄像头
                 changeCamer() {
                     api.execScript({
@@ -631,7 +633,7 @@
 
                 },
                 closeLive() {
-                  var _this = this;
+                    var _this = this;
                     api.confirm({
                         title: 'End live stream',
                         msg: '',
@@ -639,31 +641,33 @@
                     }, function(ret, err) {
                         if (ret) {
                             if (ret.buttonIndex == 2) {
-                              //后续添加进度条能用到
-                              var parameterc  = {
-                                live_id:api.pageParam.live_id,
-                                jsnum:_this.jsnum,
-                              }
-                              //停止推流
-                              var alivcLivePusher = api.require('alivcLivePusher');
-                              alivcLivePusher.stopPush()
-                              requstPost('Anchor/closeLive', {live_id:api.pageParam.live_id}, function success(ret) {
-                                  if (ret.code == 0) {
-                                    api.closeToWin({
-                                        name: 'root'
-                                    });
-                                    var alivcLivePlayer = api.require('alivcLivePlayer');
-                                    alivcLivePlayer.destroy();
-                                  } else {
-                                      api.toast({
-                                          msg: ret.message,
-                                          duration: 2000,
-                                          location: 'bottom'
-                                      });
+                                //后续添加进度条能用到
+                                var parameterc = {
+                                        live_id: api.pageParam.live_id,
+                                        jsnum: _this.jsnum,
                                     }
-                              }, function fail(err) {
+                                    //停止推流
+                                var alivcLivePusher = api.require('alivcLivePusher');
+                                alivcLivePusher.stopPush()
+                                requstPost('Anchor/closeLive', {
+                                    live_id: api.pageParam.live_id
+                                }, function success(ret) {
+                                    if (ret.code == 0) {
+                                        api.closeToWin({
+                                            name: 'root'
+                                        });
+                                        var alivcLivePlayer = api.require('alivcLivePlayer');
+                                        alivcLivePlayer.destroy();
+                                    } else {
+                                        api.toast({
+                                            msg: ret.message,
+                                            duration: 2000,
+                                            location: 'bottom'
+                                        });
+                                    }
+                                }, function fail(err) {
 
-                              })
+                                })
 
                             }
                         } else {}
@@ -698,6 +702,13 @@
                         autoFocus: true,
                         maxLines: 5,
                         limitedWordsNumber: 100,
+                        leftBtn: {
+                            bg: '#FB607D',
+                            title: 'Close',
+                            titleColor: '#fff',
+                            bgHighlight: '#999999',
+                            bg: '#999999',
+                        },
                         sendBtn: {
                             bg: '#FB607D',
                             title: 'Send',

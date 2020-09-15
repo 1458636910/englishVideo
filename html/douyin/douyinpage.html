@@ -308,127 +308,134 @@
             el: '#app',
             data() {
                 return {
-                  chatTop:0,//Y坐标
-                  showShop:false,//
+                    chatTop: 0, //Y坐标
+                    showShop: false, //
                 }
             },
             created() {
 
-              // alert($api.dom('#chatlists').offsetTop)
+                // alert($api.dom('#chatlists').offsetTop)
                 console.log($api.dom('footer').offsetHeight);
             },
             methods: {
-              openShop(){
-                this.showShop = !this.showShop
-                if (this.showShop) {
-                  api.openFrame({
-                      name: 'liveshop',
-                      url: './liveshop.html',
-                      rect: {
-                          x: 0,
-                          y: $api.dom('#chatlists').offsetTop,
-                          w: api.winWidth,
-                          h: api.winHeight-$api.dom('#chatlists').offsetTop
-                      },
-                      pageParam: {
-                          name: 'test'
-                      },
-                      bounces: false,
-                      bgColor: 'rgba(0,0,0,0)',
-                      vScrollBarEnabled: true,
-                      hScrollBarEnabled: true
-                  });
-                }else {
-                  api.setFrameAttr({
-                      name: 'liveshop',
-                      bounces: false,
-                      bgColor: 'rgba(0,0,0,0)',
-                      vScrollBarEnabled: true,
-                      hScrollBarEnabled: true,
-                      hidden:true
-                  });
+                openShop() {
+                    this.showShop = !this.showShop
+                    if (this.showShop) {
+                        api.openFrame({
+                            name: 'liveshop',
+                            url: './liveshop.html',
+                            rect: {
+                                x: 0,
+                                y: $api.dom('#chatlists').offsetTop,
+                                w: api.winWidth,
+                                h: api.winHeight - $api.dom('#chatlists').offsetTop
+                            },
+                            pageParam: {
+                                name: 'test'
+                            },
+                            bounces: false,
+                            bgColor: 'rgba(0,0,0,0)',
+                            vScrollBarEnabled: true,
+                            hScrollBarEnabled: true
+                        });
+                    } else {
+                        api.setFrameAttr({
+                            name: 'liveshop',
+                            bounces: false,
+                            bgColor: 'rgba(0,0,0,0)',
+                            vScrollBarEnabled: true,
+                            hScrollBarEnabled: true,
+                            hidden: true
+                        });
 
-                  // api.closeFrame({
-                  //     name: 'liveshop'
-                  // });
+                        // api.closeFrame({
+                        //     name: 'liveshop'
+                        // });
 
-                }
+                    }
 
-              },
+                },
                 closeLive() {
-                  var demo = api.require('scrollVideo');
-                      demo.closeScrollVideo(function(ret, err){
-                        console.log(JSON.stringify(ret) + "  " +JSON.stringify(err));
-                      });
+                    var demo = api.require('scrollVideo');
+                    demo.closeScrollVideo(function(ret, err) {
+                        console.log(JSON.stringify(ret) + "  " + JSON.stringify(err));
+                    });
                     api.closeWin();
                 },
                 sendPl() {
-                  var _this = this
-                  var inputField = api.require('inputField');
-                  inputField.setInputFieldListener(function(ret, err) {
-                      if (ret) {
-                          if (ret.chatViewH < 50) {
+                    var _this = this
+                    var inputField = api.require('inputField');
+                    inputField.setInputFieldListener(function(ret, err) {
+                        if (ret) {
+                            if (ret.chatViewH < 50) {
 
-                          }
-                          console.log(JSON.stringify(ret));
-                      } else {
-                          console.log(JSON.stringify(err));
-                      }
-                  });
-                  // inputField.becomeFirstResponder(function(ret, err) {
-                  //     if (ret.status) {
-                  //         console.log(JSON.stringify(ret));
-                  //     } else {
-                  //         console.log(JSON.stringify(err));
-                  //     }
-                  // });
-                  inputField.open({
-                      bgColor: '#ffffff',
-                      lineColor: '#999999',
-                      fileBgColor: '#f5f5f5',
-                      borderColor: '#999999',
-                      placeholder: '',
-                      autoFocus: true,
-                      maxLines: 5,
-                      limitedWordsNumber: 100,
-                      sendBtn: {
-                          bg: '#FB607D',
-                          title: 'Send',
-                          titleColor: '#fff',
-                          bgHighlight: '#e67187',
-                      },
-                      fixedOn: api.frameName
-                  }, function(ret, err) {
-                      if (ret) {
-                          if (ret.msg != '') {
-                              console.log(ret.msg + 'end');
-                              // _this.sendPl(ret.msg)
-                              inputField.resignFirstResponder();
-                              api.sendEvent({
-                                  name: 'livechatText',
-                                  extra: {
-                                      msg: ret.msg,
-                                  }
-                              });
-                          }
-                          // alert(JSON.stringify(ret));
+                            }
+                            console.log(JSON.stringify(ret));
+                        } else {
+                            console.log(JSON.stringify(err));
+                        }
+                    });
+                    // inputField.becomeFirstResponder(function(ret, err) {
+                    //     if (ret.status) {
+                    //         console.log(JSON.stringify(ret));
+                    //     } else {
+                    //         console.log(JSON.stringify(err));
+                    //     }
+                    // });
+                    inputField.open({
+                        bgColor: '#ffffff',
+                        lineColor: '#999999',
+                        fileBgColor: '#f5f5f5',
+                        borderColor: '#999999',
+                        placeholder: '',
+                        autoFocus: true,
+                        maxLines: 5,
+                        limitedWordsNumber: 100,
+                        leftBtn: {
+                            bg: '#FB607D',
+                            title: 'Close',
+                            titleColor: '#fff',
+                            bgHighlight: '#999999',
+                            bg: '#999999',
+                        },
+                        sendBtn: {
+                            bg: '#FB607D',
+                            title: 'Send',
+                            titleColor: '#fff',
+                            bgHighlight: '#e67187',
+                        },
+                        fixedOn: api.frameName
+                    }, function(ret, err) {
+                        if (ret) {
+                            if (ret.msg != '') {
+                                console.log(ret.msg + 'end');
+                                // _this.sendPl(ret.msg)
+                                inputField.resignFirstResponder();
+                                api.sendEvent({
+                                    name: 'livechatText',
+                                    extra: {
+                                        msg: ret.msg,
+                                    }
+                                });
+                            }
+                            // alert(JSON.stringify(ret));
 
 
-                      } else {
-                          // alert(JSON.stringify(err));
-                      }
-                  });
-                  inputField.setInputFieldListener(function(ret, err) {
-                      if (ret) {
-                          console.log(JSON.stringify(ret));
-                          if (ret.chatViewH <= 50) {
-                              inputField.close();
-                          }
-                          // alert(JSON.stringify(ret));
-                      } else {
-                          // alert(JSON.stringify(err));
-                      }
-                  });
+                        } else {
+                            // alert(JSON.stringify(err));
+                        }
+                    });
+                    inputField.setInputFieldListener(function(ret, err) {
+                        if (ret) {
+                            console.log(JSON.stringify(ret));
+                            if (ret.chatViewH <= 50) {
+                                inputField.close();
+                            }
+                            // alert(JSON.stringify(ret));
+                        } else {
+                            // alert(JSON.stringify(err));
+                        }
+                    });
 
                 },
                 //举报

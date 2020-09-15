@@ -176,9 +176,7 @@
                 <div class="fixedtime"><img src="../../image/naozhong.png" alt="">8-24 10:22</div>
                 <img src="../../image/img7.jpg" alt="">
             </div>
-            <div class="countdownBox">
-              <!-- <span>08</span>: <span>09</span>: <span>09</span> -->
-              <span :id="countId(ite.id,ite.start_time)">{{fn_countDown(ite.start_time,ite.id)}}</span></div>
+            <div class="countdownBox"><span :id="countId(ite.id,ite.start_time)">{{fn_countDown(ite.start_time,ite.id)}}</span></div>
             <div class="goLive"><span class="btn"><img src="../../image/play.png" alt=""></span>Click to go the studio</div>
         </div>
         <footer id="footer"></footer>

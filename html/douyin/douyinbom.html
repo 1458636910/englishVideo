@@ -175,7 +175,7 @@
                     full_name: '',
                     showShop: false,
                     goperson: false,
-                    video_id:'',
+                    video_id: '',
                 }
             },
             created() {
@@ -187,8 +187,8 @@
                 var _this = this;
                 api.addEventListener({
                     name: 'closeShop'
-                }, function(ret, err){
-                   _this.showShop = false
+                }, function(ret, err) {
+                    _this.showShop = false
                     api.closeFrame({
                         name: 'videoshop'
                     });
@@ -270,12 +270,12 @@
                             url: './videoshop.html',
                             rect: {
                                 x: 0,
-                                y: api.pageParam.height+40,
+                                y: api.pageParam.height + 40,
                                 w: api.winWidth,
-                                h: api.winHeight-$api.dom('#chatlists').offsetTop
+                                h: api.winHeight - $api.dom('#chatlists').offsetTop
                             },
                             pageParam: {
-                                video_id:this.video_id
+                                video_id: this.video_id
                             },
                             bounces: false,
                             bgColor: 'rgba(0,0,0,0)',
@@ -299,7 +299,7 @@
                     }
 
                 },
-                setInfo(tit, count,product_count,video_id) {
+                setInfo(tit, count, product_count, video_id) {
                     this.full_name = tit
                     this.videotitle = count
                     this.product_count = product_count
@@ -342,6 +342,13 @@
                         autoFocus: true,
                         maxLines: 5,
                         limitedWordsNumber: 100,
+                        leftBtn: {
+                            bg: '#FB607D',
+                            title: 'Close',
+                            titleColor: '#fff',
+                            bgHighlight: '#999999',
+                            bg: '#999999',
+                        },
                         sendBtn: {
                             bg: '#FB607D',
                             title: 'Send',

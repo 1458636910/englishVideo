@@ -12,11 +12,11 @@
         body,
         html {
             background: none;
-
         }
-        .bodybg{
-          background: url(../../image/liveempty.png) no-repeat;
-          background-size: 100% 100%;
+
+        .bodybg {
+            background: url(../../image/liveempty.png) no-repeat;
+            background-size: 100% 100%;
         }
 
         #app {
@@ -289,8 +289,8 @@
         }
 
         .progressbox>img {
-            width: 30px;
-            height: 30px;
+            width: 5vw;
+            height: 5vw;
         }
 
         .progress {
@@ -302,12 +302,19 @@
         }
 
         .progress>span {
+            width: 15vw;
+            white-space: nowrap;
+            overflow: hidden;
             font-size: 16px;
             color: white;
             margin: 0 5px;
         }
+        .progress>span:last-child{
+          text-align: center;;
+        }
 
         .trueProgress {
+            width: 52vw;
             flex: 1;
             height: 5px;
             background: rgba(255, 255, 255, 0.4);
@@ -316,7 +323,7 @@
         }
 
         .innerprogress {
-            width: 30%;
+            width: 0;
             height: 100%;
             background: white;
             position: relative;
@@ -417,13 +424,16 @@
             <div class="title" id="title">
                 {{title}}
             </div>
-            <!-- <div class="title progressbox">
+            <div class="title progressbox">
                 <img @click="changePlayStatus()" :src="isCompleted?'../../image/again.png':!playStatus?'../../image/play.png':'../../image/pause.png'" alt="">
-                <div class="progress" @click="changePlayTime($event)"><span>{{jstime}}</span>
+                <div class="progress" @click="changePlayTime($event)">
+                    <span>{{jstime}}</span>
                     <div class="trueProgress">
-                        <div class="innerprogress"><span></span></div>
-                    </div><span>20:00</span></div>
-            </div> -->
+                        <div class="innerprogress" :style="'width:'+percent+'%'"><span></span></div>
+                    </div>
+                    <span>{{endtime}}</span>
+                </div>
+            </div>
         </div>
         <footer id="footer">
             <div class="footer">
@@ -493,8 +503,11 @@
                     viewoLength: 0, //视频的额长度
                     currentLength: '',
                     jsnum: 0, //播放的时间
-                    jstime: '00:00:00',
-                    isCompleted:false,  //是否播放完毕
+                    jstime: '00:00',
+                    isCompleted: false, //是否播放完毕
+                    videonum: 0, //视频的时长
+                    endtime: '00:00',
+                    percent:0,  //播放的进度百分比
                 }
             },
             created() {
@@ -502,11 +515,20 @@
                 api.addEventListener({
                     name: 'videoComplete'
                 }, function(ret, err) {
-                  return;  //暂时关闭，后续进度条用到
+                    // return; //暂时关闭，后续进度条用到
                     if (ret) {
                         var type = ret.value.type; //play  播放  stop停止
-                        var isCompleted = ret.value.isCompleted;  //是否是播放完毕了
+                        var isCompleted = ret.value.isCompleted; //是否是播放完毕了
+                        _this.jstime = _this.endtime;
+                        _this.jsnum = _this.videonum;
+                        _this.percent =  100;
                         if (type == 'play') {
+                          //重播
+                          if (_this.isCompleted) {
+                              _this.isCompleted = false;
+                              _this.initTime()
+                              _this.setVideoLength(1)
+                          }
                             if (timer) {
                                 return;
                             } else {
@@ -514,8 +536,8 @@
                             }
                         } else {
                             //播放完毕了
-                            if(isCompleted){
-                              _this.isCompleted = true;
+                            if (isCompleted) {
+                                _this.isCompleted = true;
                             }
                             if (timer) {
                                 _this.playStatus = false;
@@ -525,6 +547,17 @@
                                 return;
                             }
                         }
+                    } else {
+                        console.log(JSON.stringify(err));
+                    }
+                });
+                //获取视频的长度，处理成时间格式
+                api.addEventListener({
+                    name: 'videolength'
+                }, function(ret, err) {
+                    if (ret) {
+                        _this.videonum = parseInt(ret.value.duration / 1000)
+                        _this.jsVideoLength()
                     } else {
                         console.log(JSON.stringify(err));
                     }
@@ -560,23 +593,46 @@
                 this.startJstime()
             },
             methods: {
+                //初始化时间
+                initTime(){
+                  this.jsnum = 0, //播放的时间
+                  this.jstime = '00:00';
+                  this.isCompleted = false;  //是否播放完毕
+                  this.percent = 0;  //播放的进度百分比
+                  this.startJstime()
+                },
+                //计算时长
+                jsVideoLength() {
+                    var mintes = Math.floor((this.videonum) / 60);
+                    var secend = this.videonum - mintes * 60;
+                    if (mintes < 10) {
+                        mintes = '0' + mintes
+                    }
+                    if (secend < 10) {
+                        secend = '0' + secend
+                    }
+                    this.endtime = mintes + ':' + secend
+                },
                 //开始计时
                 startJstime() {
                     timer = setInterval(() => {
+                      if(this.jsnum>=this.videonum&&this.jsnum!=0){
+                        this.isCompleted = true;
+                        clearInterval(timer)
+                        timer = null;
+                        return;
+                      }
                         this.jsnum += 1
-                        var hours = Math.floor(this.jsnum / 3600);
-                        var mintes = Math.floor((this.jsnum - hours * 3600) / 60);
-                        var secend = this.jsnum - hours * 3600 - mintes * 60;
-                        if (hours < 10) {
-                            hours = '0' + hours
-                        }
+                        var mintes = Math.floor((this.jsnum) / 60);
+                        var secend = this.jsnum - mintes * 60;
                         if (mintes < 10) {
                             mintes = '0' + mintes
                         }
                         if (secend < 10) {
                             secend = '0' + secend
                         }
-                        this.jstime = hours + ':' + mintes + ':' + secend
+                        this.percent = (this.jsnum/this.videonum*100).toFixed(2)
+                        this.jstime = mintes + ':' + secend
                     }, 1000)
                 },
                 setVideoLength(time) {
@@ -605,12 +661,11 @@
                 //播放或者暂停
                 changePlayStatus() {
                     this.playStatus = !this.playStatus;
+                    console.log("======================"+this.isCompleted)
                     //如果已经播放完毕需要重播
-                    if(this.isCompleted){
-                      this.isCompleted = !this.isCompleted;
-                      this.jsnum = 0;
-                      this.jstime = '00:00:00'
-                      this.setVideoLength(0)
+                    if (this.isCompleted) {
+                        this.jsnum = 0;
+                        this.jstime = '00:00'
                     }
                     if (this.playStatus) {
                         api.execScript({
@@ -652,13 +707,13 @@
                                         _this.look_count = extra.look_count == 0 ? 1 : extra.look_count;
                                     } else if (extra.type == 3) {
 
-                                    }else if(extra.type==4){  //主播离开了直播间
-                                      var _body = $api.dom('body');
-                                      if($api.hasCls(_body, 'bodybg')){
-                                        $api.removeCls(_body,'bodybg')
-                                      }else{
-                                        $api.addCls(_body,'bodybg')
-                                      }
+                                    } else if (extra.type == 4) { //主播离开了直播间
+                                        var _body = $api.dom('body');
+                                        if ($api.hasCls(_body, 'bodybg')) {
+                                            $api.removeCls(_body, 'bodybg')
+                                        } else {
+                                            $api.addCls(_body, 'bodybg')
+                                        }
                                     }
                                 });
 
@@ -687,13 +742,13 @@
                                 _this.look_count = extra.look_count == 0 ? 1 : extra.look_count;
                             } else if (extra.type == 3) {
 
-                            }else if(extra.type==4){  //主播离开了直播间
-                              var _body = $api.dom('body');
-                              if($api.hasCls(_body, 'bodybg')){
-                                $api.removeCls(_body,'bodybg')
-                              }else{
-                                $api.addCls(_body,'bodybg')
-                              }
+                            } else if (extra.type == 4) { //主播离开了直播间
+                                var _body = $api.dom('body');
+                                if ($api.hasCls(_body, 'bodybg')) {
+                                    $api.removeCls(_body, 'bodybg')
+                                } else {
+                                    $api.addCls(_body, 'bodybg')
+                                }
                             }
                         });
                     }
@@ -1028,9 +1083,10 @@
                         limitedWordsNumber: 100,
                         leftBtn: {
                             bg: '#FB607D',
-                            title: 'Send',
+                            title: 'Close',
                             titleColor: '#fff',
-                            bgHighlight: '#e67187',
+                            bgHighlight: '#999999',
+                            bg: '#999999',
                         },
                         sendBtn: {
                             bg: '#FB607D',

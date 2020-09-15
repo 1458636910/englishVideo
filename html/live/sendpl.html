@@ -84,12 +84,10 @@
             border-bottom: 1px solid #f5f5f5;
         }
 
-
         .chosed {
             background-image: url('../../image/chose.png');
             background-size: 100%;
         }
-
     </style>
 </head>
 
@@ -116,8 +114,8 @@
             el: '#app',
             data() {
                 return {
-                    active:false,
-                    inputChatHeight:'800'
+                    active: false,
+                    inputChatHeight: '800'
                 }
             },
             mounted: function() {
@@ -126,53 +124,58 @@
                 }, 500)
             },
             created() {
-              this.sendPl()
+                this.sendPl()
             },
             methods: {
-                sendPl(){
-                  var _this = this
-                  var inputField = api.require('inputField');
-                  inputField.open({
-                      bgColor: '#ffffff',
-                      lineColor: '#999999',
-                      fileBgColor: '#f5f5f5',
-                      borderColor: '#999999',
-                      placeholder: '',
-                      autoFocus: true,
-                      maxLines: 5,
-                      limitedWordsNumber: 100,
-                      sendBtn: {
-                          bg: '#FB607D',
-                          title: 'Send',
-                          titleColor: '#fff',
-                          bgHighlight: '#e67187',
-                      },
-                      fixedOn: api.frameName
-                  }, function(ret, err) {
-                      if (ret) {
-                          if (ret.msg != '') {
-                              inputField.resignFirstResponder();
-                              api.sendEvent({
-                                  name: 'livechatText',
-                                  extra: {
-                                      msg: ret.msg,
-                                  }
-                              });
-                          }
-                      } else {
-                      }
-                  });
-                  inputField.setInputFieldListener(function(ret, err) {
-                      if (ret) {
-                        console.log(ret.inputFieldH+ret.chatViewH)
-                        _this.inputChatHeight = '70vh'
-                          if (ret.chatViewH <= 50) {
-                              inputField.close();
-                              closeShop()
-                          }
-                      } else {
-                      }
-                  });
+                sendPl() {
+                    var _this = this
+                    var inputField = api.require('inputField');
+                    inputField.open({
+                        bgColor: '#ffffff',
+                        lineColor: '#999999',
+                        fileBgColor: '#f5f5f5',
+                        borderColor: '#999999',
+                        placeholder: '',
+                        autoFocus: true,
+                        maxLines: 5,
+                        limitedWordsNumber: 100,
+                        leftBtn: {
+                            bg: '#FB607D',
+                            title: 'Close',
+                            titleColor: '#fff',
+                            bgHighlight: '#999999',
+                            bg: '#999999',
+                        },
+                        sendBtn: {
+                            bg: '#FB607D',
+                            title: 'Send',
+                            titleColor: '#fff',
+                            bgHighlight: '#e67187',
+                        },
+                        fixedOn: api.frameName
+                    }, function(ret, err) {
+                        if (ret) {
+                            if (ret.msg != '') {
+                                inputField.resignFirstResponder();
+                                api.sendEvent({
+                                    name: 'livechatText',
+                                    extra: {
+                                        msg: ret.msg,
+                                    }
+                                });
+                            }
+                        } else {}
+                    });
+                    inputField.setInputFieldListener(function(ret, err) {
+                        if (ret) {
+                            console.log(ret.inputFieldH + ret.chatViewH)
+                            _this.inputChatHeight = '70vh'
+                            if (ret.chatViewH <= 50) {
+                                inputField.close();
+                                closeShop()
+                            }
+                        } else {}
+                    });
                 }
 
             }

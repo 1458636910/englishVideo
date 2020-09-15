@@ -1,0 +1,1655 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>美甲直播</title>
+    <link rel="stylesheet" type="text/css" href="./css/api.css" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <link rel="stylesheet" type="text/css" href="./css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="./css/vant.css" />
+    <link rel="stylesheet" type="text/css" href="./css/animate.min.css" />
+    <style>
+        header {
+            background-color: #FAFAFA;
+        }
+
+        header ul li {
+            height: 12vw;
+            line-height: 12vw;
+            text-align: center;
+            display: none;
+            color: #323237;
+            position: relative;
+            font-size: 18px;
+        }
+
+        header ul li.active {
+            display: block;
+        }
+
+        #footer {
+            background-color: #FAFAFA;
+        }
+
+        #footer ul li {
+            padding-top: 32px;
+            padding-bottom: 4px;
+            background: url() no-repeat center 2px;
+            background-size: auto 6vw;
+            text-align: center;
+        }
+
+        #footer ul li.active {
+            color: #6ab494;
+        }
+
+        #footer ul li:nth-child(1) {
+            background-image: url(./image/bottombtn0101.png);
+        }
+
+        #footer ul li:nth-child(2) {
+            background-image: url(./image/bottombtn0201.png);
+        }
+
+        #footer ul li:nth-child(3) {
+            background-image: url(./image/bottombtn0301.png);
+            background-size: auto 7vw;
+        }
+
+        #footer ul li:nth-child(4) {
+            background-image: url(./image/bottombtn0401.png);
+        }
+
+        #footer ul li:nth-child(5) {
+            background-image: url(./image/bottombtn0501.png);
+        }
+
+        #footer ul li:nth-child(1).active {
+            background-image: url(./image/bottombtn0102.png);
+        }
+
+        #footer ul li:nth-child(2).active {
+            background-image: url(./image/bottombtn0202.png);
+        }
+
+        #footer ul li:nth-child(3).active {
+            background-image: url(./image/bottombtn0302.png);
+            background-size: auto 8vw;
+        }
+
+        #footer ul li:nth-child(4).active {
+            background-image: url(./image/bottombtn0402.png);
+        }
+
+        #footer ul li:nth-child(5).active {
+            background-image: url(./image/bottombtn0502.png);
+        }
+
+        .flex-con {
+            overflow: auto;
+        }
+
+        #footer {
+            padding-top: 5px;
+        }
+
+        .top {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 3vw;
+            box-sizing: border-box;
+        }
+
+        .dress {
+            margin-left: 3vw;
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            color: #696767;
+        }
+
+        .dress .iconfont {
+            font-size: 22px;
+            color: #696767;
+        }
+
+        .dressName {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-right: 1vw;
+        }
+
+        .dressName span {
+            font-size: 15px;
+            margin-right: 3vw;
+        }
+
+        .border-t:before,
+        .border-b:after {
+            height: 0;
+            content: none;
+        }
+
+        .appName {
+            font-size: 25px;
+            /*font-weight: 700;*/
+        }
+
+        #wrap {
+            /*background-image: url('image/userbg.png');*/
+            /*background-size: 100%;*/
+            /*background-repeat: no-repeat;*/
+        }
+
+        .cityCount {
+            display: block;
+            max-width: 50vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        .numBox {
+            position: relative;
+        }
+
+        .num {
+            position: absolute;
+            top: 2px;
+            right: 0;
+            transform: translateX(50%);
+            display: block;
+            height: 18px;
+            line-height: 18px;
+            font-style: normal;
+            font-size: 12px;
+            background: red;
+            color: white;
+            padding: 0 5px;
+            min-width: 18px;
+            box-sizing: border-box;
+            border-radius: 10px;
+        }
+
+        header ul li:last-child {
+            /*background-image: url(./image/userbg.png);
+          background-size: 100% 50vw;*/
+        }
+
+        header.headActive {
+            background-image: url(./image/userbg.png);
+            background-size: 100% 50vw;
+        }
+
+        header ul li:last-child .iconfont {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <header :class="active?'headActive':''">
+            <ul>
+                <li class="border-b active">
+                    <div class="top">
+                        <div id="animationSandbox" style="font-size:25px" class="appName" onclick="doAnimate('')">
+                            NailVision
+                        </div>
+                        <div class="dress">
+                            <div class="dressName" tapmode onclick="choseCity()">
+                                <i class="iconfont">&#xe62c;</i>
+                                <span id="city0" class="cityCount">Loading...</span>
+                            </div>
+                            <span class="numBox" taomode onclick="gomes()">
+                                <i class="iconfont">&#xe769;</i>
+                                <!-- <i class="num">99+</i> -->
+                            </span>
+                        </div>
+                    </div>
+                </li>
+                <li class="border-b">
+                    <div class="top">
+                        <div id="animationSandbox1" style="font-size:25px" class="appName" onclick="doAnimate(1)">
+                            NailVision
+                        </div>
+                        <div class="dress">
+                            <div class="dressName" tapmode onclick="choseCity()">
+                                <i class="iconfont">&#xe62c;</i>
+                                <span id="city1" class="cityCount">Loading...</span>
+                            </div>
+                            <i class="iconfont" taomode onclick="gomes()">&#xe769;</i>
+                        </div>
+                    </div>
+                </li>
+                <li class="border-b">
+
+                    <div class="top">
+                        <div id="animationSandbox2" style="font-size:25px" class="appName" onclick="doAnimate(2)">
+                            NailVision
+                        </div>
+                        <div class="dress">
+                            <div class="dressName" tapmode onclick="choseCity()">
+                                <i class="iconfont">&#xe62c;</i>
+                                <span id="city2" class="cityCount">Loading...</span>
+                            </div>
+                            <i class="iconfont" taomode onclick="gomes()">&#xe769;</i>
+                        </div>
+                    </div>
+                </li>
+                <li class="border-b">
+                    <div class="top">
+                        <div id="animationSandbox3" style="font-size:25px" class="appName" onclick="doAnimate(3)">
+                            NailVision
+                        </div>
+                        <div class="dress">
+                            <div class="dressName" tapmode onclick="choseCity()">
+                                <i class="iconfont">&#xe62c;</i>
+                                <span id="city3" class="cityCount">Loading...</span>
+                                <!-- <span id="city3" class="cityCount">Manchester</span> -->
+                            </div>
+                            <i class="iconfont" taomode onclick="gomes()">&#xe769;</i>
+                        </div>
+                    </div>
+                </li>
+                <li class="border-b">
+
+                    <div class="top">
+                        <div class="appName">
+                            <!-- NailVision -->
+                        </div>
+                        <div class="dress">
+                            <div class="dressName" style="margin-right:3vw;">
+                                <i class="iconfont" tapmode="hover" onclick="goset()">&#xe60e;</i>
+                                <!-- <span>Manchester</span> -->
+                            </div>
+                            <i class="iconfont" taomode onclick="gomes()">&#xe769;</i>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </header>
+        <div id="main" class="flex-con">
+
+        </div>
+        <div id="footer" class="border-t">
+            <ul class="flex-wrap">
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con active"></li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con"></li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con "></li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con"></li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con"></li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="script/api.js"></script>
+<script type="text/javascript" src="script/socket.io.js"></script>
+<script type="text/javascript" src="script/fastclick.js"></script>
+
+<script type="text/javascript" src="script/commonurl.js"></script>
+<script type="text/javascript" src="script/vue.min.js"></script>
+<script type="text/javascript" src="script/vant.js"></script>
+<script type="text/javascript" src="script/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/emn178/js-sha256/build/sha256.min.js"></script>
+<script type="text/javascript">
+    var NVTabBar;
+    var ajpush;
+    var touchBtn = null;
+    var btnsShow = false;
+    var frameIndex = 2;
+    var isChoseDress = false; //是否选择过城市，选择过之后 本次运行不再获取定位
+    var ajpushContent; //接收推送内容
+    function doAnimate(e) {
+        $('#animationSandbox' + e).removeClass().addClass('rubberBand' + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+            $(this).removeClass();
+        });
+    }
+    var app;
+    apiready = function() {
+            app = new Vue({
+                    el: '#wrap',
+                    data() {
+                        return {
+                            active: false
+                        }
+                    }
+                })
+                //版本号
+                // alert(api.appVersion)
+                //获取偏好设置
+                /*协议*/
+            $api.setStorage('isIos', 1); //初始化存储
+            getSysType() //获取权限（ios
+            getReadProtol()
+            ajpush = api.require('ajpushGooglePlay');
+            NVTabBar = api.require('NVTabBar');
+            //唯一标识
+            var deviceId = api.deviceId;
+            setTimeout(() => {
+                    api.removeLaunchView({
+                        animation: {
+                            type: 'fade',
+                            duration: 500
+                        }
+                    });
+                    //获取权限
+                    hasAuthority()
+                }, 2000)
+                //   ///广告页
+                // setTimeout(()=>{
+                //     api.addEventListener({
+                //         name: 'welcomeVideo'
+                //     }, function(ret, err) {
+                //         // alert('结束视频，进入首页');
+                //         api.closeFrame({
+                //             name: 'welcomeVideo'
+                //         });
+                //     });
+                //
+                //     // var header = $api.byId('header');
+                //     // //适配iOS 7+，Android 4.4+状态栏
+                //     // $api.fixStatusBar(header);
+                //     //
+                //     // var headerPos = $api.offset(header);
+                //     // var main = $api.byId('main');
+                //     // var mainPos = $api.offset(main);
+                //     api.openFrame({
+                //         name: 'welcomeVideo',
+                //         url: 'welcomeVideo.html',
+                //         bounces: false,
+                //         rect: {
+                //             x: 0,
+                //             y: 0,
+                //             w: 'auto',
+                //             h: 'auto',
+                //         }
+                //     });
+                // },1000)
+                //   ///////
+                api.addEventListener({
+                    name: 'offline'
+                }, function(ret, err) {
+                  api.toast({
+                      msg: 'Network connection failed',
+                      duration: 3000,
+                      location: 'middle'
+                  });
+                });
+                api.addEventListener({
+                    name: 'online'
+                }, function(ret, err) {
+                  api.toast({
+                      msg: 'Connected to the network',
+                      duration: 3000,
+                      location: 'middle'
+                  });
+                });
+            api.addEventListener({
+                name: 'keyback'
+            }, function(ret, err) {
+                api.confirm({
+                    title: 'Are you sure you want to exit?',
+                    msg: '',
+                    buttons: ['Cancel', 'Exit']
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.buttonIndex == 2) {
+                            api.closeWidget({
+                                id: 'A6031871807996', //这里改成自己的应用ID
+                                retData: {
+                                    name: 'closeWidget'
+                                },
+                                silent: true
+                            });
+                        }
+                        //  alert( JSON.stringify( ret ) );
+                    } else {
+                        //  alert( JSON.stringify( err ) );
+                    }
+                });
+                return
+                console.log();
+                var curSecond = (new Date().getTime()) / 1000;
+                if (Math.abs(curSecond - backSecond) > 2) {
+                    backSecond = curSecond;
+                    api.toast({
+                        msg: 'Press again to exit',
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                } else {
+                    api.closeWidget({
+                        id: 'A6031871807996', //这里改成自己的应用ID
+                        retData: {
+                            name: 'closeWidget'
+                        },
+                        silent: true
+                    });
+                }
+            });
+            api.addEventListener({
+                name: 'resume'
+            }, function() {
+                getSysType()
+                    //前台
+                    //检测支付结果
+                checkPay_out()
+                    //清除状态栏
+                api.cancelNotification({
+                    id: -1
+                });
+                //去掉角标
+                ajpush.setBadge({
+                    badge: 0
+                });
+                api.setAppIconBadge({
+                    badge: 0
+                });
+                //
+                api.setBlurEffect({
+                    style: 'none',
+                    global: true,
+                });
+                if (!isChoseDress) {
+                    //没有选择定位，初始化当前位置
+                    getBmapDress()
+                }
+            });
+            api.addEventListener({
+                name: 'pause'
+            }, function() {
+                //后台
+                api.setBlurEffect({
+                    style: 'prominent',
+                    global: true,
+                });
+            });
+            //获取APP配置信息
+            getAppConfig()
+
+            //获取缓存
+            var size = api.getCacheSize({
+                sync: true
+            });
+            var newLimit = catchChange(size);
+            console.log(newLimit);
+            console.log(size);
+            $api.setStorage('catchNum', newLimit);
+            //
+
+            $api.fixStatusBar($api.dom('header'));
+            $api.fixTabBar($api.byId('footer'))
+            api.setStatusBarStyle({
+                style: 'dark',
+                color: 'rgba(0,0,0,0)'
+            });
+            funIniGroup();
+
+            //页面监听
+            upDataInfo()
+
+            //启动页
+            // api.setFullScreen({
+            //     fullScreen:true
+            // });
+            // api.removeLaunchView({
+            //     animation: {
+            //         type: 'fade',
+            //         duration: 500
+            //     }
+            // });
+            // api.openFrame({
+            //     name: 'adpage',
+            //     url: './html/adpage.html',
+            //     rect: {
+            //         x: 0,
+            //         y: 0,
+            //         w: api.winWidth,
+            //         h: api.winHeight
+            //
+            //     },
+            //     pageParam: {
+            //         name: 'test'
+            //     },
+            //     animation:{
+            //       type:"fade",                //动画类型（详见动画类型常量）
+            //       subType:"from_right",       //动画子类型（详见动画子类型常量）
+            //       duration:300
+            //     },
+            //     bounces: true,
+            //     bgColor: 'rgba(0,0,0,0)',
+            //     vScrollBarEnabled: true,
+            //     hScrollBarEnabled: true
+            // });
+            // setTimeout(()=>{
+            //   api.closeFrame({
+            //       name: 'adpage'
+            //   });
+            //   api.setFullScreen({
+            //       fullScreen:false
+            //   });
+            //
+            // },3000)
+
+
+            //
+            var db = api.require('db');
+            db.openDatabase({
+                name: 'data'
+            }, function(ret, err) {
+                if (ret.status) {
+                    db.selectSql({
+                        name: 'data',
+                        sql: 'SELECT count(*) count FROM sqlite_master WHERE type="table" AND name="Persons"'
+                    }, function(ret, err) {
+                        if (ret.status) {
+                            if (ret.data[0].count == 0) {
+                                db.executeSql({
+                                    name: 'data',
+                                    sql: 'CREATE TABLE Persons(name varchar(100) UNIQUE, content text)'
+                                }, function(rett, errr) {});
+                            }
+                        }
+                    });
+                } else {
+                    alert(JSON.stringify(err));
+                }
+            });
+            // openNvTabbar()
+
+            //极光绑定
+            bindAjpush()
+            ajPushListen()
+                //初始化握手
+            setTimeout(() => {
+                socketInitFn()
+            }, 3000)
+
+        }
+        //检测支付结果
+    function checkPay_out() {
+        api.getPrefs({
+            key: 'payType'
+        }, function(ret, err) {
+            if (ret.value == 'live') {
+
+            } else if (ret.value == 'video') {
+                api.getPrefs({
+                    key: 'payStatus'
+                }, function(ret, err) {
+                    if (ret.value == 'paying') {
+                        api.execScript({
+                            name: 'douyin_win',
+                            // frameName: 'frmName',
+                            script: 'checkPay();'
+                        });
+                    }
+                });
+
+            }
+        });
+    }
+
+    function socketInitFn() {
+        if ($api.getStorage('islogin') != 'true') {
+            return
+        }
+        // ws://nailvision.tao.li4.cn:1936
+        var demo = api.require('myWebSocket');
+        var readyState = demo.readyState()
+        if (readyState == 1) {
+            return
+        }
+        demo.open({
+            pingInterval: 60,
+            url: socketUrl
+        }, function(ret, err) {
+            // console.log(JSON.stringify(ret) + "  " + JSON.stringify(err));
+            if (ret.status) {
+                demo.bindEvent(function(rett, errr) {
+                    var type = rett.type;
+                    var str = rett.data;
+                    switch (type) {
+                        case 'opened':
+                            //登录...
+                            console.log("连接成功");
+                            break;
+                        case 'receive':
+                            var message = JSON.parse(str);
+                            console.log("index.html接收消息：" + str);
+                            api.sendEvent({
+                                name: 'updataMessage',
+                            });
+                            var data = JSON.parse(str);
+                            if (data.op == 'init') {
+                                $api.setStorage('client_id', data.client_id);
+                                var bindUid = {
+                                    client_id: data.client_id
+                                };
+                                requstPost('chat/bindUid', bindUid, function success(ret) {
+
+                                    }, function fail(err) {
+
+                                    })
+                                    //  _this.client_id = data.client_id
+                                    //  _this.bindlive_id()
+                            }
+                            if (data.op == 'message') {
+                                //  alert(1)
+                            }
+                            break;
+                        case 'error':
+                            //do something ...
+                            console.log("连接发生错误");
+                            //打印关闭的log
+                            socketInitFn()
+                            console.log(str)
+                            break;
+                        case 'closed':
+                            //do something ...
+                            console.log("连接已断开");
+                            socketInitFn()
+                                //打印关闭的log
+                            console.log(str)
+                            break;
+                    }
+                });
+            } else {
+                if (err.code == 2) {
+                    socketInitFn()
+                }
+            }
+        });
+    }
+
+    function getSysType() {
+        var systype = api.systemType;
+        var iosClose = systype == 'ios' ? 1 : 0; //当前系统是安卓还是ios
+        requstPost('app/iosStatus', {}, function success(ret) {
+            if (ret.code == 0) { //返回1 隐藏  2 打开
+                console.log('后台获取的开关状态', ret.data.iosClose)
+                if (iosClose == 1) { //如果当前机型是ios  需要存储
+                    $api.setStorage('isIos', ret.data.iosClose);
+                } else { //否则都显示
+                    $api.setStorage('isIos', 0);
+                }
+            }
+        })
+    }
+    //打开协议说明
+    function getReadProtol() {
+        /*协议*/
+        // api.removePrefs({
+        //     key: 'protocolText'
+        // });
+        api.getPrefs({
+            key: 'protocolText'
+        }, function(ret, err) {
+            console.log('ret' + JSON.stringify(ret));
+            console.log('err' + JSON.stringify(err));
+            if (ret.value) {
+
+            } else {
+                // api.setPrefs({
+                //     key: 'protocolText',
+                //     value: 'readed'
+                // });
+                api.openFrame({
+                    name: 'tipsframe',
+                    url: './html/tipsframe.html',
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: api.winWidth,
+                        h: api.winHeight
+                    },
+                    pageParam: {
+                        name: 'test'
+                    },
+                    bounces: false,
+                    bgColor: 'rgba(0,0,0,0)',
+                    vScrollBarEnabled: true,
+                    hScrollBarEnabled: true
+                });
+
+            }
+            var protocolText = ret.value;
+        });
+    }
+    //打开nvtabbar
+    function openNvTabbar() {
+        // var NVTabBar = api.require('NVTabBar');
+        NVTabBar.open({
+            styles: {
+                bg: '#fff',
+                //bg:"widget://image/NVTabBar/tabbar_bg.png",
+                h: api.winWidth / 100 * 12,
+                dividingLine: {
+                    width: 0,
+                    color: '#000'
+                },
+                badge: {
+                    bgColor: '#FB607D',
+                    numColor: '#fff',
+                    size: 8.0,
+                    centerX: 40.0, //（可选项）数字类型；徽章中心点坐标（相对于所属item的背景面板坐标系）；默认值：icon图标的右上角
+                    centerY: 6.0
+                }
+            },
+            items: [{
+                w: api.winWidth / 5.0,
+                bg: {
+                    marginB: 0,
+                    image: 'rgba(255,255,255,1)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: 'widget://image/bottombtn0101.png',
+                    highlight: 'widget://image/bottombtn0102.png',
+                    selected: 'widget://image/bottombtn0102.png'
+                },
+                title: {
+                    // text: '',
+                    size: 0,
+                    normal: '#696969',
+                    selected: '#eb4f38',
+                    marginB: 0
+                }
+            }, {
+                w: api.winWidth / 5.0,
+                bg: {
+                    marginB: 0,
+                    image: 'rgba(255,255,255,1)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: 'widget://image/bottombtn0201.png',
+                    highlight: 'widget://image/bottombtn0202.png',
+                    selected: 'widget://image/bottombtn0202.png'
+                },
+                title: {
+                    // text: '',
+                    size: 0,
+                    normal: '#696969',
+                    selected: '#eb4f38',
+                    marginB: 0
+                }
+            }, {
+                w: api.winWidth / 5.0,
+                bg: {
+                    marginB: 0,
+                    image: 'rgba(255,255,255,1)'
+                },
+                iconRect: {
+                    w: 32,
+                    h: 32,
+                },
+                icon: {
+                    normal: 'widget://image/bottombtn0301.png',
+                    highlight: 'widget://image/bottombtn0302.png',
+                    selected: 'widget://image/bottombtn0302.png'
+                },
+                title: {
+                    //text : '333',
+                    size: 0,
+                    normal: '#696969',
+                    selected: '#eb4f38',
+                    marginB: 0
+                }
+            }, {
+                w: api.winWidth / 5.0,
+                bg: {
+                    marginB: 0,
+                    image: 'rgba(255,255,255,1)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: 'widget://image/bottombtn0401.png',
+                    highlight: 'widget://image/bottombtn0402.png',
+                    selected: 'widget://image/bottombtn0402.png'
+                },
+                title: {
+                    // text: '',
+                    size: 0,
+                    normal: '#696969',
+                    selected: '#eb4f38',
+                    marginB: 0
+                }
+            }, {
+                w: api.winWidth / 5.0,
+                bg: {
+                    marginB: 0,
+                    image: 'rgba(255,255,255,1)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: 'widget://image/bottombtn0501.png',
+                    highlight: 'widget://image/bottombtn0502.png',
+                    selected: 'widget://image/bottombtn0502.png'
+                },
+                title: {
+                    // text: '',
+                    size: 0,
+                    normal: '#696969',
+                    selected: '#eb4f38',
+                    marginB: 0
+                }
+            }],
+            selectedIndex: 2
+        }, function(ret, err) {
+            console.log(JSON.stringify(ret));
+            // NVTabBar.setBadge({
+            //     index: 4,
+            //     badge: ''
+            // });
+            api.setFrameGroupIndex({
+                name: 'group',
+                index: ret.index
+            });
+        });
+    }
+    //页面显示,index 无效
+    function upDataInfo() {
+        api.addEventListener({
+            name: 'viewappear'
+        }, function(ret, err) {
+            if ($api.getStorage('islogin') == 'true') {
+                getuserinfo()
+            } else {
+
+            }
+            // if (frameIndex == 4) {
+            //   api.setStatusBarStyle({
+            //       style: 'light',
+            //       color: 'rgba(0,0,0,0)'
+            //   });
+            // }else {
+            //   api.setStatusBarStyle({
+            //       style: 'dark',
+            //       color: 'rgba(0,0,0,0)'
+            //   });
+            // }
+
+        });
+    }
+    //判断权限，获取
+    function hasAuthority() {
+        var resultList = api.hasPermission({
+            list: ['storage', 'camera', 'photos', 'location', 'microphone']
+        });
+        // api.alert({
+        //     msg:JSON.stringify(resultList)
+        // });
+        if (!resultList[0].granted || !resultList[1].granted || !resultList[2].granted || !resultList[3].granted || !resultList[4].granted) {
+            api.confirm({
+                title: 'Get permission',
+                msg: 'You need to open relevant permissions to use the app normally.',
+                buttons: ['Sure', 'Cancel']
+            }, function(ret, err) {
+                if (ret) {
+                    if (ret.buttonIndex == 1) {
+                        api.requestPermission({
+                            list: ['storage', 'camera', 'photos', 'location', 'microphone']
+                        }, function(ret, err) {
+                            // alert('ret'+JSON.stringify(ret))
+                            // alert('err'+JSON.stringify(err))
+                            if (ret.list[3].granted) {
+                                // return
+                                getBmapDress()
+
+                            } else {
+                                setDress('error')
+                            }
+                        })
+                    } else {
+                        // hasAuthority()
+                        setDress('error')
+                    }
+                    //  alert( JSON.stringify( ret ) );
+                } else {
+                    //  alert( JSON.stringify( err ) );
+                }
+            });
+
+        }
+        if (resultList[3].granted) {
+            getBmapDress()
+                // alert(1)
+        }
+
+
+
+    }
+    //地理位置解析
+    function getBmapDress() {
+        api.startLocation({
+            accuracy: '100m',
+            filter: 1,
+            autoStop: true
+        }, function(ret, err) {
+            // alert('ret'+JSON.stringify(ret))
+            //  alert('err'+JSON.stringify(err));
+            if (ret && ret.status) {
+                // return
+                //获取位置信息成功
+                api.ajax({
+                    url: 'http://api.map.baidu.com/reverse_geocoding/v3',
+                    method: 'get',
+                    data: {
+                        values: {
+                            ak: 'PPwiwcCLwXQgZvWPp8hq4w8cPkCprpMP',
+                            output: 'json',
+                            location: ret.latitude + ',' + ret.longitude
+                        },
+                    }
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.status == 0) {
+                          var query = ret.result.addressComponent.city;
+                          setDress(query)
+                          return;
+
+                          var appKey = '7a9a2d9ba3c4923a';
+                          var key = 'uC1Y9pA1idHXl5tyjhltyQ1YIjdgNitM'; //注意：暴露appSecret，有被盗用造成损失的风险
+                          var salt = new Date().getTime();
+                          var curtime = Math.round(new Date().getTime() / 1000);
+                          // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
+                          var from = 'auto';
+                          var to = 'zh-CHS';
+                          var str1 = appKey + query + salt + curtime + key;
+                          var sign = sha256(str1);
+                          api.ajax({
+                              url: 'http://openapi.youdao.com/api',
+                              method: 'post',
+                              dataType: 'jsonp',
+                              data: {
+                                  values: {
+                                    q: query,
+                                    appKey: appKey,
+                                    salt: salt,
+                                    from: from,
+                                    to: to,
+                                    curtime: curtime,
+                                    sign: sign,
+                                    signType: "v3"
+                                  },
+                              }
+                          },function(rett, err){
+                              if (rett) {
+                                  if(api.systemType=='ios'){
+                                      setDress(rett.translation)
+                                  }else{
+                                      setDress(JSON.parse(rett).translation)
+                                  }
+                              } else {
+                                  console.log( JSON.stringify( err ) );
+                              }
+                          });
+
+                            // setDress(ret.result.addressComponent.city)
+                                // setDress(ret.regeocode.addressComponent.city)
+                        } else {
+                            setDress('error')
+                        }
+                        console.log(JSON.stringify(ret));
+                        // alert(JSON.stringify(ret));
+                    } else {
+                        // alert(JSON.stringify(err));
+                    }
+                });
+
+                //  alert('ret'+JSON.stringify(ret))
+            } else {
+                setDress('error')
+                    //  alert('err'+JSON.stringify(err));
+            }
+        });
+    }
+    //设置顶部城市
+    function setDress(e) {
+        // alert(e)
+        //选择了城市，本次app运行中，不再定位
+        isChoseDress = true
+        var a0 = document.getElementById('city0');
+        var a1 = document.getElementById('city1');
+        var a2 = document.getElementById('city2');
+        var a3 = document.getElementById('city3');
+        $api.text(a0, e);
+        $api.text(a1, e);
+        $api.text(a2, e);
+        $api.text(a3, e);
+    }
+    //获取个人中心信息
+    function getuserinfo() {
+        var _this = this;
+        var data = {};
+        console.log('index.html页面的获取用户信息');
+        requstGet('user', data, function success(ret) {
+            $api.setStorage('headimg', ret.data.avatar_url);
+            $api.setStorage('avatar_save_path', ret.data.avatar_save_path);
+            $api.setStorage('nickname', ret.data.nickname);
+            $api.setStorage('gender', ret.data.gender);
+            $api.setStorage('usercity', ret.data.city);
+            $api.setStorage('userprovince', ret.data.province);
+            $api.setStorage('usercountry', ret.data.country);
+            $api.setStorage('email', ret.data.email);
+            $api.setStorage('mobile', ret.data.mobile);
+            $api.setStorage('userType', ret.data.is_anchor);
+            $api.setStorage('has_password', ret.data.has_password);
+            $api.setStorage('paypal', ret.data.paypal);
+            if (ret.data.is_anchor == 1) {
+                if (!btnsShow) {
+                    touchBtns()
+                }
+            }
+        }, function fail(err) {})
+    }
+    //请求APP配置信息
+    function getAppConfig() {
+        var data = {};
+        requstPost('app', data, function success(ret) {
+            // alert(JSON.stringify(ret))
+            if (ret.code == 0) {
+                $api.setStorage('appname', ret.data.name);
+                $api.setStorage('gbp_to_usd', ret.data.exchange_rate.gbp_to_usd); //英镑
+                $api.setStorage('gbp_to_eur', ret.data.exchange_rate.gbp_to_eur); //欧元
+                $api.setStorage('contact_us', ret.data.contact_us);
+            }
+
+        }, function fail(err) {
+
+        })
+    }
+    //设置页面
+    function goset() {
+        if ($api.getStorage('islogin') == 'true') {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'setpage_win',
+            url: 'html/setpage_win.html',
+        });
+    }
+    //打开消息页面
+    function gomes() {
+        if ($api.getStorage('islogin') == 'true') {
+
+        } else {
+            userIslogin()
+            return
+        }
+        api.openWin({
+            name: 'message_win',
+            url: 'html/message_win.html',
+            slidBackType: 'edge',
+        });
+    }
+    //初始化设置启动时的底部页面
+    function funIniGroup() {
+        var eHeaderLis = $api.domAll('header li'),
+            frames = [];
+        for (var i = 0, len = eHeaderLis.length; i < len; i++) {
+            frames.push({
+                name: 'frame' + i,
+                url: './html/frame' + i + '.html',
+                bgColor: '#FAFAFA',
+                bounces: true
+            })
+        }
+        api.openFrameGroup({
+            name: 'group',
+            scrollEnabled: false,
+            rect: {
+                x: 0,
+                y: $api.dom('header').offsetHeight - 1,
+                w: api.winWidth,
+                h: $api.dom('#main').offsetHeight + 1
+            },
+            index: 0,
+            frames: frames
+        }, function(ret, err) {
+            if (ret.index == 4) {
+                app.active = true
+            } else if (ret.index == 2) {
+                app.active = false
+                api.execScript({
+                    name: 'root',
+                    frameName: 'frame2',
+                    script: 'window.app.goTop_();'
+                });
+            } else {
+                app.active = false
+            }
+            // if (ret.index == 4) {
+            //     api.setFrameGroupAttr({
+            //         name: 'group',
+            //         rect: {
+            //             x: 0,
+            //             y: 0,
+            //             w: api.winWidth,
+            //             h: $api.dom('#main').offsetHeight + $api.dom('header').offsetHeight
+            //         }
+            //     });
+            //     // api.setStatusBarStyle({
+            //     //     style: 'light',
+            //     //     color: 'rgba(0,0,0,0)'
+            //     // });
+            // } else {
+            //     api.setStatusBarStyle({
+            //         style: 'dark',
+            //         color: 'rgba(0,0,0,0)'
+            //     });
+            //     api.setFrameGroupAttr({
+            //         name: 'group',
+            //         rect: {
+            //             x: 0,
+            //             y: $api.dom('header').offsetHeight,
+            //             w: api.winWidth,
+            //             h: $api.dom('#main').offsetHeight
+            //         }
+            //     });
+            // }
+        });
+    }
+
+    // 随意切换按钮
+    function randomSwitchBtn(tag) {
+        // api.startPlay({
+        //     path: 'widget://res/load.mp3'
+        // }, function(ret, err) {
+        //     if (ret) {
+        //         // alert('播放完成');
+        //     } else {
+        //         // alert(JSON.stringify(err));
+        //     }
+        // });
+        //peek震动
+        // var cvVibrate = api.require('cvVibrate');
+        //     cvVibrate.Peek(function(ret, err){
+        //         if(ret.status){
+        //             // alert("触发成功");
+        //         }else{
+        //             // alert('触发失败');
+        //         }
+        //     });
+        if (tag == $api.dom('#footer li.active')) {
+            if (frameIndex == 0) {
+                api.execScript({
+                    name: 'root',
+                    frameName: 'frame0',
+                    script: 'goTop();'
+                });
+
+            } else if (frameIndex == 1) {
+                api.execScript({
+                    name: 'root',
+                    frameName: 'frame1',
+                    script: 'goTop();'
+                });
+            } else if (frameIndex == 2) {
+                api.execScript({
+                    name: 'root',
+                    frameName: 'frame2',
+                    script: 'goTop();'
+                });
+            } else if (frameIndex == 3) {
+                api.execScript({
+                    name: 'root',
+                    frameName: 'frame3',
+                    script: 'goTop();'
+                });
+            } else if (frameIndex == 4) {
+                api.execScript({
+                    name: 'root',
+                    frameName: 'frame4',
+                    script: 'goTop();'
+                });
+            }
+            return
+        };
+        var eFootLis = $api.domAll('#footer li'),
+            eHeaderLis = $api.domAll('header li'),
+            index = 0;
+        for (var i = 0, len = eFootLis.length; i < len; i++) {
+            if (tag == eFootLis[i]) {
+                index = i;
+            } else {
+                $api.removeCls(eFootLis[i], 'active');
+                $api.removeCls(eHeaderLis[i], 'active');
+            }
+        }
+        $api.addCls(eFootLis[index], 'active');
+        $api.addCls(eHeaderLis[index], 'active');
+        api.setFrameGroupIndex({
+            name: 'group',
+            index: index
+        });
+        frameIndex = index;
+    }
+
+    function homeFrame() {
+        var eFootLis = $api.domAll('#footer li'),
+            eHeaderLis = $api.domAll('header li'),
+            index = 0;
+        for (var i = 0, len = eFootLis.length; i < len; i++) {
+            $api.removeCls(eFootLis[i], 'active');
+            $api.removeCls(eHeaderLis[i], 'active');
+        }
+        $api.addCls(eFootLis[0], 'active');
+        $api.addCls(eHeaderLis[0], 'active');
+        api.setFrameGroupIndex({
+            name: 'group',
+            index: 0
+        });
+    }
+
+    function choseCity() {
+        api.openWin({
+            name: 'citys_win',
+            url: './html/common/citys_win.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+
+    }
+
+    //配置3dTouch 按钮组
+    function touchBtns() {
+        //获取当前系统
+        if (api.systemType == 'ios') {
+            touchBtn = api.require('3DTouch');
+            touchBtn.setShortcutItems({
+                items: [{
+                    type: 'com.api.testapp.favorite',
+                    title: 'Post a video',
+                    icon: {
+                        type: 1
+                    },
+                    userInfo: {
+                        'key1': 'value1'
+                    }
+                }, {
+                    type: 'com.api.testapp.compose',
+                    title: 'Start live',
+                    icon: {
+                        type: 21
+                    },
+                    userInfo: {
+                        'key2': 'value2'
+                    }
+                }]
+            });
+            touchBtn.setListener(
+                function(ret, err) {
+                    var type = ret.type;
+                    // alert(type)
+                    console.log(type);
+                    setTimeout(() => {
+                        if (type == 'com.api.testapp.favorite') {
+                            api.openWin({
+                                name: 'chosevideo_win',
+                                url: './html/livevideo/chosevideo_win.html',
+                                pageParam: {
+                                    name: 'test'
+                                }
+                            });
+                        } else if (type == 'com.api.testapp.compose') {
+                            api.openWin({
+                                name: 'choselive_win',
+                                url: './html/livevideo/choselive_win.html',
+                                pageParam: {
+                                    name: 'test'
+                                }
+                            });
+                        }
+                    }, 300)
+                }
+            );
+            btnsShow = true
+        }
+
+    }
+    //极光推送绑定
+    function bindAjpush() {
+        var registrationId;
+        var ajpush = api.require('ajpushGooglePlay');
+        var param = {
+            alias: 'nailvision_' + 1,
+            tags: ['tag2']
+        };
+        // console.log('userid' + 1);
+        // console.log(api.systemType);
+        if (api.systemType == 'android') {
+            ajpush.init(function(ret) {
+                if (ret && ret.status) {
+                    ajpush.bindAliasAndTags(param, function(ret) {
+                        var statusCode = ret.statusCode;
+                        console.log('ajpush.bindAliasAndTags' + statusCode);
+                    });
+                    ajpush.getRegistrationId(function(ret) {
+                        //唯一的该设备的标识
+                        registrationId = ret.id;
+                        console.log('ajpush.getRegistrationId----------' + registrationId);
+                        //测试手机的id190e35f7e02b2ba9fbb
+                        //在此请求接口，绑定手机唯一标识
+                    });
+                    //success
+                    // ajpush.setListener(function(ret) {
+                    //     var id = ret.id;
+                    //     var title = ret.title;
+                    //     var content = ret.content;
+                    //     var extra = ret.extra;
+                    //     console.log("id=" + id + ",title=" + title + ",content=" + content + ",extra=" + extra);
+                    // });
+                }else{
+                }
+            });
+        } else {
+            ajpush.bindAliasAndTags(param, function(ret) {
+                var statusCode = ret.statusCode;
+                console.log('ajpush.bindAliasAndTags' + statusCode);
+            });
+            ajpush.getRegistrationId(function(ret) {
+                //唯一的该设备的标识
+                registrationId = ret.id;
+                console.log('ajpush.getRegistrationId' + registrationId);
+                //测试手机的id190e35f7e02b2ba9fbb
+                //在此请求接口，绑定手机唯一标识
+            });
+            //success
+            // ajpush.setListener(function(ret) {
+            //     var id = ret.id;
+            //     var title = ret.title;
+            //     var content = ret.content;
+            //     var extra = ret.extra;
+            //     console.log("id=" + id + ",title=" + title + ",content=" + content + ",extra=" + extra);
+            // });
+        }
+
+    }
+    //极光推送监听
+    function ajPushListen() {
+        var _this = this;
+        // var ajpush = api.require('ajpushGooglePlay');
+        if (api.systemType == 'android') {
+            ajpush.init(function(ret) {
+                if (ret && ret.status == 1) {
+                    //success
+                    ajpush.setListener(function(ret) {
+                        //消息类型才会触发
+                        var id = ret.id;
+                        var title = ret.title;
+                        var content = ret.content;
+                        var extra = ret.extra;
+                        //修改商品：商品的变化需要推送； type  1
+                        //观看人数：有人进入直播间需要推送；  2
+                        //钻石的数量变化 3
+                        if(extra.type==1){
+
+                        }else if(extra.type==2){
+
+                        }else if(extra.type==3){
+
+                        }
+                        console.log('1036行' + "id=" + id + ",title=" + title + ",content=" + content + ",extra=" + JSON.stringify(extra));
+                        ajpushContent = ret;
+
+                        if (ret.extra) {
+                            if (ret.extra.type == 'notice') {
+                                //在app里面直接显示
+                                //通知消息
+                                ajpush.setBadge({
+                                    badge: 0
+                                });
+                                api.setAppIconBadge({
+                                    badge: 0
+                                });
+                                // alert(ret.content)
+                                api.notification({
+                                    sound: 'default'
+                                });
+                                api.notification({
+                                    notify: {
+                                        title: title,
+                                        content: content
+                                    }
+                                });
+                            } else if (ret.extra.type == 'updata') {
+                                //更新
+                            } else if (ret.extra.type == 'urgent') {
+                                //紧急消息，将直接显示app 弹出来
+                                alert(ret.extra.urgent)
+                            }
+                        } else {
+                            //在app里面直接显示
+                            //自定义消息
+                            ajpush.setBadge({
+                                badge: 0
+                            });
+                            api.setAppIconBadge({
+                                badge: 0
+                            });
+                            api.notification({
+                                sound: 'default'
+                            });
+                            api.notification({
+                                notify: {
+                                    title: ret.title,
+                                    content: ret.content
+                                }
+                            });
+
+                            // alert('直接显示'+ret.content)
+                        }
+
+                    });
+                    api.addEventListener({
+                        name: 'noticeclicked'
+                    }, function(ret, err) {
+                        //点击后打开app
+                        if (ret.type == 1) {
+                            //应用内点击消息类型通知
+                            alert('应用内点击' + JSON.stringify(ajpushContent))
+                        } else if (ret.type == 0) {
+                            //应用外点击
+                            var tit = ret.value.extras.title; //标题
+                            var content = ret.value.extras.content; //内容
+                            // alert('外点击')
+
+                        }
+                        alert('en' + JSON.stringify(ret));
+                        ajpush.setBadge({
+                            badge: 0
+                        });
+                        api.setAppIconBadge({
+                            badge: 0
+                        });
+                    });
+
+                }
+                //安卓点击可以监听  通知类型
+                api.addEventListener({
+                    name: 'appintent'
+                }, function(ret, err) {
+                    console.log(JSON.stringify(ret));
+                    // alert(JSON.stringify(ret))
+                    if (ret && ret.appParam.ajpush) {
+                        var ajpush = ret.appParam.ajpush;
+                        var id = ajpush.id;
+                        var title = ajpush.title;
+                        var content = ajpush.content;
+                        var extra = ajpush.extra;
+                        if (extra.type == 'notice') {
+                            //在app里面直接显示
+                            //通知消息
+                            ajpush.setBadge({
+                                badge: 0
+                            });
+                            api.setAppIconBadge({
+                                badge: 0
+                            });
+                            // alert(ret.content)
+                            api.notification({
+                                sound: 'default'
+                            });
+                            api.notification({
+                                notify: {
+                                    title: title,
+                                    content: content
+                                }
+                            });
+                        } else if (extra.type == 'updata') {
+                            //更新
+                            console.log('index.html-updata')
+                        } else if (extra.type == 'urgent') {
+                            //紧急消息，将直接显示app 弹出来
+                            console.log('紧急消息，将直接显示app 弹出来')
+                            alert(extra.urgent)
+                        }
+                        //处理通知消息
+                        console.log('处理通知消息')
+                        alert(JSON.stringify(ret));
+
+                    }
+                })
+            });
+        } else {
+            //ios
+            //success
+            ajpush.setListener(function(ret) {
+                //消息类型才会触发
+                console.log(JSON.stringify(ret));
+                var id = ret.id;
+                var title = ret.title;
+                var content = ret.content;
+                var extra = ret.extra;
+                console.log('1251行' + "id=" + id + ",title=" + title + ",content=" + content + ",extra=" + extra);
+
+                if (ret.extra) {
+                    if (ret.extra.type == 'notice') {
+                        //在app里面直接显示
+                        //通知消息
+                        ajpush.setBadge({
+                            badge: 0
+                        });
+                        api.setAppIconBadge({
+                            badge: 0
+                        });
+                        // alert(ret.content)
+                        api.notification({
+                            sound: 'default'
+                        });
+                        api.notification({
+                            notify: {
+                                title: title,
+                                content: content
+                            }
+                        });
+                    } else if (ret.extra.type == 'updata') {
+                        //更新
+                    } else if (ret.extra.type == 'urgent') {
+                        //紧急消息，将直接显示app 弹出来
+                        alert(ret.extra.urgent)
+                    } else {
+
+                    }
+                } else {
+                    //在app里面直接显示
+                    //自定义消息，没有拓展字段
+                    ajpush.setBadge({
+                        badge: 0
+                    });
+                    api.setAppIconBadge({
+                        badge: 0
+                    });
+                    // alert(ret.content)
+                    api.notification({
+                        sound: 'default'
+                    });
+                    api.notification({
+                        notify: {
+                            title: title,
+                            content: content
+                        }
+                    });
+                }
+
+            });
+            api.addEventListener({
+                name: 'noticeclicked'
+            }, function(ret, err) {
+                //点击后打开app
+                if (ret.type == 1) {
+                    //应用内点击
+                    alert('应用内点击')
+                } else if (ret.type == 0) {
+                    //应用外点击
+                    var tit = ret.value.extras.title; //标题
+                    var content = ret.value.extras.content; //内容
+                }
+                ajpush.setBadge({
+                    badge: 0
+                });
+                api.setAppIconBadge({
+                    badge: 0
+                });
+            });
+        }
+
+    }
+
+
+    //计算缓存
+    function catchChange(limit) {
+        var size = "";
+        if (limit < 0.1 * 1024) { //小于0.1KB，则转化成B
+            size = limit.toFixed(2) + "B"
+        } else if (limit < 0.1 * 1024 * 1024) { //小于0.1MB，则转化成KB
+            size = (limit / 1024).toFixed(2) + "KB"
+        } else if (limit < 0.1 * 1024 * 1024 * 1024) { //小于0.1GB，则转化成MB
+            size = (limit / (1024 * 1024)).toFixed(2) + "MB"
+        } else { //其他转化成GB
+            size = (limit / (1024 * 1024 * 1024)).toFixed(2) + "GB"
+        }
+
+        var sizeStr = size + ""; //转成字符串
+        var index = sizeStr.indexOf("."); //获取小数点处的索引
+        var dou = sizeStr.substr(index + 1, 2) //获取小数点后两位的值
+        if (dou == "00") { //判断后两位是否为00，如果是则删除00
+            return sizeStr.substring(0, index) + sizeStr.substr(index + 3, 2)
+        }
+        return size;
+    }
+</script>
+
+</html>

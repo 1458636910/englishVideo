@@ -233,21 +233,21 @@
     // }];
     var last_video_id = '';
     var page = 1;
-    var videoIndex = 0;//当前视频下标
-    var anchor_id = '';//当前主播id
-    var videotitle = '';//当前视频标题
-    var fav_count = '';//喜欢人数
-    var talk_count = '';//评论人数
-    var share_count = '';//分享次数
-    var full_name = '';//主播名字
-    var avatar_url = '';//主播头像
-    var ismore = true;//是否还有更多
-    var money = '';//当前视频费用
-    var pay_order_status = true;//当前视频费用是否支付
-    var videoid = '';//当前视频id
-    var focus_anchor_status = 0;//是否关注
-    var fav_video_status = 0;//是否点赞
-    var product_count = 0 ; //商品的数量
+    var videoIndex = 0; //当前视频下标
+    var anchor_id = ''; //当前主播id
+    var videotitle = ''; //当前视频标题
+    var fav_count = ''; //喜欢人数
+    var talk_count = ''; //评论人数
+    var share_count = ''; //分享次数
+    var full_name = ''; //主播名字
+    var avatar_url = ''; //主播头像
+    var ismore = true; //是否还有更多
+    var money = ''; //当前视频费用
+    var pay_order_status = true; //当前视频费用是否支付
+    var videoid = ''; //当前视频id
+    var focus_anchor_status = 0; //是否关注
+    var fav_video_status = 0; //是否点赞
+    var product_count = 0; //商品的数量
     apiready = function() {
         demo = api.require('UIScrollPlayer');
         // var header = $api.byId('header');
@@ -262,103 +262,104 @@
         var title = api.pageParam.name
             // var a = document.getElementById('title');
             // $api.text(a, title);
-            last_video_id = api.pageParam.id
+        last_video_id = api.pageParam.id
 
         // isMoney()
         // openPullLive()
         getLists()
         api.addEventListener({
             name: 'closepl'
-        }, function(ret, err){
-             api.closeFrame({
-                 name: 'douyinpl'
-             });
+        }, function(ret, err) {
+            api.closeFrame({
+                name: 'douyinpl'
+            });
         });
     };
     //获取抖音列表
-    function getLists(){
-      var data = {
-        last_video_id:last_video_id,
-        page:page
-      };
-      requstPost('video/detail',data,function success(ret){
-        if (ret.code == 0) {
-          last_video_id = ret.data.last_video_id;
+    function getLists() {
+        var data = {
+            last_video_id: last_video_id,
+            page: page
+        };
+        requstPost('video/detail', data, function success(ret) {
+            if (ret.code == 0) {
+                last_video_id = ret.data.last_video_id;
 
-          if (ret.data.list.length < 25) {
-            ismore = false
-          }
-          page += 1;
-          if (page == 2) {
-             videos = ret.data.list;
-             anchor_id = ret.data.list[0].anchor_id;
-             videotitle = ret.data.list[0].title;
-             var a = document.getElementById('footerCount');
-               $api.text(a, videotitle);
+                if (ret.data.list.length < 25) {
+                    ismore = false
+                }
+                page += 1;
+                if (page == 2) {
+                    videos = ret.data.list;
+                    anchor_id = ret.data.list[0].anchor_id;
+                    videotitle = ret.data.list[0].title;
+                    var a = document.getElementById('footerCount');
+                    $api.text(a, videotitle);
 
 
-             fav_count = ret.data.list[0].fav_count;//喜欢人数
-             talk_count = ret.data.list[0].talk_count;//评论人数
-             share_count = ret.data.list[0].share_count;//分享次数
-             full_name = ret.data.list[0].full_name;//主播名字
-             avatar_url = ret.data.list[0].avatar_url;//主播头像
-             money = ret.data.list[0].price;//视频费用
-             pay_order_status = ret.data.list[0].pay_order_status;//视频费用
-             videoid = ret.data.list[0].id;//视频id
-             focus_anchor_status = ret.data.list[0].focus_anchor_status;//是否关注
-             fav_video_status = ret.data.list[0].fav_video_status;//是否点赞
-             product_count = ret.data.list[0].product_count;
-             if($api.getStorage('isIos')!=1){    //安卓付费
-                 if(Number(ret.data.list[0].price) > 0){
-                   if (Number(ret.data.list[0].pay_order_status) == 0) {
-                     //未支付
-                     setTimeout(()=>{
-                       demo.pause()
-                       isPause = true
-                       isMoney()
-                     },3000)
-                   }else {
-                     payed = true
-                   }
-                 }else {
-                   //免费
-                   payed = true
-                 }
-             }else{
-               //ios免费
-                payed = true
-             }
-            //  alert(ismore)
-            openPullLive()
-          }else {
-            //追加视频
-            demo.add({
-              videos:ret.data.list
-            })
-          }
-        }else {
-          api.alert({
-              title: '',
-              msg: ret.message,
-          }, function(ret, err){
-              if( ret ){
-                api.closeWin();
-                  //  alert( JSON.stringify( ret ) );
-              }else{
-                  //  alert( JSON.stringify( err ) );
-              }
-          });
+                    fav_count = ret.data.list[0].fav_count; //喜欢人数
+                    talk_count = ret.data.list[0].talk_count; //评论人数
+                    share_count = ret.data.list[0].share_count; //分享次数
+                    full_name = ret.data.list[0].full_name; //主播名字
+                    avatar_url = ret.data.list[0].avatar_url; //主播头像
+                    money = ret.data.list[0].price; //视频费用
+                    pay_order_status = ret.data.list[0].pay_order_status; //视频费用
+                    videoid = ret.data.list[0].id; //视频id
+                    focus_anchor_status = ret.data.list[0].focus_anchor_status; //是否关注
+                    fav_video_status = ret.data.list[0].fav_video_status; //是否点赞
+                    product_count = ret.data.list[0].product_count;
+                    if ($api.getStorage('isIos') != 1) { //安卓付费
+                        if (Number(ret.data.list[0].price) > 0) {
+                            if (Number(ret.data.list[0].pay_order_status) == 0) {
+                                //未支付
+                                setTimeout(() => {
+                                    demo.pause()
+                                    isPause = true
+                                    isMoney()
+                                }, 3000)
+                            } else {
+                                payed = true
+                            }
+                        } else {
+                            //免费
+                            payed = true
+                        }
+                    } else {
+                        //ios免费
+                        payed = true
+                    }
+                    //  alert(ismore)
+                    openPullLive()
+                } else {
+                    //追加视频
+                    demo.add({
+                        videos: ret.data.list
+                    })
+                }
+            } else {
+                api.alert({
+                    title: '',
+                    msg: ret.message,
+                }, function(ret, err) {
+                    if (ret) {
+                        api.closeWin();
+                        //  alert( JSON.stringify( ret ) );
+                    } else {
+                        //  alert( JSON.stringify( err ) );
+                    }
+                });
 
-        }
-      },function fail(err){
+            }
+        }, function fail(err) {
 
-      })
+        })
     }
-    function openPullLive() {
-      var headerheight =$api.dom('header').offsetHeight - api.winWidth * 12 / 100;
-      // alert($api.dom('header').offsetHeight)
 
-      // alert(headerheight)
+    function openPullLive() {
+        var headerheight = $api.dom('header').offsetHeight - api.winWidth * 12 / 100;
+        // alert($api.dom('header').offsetHeight)
+
+        // alert(headerheight)
         api.showProgress({
             style: 'default',
             animationType: 'fade',
@@ -372,17 +373,17 @@
                 y: 0,
                 w: api.winWidth,
                 h: api.winHeight
-                // y: headerheight,
-                // w: api.winWidth,
-                // h: api.winHeight-headerheight-$api.byId('footerBom').offsetHeight
+                    // y: headerheight,
+                    // w: api.winWidth,
+                    // h: api.winHeight-headerheight-$api.byId('footerBom').offsetHeight
             },
             autoPlay: true,
             scalingMode: 2, //1/按视频比例放大缩小至一边充满，2/按视频比例放大缩小至视频充满控件，可能视频会被裁剪，3/宽高充满控件，视频可能会变形
             // imageType:1,
-            imgScaleType:1,
+            imgScaleType: 1,
             videos: videos,
         }, function(ret, err) {
-          // alert(JSON.stringify(ret))
+            // alert(JSON.stringify(ret))
 
             api.hideProgress();
             openpage()
@@ -393,7 +394,7 @@
                     console.log('单击了');
                     // alert(money)
                     // alert(pay_order_status)
-                    if($api.getStorage('isIos')!=1){
+                    if ($api.getStorage('isIos') != 1) {
                         if (payed) {
                             //已经支付
                             if (isPause) {
@@ -403,12 +404,12 @@
                                 demo.pause()
                                 isPause = true
                             }
-                        }else {
-                        isMoney()
-                        demo.pause()
-                        isPause = true
+                        } else {
+                            isMoney()
+                            demo.pause()
+                            isPause = true
                         }
-                    }else{
+                    } else {
                         demo.play()
                         isPause = false
                     }
@@ -426,7 +427,7 @@
 
                 }
                 if (ret.evenType == 'onScroll') {
-                    console.log('改变了'+JSON.stringify(ret));
+                    console.log('改变了' + JSON.stringify(ret));
                     videoIndex = ret.index
                     money = videos[ret.index].price
                     videoid = videos[ret.index].id
@@ -437,25 +438,25 @@
                     });
                     setInfo(ret.index)
                     if (ismore) {
-                      if (ret.index == videos.length - 5) {
-                        //距离倒数五条左右开始加载
-                        getLists()
-                      }
+                        if (ret.index == videos.length - 5) {
+                            //距离倒数五条左右开始加载
+                            getLists()
+                        }
                     }
                     if (videos[ret.index].price > 0) {
-                      if (videos[ret.index].pay_order_status == 0) {
-                        isMoney()
-                        payed = false;
-                        setTimeout(()=>{
-                          demo.pause()
-                          isPause = true
-                        },300)
-                      }else {
-                        payed = true
-                      }
+                        if (videos[ret.index].pay_order_status == 0) {
+                            isMoney()
+                            payed = false;
+                            setTimeout(() => {
+                                demo.pause()
+                                isPause = true
+                            }, 300)
+                        } else {
+                            payed = true
+                        }
 
-                    }else {
-                      payed = true;
+                    } else {
+                        payed = true;
                     }
                     var inputField = api.require('inputField');
                     inputField.close();
@@ -474,21 +475,21 @@
     function startPlay() {
         demo.play()
         isPause = false
-        // payed = true
+            // payed = true
     }
     //暂停播放
-    function pausePlay(){
-      demo.pause()
-      isPause = true
-      // payed = false
+    function pausePlay() {
+        demo.pause()
+        isPause = true
+            // payed = false
     }
 
     function sendPl() {
-      if ($api.getStorage('islogin') != 'true') {
-        userIslogin()
-        pausePlay()
-        return
-      }
+        if ($api.getStorage('islogin') != 'true') {
+            userIslogin()
+            pausePlay()
+            return
+        }
         var _this = this
         var inputField = api.require('inputField');
         inputField.setInputFieldListener(function(ret, err) {
@@ -517,6 +518,13 @@
             autoFocus: true,
             maxLines: 5,
             limitedWordsNumber: 100,
+            leftBtn: {
+                bg: '#FB607D',
+                title: 'Close',
+                titleColor: '#fff',
+                bgHighlight: '#999999',
+                bg: '#999999',
+            },
             sendBtn: {
                 bg: '#FB607D',
                 title: 'Send',
@@ -558,57 +566,58 @@
         });
     }
     //请求后台发布评论
-    function requestPl(e){
-      var data = {
-        video_id:videoid,
-        content:e
-      };
-      requstPost('video/pushTalk',data,function success(ret){
-        if (ret.code == 0) {
-          videos[videoIndex].talk_count = ret.data.talk_count
-          setPlNums(ret.data.talk_count)
-        }
-      },function fail(err){
+    function requestPl(e) {
+        var data = {
+            video_id: videoid,
+            content: e
+        };
+        requstPost('video/pushTalk', data, function success(ret) {
+            if (ret.code == 0) {
+                videos[videoIndex].talk_count = ret.data.talk_count
+                setPlNums(ret.data.talk_count)
+            }
+        }, function fail(err) {
 
-      })
+        })
     }
     //修改喜欢数量
-    function setlike(status,nums){
-      videos[videoIndex].fav_video_status = status
-      videos[videoIndex].fav_count = nums
+    function setlike(status, nums) {
+        videos[videoIndex].fav_video_status = status
+        videos[videoIndex].fav_count = nums
     }
     //修改二级页面评论数量
-    function setPlNums(nums){
-      api.execScript({
-          name: 'douyin_win',
-          frameName: 'douyinright',
-          script: 'app.setNums("'+nums+'");'
-      });
+    function setPlNums(nums) {
+        api.execScript({
+            name: 'douyin_win',
+            frameName: 'douyinright',
+            script: 'app.setNums("' + nums + '");'
+        });
 
     }
-    function setInfo(e){
-      full_name = videos[e].full_name
-      videotitle = videos[e].title
-      avatar_url = videos[e].avatar_url
-      fav_count = videos[e].fav_count
-      talk_count = videos[e].talk_count
-      share_count = videos[e].share_count
-      focus_anchor_status = videos[e].focus_anchor_status
-      fav_video_status = videos[e].fav_video_status
-      anchor_id = videos[e].anchor_id
-      videoid = videos[e].id
-      product_count = videos[e].product_count
-      api.execScript({
-          // name: 'winName',
-          frameName: 'douyinbom',
-          // script: 'app.setInfo("'+full_name+'","'+videotitle+'","'+product_count'","'+videoid'");'
-          script:'app.setInfo("'+full_name+'","'+videotitle+'","'+product_count+'","'+videoid+'");'
-      });
-      api.execScript({
-          // name: 'winName',
-          frameName: 'douyinright',
-          script: 'app.setInfo("'+avatar_url+'","'+fav_count+'","'+talk_count+'","'+share_count+'","'+focus_anchor_status+'","'+fav_video_status+'","'+videoid+'","'+anchor_id+'");'
-      });
+
+    function setInfo(e) {
+        full_name = videos[e].full_name
+        videotitle = videos[e].title
+        avatar_url = videos[e].avatar_url
+        fav_count = videos[e].fav_count
+        talk_count = videos[e].talk_count
+        share_count = videos[e].share_count
+        focus_anchor_status = videos[e].focus_anchor_status
+        fav_video_status = videos[e].fav_video_status
+        anchor_id = videos[e].anchor_id
+        videoid = videos[e].id
+        product_count = videos[e].product_count
+        api.execScript({
+            // name: 'winName',
+            frameName: 'douyinbom',
+            // script: 'app.setInfo("'+full_name+'","'+videotitle+'","'+product_count'","'+videoid'");'
+            script: 'app.setInfo("' + full_name + '","' + videotitle + '","' + product_count + '","' + videoid + '");'
+        });
+        api.execScript({
+            // name: 'winName',
+            frameName: 'douyinright',
+            script: 'app.setInfo("' + avatar_url + '","' + fav_count + '","' + talk_count + '","' + share_count + '","' + focus_anchor_status + '","' + fav_video_status + '","' + videoid + '","' + anchor_id + '");'
+        });
 
     }
     //显示评论
@@ -661,25 +670,25 @@
             url: './douyinbom.html',
             rect: {
                 x: 0,
-                y: $api.dom('#footer').offsetTop-130,
+                y: $api.dom('#footer').offsetTop - 130,
                 // y: $api.dom('#footer').offsetTop,
                 w: api.winWidth * 70 / 100,
-                h: api.winHeight - $api.dom('#footer').offsetTop+130
-                // h: api.winHeight - $api.dom('#footer').offsetTop
+                h: api.winHeight - $api.dom('#footer').offsetTop + 130
+                    // h: api.winHeight - $api.dom('#footer').offsetTop
             },
             pageParam: {
-              name:full_name,
-              videotitle:videotitle,
-              videoid:api.pageParam.id,
-              avatar_url:avatar_url,
-              fav_count:fav_count,
-              talk_count:talk_count,
-              share_count:share_count,
-              focus_anchor_status:focus_anchor_status,
-              fav_video_status:fav_video_status,
-              anchor_id:anchor_id,
-              height:$api.dom('#footer').offsetTop-130,
-              product_count:product_count
+                name: full_name,
+                videotitle: videotitle,
+                videoid: api.pageParam.id,
+                avatar_url: avatar_url,
+                fav_count: fav_count,
+                talk_count: talk_count,
+                share_count: share_count,
+                focus_anchor_status: focus_anchor_status,
+                fav_video_status: fav_video_status,
+                anchor_id: anchor_id,
+                height: $api.dom('#footer').offsetTop - 130,
+                product_count: product_count
             },
             bounces: false,
             bgColor: 'rgba(0,0,0,0)',
@@ -697,14 +706,14 @@
                 h: api.winHeight - $api.dom('#footerr').offsetTop + 70
             },
             pageParam: {
-              videoid:api.pageParam.id,
-              avatar_url:avatar_url,
-              fav_count:fav_count,
-              talk_count:talk_count,
-              share_count:share_count,
-              focus_anchor_status:focus_anchor_status,
-              fav_video_status:fav_video_status,
-              anchor_id:anchor_id
+                videoid: api.pageParam.id,
+                avatar_url: avatar_url,
+                fav_count: fav_count,
+                talk_count: talk_count,
+                share_count: share_count,
+                focus_anchor_status: focus_anchor_status,
+                fav_video_status: fav_video_status,
+                anchor_id: anchor_id
             },
             bounces: false,
             bgColor: 'rgba(0,0,0,0)',
@@ -735,19 +744,19 @@
         });
     }
     //判断付费结果
-    function checkPay(){
-      api.setPrefs({
-          key: 'payStatus',
-          value: 'payed'
-      });
-      setTimeout(()=>{
-        pausePlay()
-        payed = true
-        videos[videoIndex].pay_order_status = 1
-      },300)
+    function checkPay() {
+        api.setPrefs({
+            key: 'payStatus',
+            value: 'payed'
+        });
+        setTimeout(() => {
+            pausePlay()
+            payed = true
+            videos[videoIndex].pay_order_status = 1
+        }, 300)
 
 
-      // alert('判断支付结果')
+        // alert('判断支付结果')
     }
     //判断是否需要付费
     function isMoney() {
@@ -756,7 +765,7 @@
         demo.pause()
         isPause = true
         api.confirm({
-            title: 'This video requires a fee of ￡'+ money +' to view',
+            title: 'This video requires a fee of ￡' + money + ' to view',
             msg: '',
             buttons: ['Pay', 'Cancel']
         }, function(ret, err) {
@@ -774,7 +783,7 @@
                         },
                         pageParam: {
                             id: videoid,
-                            money:money
+                            money: money
                         },
                         bounces: false,
                         bgColor: 'rgba(0,0,0,0)',
@@ -799,9 +808,9 @@
                 } else {
                     // demo.closeScrollVideo()
                     // api.closeWin()
-                    if($api.getStorage('isIos')==1){
+                    if ($api.getStorage('isIos') == 1) {
 
-                    }else{
+                    } else {
                         isMoney()
                     }
 

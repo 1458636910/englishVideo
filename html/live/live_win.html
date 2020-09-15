@@ -166,8 +166,8 @@
 
         })
         alivcLivePlayer.prepareToPlay({
-            url: live_play_url
-            // url:'http://7z2dc9.com1.z0.glb.clouddn.com/apicloud/dc811d2c4d88b409063c7ea2065fe6a0.mp4'
+            // url: live_play_url
+            url:'http://7z2dc9.com1.z0.glb.clouddn.com/apicloud/dc811d2c4d88b409063c7ea2065fe6a0.mp4'
         }, function(ret) {
             //禁止屏幕休眠
             api.setKeepScreenOn({
@@ -180,6 +180,7 @@
         alivcLivePlayer.addEventListener(function(ret) {
             var systype = api.systemType;
             if (systype == 'ios') {   //ios首帧显示完毕，防止重复弹框
+              console.log(ret.eventType+'-----------------------')
                 if (ret.eventType == 'frameInfoListener') {
                     alivcLivePlayer.play()
                     setTimeout(() => {
@@ -235,23 +236,23 @@
     }
     //开始直播  播放
     function playLive() {
+        alivcLivePlayer.play()
         api.sendEvent({
             name: 'videoComplete',
             extra: {
               type:'play'
             }
         });
-        alivcLivePlayer.play()
     }
     //暂停直播   暂停
     function pauseLive() {
+        alivcLivePlayer.pause()
         api.sendEvent({
             name: 'videoComplete',
             extra: {
               type:'stop'
             }
         });
-        alivcLivePlayer.pause()
     }
     //设置播放的进度
     function seekToLive(time) {
@@ -263,7 +264,14 @@
     //获取视频的长度
     function getVideoLength(){
       alivcLivePlayer.getDuration(function(ret){
-        console.log('当前视频的长度')
+        console.log('当前视频的长度'+JSON.stringify(ret))
+        api.sendEvent({
+            name: 'videolength',
+            extra: {
+                duration:ret.duration
+            }
+        });
+
       });
     }
     //获取当前播放的位置
