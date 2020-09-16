@@ -610,7 +610,7 @@
                   <div class="cateslistBox">
                     <!-- <p class="cateTit">{{ite.title}}</p> -->
                     <div class="cateslists">
-                      <div class="cateslist" @click="goshopDetail(item)" v-for="(it,id) in rightGoodsLists">
+                      <div class="cateslist" @click="goshopDetail(it)" v-for="(it,id) in rightGoodsLists">
                         <img v-lazy="it.thumb" alt="">
                         <p class="catesName">{{it.title}}</p>
                       </div>
