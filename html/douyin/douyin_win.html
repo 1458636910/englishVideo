@@ -248,6 +248,7 @@
     var focus_anchor_status = 0; //是否关注
     var fav_video_status = 0; //是否点赞
     var product_count = 0; //商品的数量
+    var is_shopconfirm  = false;  //是否展示确认框
     apiready = function() {
         demo = api.require('UIScrollPlayer');
         // var header = $api.byId('header');
@@ -285,7 +286,7 @@
             if (ret.code == 0) {
                 last_video_id = ret.data.last_video_id;
 
-                if (ret.data.list.length < 25) {
+                if (ret.data.list.length < 6) {
                     ismore = false
                 }
                 page += 1;
@@ -328,7 +329,6 @@
                         //ios免费
                         payed = true
                     }
-                    //  alert(ismore)
                     openPullLive()
                 } else {
                     //追加视频
@@ -354,7 +354,33 @@
 
         })
     }
-
+    //获取单个的视频详情，用来获取支付状态是否成功
+    function getSignleDetails(){
+        var parameter = {
+          last_video_id:videoid
+        }
+        requstPost('video/sigleDetail',parameter,function success(ret){
+          let data = ret.data[0];
+          if (Number(data.price) > 0) {
+              if (Number(data.pay_order_status) == 0) {
+                  //未支付
+                    demo.pause()
+                    isPause = true
+                    isMoney()
+              } else {
+                  payed = true
+              }
+          } else {
+              //免费
+              pay_order_status = 1;
+              payed = true
+              demo.play()
+              isPause = false
+          }
+        },function fail(err){
+          console.log(err)
+        })
+    }
     function openPullLive() {
         var headerheight = $api.dom('header').offsetHeight - api.winWidth * 12 / 100;
         // alert($api.dom('header').offsetHeight)
@@ -388,7 +414,15 @@
             api.hideProgress();
             openpage()
             demo.addEventListener(function(ret, err) {
-                console.log(JSON.stringify(ret));
+                console.log(JSON.stringify(ret)+'监听的结果');
+                if(ret.evenType=='onPlaying'){
+                  console.log(money+'是否需要付费以及付费的状态////////////'+pay_order_status)
+                  if(money>0&&pay_order_status==0){  //监听到播放的时候，判断是否需要付费，是否已经付费
+                    // isMoney()
+                    demo.pause()
+                    isPause = true
+                  }
+                }
                 if (ret.evenType == 'onSingleTapUp') {
                     //单击事件
                     console.log('单击了');
@@ -437,6 +471,7 @@
                         extra: {}
                     });
                     setInfo(ret.index)
+                    console.log(ismore+'---'+ret.index+'==='+videos.length )
                     if (ismore) {
                         if (ret.index == videos.length - 5) {
                             //距离倒数五条左右开始加载
@@ -743,17 +778,25 @@
             }
         });
     }
+    //从支付页面返回的监听
+    function backAddlisting(){
+      // console.log("从支付页面返回的"+last_video_id+'--------------'+videoid)
+      getSignleDetails()
+    }
     //判断付费结果
     function checkPay() {
-        api.setPrefs({
-            key: 'payStatus',
-            value: 'payed'
-        });
-        setTimeout(() => {
-            pausePlay()
-            payed = true
-            videos[videoIndex].pay_order_status = 1
-        }, 300)
+      getSignleDetails()
+      // console.log("================================检测付费结果"+JSON.stringify(videos[videoIndex]))
+        // getLists()
+        // api.setPrefs({
+        //     key: 'payStatus',
+        //     value: 'payed'
+        // });
+        // setTimeout(() => {
+        //     pausePlay()
+        //     payed = true
+        //     videos[videoIndex].pay_order_status = 1
+        // }, 300)
 
 
         // alert('判断支付结果')
@@ -762,8 +805,13 @@
     function isMoney() {
         //检测视频是否需要付费
         //付费先暂停
+        console.log("========================-----------------------------------"+is_shopconfirm)
+        if(is_shopconfirm){
+          return;
+        }
         demo.pause()
         isPause = true
+        is_shopconfirm = true;
         api.confirm({
             title: 'This video requires a fee of ￡' + money + ' to view',
             msg: '',
@@ -771,6 +819,7 @@
         }, function(ret, err) {
             if (ret) {
                 if (ret.buttonIndex == 1) {
+                  is_shopconfirm = false;
                     //付费
                     api.openFrame({
                         name: 'douyinpay',
@@ -796,6 +845,7 @@
                         }
                     });
                 } else if (ret.buttonIndex == 2) {
+                  is_shopconfirm = false;
                     //取消
 
 
@@ -806,6 +856,7 @@
                     demo.pause()
                     isPause = true
                 } else {
+                    is_shopconfirm = false;
                     // demo.closeScrollVideo()
                     // api.closeWin()
                     if ($api.getStorage('isIos') == 1) {

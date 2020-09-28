@@ -201,6 +201,10 @@ var app;
                     if (ret.code == 0) {
                       setTimeout(()=>{
                         goPaypalUrl(ret.data.pay_url)
+                        api.setPrefs({
+                            key: 'payType',
+                            value: 'live'
+                        });
                         api.closeFrame();
                       },500)
                     }else if(ret.code==1){
@@ -208,6 +212,7 @@ var app;
                           name: 'live_win',
                           script: 'playLive();'
                       });
+                      api.closeFrame();
                     }else{
 
                     }

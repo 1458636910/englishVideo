@@ -586,7 +586,11 @@
             key: 'payType'
         }, function(ret, err) {
             if (ret.value == 'live') {
-
+              api.execScript({
+                  name: 'live_win',
+                  // frameName: 'frmName',
+                  script: 'checkPay();'
+              });
             } else if (ret.value == 'video') {
                 api.getPrefs({
                     key: 'payStatus'

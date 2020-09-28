@@ -74,6 +74,18 @@
         //适配iOS 7+，Android 4.4+状态栏
         $api.fixStatusBar($api.dom('header'));
         // $api.fixTabBar($api.byId('footer'));
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+          api.execScript({
+              name: 'douyin_win',
+              script: 'backAddlisting();'
+          });
+          api.execScript({
+              name: 'live_win',
+              script: 'backAddlisting();'
+          });
+        });
         setTimeout(function() {
             api.showProgress({
                 style: 'default',
@@ -126,6 +138,14 @@
     }
 
     function goBack() {
+      api.execScript({
+          name: 'douyin_win',
+          script: 'backAddlisting();'
+      });
+      api.execScript({
+          name: 'live_win',
+          script: 'backAddlisting();'
+      });
         api.closeWin()
     }
 </script>

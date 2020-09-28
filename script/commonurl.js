@@ -127,14 +127,20 @@ FastClick.prototype.focus = function(targetElement) {
     //--------------移动端点击延迟事件-------------//
 
 function goPaypalUrl(e) {
-  console.log("/01666666666666666666666")
     var systemType = api.systemType;
     if (systemType == 'ios') {
-        api.openApp({
-            iosUrl: e, //打开微信的，其中weixin为微信的URL Scheme
+        // api.openApp({
+        //     iosUrl: e, //打开微信的，其中weixin为微信的URL Scheme
+        // });
+        api.openWin({
+            name: 'paypal_win',
+            url: 'widget://html/common/paypal_win.html',
+            slidBackEnabled:false,
+            pageParam: {
+                url: e
+            }
         });
     } else {
-        console.log("paypal支付地址", e)
         api.openWin({
             name: 'paypal_win',
             url: 'widget://html/common/paypal_win.html',

@@ -179,8 +179,8 @@
 
         alivcLivePlayer.addEventListener(function(ret) {
             var systype = api.systemType;
+            console.log(ret.eventType+'-----------------------'+$api.getStorage('isIos')+'////////////////////////////////////')
             if (systype == 'ios') {   //ios首帧显示完毕，防止重复弹框
-              console.log(ret.eventType+'-----------------------')
                 if (ret.eventType == 'frameInfoListener') {
                     alivcLivePlayer.play()
                     setTimeout(() => {
@@ -309,7 +309,16 @@
             }
         });
     }
-
+    //从支付页面返回的监听
+    function backAddlisting(){
+      // console.log(api.pageParam.live_id+'.............................')
+      getDetail()
+    }
+   //回到前台检测支付结果
+   function checkPay(){
+     getDetail()
+    //  console.log(api.pageParam.live_id+'.............................')
+   }
     function goBack() {
         alivcLivePlayer.destroy();
     }
