@@ -177,7 +177,7 @@
         <ul class="form">
           <li style="display:flex;align-items:center" :class="active == 0?'active':''">
             <span style="margin-right:2vw" @click="choseCode()">+{{phoneCode}}</span>
-            <input @blur="getblur()" @focus="phoneFocus()" v-model="phone" type="tel" placeholder="Cellphone number">
+            <input @blur="getblur()" @focus="phoneFocus()" v-model="phone" type="tel" placeholder="Mobile number">
           </li>
           <li style="display:flex;align-items:center" :class="active == 1?'active':''">
             <input  @focus="pwdFocus()" readonly v-model="$api.getStorage('email')" >
@@ -196,7 +196,7 @@
           </li>
         </ul>
         <!-- <p class="gologin">已有账号，<i tapmode="hover" onclick="login();">去登录</i></p> -->
-        <div class="loginBtn" @click="register()">Confirm the changes</div>
+        <div class="loginBtn" @click="register()">Confirm changes</div>
         <!--  -->
         <!--  -->
       </div>

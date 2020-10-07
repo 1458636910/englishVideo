@@ -166,7 +166,7 @@
     <div id="app" v-cloak>
       <div class="topTip" v-if="order_status != -1">
         {{order_status == 0?'Wait For Payment':''}}
-        {{order_status == 10?'Wait For Delivery':''}}
+        {{order_status == 10?'Wait For Shipping':''}}
         {{order_status == 20?'Shipped':''}}
         {{order_status == 30?'Wait For Review':''}}
         {{order_status == 40?'Refund':''}}

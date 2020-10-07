@@ -144,7 +144,7 @@
       </ul>
 
       <div class="boom">
-        <span>Set as Default address</span>
+        <span>Set as default address</span>
         <van-switch v-model="switchBthzd" size="30px" active-color="#FA607D" @change="switchClickzd" />
         <!-- <div class="switch" @click="switchClickzd()" :class="switchBthzd==1?'switchTrue':''">
           <span class="point"></span>
@@ -261,9 +261,12 @@ var app;
                   });
                   api.closeWin();
                 },function fali(err){
-
+                  api.toast({
+                      msg: err.message,
+                      duration: 3000,
+                      location: 'bottom'
+                  });
                 })
-                console.log('保存');
               },
               onConfirm(value) {
                 this.value = value;

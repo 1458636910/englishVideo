@@ -322,7 +322,7 @@
                   <span @click.stop="agreeTerm()" class="chose" style="margin-right:5px;">
             <img v-if="termChoose"  src="../../image/chose.png" alt="">
           </span>
-                  <span class="iagree">I agree all terms & conditions</span>
+                  <span class="iagree">I agree to the terms & conditions</span>
               </div>
             </span>
             </div>
@@ -337,7 +337,7 @@
                       <span @click.stop="agreeTerm()" class="chose" style="margin-right:5px;">
                 <img v-if="termChoose"  src="../../image/chose.png" alt="">
               </span>
-                      <span class="iagree">I agree all terms & conditions</span>
+                      <span class="iagree">I agree to the terms & conditions</span>
                   </div>
               </div> -->
                 <div class="list" v-for="(item,index) in lists" :key='index'>
@@ -400,7 +400,7 @@
                             Total: <i>￡{{allPrice}}</i>
                         </div>
                         <div class="footerr" id="footerr" @click="payNow()">
-                            Check Out
+                            Checkout
                         </div>
                     </div>
                 </div>
@@ -785,7 +785,7 @@
                     }
                     if (!this.termChoose) {
                         api.toast({
-                            msg: 'Please agree to the terms',
+                            msg: 'Please agree to the terms & conditions',
                             duration: 3000,
                             location: 'middle'
                         });

@@ -348,7 +348,7 @@
             <h1 class="title">Log in</h1>
             <ul class="form">
                 <li class="phoneBox" :class="active == 0?'active':''">
-                    <input style="padding-left:0;" class="ipt" @blur="getblur()" @focus="phoneFocus()" v-model="phone" type="" placeholder="Please enter account">
+                    <input style="padding-left:0;" class="ipt" @blur="getblur()" @focus="phoneFocus()" v-model="phone" type="" placeholder="Please enter your email">
                     <!-- <div class="iptBox" :class="showMail?'hide':''">
                       <span class="phoneCode" @click="choseCode()">+{{phoneCode}}</span>
                       <input class="ipt" @blur="getblur()" @focus="phoneFocus()" oninput="value=value.replace(/[^\d]/g,'')" v-model="phone" type="tel" placeholder="number">
@@ -359,7 +359,7 @@
                     <span class="exbtn" @click="phoneMailFn()">{{showMail?'Phone':'Mailbox'}}</span> -->
                 </li>
                 <li :class="active == 1?'active':''">
-                    <input @blur="getblur()" @focus="pwdFocus()" v-model="pwd" type="password" placeholder="Login password">
+                    <input @blur="getblur()" @focus="pwdFocus()" v-model="pwd" type="password" placeholder="Password">
                 </li>
             </ul>
 
@@ -367,13 +367,13 @@
               <span @click.stop="chooseTrems()" class="chose" style="margin-right:5px;">
                 <img v-if="termChoose"  src="../image/chose.png" alt="">
               </span>
-              <span class="iagree" @click.stop="showterms()">I agree all terms & conditions</span>
+              <span class="iagree" @click.stop="showterms()">I agree to the terms & conditions</span>
             </div>
 
             <div class="loginBtn" @click="phonelogin()">Log in</div>
 
             <p class="forgetpwd">
-                <span tapmode="hover" onclick="forgotpwd();">Forget password</span>
+                <span tapmode="hover" onclick="forgotpwd();">Forgotten password?</span>
                 <span tapmode="hover" onclick="register();" style="color:#ff4f75;">
                 Register
               </span>

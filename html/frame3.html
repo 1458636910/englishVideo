@@ -321,7 +321,7 @@
               <span @click.stop="agreeTerm()" class="chose" style="margin-right:5px;">
                 <img v-if="termChoose"  src="../image/chose.png" alt="">
               </span>
-              <span class="iagree">I agree all terms & conditions</span>
+              <span class="iagree">I agree to the terms & conditions</span>
             </div>
           </div>
           <div style="height:12vw;"></div>
@@ -386,7 +386,7 @@
                 Total: <i>￡{{allPrice}}</i>
               </div>
               <div class="footerr" id="footerr" @click.stop="buyNow()">
-                Check Out
+                Checkout
               </div>
             </div>
           </div>
@@ -628,7 +628,7 @@ var app;
                 }
                 if(!this.termChoose){
                   api.toast({
-                      msg: 'Please agree to the terms',
+                      msg: 'Please agree to the terms & conditions',
                       duration: 3000,
                       location: 'middle'
                   });

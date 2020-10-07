@@ -181,7 +181,7 @@
                         title: '',
                         cancelTitle: 'Cancel',
                         // destructiveTitle: '红色警告按钮',
-                        buttons: ['ALL', 'Wait For Payment', 'Wait For Delivery', 'Shipped', 'Wait For Review', 'Refunded', 'Completed']
+                        buttons: ['ALL', 'Wait For Payment', 'Wait For Shipping', 'Shipped', 'Wait For Review', 'Refunded', 'Completed']
                     }, function(ret, err) {
                         var ind = ret.buttonIndex;
                         api.execScript({
@@ -195,7 +195,7 @@
                         } else if (ind == 2) {
                             _this.title = 'Wait For Payment'
                         } else if (ind == 3) {
-                            _this.title = 'Wait For Delivery'
+                            _this.title = 'Wait For Shipping'
                         } else if (ind == 4) {
                             _this.title = 'Shipped'
                         } else if (ind == 5) {
