@@ -67,7 +67,7 @@ function confirmPer(perm) {
         api.confirm({
             title: '',
             msg: "Place allow " + perm + ' access',
-            buttons: ['Setting', 'Cancel']
+            buttons: ['Settings', 'Cancel']
         }, function(ret, err) {
             if (1 == ret.buttonIndex) {
                 reqPermission(perm);
