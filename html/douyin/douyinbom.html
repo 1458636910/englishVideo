@@ -8,6 +8,8 @@
     <title>title</title>
     <link rel="stylesheet" type="text/css" href="../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/vant.css" />
     <style>
         body,
         html {
@@ -114,6 +116,9 @@
             font-size: 14px;
             color: #929292;
         }
+        .progressBox{
+          padding: 12px;
+        }
     </style>
 </head>
 
@@ -149,7 +154,7 @@
                 <h3 @click="goanchor()">{{full_name}}</h3>
                 <p class="count">{{videotitle}}</p>
                 <div class="progressBox">
-
+                    <van-slider active-color="#fb607d" v-model="slide" @change="onChange" />
                 </div>
                 <div class="plBox" @click="sendPl()">
                     Comments...
@@ -162,6 +167,7 @@
 <script type="text/javascript" src="../../script/api.js"></script>
 <script type="text/javascript" src="../../script/fastclick.js"></script>
 <script src="../../script/vue.min.js"></script>
+<script type="text/javascript" src="../../script/vant.js"></script>
 <script src="../../script/commonurl.js"></script>
 <script type="text/javascript">
     var app;
@@ -176,6 +182,7 @@
                     showShop: false,
                     goperson: false,
                     video_id: '',
+                    slide:0,//当前进度
                 }
             },
             created() {
@@ -195,6 +202,9 @@
                 });
             },
             methods: {
+              onChange(value){
+                console.log(value)
+              },
                 upData() {
                     var _this = this
                     api.addEventListener({

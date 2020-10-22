@@ -1197,8 +1197,6 @@
                 },
                 //查看直播
                 golive(ite) {
-                  this.goPrecast(ite)
-                  return;
                   this.currentid = ite.id   //存储以便于删除
                     //判断直播是否开始
                     if ((ite.start_time - parseInt((new Date()).getTime()) / 1000) > 0) {

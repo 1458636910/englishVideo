@@ -210,7 +210,7 @@
     var product_count = 0; //商品的数量
     var is_shopconfirm  = false;  //是否展示确认框
     apiready = function() {
-        demo = api.require('UIScrollPlayer');
+        demo = api.require('scrollVideoAli');
         // var header = $api.byId('header');
         //适配iOS 7+，Android 4.4+状态栏
         $api.fixStatusBar($api.dom('header'));
@@ -251,7 +251,11 @@
                 }
                 page += 1;
                 if (page == 2) {
-                    videos = ret.data.list;
+                    var _videos = ret.data.list;
+                    _videos.map((item,index)=>{
+                      item.uid = item.id
+                    })
+                    videos = _videos;
                     anchor_id = ret.data.list[0].anchor_id;
                     videotitle = ret.data.list[0].title;
                     var a = document.getElementById('footerCount');
@@ -353,7 +357,7 @@
             text: '',
             modal: true
         });
-        demo.open({
+        demo.openscrollVideoAli({
             rect: {
                 x: 0,
                 y: 0,
@@ -363,11 +367,11 @@
                     // w: api.winWidth,
                     // h: api.winHeight-headerheight-$api.byId('footerBom').offsetHeight
             },
-            autoPlay: true,
-            scalingMode: 2, //1/按视频比例放大缩小至一边充满，2/按视频比例放大缩小至视频充满控件，可能视频会被裁剪，3/宽高充满控件，视频可能会变形
-            // imageType:1,
-            imgScaleType: 1,
-            videos: videos,
+            // autoPlay: true,
+            // scalingMode: 2, //1/按视频比例放大缩小至一边充满，2/按视频比例放大缩小至视频充满控件，可能视频会被裁剪，3/宽高充满控件，视频可能会变形
+            // // imageType:1,
+            // imgScaleType: 1,
+            userData : videos,
         }, function(ret, err) {
             // alert(JSON.stringify(ret))
 
