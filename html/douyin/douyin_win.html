@@ -243,6 +243,7 @@
             page: page
         };
         requstPost('video/detail', data, function success(ret) {
+          console.log(last_video_id+'//////////////////'+ismore)
             if (ret.code == 0) {
                 last_video_id = ret.data.last_video_id;
 
@@ -254,6 +255,8 @@
                     var _videos = ret.data.list;
                     _videos.map((item,index)=>{
                       item.uid = item.id
+                      item.scalingMode = 2;
+                      item.imageType = 1;
                     })
                     videos = _videos;
                     anchor_id = ret.data.list[0].anchor_id;
@@ -295,10 +298,17 @@
                     }
                     openPullLive()
                 } else {
+                  var new_videos = ret.data.list
+                  new_videos.map((item)=>{
+                    item.uid = item.id;
+                    item.scalingMode = 2;
+                    item.imageType = 1;
+                  })
+                  videos = videos.concat(new_videos)
                     //追加视频
-                    demo.add({
-                        videos: ret.data.list
-                    })
+                    // demo.addVideoData({
+                    //     videos: new_videos
+                    // })
                 }
             } else {
                 api.alert({
@@ -357,21 +367,19 @@
             text: '',
             modal: true
         });
-        demo.openscrollVideoAli({
+        var demo = api.require('scrollVideoAli');
+        demo.openScrollVideo({
             rect: {
                 x: 0,
                 y: 0,
                 w: api.winWidth,
                 h: api.winHeight
-                    // y: headerheight,
-                    // w: api.winWidth,
-                    // h: api.winHeight-headerheight-$api.byId('footerBom').offsetHeight
             },
-            // autoPlay: true,
+            autoPlay: true,
             // scalingMode: 2, //1/按视频比例放大缩小至一边充满，2/按视频比例放大缩小至视频充满控件，可能视频会被裁剪，3/宽高充满控件，视频可能会变形
             // // imageType:1,
             // imgScaleType: 1,
-            userData : videos,
+            userData: videos,
         }, function(ret, err) {
             // alert(JSON.stringify(ret))
 
@@ -379,19 +387,18 @@
             openpage()
             demo.addEventListener(function(ret, err) {
                 console.log(JSON.stringify(ret)+'监听的结果');
-                if(ret.evenType=='onPlaying'){
-                  console.log(money+'是否需要付费以及付费的状态////////////'+pay_order_status)
-                  if(money>0&&pay_order_status==0){  //监听到播放的时候，判断是否需要付费，是否已经付费
-                    // isMoney()
-                    demo.pause()
-                    isPause = true
-                  }
-                }
+                //下边是用的UIScrollPlayer组件监听
+                // if(ret.evenType=='onPlaying'){
+                //   console.log(money+'是否需要付费以及付费的状态////////////'+pay_order_status)
+                //   if(money>0&&pay_order_status==0){  //监听到播放的时候，判断是否需要付费，是否已经付费
+                //     // isMoney()
+                //     demo.pause()
+                //     isPause = true
+                //   }
+                // }
                 if (ret.evenType == 'onSingleTapUp') {
                     //单击事件
                     console.log('单击了');
-                    // alert(money)
-                    // alert(pay_order_status)
                     if ($api.getStorage('isIos') != 1) {
                         if (payed) {
                             //已经支付
@@ -424,6 +431,47 @@
                     });
 
                 }
+                if(ret.evenType=='onPageSelected'){
+                  videoIndex = ret.xh;
+                  var currentItem = ret.itemData;
+                  money = currentItem.price;
+                  videoid = currentItem.id;
+                  product_count = currentItem.product_count;
+                  api.sendEvent({
+                      name: 'closeShop',
+                      extra: {}
+                  });
+                  setInfo(currentItem)
+                  if (ismore) {
+                    if (ret.xh+1 == videos.length - 5) {
+                        //距离倒数五条左右开始请求接口
+                        getLists()
+                    }
+                  }
+                  if (ret.xh+1 == videos.length - 4) {
+                      //距离倒数四条左右开始追加一条
+                      addVideos()
+                  }
+                  if (currentItem.price > 0) {
+                      if (currentItem.pay_order_status == 0) {
+                          isMoney()
+                          payed = false;
+                          setTimeout(() => {
+                              demo.pause()
+                              isPause = true
+                          }, 300)
+                      } else {
+                          payed = true
+                      }
+
+                  } else {
+                      payed = true;
+                  }
+                  var inputField = api.require('inputField');
+                  inputField.close();
+                }
+                return;
+                // 下边是用的UIScrollPlayer组件监听滑动事件
                 if (ret.evenType == 'onScroll') {
                     console.log('改变了' + JSON.stringify(ret));
                     videoIndex = ret.index
@@ -469,6 +517,14 @@
         });
 
 
+    }
+    //视频到数第五条开始追加
+    function addVideos(){
+      var _videos = videos;
+      console.log(JSON.stringify(_videos[videoIndex+6])+'...........................................')
+      demo.addVideoData(_videos[videoIndex+6],function(ret,err){
+         alert(JSON.stringify(ret));
+      })
     }
     //支付成功开始播放
     function startPlay() {
@@ -594,26 +650,23 @@
 
     }
 
-    function setInfo(e) {
-        full_name = videos[e].full_name
-        videotitle = videos[e].title
-        avatar_url = videos[e].avatar_url
-        fav_count = videos[e].fav_count
-        talk_count = videos[e].talk_count
-        share_count = videos[e].share_count
-        focus_anchor_status = videos[e].focus_anchor_status
-        fav_video_status = videos[e].fav_video_status
-        anchor_id = videos[e].anchor_id
-        videoid = videos[e].id
-        product_count = videos[e].product_count
+    function setInfo(currentItem) {
+        full_name = currentItem.full_name
+        videotitle = currentItem.title
+        avatar_url = currentItem.avatar_url
+        fav_count = currentItem.fav_count
+        talk_count = currentItem.talk_count
+        share_count = currentItem.share_count
+        focus_anchor_status = currentItem.focus_anchor_status
+        fav_video_status = currentItem.fav_video_status
+        anchor_id = currentItem.anchor_id
+        videoid = currentItem.id
+        product_count = currentItem.product_count
         api.execScript({
-            // name: 'winName',
             frameName: 'douyinbom',
-            // script: 'app.setInfo("'+full_name+'","'+videotitle+'","'+product_count'","'+videoid'");'
             script: 'app.setInfo("' + full_name + '","' + videotitle + '","' + product_count + '","' + videoid + '");'
         });
         api.execScript({
-            // name: 'winName',
             frameName: 'douyinright',
             script: 'app.setInfo("' + avatar_url + '","' + fav_count + '","' + talk_count + '","' + share_count + '","' + focus_anchor_status + '","' + fav_video_status + '","' + videoid + '","' + anchor_id + '");'
         });
@@ -818,7 +871,7 @@
                     //   api.closeWin()
                     ////暂停
                     demo.pause()
-                    isPause = true 
+                    isPause = true
                 } else {
                     is_shopconfirm = false;
                     // demo.closeScrollVideo()
