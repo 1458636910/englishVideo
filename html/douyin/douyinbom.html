@@ -118,6 +118,14 @@
         }
         .progressBox{
           padding: 12px;
+          position: relative;
+        }
+        .currenttime{
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translate(0,-50%);
+          color: white;
         }
     </style>
 </head>
@@ -154,7 +162,8 @@
                 <h3 @click="goanchor()">{{full_name}}</h3>
                 <p class="count">{{videotitle}}</p>
                 <div class="progressBox">
-                    <van-slider active-color="#fb607d" v-model="slide" @change="onChange" />
+                    <div style="width:80%"><van-slider  active-color="#fb607d" v-model="baifenbi" @change="onChange" /></div>
+                    <span class="currenttime">{{fn_time(current_videoLength)}}</span>
                 </div>
                 <div class="plBox" @click="sendPl()">
                     Comments...
@@ -182,7 +191,8 @@
                     showShop: false,
                     goperson: false,
                     video_id: '',
-                    slide:0,//当前进度
+                    current_videoLength:0,  //视频时长
+                    baifenbi:0,  //百分比
                 }
             },
             created() {
@@ -200,10 +210,33 @@
                         name: 'videoshop'
                     });
                 });
+                api.addEventListener({
+                    name: 'fn_changeBottom'
+                }, function(ret, err) {
+                  _this.setInfo(ret.value.full_name,ret.value.videotitle,ret.value.product_count,ret.value.video_id,ret.value._videoLength,ret.value._videoPosition)
+                });
             },
             methods: {
+              fn_time(time){
+                 var m = parseInt(time/1000/60);
+                 var s = time%60
+                if(m<10){
+                  m = '0'+m
+                }
+                if(s<10){
+                  s = '0'+s
+                }
+                if(m&&s){
+                  return m+':'+s
+                }
+              },
               onChange(value){
-                console.log(value)
+                var current_videoLength = this.current_videoLength;
+                var setLength = current_videoLength*(value/100);
+                api.execScript({
+                    name: 'douyin_win',
+                    script: 'setPosition("'+setLength+'");'
+                });
               },
                 upData() {
                     var _this = this
@@ -309,98 +342,23 @@
                     }
 
                 },
-                setInfo(tit, count, product_count, video_id) {
+                setInfo(tit, count, product_count, video_id,current_videoLength,current_videoPosition) {
                     this.full_name = tit
                     this.videotitle = count
                     this.product_count = product_count
                     this.video_id = video_id
+                    this.current_videoLength = current_videoLength
+                    if(current_videoPosition&&current_videoLength){
+                      this.baifenbi = (current_videoPosition/current_videoLength*100).toFixed(0)
+                    }
                 },
 
                 sendPl() {
                     api.execScript({
                         name: 'douyin_win',
-                        // frameName: 'frmName',
                         script: 'sendPl();'
                     });
-
-                    return
-                    var _this = this
-                    var inputField = api.require('inputField');
-                    inputField.setInputFieldListener(function(ret, err) {
-                        if (ret) {
-                            if (ret.chatViewH < 50) {
-
-                            }
-                            console.log(JSON.stringify(ret));
-                        } else {
-                            console.log(JSON.stringify(err));
-                        }
-                    });
-                    // inputField.becomeFirstResponder(function(ret, err) {
-                    //     if (ret.status) {
-                    //         console.log(JSON.stringify(ret));
-                    //     } else {
-                    //         console.log(JSON.stringify(err));
-                    //     }
-                    // });
-                    inputField.open({
-                        bgColor: '#ffffff',
-                        lineColor: '#999999',
-                        fileBgColor: '#f5f5f5',
-                        borderColor: '#999999',
-                        placeholder: '',
-                        autoFocus: true,
-                        maxLines: 5,
-                        limitedWordsNumber: 100,
-                        leftBtn: {
-                            bg: '#FB607D',
-                            title: 'Close',
-                            titleColor: '#fff',
-                            bgHighlight: '#999999',
-                            bg: '#999999',
-                        },
-                        sendBtn: {
-                            bg: '#FB607D',
-                            title: 'Send',
-                            titleColor: '#fff',
-                            bgHighlight: '#e67187',
-                        },
-                        fixedOn: api.frameName
-                    }, function(ret, err) {
-                        if (ret) {
-                            if (ret.msg != '') {
-                                console.log(ret.msg + 'end');
-                                // _this.sendPl(ret.msg)
-                                inputField.resignFirstResponder();
-                                api.sendEvent({
-                                    name: 'livechatText',
-                                    extra: {
-                                        msg: ret.msg,
-                                    }
-                                });
-                            }
-                            // alert(JSON.stringify(ret));
-
-
-                        } else {
-                            // alert(JSON.stringify(err));
-                        }
-                    });
-                    inputField.setInputFieldListener(function(ret, err) {
-                        if (ret) {
-                            console.log(JSON.stringify(ret));
-                            if (ret.chatViewH <= 50) {
-                                inputField.close();
-                            }
-                            // alert(JSON.stringify(ret));
-                        } else {
-                            // alert(JSON.stringify(err));
-                        }
-                    });
-
                 },
-
-
             }
         })
 

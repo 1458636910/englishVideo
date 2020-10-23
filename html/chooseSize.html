@@ -122,7 +122,6 @@
             font-size: 20px;
             color: #515051;
             font-weight: bold;
-
         }
 
         .listBom {
@@ -169,22 +168,13 @@
                <i class="iconfont">&#xe603;</i>
              </span>
             </div>
-            <div class="main">
-                <div class="sizebox">
-                    <div class="title">Size</div>
-                    <div class="size"><span class="active">S</span><span>M</span><span>L</span><span>XL</span><span>XXL</span><span>XXXL</span></div>
+            <div class="main" v-if="spec.length>0">
+                <div class="sizebox" v-for="(item,index) in spec" :key="index">
+                    <div class="title">{{item.name}}</div>
+                    <div class="size"><span @click="fn_chooseSpec(index,itemChild)" :class="itemChild.ischoose?'active':''" v-if="item.child&&item.child.length>0" v-for="(itemChild,indexChild) in item.child" :key="indexChild">{{itemChild.name}}</span></div>
                 </div>
-                <div class="sizebox">
-                    <div class="title">Color</div>
-                    <div class="size"><span>White</span><span>Pink</span><span>Red</span><span>Purple</span><span>Black</span><span>Green</span></div>
-                </div>
-                <!-- <div class="sizebox">
-                    <div class="title">Color</div>
-                    <div class="size"><span>White</span><span>Pink</span><span>Red</span><span>Purple</span><span>Black</span><span>Green</span></div>
-                </div> -->
             </div>
         </div>
-
         <div class="number" id="number">
             <div class="title">Quantity</div>
             <div class="listBom">
@@ -215,6 +205,7 @@
                 return {
                     active: false,
                     number: 1,
+                    spec: [], //规格
                 }
             },
             mounted: function() {
@@ -223,27 +214,66 @@
                 }, 500)
             },
             created() {
-
+                this.number = api.pageParam.buyNum;
+                var spec = api.pageParam.spec
+                spec.map((item) => {
+                    item.child.map((itemchild,indexChild) => {
+                        item.child[indexChild] = {
+                            ischoose: false,
+                            name: itemchild
+                        }
+                    })
+                })
+                this.spec = spec;
             },
             methods: {
+                //改变规格
+                fn_chooseSpec(index, itemChild) {
+                    this.spec[index].child.map((item) => {
+                        item.ischoose = false
+                    })
+                    itemChild.ischoose = !itemChild.ischoose
+                },
                 //增加数量
                 downCartNum() {
                     if (this.number <= 1) {
                         return;
                     }
                     this.number = this.number - 1;
+                    api.sendEvent({
+                        name: 'changeNumber',
+                        extra: {
+                            buyNum: this.number
+                        }
+                    });
                 },
                 //减少数量
                 addCartNum() {
                     this.number = this.number + 1;
+                    api.sendEvent({
+                        name: 'changeNumber',
+                        extra: {
+                            buyNum: this.number
+                        }
+                    });
                 },
                 //确认加入购物车
                 sureAddCart() {
                     var num = this.number;
+                    var spec = this.spec;
+                    var _spec = {};
+                    spec.map((item,index)=>{
+                      item.child.map((itemChild,indexChild)=>{
+                        if(itemChild.ischoose){
+                          _spec[item.name] = itemChild.name
+                        }
+                      })
+                    })
                     api.sendEvent({
                         name: 'chooseSize',
                         extra: {
                             num: num,
+                            spec:_spec
                         }
                     });
                 }

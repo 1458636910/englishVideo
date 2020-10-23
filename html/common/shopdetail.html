@@ -603,17 +603,24 @@
                     buyNum: 1,
                     store_id: '',
                     buyType: '', //addcart点击了加入购物车   buynow点击了立即购买
+                    spec:[],  //规格
                 }
             },
             created() {
                 // this.getscroll()
                 var _this = this;
                 this.getDatas()
+                //选择规格后
                 api.addEventListener({
                     name: 'chooseSize'
                 }, function(ret, err) {
-                    console.log(JSON.stringify(ret))
+                    _this.spec = ret.value.spec
                     _this.goOptions()
+                });
+                api.addEventListener({
+                    name: 'changeNumber'
+                }, function(ret, err) {
+                    _this.buyNum = ret.value.buyNum
                 });
             },
             methods: {
@@ -628,43 +635,69 @@
                         userIslogin()
                         return
                     }
-                    this.goOptions()
-                    return;
-                    //后续流程是二期需要规格的时候再开放
-                    api.openFrame({
-                        name: 'chooseSize',
-                        url: '../chooseSize.html',
-                        rect: {
-                            x: 0,
-                            y: 0,
-                            w: api.winWidth,
-                            h: api.winHeight
-                        },
-                        pageParam: {},
-                        bounces: false,
-                        bgColor: 'rgba(0,0,0,0)',
-                        vScrollBarEnabled: true,
-                        hScrollBarEnabled: true,
-                        animation: {
-                            type: "push",
-                            subType: "from_bottom",
-                            duration: 300
-                        }
-                    });
+                    var spec = this.spec;
+                    if(spec&&spec.length>0){
+                      //后续流程是二期需要规格的时候再开放
+                      api.openFrame({
+                          name: 'chooseSize',
+                          url: '../chooseSize.html',
+                          rect: {
+                              x: 0,
+                              y: 0,
+                              w: api.winWidth,
+                              h: api.winHeight
+                          },
+                          pageParam: {
+                            spec:spec,
+                            buyNum:this.buyNum,
+                          },
+                          bounces: false,
+                          bgColor: 'rgba(0,0,0,0)',
+                          vScrollBarEnabled: true,
+                          hScrollBarEnabled: true,
+                          animation: {
+                              type: "push",
+                              subType: "from_bottom",
+                              duration: 300
+                          }
+                      });
+                    }else{
+                      this.goOptions()
+                      return;
+                    }
                 },
                 //操作添加购物车或者是立即购买
                 goOptions() {
-                    // api.toast({
-                    //     msg: this.buyType,
-                    //     duration: 3000,
-                    //     location: 'middle'
-                    // });
-                    // return;
-                    if (this.buyType == 'addcart') {
-                        this.addCart()
-                    } else {
-                        this.buyNow()
-                    }
+                  var data = {
+                    id: api.pageParam.id,
+                    spec:this.spec
+                  }
+                  var _this = this;
+                  requstPost('product/getSpecInfo', data, function success(ret) {
+                      if (ret.code == 0) {
+                          if(ret.data&&ret.data.price){
+                            _this.stock = ret.data.stock_num;
+                            _this.price = ret.data.price;
+                          }
+                          if (this.buyType == 'addcart') {
+                              _this.addCart()
+                          } else {
+                              _this.buyNow()
+                          }
+                      }else{
+                        api.toast({
+                            msg: ret.message,
+                            duration: 3000,
+                            location: 'middle'
+                        });
+                      }
+                  }, function fail(err) {
+                    api.toast({
+                        msg: err.message,
+                        duration: 3000,
+                        location: 'middle'
+                    });
+                  })
                 },
                 //之心加入购物车的请求
                 addCart() {
@@ -763,6 +796,7 @@
                         _this.collect_status = product.collect_status
                         _this.express_price = product.express_price
                         _this.talks = ret.data.talks
+                        _this.spec = product.spec  //规格
                         api.imageCache({
                             url: product.logo
                         }, function(ret, err) {
@@ -863,7 +897,6 @@
                                 //  alert( JSON.stringify( err ) );
                             }
                         });
-
                         return
                     }
                     var _this = this;
@@ -876,7 +909,6 @@
                             buy_num: _this.buyNum,
                         }
                     });
-
                 },
                 //前往聊天
                 gochat() {

@@ -209,6 +209,8 @@
     var fav_video_status = 0; //是否点赞
     var product_count = 0; //商品的数量
     var is_shopconfirm  = false;  //是否展示确认框
+    var timer;
+    var _videoLength = 0;  //时长
     apiready = function() {
         demo = api.require('scrollVideoAli');
         // var header = $api.byId('header');
@@ -243,7 +245,6 @@
             page: page
         };
         requstPost('video/detail', data, function success(ret) {
-          console.log(last_video_id+'//////////////////'+ismore)
             if (ret.code == 0) {
                 last_video_id = ret.data.last_video_id;
 
@@ -396,9 +397,16 @@
                 //     isPause = true
                 //   }
                 // }
+
                 if (ret.evenType == 'onSingleTapUp') {
                     //单击事件
                     console.log('单击了');
+                    let isplay = demo.isPlaying();
+                    if(!isplay.isPlaying){
+                      demo.play()
+                    }else{
+                      demo.pause()
+                    }
                     if ($api.getStorage('isIos') != 1) {
                         if (payed) {
                             //已经支付
@@ -420,18 +428,36 @@
                     }
 
                 }
+                //双击
                 if (ret.evenType == 'onDoubleTap') {
-                    //双击事件
-                    // demo.play()
-                    // isPause = false
                     api.execScript({
                         name: 'douyin_win',
                         frameName: 'douyinright',
                         script: 'doAnimate();'
                     });
-
                 }
-                if(ret.evenType=='onPageSelected'){
+                //缓冲
+                if(ret.evenType=='onBufferingStart'){
+                  api.showProgress({
+                      style: 'default',
+                      animationType: 'fade',
+                      title: '',
+                      text: '',
+                      modal: true
+                  });
+                }
+                if(ret.evenType=='onBufferingEnd'){
+                  api.hideProgress();
+                }
+                if(ret.evenType=='onPageSelected'||ret.evenType=='onPrepared'){
+                  let isplay = demo.isPlaying();
+                  console.log(JSON.stringify(isplay))
+                  if(!isplay.isPlaying){
+                    demo.play()
+                  }
+                  //获取视频的时长
+                  var videoLength = demo.getDuration();
+                  _videoLength = videoLength.duration;
                   videoIndex = ret.xh;
                   var currentItem = ret.itemData;
                   money = currentItem.price;
@@ -442,15 +468,37 @@
                       extra: {}
                   });
                   setInfo(currentItem)
+                  if(timer){
+                    window.clearInterval(timer)
+                    timer = '';
+                  }
+                  timer = setInterval(function(ret,err){
+                    var videoPosition = demo.getCurrentPosition();
+                    api.sendEvent({
+                         name: 'fn_changeBottom',
+                         extra: {
+                            full_name:currentItem.full_name,
+                            videotitle:currentItem.title,
+                            product_count:currentItem.product_count,
+                            video_id:currentItem.id,
+                            _videoLength:videoLength.duration,
+                            _videoPosition:videoPosition.currentPosition,
+                          }
+                    });
+                    // api.execScript({
+                    //     frameName: 'douyinbom',
+                    //     script: 'app.setInfo("' + currentItem.full_name + '","' + currentItem.title + '","' + currentItem.product_count + '","' + currentItem.id + '","' + videoLength.duration + '","' + videoPosition.currentPosition + '");'
+                    // });
+                  },1000)
                   if (ismore) {
                     if (ret.xh+1 == videos.length - 5) {
                         //距离倒数五条左右开始请求接口
                         getLists()
                     }
                   }
-                  if (ret.xh+1 == videos.length - 4) {
-                      //距离倒数四条左右开始追加一条
-                      addVideos()
+                  if(ret.xh>15){
+                    //距离倒数四条左右开始追加一条
+                    addVideos()
                   }
                   if (currentItem.price > 0) {
                       if (currentItem.pay_order_status == 0) {
@@ -470,48 +518,48 @@
                   var inputField = api.require('inputField');
                   inputField.close();
                 }
-                return;
-                // 下边是用的UIScrollPlayer组件监听滑动事件
-                if (ret.evenType == 'onScroll') {
-                    console.log('改变了' + JSON.stringify(ret));
-                    videoIndex = ret.index
-                    money = videos[ret.index].price
-                    videoid = videos[ret.index].id
-                    product_count = videos[ret.index].product_count
-                    api.sendEvent({
-                        name: 'closeShop',
-                        extra: {}
-                    });
-                    setInfo(ret.index)
-                    console.log(ismore+'---'+ret.index+'==='+videos.length )
-                    if (ismore) {
-                        if (ret.index == videos.length - 5) {
-                            //距离倒数五条左右开始加载
-                            getLists()
-                        }
-                    }
-                    if (videos[ret.index].price > 0) {
-                        if (videos[ret.index].pay_order_status == 0) {
-                            isMoney()
-                            payed = false;
-                            setTimeout(() => {
-                                demo.pause()
-                                isPause = true
-                            }, 300)
-                        } else {
-                            payed = true
-                        }
-
-                    } else {
-                        payed = true;
-                    }
-                    var inputField = api.require('inputField');
-                    inputField.close();
-                    ///检测是否需要付费
-                    setTimeout(() => {
-                        // isMoney()
-                    }, 3000)
-                }
+                // return;
+                // // 下边是用的UIScrollPlayer组件监听滑动事件
+                // if (ret.evenType == 'onScroll') {
+                //     console.log('改变了' + JSON.stringify(ret));
+                //     videoIndex = ret.index
+                //     money = videos[ret.index].price
+                //     videoid = videos[ret.index].id
+                //     product_count = videos[ret.index].product_count
+                //     api.sendEvent({
+                //         name: 'closeShop',
+                //         extra: {}
+                //     });
+                //     setInfo(ret.index)
+                //     console.log(ismore+'---'+ret.index+'==='+videos.length )
+                //     if (ismore) {
+                //         if (ret.index == videos.length - 5) {
+                //             //距离倒数五条左右开始加载
+                //             getLists()
+                //         }
+                //     }
+                //     if (videos[ret.index].price > 0) {
+                //         if (videos[ret.index].pay_order_status == 0) {
+                //             isMoney()
+                //             payed = false;
+                //             setTimeout(() => {
+                //                 demo.pause()
+                //                 isPause = true
+                //             }, 300)
+                //         } else {
+                //             payed = true
+                //         }
+                //
+                //     } else {
+                //         payed = true;
+                //     }
+                //     var inputField = api.require('inputField');
+                //     inputField.close();
+                //     ///检测是否需要付费
+                //     setTimeout(() => {
+                //         // isMoney()
+                //     }, 3000)
+                // }
             });
             // console.log(JSON.stringify(ret)+"   "+JSON.stringify(err));
         });
@@ -521,10 +569,13 @@
     //视频到数第五条开始追加
     function addVideos(){
       var _videos = videos;
-      console.log(JSON.stringify(_videos[videoIndex+6])+'...........................................')
-      demo.addVideoData(_videos[videoIndex+6],function(ret,err){
-         alert(JSON.stringify(ret));
-      })
+      if(_videos[videoIndex+6]){
+        demo.addVideoData(_videos[videoIndex+6],function(ret,err){
+           console.log(JSON.stringify(ret));
+        })
+      }else{
+        return;
+      }
     }
     //支付成功开始播放
     function startPlay() {
@@ -649,7 +700,10 @@
         });
 
     }
-
+    //设置进度
+    function setPosition(value){
+      demo.seekTo({process : value});
+    }
     function setInfo(currentItem) {
         full_name = currentItem.full_name
         videotitle = currentItem.title
@@ -662,10 +716,33 @@
         anchor_id = currentItem.anchor_id
         videoid = currentItem.id
         product_count = currentItem.product_count
-        api.execScript({
-            frameName: 'douyinbom',
-            script: 'app.setInfo("' + full_name + '","' + videotitle + '","' + product_count + '","' + videoid + '");'
+        api.sendEvent({
+             name: 'fn_changeBottom',
+             extra: {
+                full_name:full_name,
+                videotitle:videotitle,
+                product_count:product_count,
+                video_id:videoid,
+                _videoLength:_videoLength,
+                _videoPosition:0,
+              }
         });
+        // api.sendEvent({
+        //      name: 'fn_changeRight',
+        //      extra: {
+        //         avatar_url:avatar_url,
+        //         fav_count:fav_count,
+        //         talk_count:talk_count,
+        //         share_count:share_count,
+        //         focus_anchor_status:focus_anchor_status,
+        //         fav_video_status:fav_video_status,
+        //         videoid:videoid,anchor_id
+        //       }
+        // });
+        // api.execScript({
+        //     frameName: 'douyinbom',
+        //     script: 'app.setInfo("' + full_name + '","' + videotitle + '","' + product_count + '","' +_videoLength + '","' + 0 + '");'
+        // });
         api.execScript({
             frameName: 'douyinright',
             script: 'app.setInfo("' + avatar_url + '","' + fav_count + '","' + talk_count + '","' + share_count + '","' + focus_anchor_status + '","' + fav_video_status + '","' + videoid + '","' + anchor_id + '");'
