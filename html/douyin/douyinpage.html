@@ -313,9 +313,15 @@
                 }
             },
             created() {
-
-                // alert($api.dom('#chatlists').offsetTop)
-                console.log($api.dom('footer').offsetHeight);
+              //去支付的时候关闭商品列表，不然样式会乱
+              api.addEventListener({
+                  name: 'closeGoods'
+              }, function(ret, err) {
+                _this.showShop = false;
+                api.closeFrame({
+                    name: 'liveshop'
+                });
+              });
             },
             methods: {
                 openShop() {

@@ -126,7 +126,7 @@
 
         .nameBox {
             width: 70vw;
-            height: 16vw;
+            height: 23vw;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -325,6 +325,12 @@
         .choseTerms span:nth-child(1) {
             text-decoration: underline;
         }
+        .classSpec{
+          color:#999999;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
     </style>
 </head>
 
@@ -362,6 +368,7 @@
                                 </div>
                                 <div class="nameBox">
                                     <p class="name">{{product.title}}</p>
+                                    <p class="classSpec">{{signelGoodsSpec&&signelGoodsSpec.spec?fn_Spec(signelGoodsSpec.spec):''}}</p>
                                     <p class="price">
                                         <span>￡{{product.sale_price}} (Inc. ￡{{taxs}} tax)</span>
                                         <span>x{{buy_num}}</span>
@@ -411,6 +418,7 @@
                                     </div>
                                     <div class="nameBox">
                                         <p class="name">{{ite.title}}</p>
+                                        <p class="classSpec">{{ite.spec_info&&ite.spec_info.spec?fn_Spec(ite.spec_info.spec):''}}</p>
                                         <p class="price">
                                             <span>￡{{ite.sale_price}}</span>
                                             <span>x{{ite.buy_num}}</span>
@@ -565,6 +573,8 @@
                     allmoney: 0,
                     taxs: '',
                     paytype:1,  //支付方式
+                    spec_id:'',  //规格的Id
+                    signelGoodsSpec:'',  //规格信息   直接购买，单商品的规格
                 }
             },
             mounted: function() {
@@ -578,6 +588,8 @@
                 this.type = api.pageParam.type
                 this.product_id = api.pageParam.product_id
                 this.buy_num = api.pageParam.buy_num
+                this.spec_id = api.pageParam.spec_id
+
                 if (api.pageParam.type == 'buy') {
                     //非购物车
                     this.isVideo = api.pageParam.isVideo;
@@ -599,6 +611,18 @@
                 }
             },
             methods: {
+              //处理规格
+              fn_Spec(spec){
+                if(!spec){
+                  return;
+                }
+                var _spec='';
+                var obj_spec = (new Function("","return "+spec))();
+                for (let key in obj_spec) {
+                  _spec += ' '+obj_spec[key]
+                }
+                return _spec;
+              },
               //切换支付方式
               changePay(type){
                   this.paytype = type;
@@ -658,6 +682,12 @@
                     }
                 },
                 buyCartPayFn() {
+                  //关闭直播或者视频的商品列表
+                  api.sendEvent({
+                      name: 'closeGoods',
+                      extra: {
+                      }
+                  });
                     var _this = this;
                     _this.submitObj.store_carts = _this.store_carts;
                     if (_this.checked) {
@@ -682,6 +712,12 @@
                         // alert(JSON.stringify(this.store_carts))
                 },
                 buyPayFn() {
+                    //关闭直播或者视频的商品列表
+                    api.sendEvent({
+                        name: 'closeGoods',
+                        extra: {
+                        }
+                    });
                     if (this.terms_status == 1 && this.agree_status == 0) {
                         api.alert({
                             title: 'Please agree to terms and conditions',
@@ -799,7 +835,8 @@
                     var data = {
                         product_id: _this.product_id,
                         buy_num: _this.buy_num,
-                        address_id: _this.dressId
+                        address_id: _this.dressId,
+                        spec_id:_this.spec_id
                     };
                     if (this.isVideo == 1) {
                         data.video_id = _this.video_id
@@ -813,6 +850,7 @@
                             _this.terms = ret.data.terms_content
                             _this.agree_status = ret.data.agree_status
                             _this.taxs = ret.data.tax
+                            _this.signelGoodsSpec = ret.data.spec
                             if (ret.data.can_use_jewel != 0) {
                                 _this.ishowDiamon = true
                                 _this.jewel_exchange_money = ret.data.jewel_exchange_money

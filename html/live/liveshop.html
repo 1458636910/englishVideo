@@ -156,6 +156,10 @@
                   more:true,
                   buyType:'', //addcart点击了加入购物车   buynow点击了立即购买
                   currentItem:'',  //当前点击的是哪个商品item
+                  spec:[],  //规格
+                  choosed_spec:'', //选中的规格
+                  spec_id:'',  //选中的规格Id
+                  buyNum:1,
                 }
             },
             mounted: function() {
@@ -168,8 +172,17 @@
               api.addEventListener({
                   name: 'chooseSize'
               }, function(ret, err) {
+                 _this.choosed_spec = ret.value.spec
                   _this.goOptions()
               });
+              //选择规格的时候数量发生改变
+              api.addEventListener({
+                  name: 'changeNumber'
+              }, function(ret, err) {
+                  _this.buyNum = ret.value.buyNum
+              });
+
+              //主播在直播的时候改变了商品
               api.addEventListener({
                   name: 'anchorChangeNumber'
               }, function(ret, err) {
@@ -182,14 +195,39 @@
             methods: {
               //操作添加购物车或者是立即购买
               goOptions(item) {
-                  if (this.buyType == 'addcart') {
-                      this.addCart(item)
-                  } else {
-                      this.buyNow(item)
-                  }
+                var data = {
+                  id:this.currentItem.id,
+                  spec:this.choosed_spec
+                }
+                var _this = this;
+                requstPost('product/getSpecInfo', data, function success(ret) {
+                    if (ret.code == 0) {
+                        if(ret.data&&ret.data.id){
+                          _this.spec_id = ret.data.id;
+                        }
+                        if (_this.buyType == 'addcart') {
+                            _this.addCart()
+                        } else {
+                            _this.buyNow()
+                        }
+                    }else{
+                      api.toast({
+                          msg: ret.message,
+                          duration: 3000,
+                          location: 'middle'
+                      });
+                    }
+                }, function fail(err) {
+                  api.toast({
+                      msg: err.message,
+                      duration: 3000,
+                      location: 'middle'
+                  });
+                })
               },
               //打开选择规格
               fn_chooseSize(item,str) {
+                var _this = this;
                   this.buyType = str;
                   this.currentItem = item;
                   if ($api.getStorage('islogin') != 'true') {
@@ -200,32 +238,55 @@
                       userIslogin()
                       return
                   }
-                  this.goOptions(item)
-                  return;
-                  //后续流程是二期需要规格的时候再开放
-                  api.openFrame({
-                      name: 'chooseSize',
-                      url: '../chooseSize.html',
-                      rect: {
-                          x: 0,
-                          y: 0,
-                          w: api.winWidth,
-                          h: api.winHeight
-                      },
-                      pageParam: {},
-                      bounces: false,
-                      bgColor: 'rgba(0,0,0,0)',
-                      vScrollBarEnabled: true,
-                      hScrollBarEnabled: true,
-                      animation: {
-                          type: "push",
-                          subType: "from_bottom",
-                          duration: 300
-                      }
+                  api.showProgress({
+                      style: 'default',
+                      animationType: 'fade',
+                      title: '',
+                      text: '',
+                      modal: false
                   });
+                  var data = {
+                    id:item.id
+                  }
+                  requstGet('product/detail', data, function success(ret) {
+                      var product = ret.data.product
+                      if(product.spec&&product.spec.length>0){
+                        _this.spec = product.spec
+                        //后续流程是二期需要规格的时候再开放
+                        api.openFrame({
+                            name: 'chooseSize',
+                            url: '../chooseSize.html',
+                            rect: {
+                                x: 0,
+                                y: 0,
+                                w: api.winWidth,
+                                h: api.winHeight
+                            },
+                            pageParam: {
+                              spec:product.spec,
+                            },
+                            bounces: false,
+                            bgColor: 'rgba(0,0,0,0)',
+                            vScrollBarEnabled: true,
+                            hScrollBarEnabled: true,
+                            animation: {
+                                type: "push",
+                                subType: "from_bottom",
+                                duration: 300
+                            }
+                        });
+                        return;
+                      }else{
+                          _this.goOptions();
+                          return;
+                      }
+                  }, function fail(err) {
+
+                  })
+
               },
               // 立即购买
-              buyNow(ite){
+              buyNow(){
                 if ($api.getStorage('islogin') != 'true') {
                   api.execScript({
                       name: 'live_win',
@@ -235,6 +296,7 @@
                   userIslogin()
                   return
                 }
+                var _this = this;
                 api.openFrame({
                     name: 'liveplaceorder',
                     url: './liveplaceorder.html',
@@ -246,9 +308,10 @@
                     },
                     pageParam: {
                       type:'buy',
-                      product_id:ite.id,
-                      buy_num:1,
-                      live_id:api.pageParam.live_id
+                      product_id:_this.currentItem.id,
+                      buy_num:_this.buyNum,
+                      live_id:api.pageParam.live_id,
+                      spec_id:_this.spec_id,
                     },
                     bounces:false,
                     bgColor: 'rgba(0,0,0,0)',
@@ -262,7 +325,7 @@
                 });
               },
               //加入购物车
-              addCart(ite){
+              addCart(){
                 if ($api.getStorage('islogin') != 'true') {
                   api.execScript({
                       name: 'live_win',
@@ -273,10 +336,11 @@
                   return
                 }
                 var data = {
-                  product_id:ite.id,
-                  buy_num:1,
+                  product_id:this.currentItem.id,
+                  buy_num:this.buyNum,
                   live_id:api.pageParam.live_id,
                   type:1,   //直播1 视频2 默认0
+                  spec_id:this.spec_id
                 };
                 requstPost('cart/add',data,function success(ret){
                   if (ret.code == 0) {
@@ -285,7 +349,9 @@
                         duration: 3000,
                         location: 'middle'
                     });
-
+                    api.closeFrame({
+                        name: 'chooseSize'
+                    });
                   }
                 },function fail(err){
 

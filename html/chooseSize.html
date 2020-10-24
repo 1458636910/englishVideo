@@ -214,7 +214,7 @@
                 }, 500)
             },
             created() {
-                this.number = api.pageParam.buyNum;
+                this.number = api.pageParam.buyNum||1;
                 var spec = api.pageParam.spec
                 spec.map((item) => {
                     item.child.map((itemchild,indexChild) => {
@@ -257,7 +257,7 @@
                         }
                     });
                 },
-                //确认加入购物车
+                //确认
                 sureAddCart() {
                     var num = this.number;
                     var spec = this.spec;
@@ -276,6 +276,7 @@
                             spec:_spec
                         }
                     });
+                    api.closeFrame();
                 }
 
             }

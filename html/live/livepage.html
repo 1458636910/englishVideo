@@ -562,6 +562,15 @@
                         console.log(JSON.stringify(err));
                     }
                 });
+                //去支付的时候关闭商品列表，不然样式会乱
+                api.addEventListener({
+                    name: 'closeGoods'
+                }, function(ret, err) {
+                    _this.showShop = false;
+                    api.closeFrame({
+                        name: 'liveshop'
+                    });
+                });
 
                 this.live_id = api.pageParam.live_id
                 this.chatTop = $api.dom('#chatlists').offsetTop

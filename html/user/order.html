@@ -114,7 +114,7 @@
         }
 
         .slrcont {
-            height: 18vw;
+            height: 23vw;
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -187,6 +187,12 @@
             color: #999999;
             border: 1px solid #999999;
         }
+        .classSpec{
+          color:#999999;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
     </style>
 </head>
 
@@ -233,6 +239,9 @@
                         <div class="slrcont">
                             <p class="slrname">
                                 {{ite.product_name}}
+                            </p>
+                            <p class="classSpec">
+                                {{ite.spec_info&&ite.spec_info.spec?fn_Spec(ite.spec_info.spec):''}}
                             </p>
                             <p class="slrprice">
                                 <span>￡{{ite.sale_price}}</span>
@@ -293,6 +302,18 @@
               this.getMore()
             },
             methods: {
+              //处理规格
+              fn_Spec(spec){
+                if(!spec){
+                  return;
+                }
+                var _spec='';
+                var obj_spec = (new Function("","return "+spec))();
+                for (let key in obj_spec) {
+                  _spec += ' '+obj_spec[key]
+                }
+                return _spec;
+              },
               //查看详情
               goshopDetail(id) {
                 requstGet('product/detail',{id:id},function success(ret){

@@ -311,6 +311,11 @@
           overflow: hidden;
           text-overflow: ellipsis;
         }
+        .classSpec{
+          display: flex;
+          justify-content: space-between;
+          color: #999999;
+        }
     </style>
 </head>
 
@@ -372,7 +377,7 @@
                         <div class="listr">
                             <div class="info">
                                 <p class="name">{{ite.title}}</p>
-                                <p style="text-align:right;">
+                                <p class="classSpec"><span>{{ite.spec_info&&ite.spec_info.spec?fn_Spec(ite.spec_info.spec):''}}</span>
                                     <span @click.stop="delateCart(item,index,ite,ind)">
                       <i class="iconfont" style="font-size:20px; color:#999999;">&#xe611;</i>
                     </span>
@@ -481,6 +486,18 @@
                 this.getCartList()
             },
             methods: {
+              //处理规格
+              fn_Spec(spec){
+                if(!spec){
+                  return;
+                }
+                var _spec='';
+                var obj_spec = (new Function("","return "+spec))();
+                for (let key in obj_spec) {
+                  _spec += ' '+obj_spec[key]
+                }
+                return _spec;
+              },
                 //点击去查看店铺
                 goHome(id) {
                     api.openWin({
@@ -797,6 +814,7 @@
                         });
                         return;
                     }
+                    closeShop()
                     api.openFrame({
                         name: 'liveplaceorder',
                         url: '../live/liveplaceorder.html',

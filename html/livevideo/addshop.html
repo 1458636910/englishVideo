@@ -231,6 +231,7 @@
                     more: true,
                     searchWords:'',
                     searchBtn:true,
+                    comismore:true,
                 }
             },
             mounted: function() {
@@ -240,6 +241,7 @@
                 console.log('id:' + api.pageParam.ids);
                 console.log(typeof(api.pageParam.ids));
                 this.getLists()
+                this.getMore()
             },
             methods: {
               //点击搜索
@@ -289,6 +291,7 @@
 
                     requstPost('live/selectProduct', data, function success(ret) {
                         if (ret.code == 0) {
+                          _this.page+=1
                             ret.data.list.map(function(item) {
                                 _this.$set(item, 'ischose', false);
                             })
@@ -305,6 +308,9 @@
                                 }
                             }
                             _this.lists = _this.lists.concat(ret.data.list)
+                            if (ret.data.list.length < 20) {
+                                _this.comismore = false
+                            }
                         }
                     }, function fail(err) {
 
@@ -347,9 +353,22 @@
 
 
                     console.log(JSON.stringify(this.choseArry));
-                }
-
-
+                },
+                //监听滚动到底
+                getMore() {
+                    var _this = this
+                    api.addEventListener({
+                        name: 'scrolltobottom',
+                        extra: {
+                            threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                        }
+                    }, function(ret, err) {
+                        console.log('加载更多'+_this.comismore);
+                        if(_this.comismore){
+                          _this.getLists()
+                        }
+                    });
+                },
             }
         })
 

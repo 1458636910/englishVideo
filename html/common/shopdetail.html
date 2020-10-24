@@ -604,6 +604,8 @@
                     store_id: '',
                     buyType: '', //addcart点击了加入购物车   buynow点击了立即购买
                     spec:[],  //规格
+                    choosed_spec:'', //选中的规格
+                    spec_id:'',  //选中的规格Id
                 }
             },
             created() {
@@ -614,7 +616,7 @@
                 api.addEventListener({
                     name: 'chooseSize'
                 }, function(ret, err) {
-                    _this.spec = ret.value.spec
+                    _this.choosed_spec = ret.value.spec
                     _this.goOptions()
                 });
                 api.addEventListener({
@@ -636,8 +638,8 @@
                         return
                     }
                     var spec = this.spec;
+                      console.log(JSON.stringify(spec)+'..............................')
                     if(spec&&spec.length>0){
-                      //后续流程是二期需要规格的时候再开放
                       api.openFrame({
                           name: 'chooseSize',
                           url: '../chooseSize.html',
@@ -670,16 +672,17 @@
                 goOptions() {
                   var data = {
                     id: api.pageParam.id,
-                    spec:this.spec
+                    spec:this.choosed_spec
                   }
                   var _this = this;
                   requstPost('product/getSpecInfo', data, function success(ret) {
                       if (ret.code == 0) {
-                          if(ret.data&&ret.data.price){
+                          if(ret.data&&ret.data.id){
                             _this.stock = ret.data.stock_num;
                             _this.price = ret.data.price;
+                            _this.spec_id = ret.data.id;
                           }
-                          if (this.buyType == 'addcart') {
+                          if (_this.buyType == 'addcart') {
                               _this.addCart()
                           } else {
                               _this.buyNow()
@@ -706,6 +709,7 @@
                         product_id: api.pageParam.id,
                         buy_num: _this.buyNum,
                         live_id: '',
+                        spec_id:_this.spec_id
                     };
                     requstPost('cart/add', data, function success(ret) {
                         if (ret.code == 0) {
@@ -714,6 +718,10 @@
                                 duration: 3000,
                                 location: 'middle'
                             });
+                            api.closeFrame({
+                                name: 'chooseSize'
+                            });
+
                         }
                     }, function fail(err) {
 
@@ -907,6 +915,7 @@
                             type: 'buy',
                             product_id: api.pageParam.id,
                             buy_num: _this.buyNum,
+                            spec_id:_this.spec_id,
                         }
                     });
                 },
