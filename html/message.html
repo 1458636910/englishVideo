@@ -236,14 +236,25 @@
             el: '#app',
             data() {
                 return {
-                  list:[]
+                  list:[],
+                  page:1,
+                  ismore:true,
                 }
             },
             created() {
               if ($api.getStorage('islogin') == 'true') {
                 this.getList()
               }
+              // this.getMore()
               this.upDataNewMessage()
+              var _this = this;
+              api.addEventListener({
+                  name: 'lookMsg'
+              }, function(ret, err){
+                  _this.page = 1;
+                  _this.list = []
+                  _this.getList()
+              });
             },
             methods: {
               //监听收到消息
@@ -257,12 +268,24 @@
               },
               getList(){
                 var _this = this;
-                requstPost('chat/userChatGroupList','',function success(ret){
+                var data ={
+                  // page:this.page,
+                }
+                requstPost('chat/userChatGroupList',data,function success(ret){
                   if (ret.code == 0) {
                     _this.list = ret.data
+                      // _this.page += 1
+                      // _this.list = _this.list.concat(ret.data)
+                      // if (ret.data.length < 20) {
+                      //     _this.ismore = false
+                      // }else{
+                      //   _this.ismore = true;
+                      // }
+                  }else{
+                      // _this.ismore = false
                   }
                 },function fail(err){
-
+                      // _this.ismore = false
                 })
               },
                 delateShop(ite, ind) {
@@ -289,26 +312,12 @@
                                console.log(JSON.stringify(err))
                            })
                             }
-                            //  alert( JSON.stringify( ret ) );
                         } else {
                           console.log("222222222")
-                            //  alert( JSON.stringify( err ) );
                         }
                     });
-
-
-
                 },
                 gochat(ite) {
-                  // var mq = api.require('meiQia');
-                  // // var mq = api.require('meiQia');
-                  // //设置自定义用户Id
-                  // var customizedIdParam = {
-                  //     id: "nail_"+$api.getStorage('mobile'),
-                  // };
-                  //     mq.setLoginCustomizedId(customizedIdParam);
-                  //     mq.show({showAvatar:false});
-                  //     return
                     api.openWin({
                         name: 'chat_win',
                         url: './chat_win.html',
@@ -317,8 +326,22 @@
                             chat_group_id: ite.chat_group_id
                         }
                     });
+                },
+                //监听滚动到底
+                getMore() {
+                    var _this = this
+                    api.addEventListener({
+                        name: 'scrolltobottom',
+                        extra: {
+                            threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+                        }
+                    }, function(ret, err) {
+                          if (_this.ismore) {
+                              _this.getList()
+                          }
+                    });
 
-                }
+                },
 
             }
         })

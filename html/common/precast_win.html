@@ -10,7 +10,7 @@
     <style>
         body {
             height: 100vh;
-            background: url(../../image/livebg3.png) no-repeat;
+            background: url(../../image/livebg4.png) no-repeat;
             background-size: 100% 100%;
             overflow: hidden;
         }
@@ -89,6 +89,7 @@
         .headimgbox>img {
             width: 100%;
             height: auto;
+           object-fit: cover;
         }
 
         .headimgbox>.fixedtime {
@@ -115,7 +116,7 @@
             display: flex;
             align-items: center;
             box-sizing: border-box;
-            padding: 30px 0;
+            padding: 30px ;
             color: white;
             text-align: center;
             justify-content: center;
@@ -127,7 +128,7 @@
             border: 2px solid white;
             margin: 0 3px;
             box-sizing: border-box;
-            padding: 5px;
+            padding: 5px 30px;
         }
 
         .goLive {
@@ -171,13 +172,14 @@
             </div>
         </header>
         <div id="main" class="flex-con">
-            <div class="title">NAIL LIVE PREVIEW COUNTDOWN</div>
+            <!-- <div class="title">NAIL LIVE PREVIEW COUNTDOWN</div> -->
+            <div class="title">{{ite.title}}</div>
             <div class="headimgbox">
-                <div class="fixedtime"><img src="../../image/naozhong.png" alt="">8-24 10:22</div>
-                <img src="../../image/img7.jpg" alt="">
+                <div class="fixedtime"><img src="../../image/naozhong.png" alt="">{{ite.start_time?timeConvert(ite.start_time):''}}</div>
+                <img :src="ite.thumb" alt="">
             </div>
-            <div class="countdownBox"><span :id="countId(ite.id,ite.start_time)">{{fn_countDown(ite.start_time,ite.id)}}</span></div>
-            <div class="goLive"><span class="btn"><img src="../../image/play.png" alt=""></span>Click to go the studio</div>
+            <div class="countdownBox"><span :id="countId(ite.id,ite.start_time)">{{ite.start_time?fn_countDown(ite.start_time,ite.id,ite.live_status):'00:00:00'}}</span></div>
+            <div class="goLive" @click="fn_golive(ite)"><span class="btn"><img src="../../image/play.png" alt=""></span>Click to go the studio</div>
         </div>
         <footer id="footer"></footer>
     </div>
@@ -204,20 +206,103 @@
                 }
             },
             created() {
-                 this.ite = api.pageParam.ite;
+                 this.getDetail()
             },
             methods: {
+              fn_golive(ite){
+                  if(ite.live_status==1){
+                    if (ite.price > 0 && ite.payed == 1) { //价格大于0  同时还没有支付的情况
+                        api.confirm({
+                            title: 'Live Stream has not started yet.',
+                            msg: 'You can choose to pay in advance',
+                            buttons: ['Sure', 'Cancel']
+                        }, function(ret, err) {
+                            if (ret) {
+                                if (ret.buttonIndex == 1) {
+                                    api.openWin({
+                                        name: 'payLive_win',
+                                        url: '../../live/payLive_win.html',
+                                        pageParam: {
+                                            item: ite
+                                        },
+                                        slidBackEnabled: false
+                                    })
+                                }
+                            } else {
+                                console.log("==========")
+                            }
+                        });
+                    } else {
+                      api.toast({
+                          msg: 'Live Stream has not started yet.',
+                          duration: 3000,
+                          location: 'bottom'
+                      });
+                    }
+                  }else{
+                    api.openWin({
+                        name: 'live_win',
+                        url: '../../live/live_win.html',
+                        pageParam: {
+                            live_id: ite.id,
+                            anchor_id: ite.anchor_id, //作者id
+                        },
+                        slidBackEnabled: false
+                    });
+                  }
+              },
+              getDetail(){
+                var _this  = this;
+                var data = {
+                    live_id: api.pageParam.live_id
+                };
+                setTimeout(function() {
+                    api.showProgress({
+                        style: 'default',
+                        animationType: 'fade',
+                        title: '',
+                        text: '',
+                        modal: true
+                    });
+                }, 350)
+                requstPost('live/detail', data, function success(ret) {
+                    if (ret.code == 0) {
+                        _this.ite = ret.data
+                    } else {
+                        api.hideProgress();
+                        api.alert({
+                            title: '',
+                            msg: ret.message,
+                            buttons: ['Sure']
+                        }, function(ret, err) {
+                            if (ret) {
+                                closeLive()
+                                    //  alert( JSON.stringify( ret ) );
+                            } else {
+                                //  alert( JSON.stringify( err ) );
+                            }
+                        });
+
+                    }
+                }, function fail(err) {
+
+                })
+              },
               //生成id
               countId(id, time) {
                   return 'precast' + "_" + id
               },
               //调用倒计时方法
-              fn_countDown(time, id) {
-                  var _el = 'precast' + "_" + id;
-                  var ds = new countdown({
-                      el: _el,
-                      ed: time
-                  });
+              fn_countDown(time, id,status) {
+                  if(time - parseInt((new Date()).getTime() / 1000)>0){
+                    var _el = 'precast' + "_" + id;
+                    var ds = new countdown({
+                        el: _el,
+                        ed: time
+                    });
+                  }else{
+                    return '00:00:00'
+                  }
               },
             }
         })

@@ -60,6 +60,12 @@
           border-radius: 10px;
           border: 1px solid white;
         }
+        .lives{
+          padding: 3px 5px;
+          background: #fa607d;
+          border-radius: 10px;
+          border: 1px solid white;
+        }
         .bom{
           position: absolute;
           bottom: 2vw;
@@ -88,7 +94,7 @@
             <img :src="item.thumb" alt="">
             <div class="top">
               <div>
-                <span class="rep">Replay</span>
+                <span :class="item.live_status == 1||item.live_status == 2?'lives':'rep'">{{item.live_status == 1||item.live_status == 2?'Live':'Replay'}}</span>
                 <span>
                   <i class="iconfont">&#xe629;</i>
                   {{item.look_count}}
@@ -188,7 +194,6 @@
 
               },
               golive(ite){
-                console.log(JSON.stringify(ite)+';;;;;;;;;;;;;;;;;;;;')
                 api.openWin({
                     name: 'live_win',
                     url: '../../live/live_win.html',
@@ -206,7 +211,8 @@
                 var _this = this;
                 var data = {
                   page:_this.page,
-                  page_size:20
+                  page_size:20,
+                  type:0,
                 };
                 requstPost('anchor/live',data,function success(ret){
                   if (ret.code == 0) {

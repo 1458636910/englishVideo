@@ -473,10 +473,10 @@
                 <div class="livelist" v-if="livelist.length>0" v-for="(item,index) in livelist" @click="golive(item)">
                     <img class="liveimg" :src="item.thumb" alt="">
                     <div class="livetop" v-if="(item.start_time - parseInt((new Date()).getTime()) / 1000)>0">
-                        <span class="replay Precast"><i class="iconfont">&#xe629;</i>8-24 10:22</span>
+                        <span class="replay Precast"><i class="iconfont">&#xe629;</i>{{timeConvert(item.start_time)}}</span>
                     </div>
                     <div class="livetop" v-else>
-                        <span :class="item.live_status == 1?'':'replay'">{{item.live_status == 1?'Live':'Replay'}}</span>
+                        <span :class="item.live_status == 2||item.live_status == 1?'':'replay'">{{item.live_status == 1?'Wait':item.live_status == 2?'Live':'Replay'}}</span>
                         <span><i class="iconfont">&#xe629;</i>{{item.look_count}}</span>
                         <!-- <div v-if="(item.start_time - parseInt((new Date()).getTime()) / 1000)>0" class="countdownTime">countdown:
                             <div :id="countId(item.id,item.start_time)" class="countnumbox"></div>
@@ -1198,16 +1198,11 @@
                 //查看直播
                 golive(ite) {
                   this.currentid = ite.id   //存储以便于删除
-                    //判断直播是否开始
-                    if ((ite.start_time - parseInt((new Date()).getTime()) / 1000) > 0) {
+                    //判断直播是否开始   直播的状态是否为2
+                    if (ite.live_status==1) {
                       if($api.getStorage('isIos')==1){  //ios不存在是否付费的情况
                         this.goPrecast(ite)
                         return;
-                        // api.toast({
-                        //     msg: 'Live Stream has not started yet.',
-                        //     duration: 3000,
-                        //     location: 'bottom'
-                        // });
                       }else{
                         if (ite.price > 0 && ite.payed == 1) { //价格大于0  同时还没有支付的情况
                             api.confirm({
@@ -1233,11 +1228,6 @@
                         } else {
                           this.goPrecast(ite)
                           return;
-                            // api.toast({
-                            //     msg: 'Live Stream has not started yet.',
-                            //     duration: 3000,
-                            //     location: 'bottom'
-                            // });
                         }
                       }
                     } else {
@@ -1260,7 +1250,8 @@
                       bgColor:'#333333',
                       bounces:false,
                       pageParam: {
-                          ite:ite
+                          ite:ite,
+                          live_id:ite.id
                       }
                   });
                 },

@@ -389,6 +389,9 @@
                         page_size: 20
                     };
                     requstPost('chat/userGroupChatDetail', data, function success(ret) {
+                      api.sendEvent({
+                          name: 'lookMsg',
+                      });
                       setTimeout(() => {
                           api.pageDown({
                               bottom: true

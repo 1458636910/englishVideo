@@ -54,6 +54,24 @@
           align-items: center;
           justify-content: space-between;
         }
+        .center{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%,-50%);
+          width: 60%;
+          height: 12vw;
+          text-align: center;
+          line-height: 12vw;
+          border-radius: 6vw;
+          color: white;
+          margin: auto;
+          background: #FA607D;
+          font-weight: 700;
+        }
+        .center:active{
+          opacity: 0.8;
+        }
         .rep{
           padding: 3px 5px;
           border-radius: 10px;
@@ -111,23 +129,24 @@
 
 <body>
     <div id="app" v-cloak>
-      <!-- <div class="empty" v-if="list.length == 0">
+      <div class="empty" v-if="list.length == 0">
         <img src="../../../image/empty.png" alt="">
-      </div> -->
+      </div>
       <div class="lists">
-          <div class="list" v-for="(item,index) in [1,2,3]" @click.stop="goPreview(item)">
-            <img src="../../../image/shop.png" alt="">
+          <div class="list" v-for="(item,index) in list" @click.stop="livepushnow(item)">
+            <img :src="item.thumb" alt="">
             <div class="top">
               <div>
-                <span class="rep"><img src="../../../image/naozhong.png" alt="">Preview 8-24 10:22</span>
+                <span class="rep"><img src="../../../image/naozhong.png" alt="">Preview {{timeConvert(item.start_time)}}</span>
               </div>
               <!-- <span class="del" @click.stop="delLive(item)">
                 <i class="iconfont">&#xe611;</i>
               </span> -->
             </div>
+            <div class="center">Start Live</div>
             <div class="bom">
-              <span><img src="../../../image/eye.png" alt=""><span>1234</span></span>
-              <span class="canclebtn" @click.stop="fn_cancle()">Cancel notice</span>
+              <span><img src="../../../image/eye.png" alt=""><span>{{item.look_count}}</span></span>
+              <span class="canclebtn" @click.stop="fn_cancle(item)">Cancel notice</span>
             </div>
           </div>
       </div>
@@ -158,17 +177,26 @@
               this.getMore()
             },
             methods: {
-              //去预拨界面
-              goPreview(ite){
-                api.openWin({
-                    name: 'precast_win',
-                    url: '../../common/precast_win.html',
-                    bgColor:'#333333',
-                    bounces:false,
-                    pageParam: {
-                        ite:ite
-                    }
-                });
+              //开始直播
+              livepushnow(ite){
+                //开播时间还没有到
+                if((ite.start_time - parseInt((new Date()).getTime()) / 1000) > 0){
+                  api.toast({
+                      msg: 'Live Stream has not started yet.',
+                      duration: 3000,
+                      location: 'bottom'
+                  });
+                }else{
+                  //开启直播
+                  api.openWin({
+                      name: 'livezb_win',
+                      url: '../../livezb/livezb_win.html',
+                      pageParam: {
+                          live_id: ite.id
+                      },
+                      slidBackEnabled: false
+                  });
+                }
               },
               //监听滚动到底
               getMore() {
@@ -195,27 +223,27 @@
                 }, function(ret, err){
                     if( ret ){
                       if (ret.buttonIndex == 1) {
-                        // //删除
-                        // requstPost('anchor/delLive',{id:ite.id},function success(ret){
-                        //   if (ret.code == 0) {
-                        //     _this.page = 1
-                        //     _this.more = true
-                        //     _this.getLists()
-                        //      api.toast({
-                        //          msg: ret.message,
-                        //          duration: 3000,
-                        //          location: 'middle'
-                        //      });
-                        //   }else{
-                        //     api.toast({
-                        //         msg: ret.message,
-                        //         duration: 3000,
-                        //         location: 'middle'
-                        //     });
-                        //   }
-                        // },function fail(err){
-                        //
-                        // })
+                        //删除
+                        requstPost('anchor/delLive',{id:ite.id},function success(ret){
+                          if (ret.code == 0) {
+                            _this.page = 1
+                            _this.more = true
+                            _this.getLists()
+                             api.toast({
+                                 msg: ret.message,
+                                 duration: 3000,
+                                 location: 'middle'
+                             });
+                          }else{
+                            api.toast({
+                                msg: ret.message,
+                                duration: 3000,
+                                location: 'middle'
+                            });
+                          }
+                        },function fail(err){
+
+                        })
                       }else if (ret.buttonIndex == 2) {
 
                       }
@@ -245,7 +273,8 @@
                 var _this = this;
                 var data = {
                   page:_this.page,
-                  page_size:20
+                  page_size:20,
+                  type:1,
                 };
                 requstPost('anchor/live',data,function success(ret){
                   if (ret.code == 0) {

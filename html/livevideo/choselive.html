@@ -161,7 +161,7 @@
         </div>
         <footer id="footer" @click="startLive()">
             <div>
-                Start Live
+                {{switchBthzd?'Start Preview':'Start Live'}}
             </div>
         </footer>
 
@@ -262,10 +262,6 @@
                 },
                 //点击直播
                 startLive() {
-                  // if(this.switchBthzd){
-                  //   this.goPrecast()
-                  //   return;
-                  // }
                     var _this = this;
                     if (!_this.headimg) {
                         api.alert({
@@ -294,11 +290,30 @@
                         thumb: _this.headimgsrc,
                         price: _this.price,
                         products: productsid,
-                        start_time: _this.Timestamp, //直播的时间戳
                     };
+                    //如果开启了预拨则显示预拨时间
+                    if(this.switchBthzd){
+                      data.start_time = _this.Timestamp
+                      if(!_this.Timestamp){
+                        api.alert({
+                            title: 'Please select preview time',
+                            msg: '',
+                            buttons: ['Sure']
+                        });
+                        return
+                      }
+                    }else{
+                      data.start_time = ''
+                    }
                     requstPost('live/push', data, function success(ret) {
                         if (ret.code == 0) {
-                                //开启直播
+                          if(_this.switchBthzd){
+                            setTimeout(function(){
+                              api.closeWin();
+                            },1000)
+                            return;
+                          }else{
+                            //开启直播
                             api.openWin({
                                 name: 'livezb_win',
                                 url: '../livezb/livezb_win.html',
@@ -307,6 +322,7 @@
                                 },
                                 slidBackEnabled: false
                             });
+                          }
                         }
                     }, function fail(err) {
 
