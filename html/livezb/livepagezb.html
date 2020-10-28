@@ -231,8 +231,8 @@
         }
 
         .stopbox>img {
-            width: 35px;
-            height: 35px;
+            width: 25px;
+            height: 25px;
         }
 
         .topr {
@@ -306,9 +306,9 @@
                     <span>💎</span>
                     <span>{{jewel}}</span>
                 </div>
-                <!-- <div class="stopbox" @click="leaveLive">
-                  <img src="../../image/livestop.png"></img>
-                </div> -->
+                <div class="stopbox" @click="isStop?startLive():leaveLive()">
+                  <img :src="isStop?'../../image/play.png':'../../image/pause.png'"></img>
+                </div>
             </div>
         </header>
 
@@ -390,7 +390,8 @@
                     anchor_avatar: '', //主播头像
                     commission: 0, //总佣金
                     transaction: 0, //总交易额
-
+                    anchor_id:'',  //主播
+                    isStop:false,  //true暂停了直播  通知用户   false ，没有暂停
                 }
             },
             created() {
@@ -414,9 +415,66 @@
                 _this.startJstime()
             },
             methods: {
+                //重新开始直播
+                startLive(){
+                  var _this = this;
+                  var data = {
+                    live_id:_this.live_id,
+                  }
+                    requstPost('anchor/returnLive', data, function success(ret) {
+                        if (ret.code == 0) {
+                            _this.isStop = false;
+                        }else{
+                          api.toast({
+                              msg: ret.msg,
+                              duration: 3000,
+                              location: 'middle'
+                          });
+                        }
+                    }, function fail(err) {
+                      api.toast({
+                          msg: err.msg,
+                          duration: 3000,
+                          location: 'middle'
+                      });
+                    })
+                },
                 //暂时离开直播间,请求接口通知后台，该接口需要发送通知，在看直播界面接收通知
                 leaveLive() {
+                      var  _this = this;
+                      api.confirm({
+                          title: 'Leave the live broadcast room temporarily?',
+                          msg: '',
+                          buttons: ['Sure', 'Cancel']
+                      }, function(ret, err){
+                          if( ret ){
+                             if(ret.buttonIndex == 1){
+                               var data = {
+                                 live_id:_this.live_id,
+                               }
+                                 requstPost('Anchor/leaveLive', data, function success(ret) {
+                                     if (ret.code == 0) {
+                                         _this.isStop = true;
+                                     }else{
+                                       api.toast({
+                                           msg: ret.msg,
+                                           duration: 3000,
+                                           location: 'middle'
+                                       });
+                                     }
+                                 }, function fail(err) {
+                                   api.toast({
+                                       msg: err.msg,
+                                       duration: 3000,
+                                       location: 'middle'
+                                   });
+                                 })
+                             }else{
 
+                             }
+                          }else{
+                          }
+                      });
                 },
                 ajPushListen() {
                     var _this = this;
@@ -496,6 +554,7 @@
                             _this.commission = ret.data.commission
                             _this.transaction = ret.data.transaction
                             _this.fav_list = ret.data.fav_list
+                            _this.anchor_id = ret.data.anchor_id
 
                             api.openFrame({
                                 name: 'livechatzb',

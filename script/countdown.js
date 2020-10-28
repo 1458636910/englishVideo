@@ -82,7 +82,9 @@ function countdown(o) {
         /**
          * 将文本节点写入dom节点
          * */
-        dd.appendChild(dt);
+         if(d>0){
+           dd.appendChild(dt);
+         }
         hh.appendChild(ht);
         mm.appendChild(mt);
         ss.appendChild(st);
@@ -92,7 +94,7 @@ function countdown(o) {
          * 返回倒计时字符串
          * */
            var t;
-         if(d==0){
+         if(d<=0){
            t = h + ':' + m + ':' + s;
          }else {
            t = d + 'Day' + h + ':' + m + ':' + s;
@@ -124,7 +126,7 @@ function countdown(o) {
         that.timerss = setTimeout(function() {
             that.downsElement();
         }, 1000);
-        return t;
+        // return t;
     }
     window.setTimeout(function() {
         that.downsElement();

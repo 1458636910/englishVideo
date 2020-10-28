@@ -683,6 +683,7 @@
     function getSysType() {
         var systype = api.systemType;
         var iosClose = systype == 'ios' ? 1 : 0; //当前系统是安卓还是ios
+        $api.setStorage('isIos', 0);
         requstPost('app/iosStatus', {}, function success(ret) {
             if (ret.code == 0) { //返回1 隐藏  2 打开
                 console.log('后台获取的开关状态', ret.data.iosClose)

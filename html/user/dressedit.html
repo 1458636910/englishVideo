@@ -254,12 +254,22 @@ var app;
                   email:_this.Email
                 };
                 requstPost('address/post',data,function success(ret){
-                  api.toast({
-                      msg: ret.message,
-                      duration: 3000,
-                      location: 'bottom'
-                  });
-                  api.closeWin();
+                  if(ret.code==0){
+                    api.toast({
+                        msg: ret.message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                    setTimeout(function(){
+                      api.closeWin();
+                    },3000)
+                  }else{
+                    api.toast({
+                        msg: ret.message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                  }
                 },function fali(err){
                   api.toast({
                       msg: err.message,

@@ -387,7 +387,27 @@
           margin: 0 auto;
           width: 60%;
         }
-
+        .headimg{
+          border: 3px solid #fd852d!important;
+          animation: turnScroll 6s  infinite linear;
+        }
+        @keyframes turnScroll {
+            0% {
+                transform:rotate(0deg);
+            }
+            25% {
+                transform:rotate(90deg);
+            }
+            50% {
+                transform:rotate(180deg);
+            }
+            75% {
+                transform:rotate(270deg);
+            }
+            100% {
+                transform:rotate(360deg);
+            }
+        }
     </style>
 </head>
 
@@ -430,7 +450,7 @@
                     <!-- 全部的 -->
                     <div class="cates" v-show="liveactive == 1">
                         <div class="catelist" v-for="(item,index) in anchors" @click="goperson(item)">
-                            <img class="headimg" :src="item.avatar_url" alt="">
+                            <img :class="item.anchor?'headimg':''" :src="item.avatar_url" alt="">
                         </div>
 
                         <div class="catelist more" @click="getanchors()" v-if="anchorsMore">
@@ -476,7 +496,7 @@
                         <span class="replay Precast"><i class="iconfont">&#xe629;</i>{{timeConvert(item.start_time)}}</span>
                     </div>
                     <div class="livetop" v-else>
-                        <span :class="item.live_status == 2||item.live_status == 1?'':'replay'">{{item.live_status == 1?'Wait':item.live_status == 2?'Live':'Replay'}}</span>
+                        <span :class="item.live_status == 2||item.live_status == 1?'':'replay'">{{item.live_status == 1||item.live_status == 3?'Live':item.live_status == 2?'Preview':'Replay'}}</span>
                         <span><i class="iconfont">&#xe629;</i>{{item.look_count}}</span>
                         <!-- <div v-if="(item.start_time - parseInt((new Date()).getTime()) / 1000)>0" class="countdownTime">countdown:
                             <div :id="countId(item.id,item.start_time)" class="countnumbox"></div>
@@ -884,12 +904,10 @@
                             threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
                         }
                     }, function(ret, err) {
-                        console.log('加载更多');
                         if (_this.active == 1) {
                             //直播
                             if (_this.liveactive == 1) {
                                 // 所有直播
-                                console.log(_this.alllivemore+'////////////////////')
                                 if(_this.alllivemore){
                                   _this.getallLiveLists()
                                 }else{
@@ -1165,6 +1183,12 @@
                                 _this.alllivemore = true
                                 _this.livelist = []
                                 _this.getallLiveLists()
+
+                                _this.page = 1;
+                                _this.anchors = [];
+                                _this.anchorsMore = true;
+                                _this.getanchors()
+
                             } else if (_this.liveactive == 2) {
                                 //关注的
                                 _this.livelist = []
@@ -1172,6 +1196,11 @@
                                 _this.followlivepage = 1
                                 _this.followmore = true
                                 _this.getallLiveLists1()
+
+                                _this.page = 1;
+                                _this.anchors = [];
+                                _this.anchorsMore = true;
+                                _this.getanchors()
                             }
                         }else if(_this.active==2){
                           _this.getCates()
@@ -1198,8 +1227,8 @@
                 //查看直播
                 golive(ite) {
                   this.currentid = ite.id   //存储以便于删除
-                    //判断直播是否开始   直播的状态是否为2
-                    if (ite.live_status==1) {
+                    //判断直播是否开始  1：正在播   2 ：预播   3：暂停
+                    if (ite.live_status==2) {
                       if($api.getStorage('isIos')==1){  //ios不存在是否付费的情况
                         this.goPrecast(ite)
                         return;
@@ -1237,6 +1266,7 @@
                             pageParam: {
                                 live_id: ite.id,
                                 anchor_id: ite.anchor_id, //作者id
+                                live_status:ite.live_status   //当前的直播状态，看情况是否需要
                             },
                             slidBackEnabled: false
                         });

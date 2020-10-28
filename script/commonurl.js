@@ -89,7 +89,28 @@ function loadImg(obj) {
 
     // alert(obj.src)
 }
-
+//处理时间戳
+function timeConvert(timestamp,num){//num:0 YYYY-MM-DD  num:1  YYYY-MM-DD hh:mm:ss // timestamp:时间戳
+      timestamp = timestamp+'';
+      timestamp = timestamp.length==10?timestamp*1000:timestamp;
+      var date = new Date(timestamp);
+      var y = date.getFullYear();  
+      var m = date.getMonth() + 1;  
+      m = m < 10 ? ('0' + m) : m;  
+      var d = date.getDate();  
+      d = d < 10 ? ('0' + d) : d;  
+      var h = date.getHours();
+      h = h < 10 ? ('0' + h) : h;
+      var minute = date.getMinutes();
+      var second = date.getSeconds();
+      minute = minute < 10 ? ('0' + minute) : minute;  
+      second = second < 10 ? ('0' + second) : second; 
+      if(num==0){
+          return  m + '-' + d;  
+      }else{
+          return  m + '-' + d +' '+ h +':'+ minute +':' + second;  
+      }
+}
 function formatDate(now) {
     var month = now.getMonth() + 1; //取得日期中的月份，其中0表示1月，11表示12月
     var date = now.getDate(); //返回日期月份中的天数（1到31）
@@ -334,6 +355,11 @@ function requstGet(apiUrl, data, success, fail) {
                 success(ret)
                 console.log('ret接口地址:' + apiUrl + '请求数据:' + JSON.stringify(data) + '---返回结果:' + JSON.stringify(ret));
             } else {
+              //此处不需要处理提示
+                if(apiUrl=='anchor'){
+                  success(ret)
+                  return;
+                }
                 api.toast({
                     msg: ret.message,
                     duration: 3000,

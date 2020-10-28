@@ -669,37 +669,46 @@
                 },
                 //操作添加购物车或者是立即购买
                 goOptions() {
-                  var data = {
-                    id: api.pageParam.id,
-                    spec:this.choosed_spec
-                  }
                   var _this = this;
-                  requstPost('product/getSpecInfo', data, function success(ret) {
-                      if (ret.code == 0) {
-                          if(ret.data&&ret.data.id){
-                            _this.stock = ret.data.stock_num;
-                            _this.price = ret.data.price;
-                            _this.spec_id = ret.data.id;
-                          }
-                          if (_this.buyType == 'addcart') {
-                              _this.addCart()
-                          } else {
-                              _this.buyNow()
-                          }
-                      }else{
-                        api.toast({
-                            msg: ret.message,
-                            duration: 3000,
-                            location: 'middle'
-                        });
-                      }
-                  }, function fail(err) {
-                    api.toast({
-                        msg: err.message,
-                        duration: 3000,
-                        location: 'middle'
-                    });
-                  })
+
+                  if(this.choosed_spec){
+                    var data = {
+                      id: api.pageParam.id,
+                      spec:this.choosed_spec
+                    }
+                    requstPost('product/getSpecInfo', data, function success(ret) {
+                        if (ret.code == 0) {
+                            if(ret.data&&ret.data.id){
+                              _this.stock = ret.data.stock_num;
+                              _this.price = ret.data.price;
+                              _this.spec_id = ret.data.id;
+                            }
+                            if (_this.buyType == 'addcart') {
+                                _this.addCart()
+                            } else {
+                                _this.buyNow()
+                            }
+                        }else{
+                          api.toast({
+                              msg: ret.message,
+                              duration: 3000,
+                              location: 'middle'
+                          });
+                        }
+                    }, function fail(err) {
+                      api.toast({
+                          msg: err.message,
+                          duration: 3000,
+                          location: 'middle'
+                      });
+                    })
+                  }else{
+                    if (_this.buyType == 'addcart') {
+                        _this.addCart()
+                    } else {
+                        _this.buyNow()
+                    }
+                  }
                 },
                 //之心加入购物车的请求
                 addCart() {

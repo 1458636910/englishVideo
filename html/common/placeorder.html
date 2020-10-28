@@ -474,7 +474,7 @@
                     taxs:'',  //税费
                     paytype:1,  //支付方式选择
                     spec_id:'',  //规格Id
-                    choosed_specinfo:'',
+                    choosed_spec :'',
                 }
             },
             created() {
@@ -728,14 +728,13 @@
                             _this.agree_status = ret.data.agree_status
                             _this.taxs = ret.data.tax
                             if(ret.data.spec&&ret.data.spec.id){  //如果规格存在的话
-                              _this.choosed_specinfo = ret.data.spec
                               var spec = ret.data.spec.spec
                               var _spec = '';
                               var obj_spec = (new Function("","return "+spec))();
                               for (let key in obj_spec) {
                                 _spec += ' '+obj_spec[key]
                               }
-                              this.choosed_spec = _spec;
+                              _this.choosed_spec = _spec;
                             }
 
                             if (ret.data.can_use_jewel != 0) {

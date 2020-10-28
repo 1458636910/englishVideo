@@ -167,6 +167,9 @@
                         } else {
                             _this.disabled = false
                         }
+                        if(ret.code==1){
+                          return;
+                        }
                     }, function fail(err) {
 
                     })

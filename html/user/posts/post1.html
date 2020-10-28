@@ -94,7 +94,7 @@
             <img :src="item.thumb" alt="">
             <div class="top">
               <div>
-                <span :class="item.live_status == 1||item.live_status == 2?'lives':'rep'">{{item.live_status == 1||item.live_status == 2?'Live':'Replay'}}</span>
+                <span :class="item.live_status == 1||item.live_status == 2||item.live_status == 3?'lives':'rep'">{{item.live_status == 1||item.live_status == 3?'Live':item.live_status == 2?'Preview':'Replay'}}</span>
                 <span>
                   <i class="iconfont">&#xe629;</i>
                   {{item.look_count}}

@@ -254,39 +254,12 @@
             }
         });
     }
-    //设置播放的进度
-    function seekToLive(time) {
-      console.log('设置播放的时间s'+time)
-      alivcLivePlayer.seekTo({
-        position:time*1000
-      });
-    }
-    //获取视频的长度
-    function getVideoLength(){
-      alivcLivePlayer.getDuration(function(ret){
-        console.log('当前视频的长度'+JSON.stringify(ret))
-        api.sendEvent({
-            name: 'videolength',
-            extra: {
-                duration:ret.duration
-            }
-        });
-
-      });
-    }
-    //获取当前播放的位置
-    function getCurrentLength(){
-      alivcLivePlayer.getCurrentPosition(function(ret){
-        console.log('当前播放的位置'+JSON.stringify(ret));
-      });
-    }
     //销毁直播——请求接口
     function closeLive() {
         alivcLivePlayer.destroy();
         api.closeWin()
     }
     function openpage(data) {
-
         api.openFrame({
             name: 'livepage',
             url: 'livepage.html',
