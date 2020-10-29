@@ -163,7 +163,7 @@
                     </div>
                     <div class="info">
                         <p class="tit">{{item.title}}</p>
-                        <p class="price">￡{{item.sale_price}} <span class="originPrice">￡{{item.original_price}}</span></p>
+                        <p class="price">￡{{item.sale_price}} <span class="originPrice" v-if="item.original_price>item.sale_price">￡{{item.original_price}}</span></p>
                     </div>
                 </div>
             </div>

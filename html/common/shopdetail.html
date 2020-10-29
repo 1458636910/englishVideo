@@ -459,7 +459,7 @@
             <div class="topBox">
                 <p class="price">
                     <span>￡{{sale_price}}</span>
-                    <span>￡{{original_price}}</span>
+                    <span v-if="original_price>sale_price">￡{{original_price}}</span>
                 </p>
                 <p>
                     <span>

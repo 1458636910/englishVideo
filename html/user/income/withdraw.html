@@ -109,20 +109,34 @@
                 }
             },
             created() {
+                this.type = api.pageParam.type;
                 this.getDiamond();
             },
             methods: {
                 getDiamond() {
                     var _this = this;
-                    requstPost('user/jewel', '', function success(ret) {
+                    if(this.type==1){
+                      requstPost('anchor/income','',function success(ret){
                         if (ret.code == 0) {
-                            _this.jewel = ret.data.jewel
-                            _this.paypal = ret.data.paypal
-                            _this.money = ret.data.money
+                          _this.jewel = ret.data.can_withdraw
+                          _this.money =ret.data.can_withdraw
+                           _this.paypal = ret.data.paypal
                         }
-                    }, function fail(err) {
+                      },function fail(err){
 
-                    })
+                      })
+                      return;
+                    }else{
+                      requstPost('user/jewel', '', function success(ret) {
+                          if (ret.code == 0) {
+                              _this.jewel = ret.data.jewel
+                              _this.paypal = ret.data.paypal
+                              _this.money = ret.data.money
+                          }
+                      }, function fail(err) {
+
+                      })
+                    }
                 },
                 drawNow() {
                     if (this.type == 1) {

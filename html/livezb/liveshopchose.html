@@ -219,15 +219,27 @@
             transition: all .3s;
             transform: translateX(0);
         }
+        .fixedBtn{
+          font-size: 14px;
+          color: white;
+          background: linear-gradient(to right, #FF6A97, #FF8861);
+          width: 70px;
+          height: auto;
+          text-align: center;
+          padding: 5px 0;
+          border-radius: 5px;
+        }
+        .fixedBtn:active{
+          opacity:0.8;
+        }
     </style>
 </head>
 
 <body>
     <div id="app" v-cloak :class="active?'appactive':''">
-
         <div class="box">
             <div class="head">
-                <span></span>
+                <span class="fixedBtn" @click="fn_refresh">Refresh</span>
                 <span>Manage Products</span>
                 <span tapmode onclick="closeShop()">
               <i class="iconfont">&#xe603;</i>
@@ -330,6 +342,12 @@
                 }
             },
             methods: {
+                fn_refresh(){
+                  this.page = 1;
+                  this.lists = [];
+                  this.more = true;
+                  this.getLists()
+                },
                 //提交修改商品
                 subMit() {
                     var _this = this;
