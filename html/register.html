@@ -252,15 +252,15 @@
                 <div class="iptBox emailBox" :class="showMail?'show':''">
                   <input style="padding-left:0;" class="ipt" @blur="getblur()" @focus="phoneFocus()"  v-model="phone" type="" placeholder="Email address">
                 </div>
-                <!-- <span class="exbtn" @click="phoneMailFn()">{{showMail?'Phone':'Mailbox'}}</span> -->
+            </li>
+            <li :class="active == 3?'active':''">
+              <input @blur="getblur()" @focus="nicknameFocus()" v-model="nickname" type="" placeholder="Nickname">
             </li>
 
-
-          <li class="codeimgbox" :class="active == 3?'active':''">
+          <!-- <li class="codeimgbox" :class="active == 3?'active':''">
             <input @blur="getblur()" @focus="codeimgboxFocus()" id="yanzheng" type="text" name="" v-model="regcode" value="" placeholder="Graphic code">
-            <!-- <img class="codeimg" src="../../image/error-img.png" alt=""> -->
             <div @click="changeCode()" class="codeimg" id="v_container" style="width: 140px;height: 36px;margin-left: 10px;"></div>
-          </li>
+          </li> -->
           <li :class="active == 2?'active':''">
             <!-- <span>
               <i class="iconfont">&#xe610;</i>
@@ -306,6 +306,7 @@
                 phone:'',
                 pwd:'',
                 code:'',
+                nickname:'',
                 codetext: 'Get Verification Code',
                     canGet: 0,
                     isSend:false,
@@ -316,7 +317,7 @@
               }
             },
             created(){
-              this.getPic()
+              // this.getPic()
             },
             methods:{
                 //改变选中协议的状态
@@ -369,14 +370,14 @@
               },
               register(){
                 var _this = this;
-                if (!verifyCode.validate(document.getElementById("yanzheng").value)) {
-                  api.toast({
-                      msg: 'Graphic code error',
-                      duration: 3000,
-                      location: 'middle'
-                  });
-                  return
-                }
+                // if (!verifyCode.validate(document.getElementById("yanzheng").value)) {
+                //   api.toast({
+                //       msg: 'Graphic code error',
+                //       duration: 3000,
+                //       location: 'middle'
+                //   });
+                //   return
+                // }
                 if(!_this.termChoose){
                   api.toast({
                       msg: 'Please check the user agreement',
@@ -405,7 +406,8 @@
                 var postData = {
                     mobile:_this.phone,
                     password:_this.pwd,
-                    verify_code:_this.code
+                    verify_code:_this.code,
+                    nickname:_this.nickname,
                     // name:'NaikVision_'+_this.phone.substring(_this.phone.length-3)
                 };
                 requstPost('auth/register',postData,function success(ret){
@@ -546,7 +548,7 @@
             codeFocus(){
               this.active = 2
             },
-            codeimgboxFocus(){
+            nicknameFocus(){
               this.active = 3
             },
             getblur() {

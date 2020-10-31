@@ -465,9 +465,9 @@
                     <span>
                 Sold:{{sale_count}}
               </span>
-                    <span>
+                    <!-- <span>
                 Postage:￡{{express_price}}
-              </span>
+              </span> -->
                 </p>
                 <p class="name">{{title}}</p>
             </div>
@@ -606,6 +606,7 @@
                     spec:[],  //规格
                     choosed_spec:'', //选中的规格
                     spec_id:'',  //选中的规格Id
+                    isRequst:false,  //详情是否请求结束
                 }
             },
             created() {
@@ -671,7 +672,7 @@
                 goOptions() {
                   var _this = this;
 
-                  if(this.choosed_spec){
+                  if(this.choosed_spec&&this.isRequst){
                     var data = {
                       id: api.pageParam.id,
                       spec:this.choosed_spec
@@ -787,6 +788,7 @@
                     };
                     requstGet('product/detail', data, function success(ret) {
                         var listData = ret.data.product.thumbs;
+                        _this.isRequst = true;
                         for (i in listData) {
                             api.imageCache({
                                 url: listData[i],

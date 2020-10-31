@@ -428,7 +428,7 @@
         <div class="nav">
             <span @click="changenav(1)" :class="active==1?'active':''">Live</span>
             <span @click="changenav(2)" :class="active==2?'active':''">Videos</span>
-            <span @click="changenav(3)" :class="active==3?'active':''">News</span>
+            <span @click="changenav(3)" :class="active==3?'active':''">Events</span>
         </div>
         <!-- live -->
         <div class="block1" v-if="active == 1">
@@ -873,7 +873,7 @@
                     var _this = this;
                     var data = {
                         page: _this.page,
-                        page_size: 20,
+                        // page_size: 20,
                     };
                     requstPost('anchor/all', data, function success(ret) {
                         if (ret.code == 0) {
