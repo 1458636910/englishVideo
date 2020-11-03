@@ -179,7 +179,7 @@
                 <img :src="ite.thumb" alt="">
             </div>
             <div class="countdownBox"><span :id="countId(ite.id,ite.start_time)">{{ite.start_time?fn_countDown(ite.start_time,ite.id,ite.live_status):'00:00:00'}}</span></div>
-            <div class="goLive" @click="fn_golive(ite)"><span class="btn"><img src="../../image/play.png" alt=""></span>Click to go the studio</div>
+            <div class="goLive" @click="fn_golive(ite)"><span class="btn"><img src="../../image/play.png" alt=""></span>Click to watch live</div>
         </div>
         <footer id="footer"></footer>
     </div>

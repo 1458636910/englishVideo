@@ -438,6 +438,7 @@
                 }
                 //缓冲
                 if(ret.evenType=='onBufferingStart'){
+
                   api.showProgress({
                       style: 'default',
                       animationType: 'fade',
@@ -445,11 +446,15 @@
                       text: '',
                       modal: true
                   });
+                  const time=setTimeout(function(){
+                    api.hideProgress();
+                    clearTimeout(time)
+                  },3000)
                 }
                 if(ret.evenType=='onBufferingEnd'){
                   api.hideProgress();
                 }
-                if(ret.evenType=='onPageSelected'||ret.evenType=='onPrepared'){
+                if(ret.evenType=='onPageSelected'){
                   let isplay = demo.isPlaying();
                   console.log(JSON.stringify(isplay))
                   if(!isplay.isPlaying){
