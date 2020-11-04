@@ -116,10 +116,17 @@
         </div>
         <footer id="footer">
           <div class="footer">
-            <div class="footerl" tapmode onclick="showPl()">
+            <!-- <div class="footerl" tapmode onclick="showPl()">
               <i class="iconfont">&#xe641;</i>
               <span>Comments...</span>
+            </div> -->
+
+            <div class="footerl" tapmode onclick="showpl()">
+
+              <i class="iconfont">&#xe641;</i>
+              <input type="text"  placeholder="Comment..">
             </div>
+
             <div class="footerr">
               <!-- <div tapmode onclick="goshare()">
                 <i class="iconfont">&#xe627;</i>
@@ -221,6 +228,25 @@ var app;
           script: 'app.showPl();'
       });
 
+    }
+    //点击评论弹出键盘
+    function showpl(){
+      api.openFrame({
+      name: 'dialog',
+      url: './dialog.html',
+      rect: {
+              x:0,
+              y:0,
+              w:api.winWidth,
+              h:api.winHeight
+      },
+      bgColor: 'rgba(0,0,0,0.4)',
+              bounces: false,
+              softInputMode: 'pan'
+      });
+      pageParam: {
+        name: '2'
+      }
     }
     function goshare(){
       if ($api.getStorage('islogin') == 'true') {

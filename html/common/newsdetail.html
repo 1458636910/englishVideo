@@ -134,6 +134,14 @@
 <script type="text/javascript">
 var app;
     apiready = function() {
+        //监听评论消息
+        api.addEventListener({
+          name: 'myEvent'
+        }, function(ret, err) {
+          console.log(JSON.stringify(ret.value));
+          const message=JSON.parse(JSON.stringify(ret.value.message))
+          app.postPl(message)
+        });
         app = new Vue({
             el: '#app',
             data() {
@@ -161,6 +169,7 @@ var app;
             created() {
               this.getDetail()
               this.getMore()
+
             },
             methods: {
 
@@ -353,7 +362,6 @@ var app;
               },
               //发布评论
               postPl(e){
-                pubshowloading()
                 var _this = this;
                 var data = {
                   news_id:api.pageParam.id,

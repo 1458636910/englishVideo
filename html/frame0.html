@@ -514,6 +514,7 @@
                         // alert(JSON.stringify(ret))
                         if (ret.code == 0) {
                             _this.compage += 1
+                            console.log(ret.data.list)
                             _this.comonlist = _this.comonlist.concat(ret.data.list)
                             var listData = ret.data.list;
                             for (i in listData) {

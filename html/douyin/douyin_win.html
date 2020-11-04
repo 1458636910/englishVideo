@@ -219,6 +219,13 @@
         $api.fixTabBar($api.byId('footer'));
         $api.fixTabBar($api.byId('footerr'));
         $api.fixTabBar($api.byId('footerBom'));
+        api.addEventListener({
+          name: 'myEvent'
+        }, function(ret, err) {
+          console.log(JSON.stringify(ret.value));
+          const message=JSON.parse(JSON.stringify(ret.value.message))
+          requestPl(message)
+        });
         api.setKeepScreenOn({
             keepOn: true
         });
@@ -461,6 +468,7 @@
                     demo.play()
                   }
                   //获取视频的时长
+                  var cloudPlayer = api.require('cloudPlayer');
                   var videoLength = demo.getDuration();
                   _videoLength = videoLength.duration;
                   videoIndex = ret.xh;
@@ -478,6 +486,7 @@
                     timer = '';
                   }
                   timer = setInterval(function(ret,err){
+
                     var videoPosition = demo.getCurrentPosition();
                     api.sendEvent({
                          name: 'fn_changeBottom',
@@ -677,7 +686,9 @@
         });
     }
     //请求后台发布评论
+
     function requestPl(e) {
+
         var data = {
             video_id: videoid,
             content: e

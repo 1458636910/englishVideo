@@ -384,8 +384,8 @@
         </div>
         <footer id="footer">
             <div class="footer">
-                <div class="footerl" @click="sendPl()">
-                    Comments...
+                <div class="footerl" @click="sendpl()">
+                    <input type="text" placeholder="Comments...">
                 </div>
                 <div class="footerr">
                     <span class="giftsimg" @click="fnShield()">
@@ -995,6 +995,21 @@
                             }
                         } else {}
                     });
+                },
+                //自定义输入框
+                sendpl(){
+                  api.openFrame({
+                  name: 'dialog',
+                  url: '../common/dialog.html',
+                  rect: {
+                          x:0,
+                          y:0,
+                          w:api.winWidth,
+                          h:api.winHeight
+                  },
+                  bgColor: 'rgba(0,0,0,0.4)',
+                        bounces: false
+                  });
                 },
                 //屏蔽直播视频
                 fnShield() {
